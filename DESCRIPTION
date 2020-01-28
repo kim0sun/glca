@@ -4,8 +4,7 @@ Title: Latent Class Analysis with Grouped Data
 Version: 0.1.0
 Author: Youngsun Kim
 Maintainer: Youngsun Kim <kim0sun@korea.ac.kr>
-Description: Fitting latent class models for data containing group variable. 
-Standard LCA(LCA), Multiple-Group LCA(MGLCA), Multilevel LCA(MLCA) can be fitted.
+Description: Fitting latent class models for data containing group variable. Standard LCA(LCA), Multiple-Group LCA(MGLCA), Multilevel LCA(MLCA) can be fitted.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
