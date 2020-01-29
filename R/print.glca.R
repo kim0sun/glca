@@ -1,6 +1,7 @@
 print.glca = function(object)
 {
-   cat("\nCall:\n", deparse(object$call), "\n\n", sep = "")
+   cat("\nCall:\n",  paste(deparse(x$call), sep = "\n", collapse = "\n"),
+       "\n\n", sep = "")
    cat("Model :", object$model$type, "\n")
    if (object$model$W > 1){
       cat("Number of latent classes :", object$model$C, "\n")
