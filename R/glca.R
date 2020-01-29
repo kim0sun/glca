@@ -19,7 +19,7 @@ glca <- function(
    # (type, N, Ng, G, C, W, M, R, P, Q, npar)
    # (x, y, z, pattern, observed)
    # (y.names, g.names, r.names, x.names, z.names)
-   encode = glca_encode(mf, covariate2, nclass, ncluster,
+   encode = glca_encode(mf, data, nclass, ncluster,
                         measure_inv, verbose)
    datalist = encode$datalist
    model = encode$model

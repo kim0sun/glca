@@ -1,6 +1,5 @@
 glca_encode <- function(
-   mf, covariates2,
-   nclass, ncluster,
+   mf, data, nclass, ncluster,
    measure_inv, verbose
 )
 {
@@ -10,6 +9,9 @@ glca_encode <- function(
       dim(Y) = c(length(Y), 1)
    if (class(Y) != "items")
       stop("Manifest items should be indicated by item function.\n")
+
+   dataN = nrow(data)
+   modelN = nrow(mf)
    totmis <- which(rowSums(Y != 0) == 0)
 
    Cov <- model.matrix(terms(mf), mf)
@@ -52,10 +54,11 @@ glca_encode <- function(
    g.names <- levels(grp)
    z.names <- colnames(Z)
 
+   cat("Among original ", dataN, "observations,",
+       "\nAt least 1 covariate missed :", dataN - modelN, "observation(s)",
+       "\nAll item missed :", length(totmis), "observation(s) are delted.\n\n")
    if (length(totmis) > 0)
    {
-      if (verbose)
-      cat(length(totmis), "observation(s) is totally missed, so that deleted.\n\n")
       Y <- Y[-totmis, , drop = FALSE]
       X <- X[-totmis, , drop = FALSE]
       Z <- Z[-totmis, , drop = FALSE]
