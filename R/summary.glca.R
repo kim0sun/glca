@@ -1,7 +1,7 @@
 summary.glca <- function(
    object, digits = max(3, getOption("digits") - 3))
 {
-   cat("\nCall:\n",  paste(deparse(x$call), sep = "\n", collapse = "\n"),
+   cat("\nCall:\n",  paste(deparse(object$call), sep = "\n", collapse = "\n"),
        "\n\n", sep = "")
    cat("Model :", object$model$type, "\n")
    if (object$model$W > 1){
