@@ -211,8 +211,15 @@ glca_em <- function(
       fitted = GetUDfit(pattern, delta, gamma_m, rho, Ng, G, W, C, M, R)
    }
 
-   if (verbose)
-      cat("\nIteration End. (log-like : ", llik, ")\n", sep = "")
+   if (verbose) {
+      if (converged)
+         cat("\nConverged at ", iter, " iteration (loglike :",
+             llik, ")\n", sep = "")
+      else
+         cat("\nIteration End, Not Converged",
+         " (log-like : ", llik, ")\n", sep = "")
+   }
+
 
    return(
       list(param = param, posterior = Post,
