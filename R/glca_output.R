@@ -181,7 +181,7 @@ glca_output <- function(
                      coeff[[1]][[w]][[c]],
                      se <- std.err$beta[[1]][[w]][, c],
                      tval <- b / se,
-                     2 * pt(abs(tval), df, lower.tail = FALSE)
+                     2 * stats::pt(abs(tval), df, lower.tail = FALSE)
                   )
                   colnames(coeff[[1]][[w]][[c]]) =
                      c("Odds Ratio", "Coefficient", " Std. Error",
@@ -207,7 +207,7 @@ glca_output <- function(
                      coeff[[2]][[c]],
                      se <- std.err$beta[[2]][, c],
                      tval <- b / se,
-                     2 * pt(abs(tval), df, lower.tail = FALSE)
+                     2 * stats::pt(abs(tval), df, lower.tail = FALSE)
                   )
                   colnames(coeff[[2]][[c]]) <-
                      c("Odds Ratio", "Coefficient", " Std. Error",
@@ -234,7 +234,7 @@ glca_output <- function(
                      coeff[[g]][[c]],
                      se <- std.err$beta[[g]][, c],
                      tval <- b / se,
-                     2 * pt(abs(tval), df, lower.tail = FALSE)
+                     2 * stats::pt(abs(tval), df, lower.tail = FALSE)
                   )
                   colnames(coeff[[g]][[c]]) <-
                      c("Odds Ratio", "Coefficient", " Std. Error",

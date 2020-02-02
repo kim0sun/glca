@@ -4,7 +4,7 @@ glca_encode <- function(
 )
 {
    # Import data
-   Y <- model.response(mf)
+   Y <- stats::model.response(mf)
    if (is.null(dim(Y)))
       dim(Y) = c(length(Y), 1)
    if (class(Y) != "items")
@@ -14,8 +14,8 @@ glca_encode <- function(
    modelN = nrow(mf)
    totmis <- which(rowSums(Y != 0) == 0)
 
-   Cov <- model.matrix(terms(mf), mf)
-   grp <- model.extract(mf, group)
+   Cov <- stats::model.matrix(stats::terms(mf), mf)
+   grp <- stats::model.extract(mf, "group")
 
    if (is.null(grp) || ncol(Cov) == 1) {
       Zind <- rep(FALSE, ncol(Cov))
@@ -54,9 +54,9 @@ glca_encode <- function(
    g.names <- levels(grp)
    z.names <- colnames(Z)
 
-   cat("Among original ", dataN, "observations,",
-       "\nAt least 1 covariate missed :", dataN - modelN, "observation(s)",
-       "\nAll item missed :", length(totmis), "observation(s) are delted.\n\n")
+   cat("Among original", dataN, "observations,",
+       "\nAt least 1 covariate missed :", dataN - modelN, "observation(s) and",
+       "\nAll item missed :", length(totmis), "observation(s) are deleted.\n\n")
    if (length(totmis) > 0)
    {
       Y <- Y[-totmis, , drop = FALSE]
@@ -74,18 +74,20 @@ glca_encode <- function(
 
    if (nclass < 2)
       stop("Number of latent classes should be greater than 1.")
-   if (ncluster == 1)
-      stop("Number of latent classes should be greater than 1.")
-   if (G < ncluster) {
-      stop("Number of latent clusters should be less than number of groups.")
-   }
-   if (ncluster > 1)
-      measure_inv <- TRUE
-   W <- ncluster
+
    if (G == 1)
       W <- 0
-   C <- nclass
+   else if (G <= ncluster) {
+      if (verbose)
+         cat("Number of latent clusters should be less than number of groups.\n
+              MGLCA will be fitted.")
+      W <- 0
+   } else {
+      W <- ncluster
+      measure_inv <- TRUE
+   }
 
+   C <- nclass
    npatt <- prod(R)
    if (npatt < 1e+6) {
       pattern <- as.matrix(expand.grid(lapply(1:M, function(m) 1:R[m])))
@@ -130,7 +132,7 @@ glca_encode <- function(
    }
 
    return(
-      list(datalist = list(y = y, x = x, z = z,
+      list(datalist = list(y = y, x = x, z = z, group = grp,
                            pattern = pattern,
                            observed = obsvd),
            model = list(type = type,
