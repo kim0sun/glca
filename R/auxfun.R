@@ -1,21 +1,3 @@
-# Specifying manifest Items
-item <- function(...)
-{
-   obj <- substitute(list(...))
-   args <- list(...)
-   argf <- lapply(args, as.factor)
-
-   y <- do.call("cbind", lapply(argf, as.numeric))
-   y[is.na(y)] <- 0
-
-   attr(y, "y.names") <- sapply(obj, deparse)[-1]
-   attr(y, "y.level") <- lapply(argf, levels)
-   class(y) <- "items"
-
-   return(y)
-}
-
-
 # Constarint matrix form
 gmat1 <- function(d) matrix((diag(d) - d %*% t(d))[, -length(d)], length(d) - 1)
 gmat2 <- function(g) {

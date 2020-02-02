@@ -1,6 +1,27 @@
+#' Extract \code{glca} Model Coefficients.
+#'
+#' Basically, show AIC and BIC for model fit criteria. When \code{nboot} given, using parametric bootstrap, compute bootstrap p-value for "relative" and "absolute" model fit.
+#'
+#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param digits the number of significant digits to use when printing.
+#' @param show.signif.stars logical. If TRUE, ‘significance stars’ are printed for each coefficient.
+#' @param ... further arguments passed to or from other methods.
+#'
+#' @return Coefficient matrix from the \code{glca} model.
+#'
+#' If the model has been calculated standard error, coefficient matrix contains standard error and t, p-value.
+#'
+#' @seealso \code{\link{glca}}
+#'
+#' @examples
+#' ## For examples see example(glca)
+#'
+#' @method coef glca
+#' @export
+
 coef.glca = function(
    object, digits = max(3, getOption("digits") - 3),
-   show.signif.stars = getOption("show.signif.stars")
+   show.signif.stars = getOption("show.signif.stars"), ...
 )
 {
    if (is.null(object$param$beta))
@@ -17,7 +38,7 @@ coef.glca = function(
                if (is.null(object$convergence$score))
                   print(coef[[1]][[w]][[c]])
                else
-                  printCoefmat(coef[[1]][[w]][[c]],
+                  stats::printCoefmat(coef[[1]][[w]][[c]],
                                digits = digits,
                                signif.stars = getOption("show.signif.stars"),
                                P.values = TRUE, has.Pvalue = TRUE)
@@ -32,7 +53,7 @@ coef.glca = function(
                if (is.null(object$convergence$score))
                   print(coef[[2]][[c]])
                else
-                  printCoefmat(coef[[2]][[c]],
+                  stats::printCoefmat(coef[[2]][[c]],
                                digits = digits,
                                signif.stars = getOption("show.signif.stars"),
                                P.values = TRUE, has.Pvalue = TRUE)
@@ -46,7 +67,7 @@ coef.glca = function(
                if (is.null(object$convergence$score))
                   print(coef[[1]][[c]])
                else
-                  printCoefmat(coef[[1]][[c]],
+                  stats::printCoefmat(coef[[1]][[c]],
                                digits = digits,
                                signif.stars = getOption("show.signif.stars"),
                                P.values = TRUE, has.Pvalue = TRUE)
@@ -61,7 +82,7 @@ coef.glca = function(
                   if (is.null(object$convergence$score))
                      print(coef[[g]][[c]])
                   else
-                     printCoefmat(coef[[g]][[c]],
+                     stats::printCoefmat(coef[[g]][[c]],
                                   digits = digits,
                                   signif.stars = getOption("show.signif.stars"),
                                   P.values = TRUE, has.Pvalue = TRUE)

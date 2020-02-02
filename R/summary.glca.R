@@ -1,5 +1,24 @@
+#' Summarize the Estimated Parameter of fitted gLCA obejct.
+#'
+#' \code{summary} method for class "\code{glca}".
+#'
+#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param digits the number of digits to be printed.
+#' @param ... further arguments passed to or from other methods.
+#'
+#' @return This function prints decriptions of model and its more detailed estimated parameters but returns \code{NULL}.
+#'
+#' @seealso \code{\link{glca}}
+#'
+#' @examples
+#' ## For examples see example(glca)
+#'
+#' @method summary glca
+#' @export
+
 summary.glca <- function(
-   object, digits = max(3, getOption("digits") - 3))
+   object, digits = max(3, getOption("digits") - 3), ...
+)
 {
    cat("\nCall:\n",  paste(deparse(object$call), sep = "\n", collapse = "\n"),
        "\n\n", sep = "")
@@ -28,7 +47,7 @@ summary.glca <- function(
       cat("Delta :\n")
       print(round(param$delta, digits))
       cat("\n")
-      if (object$model$P > 1) {
+      if (object$model$P > 1 | object$model$Q > 0) {
          cat("Beta (level 1) :\n")
          print(lapply(param$beta[[1]], round, digits))
          if (object$model$Q > 0) {

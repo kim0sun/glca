@@ -1,6 +1,60 @@
+#' Goodness of Fit Tests for Fitted \code{glca} Model.
+#'
+#' Basically, show AIC and BIC for model fit criteria. When \code{nboot} given, using parametric bootstrap, compute bootstrap p-value for "relative" and "absolute" model fit.
+#'
+#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param object2 an object of "\code{glca}" to be compared with former object.
+#' @param nboot number of bootstrap samples.
+#' @param maxiter an integer for maximum number of iteration for bootstrap sample.
+#' @param eps positive convergence tolerance for bootstrap sample.
+#' @param verbose an logical value for whether or not to print the result of a function's execution.
+#' @param ... further arguments passed to or from other methods.
+#'
+#' @return This function returns a table with model fit criteria and bootstrap p-value.
+#'
+#' @references
+#' Akaike H (1974). \emph{A New Look at the Statistical Model Identification.} IEEE Transactions on Automatic Control, 19, 716–723. \url{http://doi.org/10.1109/tac.1974.1100705}
+#'
+#' Schwarz G (1978). \emph{Estimating the Dimensions of a Model.} The Annals of Statistics, 6, 461–464. \url{http://doi.org/10.1214/aos/1176344136}
+#'
+#' bootstrap p-value references
+#'
+#' @seealso \code{\link{glca}}
+#'
+#' @examples
+#' data(gss)
+#' class2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'               data = gss, nclass = 2)
+#' class3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'               data = gss, nclass = 3)
+#'
+#' anova(class2, class3)
+#' anova(class2, class3, nboot = 100)
+#'
+#' cluster2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'                 REGION, data = gss, nclass = 3, ncluster = 2)
+#' cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'                 REGION, data = gss, nclass = 3, ncluster = 3)
+#'
+#' anova(cluster2, cluster3)
+#' anova(cluster2, cluster3, nboot = 100)
+#'
+#'
+#' data(nhanes)
+#' measInv = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+#'                GENDER, data = nhanes, nclass = 2)
+#' measVar = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+#'                GENDER, data = nhanes, nclass = 2, measure_inv = FALSE)
+#'
+#' anova(measInv, measVar)
+#' anova(measInv, measVar, nboot = 100)
+#'
+#' @method anova glca
+#' @export
+
 anova.glca = function(
    object, object2 = NULL, nboot = 0,
-   maxiter = 500, eps = 1e-5, verbose = TRUE
+   maxiter = 500, eps = 1e-5, verbose = TRUE, ...
 )
 {
    # Model
