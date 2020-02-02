@@ -54,9 +54,10 @@ glca_encode <- function(
    g.names <- levels(grp)
    z.names <- colnames(Z)
 
-   cat("Among original", dataN, "observations,",
-       "\nAt least 1 covariate missed :", dataN - modelN, "observation(s) and",
-       "\nAll item missed :", length(totmis), "observation(s) are deleted.\n\n")
+   if (verbose)
+      cat("Among original", dataN, "observations,",
+          "\nAt least 1 covariate missed :", dataN - modelN, "observation(s) and",
+         "\nAll item missed :", length(totmis), "observation(s) are deleted.\n\n")
    if (length(totmis) > 0)
    {
       Y <- Y[-totmis, , drop = FALSE]
