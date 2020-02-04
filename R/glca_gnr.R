@@ -17,7 +17,7 @@ glca_gnr <- function(
          sapply(class[[g]], function(c)
             sample(1:model$R[m], 1, prob = param$rho[[m]][c, ]))))
       for (g in 1:model$G)
-         y[[g]][is.null(datalist$y[[g]])] = 0
+         y[[g]][datalist$y[[g]] == 0] = 0
    } else {
       # MGLCA with constraint
       if (model$P == 1)
@@ -32,7 +32,7 @@ glca_gnr <- function(
             sample(1:model$R[m], 1, prob = param$rho[[g]][[m]][c, ]))))
 
       for (g in 1:model$G)
-         y[[g]][is.null(datalist$y[[g]])] = 0
+         y[[g]][datalist$y[[g]] == 0] = 0
    }
 
    npatt <- prod(model$R)
