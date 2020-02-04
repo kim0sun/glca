@@ -23,31 +23,29 @@
 #'
 #' @examples
 #' data(gss)
-#' class2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'               data = gss, nclass = 2)
-#' class3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'               data = gss, nclass = 3)
+#' class4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'               data = gss, nclass = 4)
+#' class5 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'               data = gss, nclass = 5, maxiter = 5000)
 #'
-#' anova(class2, class3)
-#' anova(class2, class3, nboot = 100)
+#' anova(class4, class5)
+#' anova(class4, class5, nboot = 25)
 #'
-#' cluster2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'                 REGION, data = gss, nclass = 3, ncluster = 2)
 #' cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'                 REGION, data = gss, nclass = 3, ncluster = 3)
+#'                 REGION, data = gss, nclass = 4, ncluster = 3)
+#' cluster4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'                 REGION, data = gss, nclass = 4, ncluster = 4, maxiter = 2000)
 #'
-#' anova(cluster2, cluster3)
-#' anova(cluster2, cluster3, nboot = 100)
+#' anova(cluster3, cluster4)
+#' anova(cluster3, cluster4, nboot = 25)
 #'
-#'
-#' data(nhanes)
-#' measInv = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
-#'                GENDER, data = nhanes, nclass = 2)
-#' measVar = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
-#'                GENDER, data = nhanes, nclass = 2, measure_inv = FALSE)
+#' measInv = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'                SEX, data = gss, nclass = 4)
+#' measVar = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#'                SEX, data = gss, nclass = 4, measure_inv = FALSE)
 #'
 #' anova(measInv, measVar)
-#' anova(measInv, measVar, nboot = 100)
+#' anova(measInv, measVar, nboot = 25)
 #'
 #' @method anova glca
 #' @export
@@ -138,54 +136,70 @@ anova.glca = function(
 
    if (is.null(object2)) {
       cat("\nModel Goodness of Fit Table\n\n")
-      ret <- data.frame(
+      tab <- data.frame(
          "Res.Df" = m1$gof$df,
-         "AIC" = round(m1$gof$aic),
-         "BIC" = round(m1$gof$bic)
+         "AIC" = round(m1$gof$aic, 2),
+         "BIC" = round(m1$gof$bic, 2),
+         "Gsq" = round(m1$gof$Gsq, 2)
       )
       if (nboot > 0)
-         ret <- cbind(ret, "Boot Pr(Abs)" = round(boot1, 3))
+         tab <- cbind(tab, "Boot Pr(Abs)" = round(boot1, 3))
    } else {
       if (Rel) {
          cat("\nModel Goodness of Fit Table\n\n")
-         ret <- data.frame(
+         tab <- data.frame(
             "Res.Df" = c(m1$gof$df, m2$gof$df),
-            "AIC" = round(c(m1$gof$aic, m2$gof$aic)),
-            "BIC" = round(c(m1$gof$bic, m2$gof$bic))
+            "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
+            "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
+            "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2)
          )
          if (nboot > 0) {
-            Df <- bootrel <- c("", "")
+            Df <- bGsqR <- bootrel <- c("", "")
             Df[H1] <- m[[H0]]$gof$df - m[[H1]]$gof$df
             bootrel[H1] <- round(boot3, 3)
-            ret <- cbind(ret, "Boot Pr(Abs)" = round(c(boot1, boot2), 3),
-                         "Df" = Df, "Boot Pr(Rel)" = bootrel)
+            bGsqR[H1] <- round(GsqR, 3)
+            tab <- cbind(tab, "Boot Pr(Abs)" = round(c(boot1, boot2), 3),
+                         "Df" = Df, "Gsq(Rel)" = bGsqR,
+                         "Boot Pr(Rel)" = bootrel)
          }
 
       } else {
          warning("Response are different.")
          cat("\nModel Goodness of Fit Table\n\n")
-         ret <- data.frame(
+         tab <- data.frame(
             "Res.Df" = c(m1$gof$df, m2$gof$df),
-            "AIC" = round(c(m1$gof$aic, m2$gof$aic)),
-            "BIC" = round(c(m1$gof$bic, m2$gof$bic))
+            "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
+            "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
+            "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2)
          )
          if (nboot > 0)
-            ret <- cbind(ret, "Boot Pr(Abs)" = round(c(boot1, boot2), 3))
+            tab <- cbind(tab, "Boot Pr(Abs)" = round(c(boot1, boot2), 3))
       }
    }
 
-   cat("Model 1:", deparse(eval(model1)), "\n")
+   cat("Model 1:", paste(deparse(model1), sep = "", collapse = ""), "\n")
    cat("         nclass :", m1$model$C)
    if (m1$model$W > 1)
        cat(", ncluster :", m1$model$W, "\n")
    else cat("\n")
    if (!is.null(object2)) {
-      cat("Model 2:", deparse(eval(model2)), "\n")
+      cat("Model 2:", paste(deparse(model2), sep = "", collapse = ""), "\n")
       cat("         nclass :", m2$model$C)
       if (m2$model$W > 1)
          cat(", ncluster :", m2$model$W, "\n")
       else cat("\n")
    }
+   print(tab)
 
-   return(ret)
+   ret = list()
+   ret$table = tab
+   if (nboot > 0) {
+      ret$boot = list(boot_Gsq1 = Gsq1)
+      if (!is.null(object2)) {
+         ret$boot$boot_Gsq2 = Gsq2
+         ret$boot$boot_GsqR = Gsq3
+      }
+   }
+
+   invisible(ret)
 }
