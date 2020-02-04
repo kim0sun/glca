@@ -70,14 +70,14 @@
 #'
 #' # BRFSS data (MLCA)
 #' data("brfss")
-#' brfss2 = brfss[sample(1:nrow(brfss), 2000),]
+#' brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-#'             group = STATE, data = brfss2, nclass = 3, ncluster = 3)
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 #' summary(mlca)
 #'
 #' # BRFSS data (MLCA with group covariates)
 #' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
-#'             group = STATE, data = brfss2, nclass = 3, ncluster = 3)
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 #' summary(mlcr)
 #' coef(mlcr)
 #'
@@ -89,7 +89,7 @@ glca <- function(
    measure_inv = TRUE, std_err = TRUE,
    init_param = NULL, n_init = 1,
    maxiter = 1000, eps = 1e-10,
-   verbose = TRUE
+   na.rm = FALSE, verbose = TRUE
 )
 {
    # Function call
@@ -105,7 +105,7 @@ glca <- function(
    # (x, y, z, pattern, observed)
    # (y.names, g.names, r.names, x.names, z.names)
    encode = glca_encode(mf, data, nclass, ncluster,
-                        measure_inv, verbose)
+                        measure_inv, na.rm, verbose)
    datalist = encode$datalist
    model = encode$model
    if(model$df <= 0) {
