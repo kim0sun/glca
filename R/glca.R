@@ -19,6 +19,9 @@
 #' \code{item(y1, y2, y3) ~ 1}\cr
 #' \code{item(y1, y2, y3) ~ x1 + x2}
 #'
+#' There are two type of covariates on \code{glca} model. If covariates are varies across individuals, the covariates are considered as level 1 covariates. Given group, if covariates are varies across groups, the covariates are considered as level 2 covariates. Both type of covariates have an effect on class prevalence.
+
+#'
 #' The \code{glca} models are latent class models which assumes latent categorical variable (i.e latent cluster or latent class). Since those latent variabels are categorical, there are parameters indicating probability of each category and it is called "prevalence". According to latent variable, each manifest item behaves differently. Since for \code{glca} models, manifest items should be categorical variable, behaviors of manifest items can be depicted with multinomial distribution. And the probability of each category (differs according to latent class) is called "item response probability".
 #'
 #' The parameters to be estimated are \code{delta}, \code{gamma}, \code{beta}, and \code{rho}. \code{delta} are prevalences of latent clusters, a latent categorical variables of groups, \code{gamma} are prevalences of latent classes (according to latent cluster for multilevel LCA), a latent categorical variables of individuals, \code{beta} are covariates coefficient for \code{gamma}, and \code{rho} are item response probabilities.
