@@ -1,17 +1,19 @@
 glca_encode <- function(
    mf, data, nclass, ncluster,
-   measure_inv, verbose
+   measure_inv, na.rm, verbose
 )
 {
    # Import data
    Y <- stats::model.response(mf)
    if (is.null(dim(Y)))
-      dim(Y) = c(length(Y), 1)
+      dim(Y) <- c(length(Y), 1)
    if (class(Y) != "items")
       stop("Manifest items should be indicated by item function.\n")
 
-   dataN = nrow(data)
-   modelN = nrow(mf)
+   dataN <- nrow(data)
+   modelN <- nrow(mf)
+
+   isna <- which(rowSums(Y == 0) > 0)
    totmis <- which(rowSums(Y != 0) == 0)
 
    Cov <- stats::model.matrix(stats::terms(mf), mf)
@@ -34,7 +36,8 @@ glca_encode <- function(
       grp <- droplevels(factor(grp))
 
    # Model / variable name specification
-   N <- nrow(Y) - length(totmis)
+   if (na.rm) N <- nrow(Y) - length(isna)
+   else N <- nrow(Y) - length(totmis)
    M <- ncol(Y)
    R <- sapply(attr(Y, "y.level"), length)
    P <- ncol(X)
@@ -54,11 +57,23 @@ glca_encode <- function(
    g.names <- levels(grp)
    z.names <- colnames(Z)
 
-   if (verbose)
-      cat("Among original", dataN, "observations,",
-          "\nAt least 1 covariate missed :", dataN - modelN, "observation(s) and",
-         "\nAll item missed :", length(totmis), "observation(s) are deleted.\n\n")
-   if (length(totmis) > 0)
+   if (verbose) {
+      cat("Among original", dataN, "observations,")
+      if (na.rm)
+         cat("\nAt least 1 missing data :", dataN - modelN - length(isna),
+             "observation(s) are deleted.\n\n")
+      else
+         cat("\nAt least 1 covariate missed :", dataN - modelN,
+             "observation(s) and \nAll item missed :", length(totmis),
+             "observation(s) are deleted.\n\n")
+   }
+
+   if (na.rm) {
+      Y <- Y[-isna, , drop = FALSE]
+      X <- X[-isna, , drop = FALSE]
+      Z <- Z[-isna, , drop = FALSE]
+      grp <- droplevels(grp[-isna])
+   } else if (length(totmis) > 0)
    {
       Y <- Y[-totmis, , drop = FALSE]
       X <- X[-totmis, , drop = FALSE]
@@ -76,16 +91,20 @@ glca_encode <- function(
    if (nclass < 2)
       stop("Number of latent classes should be greater than 1.")
 
-   if (G == 1)
-      W <- 0
-   else if (G <= ncluster) {
-      if (verbose)
-         cat("Number of latent clusters should be less than number of groups.\n
+   if (ncluster > 0) {
+      if (G == 1)
+         W <- 0
+      else if (G <= ncluster) {
+         if (verbose)
+            cat("Number of latent clusters should be less than number of groups.\n
               MGLCA will be fitted.")
-      W <- 0
+         W <- 0
+      } else {
+         W <- ncluster
+         measure_inv <- TRUE
+      }
    } else {
-      W <- ncluster
-      measure_inv <- TRUE
+      W <- 0
    }
 
    C <- nclass
