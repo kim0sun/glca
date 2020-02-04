@@ -7,12 +7,13 @@
 #' @param nclass number of latent classes. default is 3.
 #' @param ncluster number of level 2 latent classes. default is 0.
 #' @param measure_inv a logical value of the assumption of measurement invariance across groups.
-#' @param std_err a logical value wheter calculating standard error of estimates. default is TRUE.
+#' @param std_err a logical value whether calculating standard error of estimates. default is TRUE.
 #' @param init_param a list which contains user-defined initial parameter.
 #' @param n_init number of random initial parameter set.
-#' @param verbose an logical value for whether or not to print the result of a function's execution.
 #' @param maxiter an integer for maximum number of iteration.
 #' @param eps positive convergence tolerance.
+#' @param na.rm a logical value whether or not to remove observations which has at least 1 item.
+#' @param verbose a logical value for whether or not to print the result of a function's execution.
 #'
 #' @details The formula should consist of an \code{~} operator between two sides. Manifest items should be indicated in LHS of formula using \code{item} function and covariates should be specified in RHS of formula. For example, \cr
 #' \code{item(y1, y2, y3) ~ 1}\cr

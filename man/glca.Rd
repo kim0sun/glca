@@ -22,7 +22,7 @@ glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
 
 \item{measure_inv}{a logical value of the assumption of measurement invariance across groups.}
 
-\item{std_err}{a logical value wheter calculating standard error of estimates. default is TRUE.}
+\item{std_err}{a logical value whether calculating standard error of estimates. default is TRUE.}
 
 \item{init_param}{a list which contains user-defined initial parameter.}
 
@@ -32,9 +32,9 @@ glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
 
 \item{eps}{positive convergence tolerance.}
 
-\item{na.rm}{logical value for whether or not to remove observation(s) which has at least 1 missing item.}
+\item{na.rm}{a logical value whether or not to remove observations which has at least 1 item.}
 
-\item{verbose}{an logical value for whether or not to print the result of a function's execution.}
+\item{verbose}{a logical value for whether or not to print the result of a function's execution.}
 }
 \value{
 \code{glca} returns an object of class "\code{glca}".
@@ -70,13 +70,13 @@ The parameters to be estimated are \code{delta}, \code{gamma}, \code{beta}, and 
 # GSS data (LCA)
 data("gss")
 lca1 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-            data = gss, nclass = 4)
+           data = gss, nclass = 2)
 summary(lca1)
 lca2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-           data = gss, nclass = 5)
+           data = gss, nclass = 3)
 summary(lca2)
 anova(lca1, lca2)
-anova(lca1, lca2, nboot = 25)
+anova(lca1, lca2, nboot = 100)
 
 # NHANES data (LCA with covariates)
 data("nhanes")
