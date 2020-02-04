@@ -30,31 +30,29 @@ Basically, show AIC and BIC for model fit criteria. When \code{nboot} given, usi
 }
 \examples{
 data(gss)
-class2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-              data = gss, nclass = 2)
-class3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-              data = gss, nclass = 3)
+class4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+              data = gss, nclass = 4)
+class5 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+              data = gss, nclass = 5, maxiter = 5000)
 
-anova(class2, class3)
-anova(class2, class3, nboot = 100)
+anova(class4, class5)
+anova(class4, class5, nboot = 25)
 
-cluster2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-                REGION, data = gss, nclass = 3, ncluster = 2)
 cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-                REGION, data = gss, nclass = 3, ncluster = 3)
+                REGION, data = gss, nclass = 4, ncluster = 3)
+cluster4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+                REGION, data = gss, nclass = 4, ncluster = 4, maxiter = 2000)
 
-anova(cluster2, cluster3)
-anova(cluster2, cluster3, nboot = 100)
+anova(cluster3, cluster4)
+anova(cluster3, cluster4, nboot = 25)
 
-
-data(nhanes)
-measInv = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
-               GENDER, data = nhanes, nclass = 2)
-measVar = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
-               GENDER, data = nhanes, nclass = 2, measure_inv = FALSE)
+measInv = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+               SEX, data = gss, nclass = 4)
+measVar = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+               SEX, data = gss, nclass = 4, measure_inv = FALSE)
 
 anova(measInv, measVar)
-anova(measInv, measVar, nboot = 100)
+anova(measInv, measVar, nboot = 25)
 
 }
 \references{

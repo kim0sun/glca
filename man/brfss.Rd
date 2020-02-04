@@ -49,31 +49,31 @@ This data is comprised of questions related to healthy lifestyles, such as obesi
 }
 \examples{
 data("brfss")
-brfss2 = brfss[sample(1:nrow(brfss), 2000),]
+brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
 lca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-   data = brfss2, nclass = 3)
+   data = brfss2000, nclass = 3)
 summary(lca)
 
 lcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
-   group = INCOME, data = brfss2, nclass = 3)
+   group = INCOME, data = brfss2000, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 mglca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-   group = SEX, data = brfss2, nclass = 3)
+   group = SEX, data = brfss2000, nclass = 3)
 summary(mglca)
 
 mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-   group = STATE, data = brfss2, nclass = 3, ncluster = 2)
+   group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlca)
 
 mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
-   group = STATE, data = brfss2, nclass = 3, ncluster = 2)
+   group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 
 mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
-   group = STATE, data = brfss2, nclass = 3, ncluster = 2)
+   group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlcr2)
 coef(mlcr2)
 }

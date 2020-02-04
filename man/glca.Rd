@@ -6,7 +6,8 @@
 \usage{
 glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
   measure_inv = TRUE, std_err = TRUE, init_param = NULL,
-  n_init = 1, maxiter = 1000, eps = 1e-10, verbose = TRUE)
+  n_init = 1, maxiter = 1000, eps = 1e-10, na.rm = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{formula}{a formula for specifying manifest items using the "\code{item}" function and covariates.}
@@ -30,6 +31,8 @@ glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
 \item{maxiter}{an integer for maximum number of iteration.}
 
 \item{eps}{positive convergence tolerance.}
+
+\item{na.rm}{logical value for whether or not to remove observation(s) which has at least 1 missing item.}
 
 \item{verbose}{an logical value for whether or not to print the result of a function's execution.}
 }
@@ -67,13 +70,13 @@ The parameters to be estimated are \code{delta}, \code{gamma}, \code{beta}, and 
 # GSS data (LCA)
 data("gss")
 lca1 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-           data = gss, nclass = 2)
+            data = gss, nclass = 4)
 summary(lca1)
 lca2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-           data = gss, nclass = 3)
+           data = gss, nclass = 5)
 summary(lca2)
 anova(lca1, lca2)
-anova(lca1, lca2, nboot = 100)
+anova(lca1, lca2, nboot = 25)
 
 # NHANES data (LCA with covariates)
 data("nhanes")
@@ -89,14 +92,14 @@ summary(mglca)
 
 # BRFSS data (MLCA)
 data("brfss")
-brfss2 = brfss[sample(1:nrow(brfss), 2000),]
+brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
 mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-            group = STATE, data = brfss2, nclass = 3, ncluster = 3)
+            group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 summary(mlca)
 
 # BRFSS data (MLCA with group covariates)
 mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
-            group = STATE, data = brfss2, nclass = 3, ncluster = 3)
+            group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 summary(mlcr)
 coef(mlcr)
 
