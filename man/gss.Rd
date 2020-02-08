@@ -22,7 +22,7 @@
 \url{http://gss.norc.org}
 }
 \description{
-and several covariates among 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. As covariates, The covariates include the age, sex,
+This dataset includes 7 manifest items about abortion and several covariates among 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include the age, sex, region, and degree of respondents.
 }
 \examples{
 data("gss")

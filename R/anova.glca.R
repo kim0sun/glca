@@ -52,7 +52,7 @@
 
 anova.glca = function(
    object, object2 = NULL, nboot = 0,
-   maxiter = 500, eps = 1e-5, verbose = TRUE, ...
+   maxiter = 200, eps = 1e-5, verbose = TRUE, ...
 )
 {
    # Model
@@ -84,10 +84,15 @@ anova.glca = function(
          if (verbose) {
             if (b %% 10 == 0) cat(".")
             if (b %% 100 == 0) cat("b =", b, "\n")
+            if (b == nboot) cat("b =", b, "End.\n")
          }
 
          b1 = glca_gnr(m1$model, m1$param, m1$datalist)
-         init1 = glca_init(m1$model)
+         init1 = m1$param
+         if (is.matrix(init1$gamma) && is.null(init1$delta))
+            init1$gamma = lapply(1:nrow(init1$gamma), function(g)
+               matrix(init1$gamma[g, ], m1$model$Ng[g],
+                      ncol(init1$gamma), byrow = TRUE))
          EMb1 = glca_em(m1$model, b1, init1, FALSE, maxiter, eps)
          if (is.null(EMb1))
             Gsq1[b] = NA

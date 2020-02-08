@@ -5,7 +5,7 @@
 \title{Goodness of Fit Tests for Fitted \code{glca} Model.}
 \usage{
 \method{anova}{glca}(object, object2 = NULL, nboot = 0,
-  maxiter = 500, eps = 1e-05, verbose = TRUE, ...)
+  maxiter = 200, eps = 1e-05, verbose = TRUE, ...)
 }
 \arguments{
 \item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
@@ -36,6 +36,7 @@ class5 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) 
               data = gss, nclass = 5, maxiter = 5000)
 
 anova(class4, class5)
+debug(anova)
 anova(class4, class5, nboot = 25)
 
 cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
