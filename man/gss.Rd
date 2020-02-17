@@ -26,22 +26,30 @@ This dataset includes 7 manifest items about abortion and several covariates amo
 }
 \examples{
 data("gss")
+
+# Model 1: LCA
 lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
            data = gss, nclass = 3)
 summary(lca)
+
+# Model 2: LCA with a covariate
 lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
            data = gss, nclass = 3)
 summary(lcr)
 coef(lcr)
 
+# Model 3: MGLCA
 mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
              group = DEGREE, data = gss, nclass = 3)
+
+# Model 4: MGLCA with covariates
 summary(mglca)
 mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
              group = SEX, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
+# Model 4: MLCA
 mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
              group = REGION, data = gss, nclass = 3, ncluster = 2)
 summary(mlca)

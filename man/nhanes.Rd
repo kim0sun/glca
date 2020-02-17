@@ -24,22 +24,29 @@ There is a nine-item depression screening instrument of National Health and Nutr
 \examples{
 data("nhanes")
 
+# Model 1: LCA
 lca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
            data = nhanes, nclass = 2)
 summary(lca)
+
+# Model 2: LCA with covariate(s)
 lcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
            data = nhanes, nclass = 3)
 summary(lcr)
 coef(lcr)
 
+# Model 3: MGLCA
 mglca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
              group = GENDER, data = nhanes, nclass = 3)
 summary(mglca)
+
+# Model 4: MGLCA with covariate(s)
 mglcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
              group = GENDER, data = nhanes, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
+# Model 5: MLCA
 mlca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
             group = RACE, data = nhanes, nclass = 3, ncluster = 2)
 summary(mlca)
