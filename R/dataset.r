@@ -24,22 +24,30 @@
 #' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2010/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
 #' @examples
 #' data("gss")
+#'
+#' # Model 1: LCA
 #' lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'            data = gss, nclass = 3)
 #' summary(lca)
+#'
+#' # Model 2: LCA with a covariate
 #' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
 #'            data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
+#' # Model 3: MGLCA
 #' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'              group = DEGREE, data = gss, nclass = 3)
+#'
+#' # Model 4: MGLCA with covariates
 #' summary(mglca)
 #' mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
 #'              group = SEX, data = gss, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
+#' # Model 4: MLCA
 #' mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'              group = REGION, data = gss, nclass = 3, ncluster = 2)
 #' summary(mlca)
@@ -68,22 +76,29 @@ NULL
 #' @examples
 #' data("nhanes")
 #'
+#' # Model 1: LCA
 #' lca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
 #'            data = nhanes, nclass = 2)
 #' summary(lca)
+#'
+#' # Model 2: LCA with covariate(s)
 #' lcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
 #'            data = nhanes, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
+#' # Model 3: MGLCA
 #' mglca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
 #'              group = GENDER, data = nhanes, nclass = 3)
 #' summary(mglca)
+#'
+#' # Model 4: MGLCA with covariate(s)
 #' mglcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
 #'              group = GENDER, data = nhanes, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
+#' # Model 5: MLCA
 #' mlca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
 #'             group = RACE, data = nhanes, nclass = 3, ncluster = 2)
 #' summary(mlca)
@@ -141,29 +156,35 @@ NULL
 #' @examples
 #' data("brfss")
 #' brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
-
+#'
+#' # Model 1: LCA
 #' lca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
 #'    data = brfss2000, nclass = 3)
 #' summary(lca)
 #'
+#' # Model 2: LCA with covariate(s)
 #' lcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
 #'    group = INCOME, data = brfss2000, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
+#' # Model 3: MGLCA
 #' mglca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
 #'    group = SEX, data = brfss2000, nclass = 3)
 #' summary(mglca)
 #'
+#' # Model 4: MLCA
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
 #'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
+#' # Model 4: MLCA with covariate(s)
 #' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
 #'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
 #'
+#' # Model 5: MLCA with level 1 and level 2covariate(s)
 #' mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
 #'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr2)

@@ -49,10 +49,15 @@
 #' Linda M. Collins, Stephanie T. Lanza (2009). \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
 #'
 #' @examples
-#' # GSS data (LCA)
+#' ##
+#' ## Example 1. GSS dataset
+#' ##
 #' data("gss")
+#' # Two-classLCA
 #' lca1 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'            data = gss, nclass = 2)
+#'
+#' # Three-classLCA
 #' summary(lca1)
 #' lca2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'            data = gss, nclass = 3)
@@ -60,28 +65,28 @@
 #' anova(lca1, lca2)
 #' anova(lca1, lca2, nboot = 100)
 #'
-#' # NHANES data (LCA with covariates)
-#' data("nhanes")
-#' lcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
-#'             data = nhanes, nclass = 2)
+#' # Three-class LCA with covariate(s)
+#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE, data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
-#' # GSS data (MGLCA)
+#' # Multitple Group LCA (MGLCA)
 #' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'              group = DEGREE, data = gss, nclass = 3)
+#'             group = DEGREE, data = gss, nclass = 3)
 #' summary(mglca)
 #'
-#' # BRFSS data (MLCA)
+#' ##
+#' ## Example 2. BRFSS data
+#' ##
 #' data("brfss")
+#' # Multilevel LCA (MLCA)
 #' brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
-#' summary(mlca)
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3,
+#'             init_param = mlca$param) summary(mlca)
 #'
-#' # BRFSS data (MLCA with group covariates)
-#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
-#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
+#' # MLCA with covariates
+#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION, group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 #' summary(mlcr)
 #' coef(mlcr)
 #'

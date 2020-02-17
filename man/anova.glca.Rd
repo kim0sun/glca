@@ -36,7 +36,6 @@ class5 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) 
               data = gss, nclass = 5, maxiter = 5000)
 
 anova(class4, class5)
-debug(anova)
 anova(class4, class5, nboot = 25)
 
 cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,

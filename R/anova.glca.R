@@ -22,6 +22,8 @@
 #' @seealso \code{\link{glca}}
 #'
 #' @examples
+#' ## Example 1.
+#' ## LCA model selection between two models with different number of latent classes.
 #' data(gss)
 #' class4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'               data = gss, nclass = 4)
@@ -31,6 +33,8 @@
 #' anova(class4, class5)
 #' anova(class4, class5, nboot = 25)
 #'
+#' ## Example 2.
+#' ## MGLCA model selection between two models with different number of latent clusters.
 #' cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'                 REGION, data = gss, nclass = 4, ncluster = 3)
 #' cluster4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
@@ -39,6 +43,8 @@
 #' anova(cluster3, cluster4)
 #' anova(cluster3, cluster4, nboot = 25)
 #'
+#' ## Example 3.
+#' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
 #'                SEX, data = gss, nclass = 4)
 #' measVar = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
