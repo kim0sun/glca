@@ -55,24 +55,25 @@
 #' data("gss")
 #' # Two-classLCA
 #' lca1 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'            data = gss, nclass = 2)
+#'             data = gss, nclass = 2)
 #'
 #' # Three-classLCA
 #' summary(lca1)
 #' lca2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'            data = gss, nclass = 3)
+#'             data = gss, nclass = 3)
 #' summary(lca2)
 #' anova(lca1, lca2)
-#' anova(lca1, lca2, nboot = 100)
+#' anova(lca1, lca2, nboot = 25)
 #'
 #' # Three-class LCA with covariate(s)
-#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE, data = gss, nclass = 3)
+#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
+#'            data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Multitple Group LCA (MGLCA)
 #' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-#'             group = DEGREE, data = gss, nclass = 3)
+#'              group = DEGREE, data = gss, nclass = 3)
 #' summary(mglca)
 #'
 #' ##
@@ -82,11 +83,12 @@
 #' # Multilevel LCA (MLCA)
 #' brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3,
-#'             init_param = mlca$param) summary(mlca)
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
+#' summary(mlca)
 #'
 #' # MLCA with covariates
-#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION, group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
+#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
 #' summary(mlcr)
 #' coef(mlcr)
 #'

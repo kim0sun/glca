@@ -180,13 +180,13 @@ NULL
 #'
 #' # Model 4: MLCA with covariate(s)
 #' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
-#'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
+#'             group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
 #'
 #' # Model 5: MLCA with level 1 and level 2covariate(s)
 #' mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
-#'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
+#'              group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr2)
 #' coef(mlcr2)
 NULL
