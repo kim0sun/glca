@@ -104,7 +104,7 @@ glca <- function(
    nclass = 3, ncluster = 0,
    measure_inv = TRUE, std_err = TRUE,
    init_param = NULL, n_init = 1,
-   maxiter = 5000, eps = 1e-10,
+   maxiter = 5000, eps = 1e-6,
    na.rm = FALSE, random.seed = NULL,
    verbose = TRUE
 )
