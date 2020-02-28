@@ -16,11 +16,15 @@ glca_init_test <- function(
    for (par in pars) {
       cust = getElement(init_param, par)
       rand = getElement(init_random, par)
+      if (par != "rho") {
+         cust = list(cust)
+         rand = list(rand)
+      }
 
-      str1 = unname(lapply(rapply(list(cust), function(x)
+      str1 = unname(lapply(rapply(cust, function(x)
          if(is.matrix(x)) dim(unname(x)) else length(unname(x)),
          how = "replace"), unname))
-      str2 = rapply(list(rand), function(x)
+      str2 = rapply(rand, function(x)
          if(is.matrix(x)) dim(unname(x))
          else length(unname(x)), how = "replace")
       identical(str1, str2)

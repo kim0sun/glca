@@ -45,7 +45,7 @@
 \url{https://doi.org/10.7910/DVN/42MVDX}
 }
 \description{
-This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, among the 2017 BRFSS survey, and includes covariates such as respondents’ gender and income levels. There are also states in which the respondent resides as a group variable, regions in which the state belongs, and parties in which the state won the 2016 presidential election.
+This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, from the 2017 BRFSS survey. Data includes individual level covariates such as respondents’ gender and income levels. State is a group variable indicating the respondent's resides. States are categorized as 8 regions and 2 parties as they won the 2016 presidential election in the state.
 }
 \examples{
 data("brfss")
@@ -72,13 +72,13 @@ mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlca)
 
-# Model 4: MLCA with covariate(s)
+# Model 5: MLCA with covariate(s)
 mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
             group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 
-# Model 5: MLCA with level 1 and level 2covariate(s)
+# Model 6: MLCA with level 1 and level 2covariate(s)
 mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
              group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 summary(mlcr2)

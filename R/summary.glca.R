@@ -1,4 +1,4 @@
-#' Summarize the Estimated Parameter of fitted gLCA obejct.
+#' Summarize the Estimated Parameters of Fitted glca Model
 #'
 #' \code{summary} method for class "\code{glca}".
 #'
@@ -94,7 +94,7 @@ summary.glca <- function(
          }
       } else {
          if (object$model$measure_inv) {
-            cat("Rho :\n")
+            cat("Rho (invariant across group) :\n")
 
             for (m in 1:object$model$M) {
                cat(object$var.names$y.names[m], "\n")

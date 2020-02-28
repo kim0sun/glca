@@ -1,6 +1,6 @@
-#' Extract \code{glca} Model Coefficients.
+#' Extracts \code{glca} Model Coefficients.
 #'
-#' Basically, show AIC and BIC for model fit criteria. When \code{nboot} given, using parametric bootstrap, compute bootstrap p-value for "relative" and "absolute" model fit.
+#' Extracts \code{glca} model coefficients if the model includes covariates.
 #'
 #' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
 #' @param digits the number of significant digits to use when printing.

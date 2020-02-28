@@ -93,6 +93,10 @@ ObsCell <- function(y, N, M, R, maxiter, eps) {
     .Call(`_glca_ObsCell`, y, N, M, R, maxiter, eps)
 }
 
+ObsLik <- function(y, N, M, R, maxiter, eps) {
+    .Call(`_glca_ObsLik`, y, N, M, R, maxiter, eps)
+}
+
 ObsCell2 <- function(sy, u, N, U) {
     .Call(`_glca_ObsCell2`, sy, u, N, U)
 }

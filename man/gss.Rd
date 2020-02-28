@@ -12,7 +12,6 @@
 \item{\code{ABPOOR}}{ If the family has a very low income and cannot afford any more children?}
 \item{\code{ABRAPE}}{If she became pregnant as a result of rape?}
 \item{\code{ABSINGLE}}{If she is not married and does not want to marry the man?}
-\item{\code{ABANY}}{The woman wants it for any reason?}
 \item{\code{AGE}}{Respondent's age}
 \item{\code{SEX}}{Respondent's sex}
 \item{\code{REGION}}{Region of interview}
@@ -28,29 +27,29 @@ This dataset includes 7 manifest items about abortion and several covariates amo
 data("gss")
 
 # Model 1: LCA
-lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
            data = gss, nclass = 3)
 summary(lca)
 
 # Model 2: LCA with a covariate
-lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
+lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
            data = gss, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Model 3: MGLCA
-mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
              group = DEGREE, data = gss, nclass = 3)
 
 # Model 4: MGLCA with covariates
 summary(mglca)
-mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
+mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
              group = SEX, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
-# Model 4: MLCA
-mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+# Model 5: MLCA
+mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
              group = REGION, data = gss, nclass = 3, ncluster = 2)
 summary(mlca)
 }

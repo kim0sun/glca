@@ -424,6 +424,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ObsLik
+double ObsLik(IntegerMatrix y, int N, int M, IntegerVector R, int maxiter, double eps);
+RcppExport SEXP _glca_ObsLik(SEXP ySEXP, SEXP NSEXP, SEXP MSEXP, SEXP RSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type M(MSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type R(RSEXP);
+    Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ObsLik(y, N, M, R, maxiter, eps));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ObsCell2
 IntegerVector ObsCell2(IntegerMatrix sy, IntegerMatrix u, int N, int U);
 RcppExport SEXP _glca_ObsCell2(SEXP sySEXP, SEXP uSEXP, SEXP NSEXP, SEXP USEXP) {
@@ -463,6 +479,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glca_UpRhoR", (DL_FUNC) &_glca_UpRhoR, 8},
     {"_glca_UpRhoML", (DL_FUNC) &_glca_UpRhoML, 8},
     {"_glca_ObsCell", (DL_FUNC) &_glca_ObsCell, 6},
+    {"_glca_ObsLik", (DL_FUNC) &_glca_ObsLik, 6},
     {"_glca_ObsCell2", (DL_FUNC) &_glca_ObsCell2, 4},
     {NULL, NULL, 0}
 };

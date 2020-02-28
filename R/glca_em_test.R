@@ -28,7 +28,7 @@ glca_em_test <- function(
       # EM iteration
       if (W == 0) {
          if (P == 1) {
-            while (iter <= 50)
+            while (iter <= 100)
             {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
@@ -55,7 +55,7 @@ glca_em_test <- function(
             )
 
          } else {
-            while (iter <= 50)
+            while (iter <= 100)
             {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
@@ -95,7 +95,7 @@ glca_em_test <- function(
          }
       } else {
          if (P == 1 && Q == 0) {
-            while (iter <= 50) {
+            while (iter <= 100) {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
 
@@ -118,7 +118,7 @@ glca_em_test <- function(
             )
 
          } else {
-            while (iter <= 50) {
+            while (iter <= 100) {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
 

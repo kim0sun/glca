@@ -57,6 +57,9 @@ glca_gnr <- function(
       obsvd <- rowSums(obsvd)
    }
 
+   llik0 = sum((obsvd * log(obsvd / sum(obsvd)))[obsvd != 0])
+
    return(list(y = y, x = datalist$x, z = datalist$z,
-               pattern = as.matrix(pattern), observed = obsvd))
+               pattern = as.matrix(pattern), observed = obsvd,
+               loglike = llik0))
 }

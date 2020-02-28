@@ -282,14 +282,15 @@ glca_output <- function(
    )
 
    # Goodness of fit
-   tmp_count = count[count$observed != 0 & count$fitted != 0,]
+   tmp_count = count[count$fitted != 0 & count$observed != 0, ]
    gof <- list(
       df = df,
       loglike = EM$loglike,
       aic = -2 * EM$loglike + 2 * npar,
       bic = -2 * EM$loglike + log(N) * npar,
       Gsq = 2 * sum(tmp_count$observed *
-         log(tmp_count$observed / tmp_count$fitted))
+         log(tmp_count$observed / tmp_count$fitted)),
+      resid.dev = 2 * (datalist$loglik0 - EM$loglike)
    )
 
    # Convergence

@@ -2,17 +2,17 @@
 % Please edit documentation in R/item.R
 \name{item}
 \alias{item}
-\title{Specify Manifest Items for \code{glca}.}
+\title{Specify Manifest Items for \code{glca}}
 \usage{
 item(...)
 }
 \arguments{
-\item{\dots}{vectors of manifest items. These can be given as named arguments which is colnames of data.frame}
+\item{\dots}{vectors of manifest items. These can be given as named arguments which is colnames of \code{data.frame}.}
 }
 \value{
 a \code{matrix} of specified variables, which contains following attributes about items.
 
-Dimensions of \code{data.frmae}, names of items and level of items.
+Names and levels of manifest items.
 }
 \description{
 Specifying manifest items in formula of \code{glca} function.

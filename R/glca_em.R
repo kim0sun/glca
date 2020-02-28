@@ -220,7 +220,6 @@ glca_em <- function(
          " (log-like : ", llik, ")\n", sep = "")
    }
 
-
    return(
       list(param = param, posterior = Post,
            fitted = fitted, loglike = llik,

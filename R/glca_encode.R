@@ -60,11 +60,11 @@ glca_encode <- function(
    if (verbose) {
       cat("Among original", dataN, "observations,")
       if (na.rm)
-         cat("\nAt least 1 missing data :", dataN - modelN - length(isna),
+         cat("\nMissing at least 1 variable :", dataN - modelN - length(isna),
              "observation(s) are deleted.\n\n")
       else
-         cat("\nAt least 1 covariate missed :", dataN - modelN,
-             "observation(s) and \nAll item missed :", length(totmis),
+         cat("\nMissing at least 1 covariate :", dataN - modelN,
+             "observation(s), \nMissing all item :", length(totmis),
              "observation(s) are deleted.\n\n")
    }
 
@@ -112,14 +112,26 @@ glca_encode <- function(
    if (npatt < 1e+6) {
       pattern <- as.matrix(expand.grid(lapply(1:M, function(m) 1:R[m])))
       obsvd <- ObsCell(as.matrix(Y), N, M, R, 1000, 1e-8)
+      loglik0 <- ObsLik(as.matrix(Y), N, M, R, 1000, 1e-8)
    } else {
       Y0 <- Y[rowSums(Y == 0) == 0,]
       Y.sorted <- Y0[do.call(order, data.frame(Y0)),]
       pattern <- as.matrix(unique(Y.sorted))
       obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
                         nrow(Y.sorted), nrow(pattern))
+      loglik0 <- sum(obsvd * log(obsvd / sum(obsvd)))
    }
    dimnames(pattern) = list(NULL, y.names)
+
+   # if (W > 0) {
+   #    like = numeric(G)
+   #    for (g in 1:G)
+   #    {
+   #       like[g] = ObsLik(y[[g]], nrow(y[[g]]), M, R, 1000, 1e-8)
+   #    }
+   #    loglik0 = sum(like)
+   # }
+
 
    if (W == 0) {
       if (P == 1) {
@@ -154,14 +166,15 @@ glca_encode <- function(
    return(
       list(datalist = list(y = y, x = x, z = z, group = grp,
                            pattern = pattern,
-                           observed = obsvd),
+                           observed = obsvd,
+                           loglik0 = loglik0),
            model = list(type = type,
                         measure_inv = measure_inv,
                         N = N, Ng = Ng, G = G,
                         C = C, W = W, M = M, R = R,
                         P = P, Q = Q,
                         npar = npar,
-                        df = min(nrow(unique(Y)), npatt - 1) - npar),
+                        df = min(N, npatt - 1) - npar),
            vname = list(y.names = y.names,
                         g.names = g.names,
                         r.names = r.names,

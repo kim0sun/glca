@@ -13,7 +13,6 @@
 #' \item{\code{ABPOOR}}{ If the family has a very low income and cannot afford any more children?}
 #' \item{\code{ABRAPE}}{If she became pregnant as a result of rape?}
 #' \item{\code{ABSINGLE}}{If she is not married and does not want to marry the man?}
-#' \item{\code{ABANY}}{The woman wants it for any reason?}
 #' \item{\code{AGE}}{Respondent's age}
 #' \item{\code{SEX}}{Respondent's sex}
 #' \item{\code{REGION}}{Region of interview}
@@ -26,29 +25,29 @@
 #' data("gss")
 #'
 #' # Model 1: LCA
-#' lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#' lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
 #'            data = gss, nclass = 3)
 #' summary(lca)
 #'
 #' # Model 2: LCA with a covariate
-#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
+#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
 #'            data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
-#' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
 #'              group = DEGREE, data = gss, nclass = 3)
 #'
 #' # Model 4: MGLCA with covariates
 #' summary(mglca)
-#' mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
+#' mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
 #'              group = SEX, data = gss, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
-#' # Model 4: MLCA
-#' mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
+#' # Model 5: MLCA
+#' mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
 #'              group = REGION, data = gss, nclass = 3, ncluster = 2)
 #' summary(mlca)
 NULL
@@ -106,7 +105,7 @@ NULL
 
 #' Behavioral Risk Factor Surveillance System 2017
 #'
-#' This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, among the 2017 BRFSS survey, and includes covariates such as respondents’ gender and income levels. There are also states in which the respondent resides as a group variable, regions in which the state belongs, and parties in which the state won the 2016 presidential election.
+#' This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, from the 2017 BRFSS survey. Data includes individual level covariates such as respondents’ gender and income levels. State is a group variable indicating the respondent's resides. States are categorized as 8 regions and 2 parties as they won the 2016 presidential election in the state.
 #'
 #' @name brfss
 #' @docType data
@@ -178,13 +177,13 @@ NULL
 #'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
-#' # Model 4: MLCA with covariate(s)
+#' # Model 5: MLCA with covariate(s)
 #' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
 #'             group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
 #'
-#' # Model 5: MLCA with level 1 and level 2covariate(s)
+#' # Model 6: MLCA with level 1 and level 2covariate(s)
 #' mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
 #'              group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr2)

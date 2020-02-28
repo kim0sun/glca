@@ -2,23 +2,23 @@
 % Please edit documentation in R/glca.R
 \name{glca}
 \alias{glca}
-\title{Fitting Latent Class Analysis with Grouped Data}
+\title{Fits Latent Class Analysis Including Group Variable and Covariates}
 \usage{
 glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
   measure_inv = TRUE, std_err = TRUE, init_param = NULL,
-  n_init = 1, maxiter = 1000, eps = 1e-10, na.rm = FALSE,
-  verbose = TRUE)
+  n_init = 1, maxiter = 5000, eps = 1e-10, na.rm = FALSE,
+  random.seed = NULL, verbose = TRUE)
 }
 \arguments{
 \item{formula}{a formula for specifying manifest items using the "\code{item}" function and covariates.}
 
-\item{group}{an optional vector specifying a group of observations, which can be include group covariates using "\code{group}" function}
+\item{group}{an optional vector specifying a group of observations, which can be include group covariates using "\code{group}" function. given group variable, group covariates can be incorporated.}
 
-\item{data}{a data frame containing the manifest item, covariates and group.}
+\item{data}{a data frame containing the manifest item, covariates and group variable.}
 
 \item{nclass}{number of latent classes. default is 3.}
 
-\item{ncluster}{number of level 2 latent classes. default is 0.}
+\item{ncluster}{number of level 2 latent classes. given ncluster and group variable, the MLCA will be fitted.}
 
 \item{measure_inv}{a logical value of the assumption of measurement invariance across groups.}
 
@@ -32,14 +32,16 @@ glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
 
 \item{eps}{positive convergence tolerance.}
 
-\item{na.rm}{a logical value whether or not to remove observations which has at least 1 item.}
+\item{na.rm}{a logical value whether or not to remove observations missing at least 1 item.}
+
+\item{random.seed}{random seed which generates the seed from R}
 
 \item{verbose}{a logical value for whether or not to print the result of a function's execution.}
 }
 \value{
 \code{glca} returns an object of class "\code{glca}".
 
-The function \code{summary} prints estimates for parameters and \code{anova} function gives goodness of fit measures for the model.
+The function \code{summary} prints estimates for parameters and \code{glca.gof} function gives goodness of fit measures for the model.
 
 An object of class "\code{glca}" is a list containing at least the following components:
 
@@ -49,66 +51,66 @@ An object of class "\code{glca}" is a list containing at least the following com
 \item{param}{a list of parameter estimates.}
 \item{std.err}{a list of standard error for estimates}
 \item{coefficient}{a list of model coefficients for prevalence.}
-\item{posterior}{a data frame with posterior probablity of each individaul for latent classes}
+\item{posterior}{a data frame with posterior probablity of each individaul for latent classes and each group for latent clusters}
 \item{count}{a data frame with unique patterns of manifest items and corresponding observed and predicted counts.}
 \item{gof}{a list of goodness of fit measures, i.e. AIC, BIC, and log-likelihood.}
 \item{convergence}{a list about convergence which contains whether or not it has been converged, number of iterations and scores.}
 }
 \description{
-Function for fitting LCA models with multiple group. Multiple Group Latent Class Analysis and Multilevel Latent Class Analysis can be fitted.
+Function for fitting LCA models with multiple groups, which may include latent class structure for group variable.
 }
 \details{
 The formula should consist of an \code{~} operator between two sides. Manifest items should be indicated in LHS of formula using \code{item} function and covariates should be specified in RHS of formula. For example, \cr
 \code{item(y1, y2, y3) ~ 1}\cr
 \code{item(y1, y2, y3) ~ x1 + x2}
 
-There are two type of covariates on \code{glca} model. If covariates are varies across individuals, the covariates are considered as level 1 covariates. Given group, if covariates are varies across groups, the covariates are considered as level 2 covariates. Both type of covariates have an effect on class prevalence.
+In \code{glca}, manifest items should be categorical variable and the probability of each category of manifest items varies across latent classes. This probabilities are called "item response probability" (\code{rho} in \code{glca} output). The latent variables (i.e latent class or latent cluster) are categorical as well. The parameters indicating probability of each category is called "prevalence" (\code{delta}, \code{gamma} in \code{glca} output). The prevalence for latent class (\code{gamma}) can be modeled with covariates. Using logistic regression, coefficients for each covariates (\code{beta} in \code{glca} output) can be estimated.
 
-The \code{glca} models are latent class models which assumes latent categorical variable (i.e latent cluster or latent class). Since those latent variabels are categorical, there are parameters indicating probability of each category and it is called "prevalence". According to latent variable, each manifest item behaves differently. Since for \code{glca} models, manifest items should be categorical variable, behaviors of manifest items can be depicted with multinomial distribution. And the probability of each category (differs according to latent class) is called "item response probability".
-
-The parameters to be estimated are \code{delta}, \code{gamma}, \code{beta}, and \code{rho}. \code{delta} are prevalences of latent clusters, a latent categorical variables of groups, \code{gamma} are prevalences of latent classes (according to latent cluster for multilevel LCA), a latent categorical variables of individuals, \code{beta} are covariates coefficient for \code{gamma}, and \code{rho} are item response probabilities.
+\code{glca} can handle two types of covariates. If covariates vary across individuals, the covariates are considered as level-1 covariates. Given group, and the covariates varying across groups are considered as level-2 covariates. Both type of covariates have an effect on class prevalence. These covariate type will be automatically detected by \code{glca}.
 }
 \examples{
 ##
 ## Example 1. GSS dataset
 ##
 data("gss")
-# Two-classLCA
-lca1 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-            data = gss, nclass = 2)
 
-# Three-classLCA
-summary(lca1)
-lca2 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-            data = gss, nclass = 3)
-summary(lca2)
-anova(lca1, lca2)
-anova(lca1, lca2, nboot = 25)
+# LCA
+lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+            data = gss, nclass = 4)
+summary(lca)
 
-# Three-class LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ AGE,
-           data = gss, nclass = 3)
+# LCA with covariate(s)
+lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+           data = gss, nclass = 4)
 summary(lcr)
 coef(lcr)
 
 # Multitple Group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE, ABANY) ~ 1,
-             group = DEGREE, data = gss, nclass = 3)
+mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+             group = DEGREE, data = gss, nclass = 4)
 summary(mglca)
+
+# Multitple Group LCA with Covariates (MGLCR)
+mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ SEX,
+             group = DEGREE, data = gss, nclass = 3)
+summary(mglcr)
+coef(mglcr)
 
 ##
 ## Example 2. BRFSS data
 ##
 data("brfss")
+
 # Multilevel LCA (MLCA)
-brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
+brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
 mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-            group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
+            group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlca)
 
-# MLCA with covariates
+# MLCA with Covariates (MLCR)
+# (SEX: level-1 covariate, REGION: level-2 covariate)
 mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
-            group = STATE, data = brfss2000, nclass = 3, ncluster = 3)
+            group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 
@@ -117,4 +119,10 @@ coef(mlcr)
 Jeroen K. Vermunt (2003). \emph{7. Multilevel Latent Class Models}. Sociological Methodology, 33(1), 213–239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}
 
 Linda M. Collins, Stephanie T. Lanza (2009). \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
+}
+\seealso{
+\code{\link{gss}} \code{\link{brfss}}
+}
+\author{
+Youngsun Kim
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/coef.glca.R
 \name{coef.glca}
 \alias{coef.glca}
-\title{Extract \code{glca} Model Coefficients.}
+\title{Extracts \code{glca} Model Coefficients.}
 \usage{
 \method{coef}{glca}(object, digits = max(3, getOption("digits") - 3),
   show.signif.stars = getOption("show.signif.stars"), ...)
@@ -22,7 +22,7 @@ Coefficient matrix from the \code{glca} model.
 If the model has been calculated standard error, coefficient matrix contains standard error and t, p-value.
 }
 \description{
-Basically, show AIC and BIC for model fit criteria. When \code{nboot} given, using parametric bootstrap, compute bootstrap p-value for "relative" and "absolute" model fit.
+Extracts \code{glca} model coefficients if the model includes covariates.
 }
 \examples{
 ## For examples see example(glca)

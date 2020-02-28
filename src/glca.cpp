@@ -762,7 +762,7 @@ NumericVector GetFitted(IntegerMatrix pattern,
    return fitted;
 }
 
-// Marginal likelihood for MLCA (without covariates)
+
 // [[Rcpp::export]]
 double GetUDlik(List y,
                 NumericVector delta,
@@ -1242,6 +1242,95 @@ NumericVector ObsCell(IntegerMatrix y,
 }
 
 // [[Rcpp::export]]
+double ObsLik(IntegerMatrix y,
+              int N,
+              int M,
+              IntegerVector R,
+              int maxiter,
+              double eps)
+{
+   int i, m, p, s, iter;
+   int npatt = 1, nmisp, tmpnr;
+   double beta = 0;
+   IntegerVector misp(M);
+   NumericVector pind(M);
+   double loglike;
+
+   for (m = 0; m < M; m ++)
+   {
+      npatt  *= R[m];
+      pind[m] = npatt / R[m];
+   }
+
+   NumericVector theta(npatt);
+   NumericVector n_theta(npatt);
+   NumericVector diff(npatt);
+   NumericVector x(npatt);
+
+   for (p = 0; p < npatt; p ++)
+   {
+      theta[p] = (double)N / (double)npatt;
+   }
+
+   for (iter = 0; iter < maxiter; iter ++)
+   {
+      loglike = 0;
+
+      for (p = 0; p < npatt; p ++) x[p] = 0;
+      for (i = 0; i < N; i ++)
+      {
+         nmisp = 1;
+         for (m = 0; m < M; m ++)
+         {
+            if (y(i, m) == 0) misp[m] = R[m];
+            else misp[m] = 1;
+            nmisp *= misp[m];
+         }
+
+         NumericVector tmpp(nmisp);
+         tmpnr = 1;
+         for (m = 0; m < M; m ++)
+         {
+            if (misp[m] == 1)
+            {
+               for (s = 0; s < nmisp; s ++)
+               {
+                  tmpp[s] += pind[m] * (y(i, m) - 1);
+               }
+            }
+            else
+            {
+               for (s = 0; s < nmisp; s ++)
+               {
+                  tmpp[s] += pind[m] * ((s / tmpnr) % misp[m]);
+               }
+               tmpnr = R[m];
+            }
+         }
+
+         beta = 0;
+         for (s = 0; s < nmisp; s ++)
+            beta += theta[tmpp[s]];
+         for (s = 0; s < nmisp; s ++)
+            x[tmpp[s]] += theta[tmpp[s]] / beta;
+         loglike += log(beta);
+      }
+      for (p = 0; p < npatt; p ++)
+      {
+         n_theta[p] = x[p] / N;
+         diff[p] = n_theta[p] - theta[p];
+         if (diff[p] < 0) diff[p] = -diff[p];
+      }
+      theta = clone(n_theta);
+
+      if (max(diff) < eps)
+         break;
+   }
+
+   return loglike;
+}
+
+// [[Rcpp::export]]
 IntegerVector ObsCell2(IntegerMatrix sy,
                        IntegerMatrix u,
                        int N,
@@ -1263,3 +1352,4 @@ IntegerVector ObsCell2(IntegerMatrix sy,
 
    return x;
 }
+

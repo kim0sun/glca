@@ -1,13 +1,13 @@
-#' Specify Manifest Items for \code{glca}.
+#' Specify Manifest Items for \code{glca}
 #'
 #' Specifying manifest items in formula of \code{glca} function.
 #'
-#' @param \dots vectors of manifest items. These can be given as named arguments which is colnames of data.frame
+#' @param \dots vectors of manifest items. These can be given as named arguments which is colnames of \code{data.frame}.
 #'
 #' @return
 #' a \code{matrix} of specified variables, which contains following attributes about items.
 #'
-#' Dimensions of \code{data.frmae}, names of items and level of items.
+#' Names and levels of manifest items.
 #'
 #' @seealso \code{\link{glca}}
 #'
