@@ -1254,7 +1254,7 @@ double ObsLik(IntegerMatrix y,
    double beta = 0;
    IntegerVector misp(M);
    NumericVector pind(M);
-   double loglike;
+   double loglike = 0;
 
    for (m = 0; m < M; m ++)
    {
