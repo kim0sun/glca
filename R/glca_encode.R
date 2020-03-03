@@ -100,14 +100,14 @@ glca_encode <- function(
               MGLCA will be fitted.")
          W <- 0
       } else {
-         W <- ncluster
+         W <- floor(ncluster)
          measure_inv <- TRUE
       }
    } else {
       W <- 0
    }
 
-   C <- nclass
+   C <- floor(nclass)
    npatt <- prod(R)
    if (npatt < 1e+6) {
       pattern <- as.matrix(expand.grid(lapply(1:M, function(m) 1:R[m])))
