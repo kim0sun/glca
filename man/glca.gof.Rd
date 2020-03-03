@@ -4,15 +4,17 @@
 \alias{glca.gof}
 \title{Goodness of Fit Tests for Fitted \code{glca} Model (AIC, BIC, Bootstrap p-value)}
 \usage{
-glca.gof(object, object2 = NULL, nboot = 25, random.seed = NULL,
-  maxiter = 1000, eps = 1e-06, verbose = TRUE)
+glca.gof(object, object2 = NULL, test = NULL, nboot = 25,
+  random.seed = NULL, maxiter = 500, eps = 1e-05, verbose = TRUE)
 }
 \arguments{
 \item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
 
 \item{object2}{an optional object of "\code{glca}" to be compared with former object.}
 
-\item{nboot}{number of bootstrap samples.}
+\item{test}{a character string, one of \code{"chisq"} or \code{"boot"}. given \code{"chisq"}, p-value of chisq-test for deviance will be computed, and given \code{"boot"}, bootstrap p-value for deviance will be computed.}
+
+\item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}}
 
 \item{random.seed}{random seed which generates the seed from \code{R}}
 
@@ -33,30 +35,36 @@ Provides model fit criteria such as AIC, BIC, deviance statistics\eqn{(G^2)} and
 ## Example 1.
 ## LCA model selection between two models with different number of latent classes.
 data(gss)
-class4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-              data = gss, n_init = 10, na.rm = TRUE, nclass = 4)
-class5 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-              data = gss, n_init = 10, na.rm = TRUE, nclass = 5)
+class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
+              data = gss, n_init = 10, nclass = 4)
+class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
+              data = gss, n_init = 10, nclass = 5)
 
-\dontrun{glca.gof(class4, class5)}
+glca.gof(class4, class5)
+\dontrun{glca.gof(class4, class5, test = "chisq")}
+\dontrun{glca.gof(class4, class5, test = "boot")}
 
 ## Example 2.
-## MGLCA model selection between two models with different number of latent clusters.
-cluster3 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 3, ncluster = 2)
-cluster4 = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 3, ncluster = 3)
+## MLCA model selection between two models with different number of latent clusters.
+cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
+                group = REGION, data = gss, nclass = 4, ncluster = 2, na.rm = TRUE)
+cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
+                group = REGION, data = gss, nclass = 4, ncluster = 3, na.rm = TRUE)
 
-\dontrun{glca.gof(cluster3, cluster4)}
+\dontrun{glca.gof(cluster2, cluster3)}
+\dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
+\dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
-measInv = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
                group = SEX, n_init = 10, data = gss, nclass = 4)
-measVar = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
                group = SEX, n_init = 10, data = gss, nclass = 4, measure_inv = FALSE)
 
 \dontrun{glca.gof(measInv, measVar)}
+\dontrun{glca.gof(measInv, measVar, test = "chisq")}
+\dontrun{glca.gof(measInv, measVar, test = "boot")}
 
 }
 \references{

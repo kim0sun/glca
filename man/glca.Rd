@@ -6,7 +6,7 @@
 \usage{
 glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
   measure_inv = TRUE, std_err = TRUE, init_param = NULL,
-  n_init = 1, maxiter = 5000, eps = 1e-10, na.rm = FALSE,
+  n_init = 1, maxiter = 5000, eps = 1e-06, na.rm = FALSE,
   random.seed = NULL, verbose = TRUE)
 }
 \arguments{
@@ -75,23 +75,23 @@ In \code{glca}, manifest items should be categorical variable and the probabilit
 data("gss")
 
 # LCA
-lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
             data = gss, nclass = 4)
 summary(lca)
 
 # LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ AGE,
            data = gss, nclass = 4)
 summary(lcr)
 coef(lcr)
 
 # Multitple Group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
              group = DEGREE, data = gss, nclass = 4)
 summary(mglca)
 
 # Multitple Group LCA with Covariates (MGLCR)
-mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ SEX,
+mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ SEX,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
