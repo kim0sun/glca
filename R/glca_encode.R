@@ -68,7 +68,7 @@ glca_encode <- function(
              "observation(s) are deleted.\n\n")
    }
 
-   if (na.rm) {
+   if (na.rm & length(isna) > 0) {
       Y <- Y[-isna, , drop = FALSE]
       X <- X[-isna, , drop = FALSE]
       Z <- Z[-isna, , drop = FALSE]

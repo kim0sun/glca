@@ -1313,8 +1313,11 @@ double ObsLik(IntegerMatrix y,
             beta += theta[tmpp[s]];
          for (s = 0; s < nmisp; s ++)
             x[tmpp[s]] += theta[tmpp[s]] / beta;
-         loglike += log(beta);
+
+         if (beta != 0)
+            loglike += log(beta);
       }
+
       for (p = 0; p < npatt; p ++)
       {
          n_theta[p] = x[p] / N;
