@@ -1,6 +1,6 @@
 glca_encode <- function(
-   mf, data, nclass, ncluster,
-   measure_inv, na.rm, verbose
+   call, mf, data, nclass, ncluster,
+   measure.inv, na.rm, verbose
 )
 {
    # Import data
@@ -58,14 +58,13 @@ glca_encode <- function(
    z.names <- colnames(Z)
 
    if (verbose) {
-      cat("Among original", dataN, "observations,")
+      cat("Deleted observation(s) : \n")
       if (na.rm)
-         cat("\nMissing at least 1 variable :", dataN - modelN - length(isna),
-             "observation(s) are deleted.\n\n")
+         cat(dataN - modelN + length(isna),
+             "observation(s) for missing at least 1 variable \n\n")
       else
-         cat("\nMissing at least 1 covariate :", dataN - modelN,
-             "observation(s), \nMissing all item :", length(totmis),
-             "observation(s) are deleted.\n\n")
+         cat(length(totmis), "observation(s) for missing all manifest items\n",
+             dataN - modelN, "observation(s) for missing at least 1 covariates\n\n")
    }
 
    if (na.rm & length(isna) > 0) {
@@ -101,37 +100,44 @@ glca_encode <- function(
          W <- 0
       } else {
          W <- floor(ncluster)
-         measure_inv <- TRUE
+         measure.inv <- TRUE
       }
    } else {
       W <- 0
    }
 
    C <- floor(nclass)
-   npatt <- prod(R)
+   npatt <- prod(R) * G
+
    if (npatt < 1e+6) {
-      pattern <- as.matrix(expand.grid(lapply(1:M, function(m) 1:R[m])))
-      obsvd <- ObsCell(as.matrix(Y), N, M, R, 1000, 1e-8)
-      loglik0 <- ObsLik(as.matrix(Y), N, M, R, 1000, 1e-8)
+      pattern <- as.matrix(expand.grid(
+         c(lapply(1:M, function(m) 1:R[m]), list(1:G))))
+      obsvd <- ObsCell(as.matrix(cbind(Y, grp)),
+                       N, M + 1, c(R, G), 1000, 1e-8)
+
+      loglikg <- numeric(G)
+      for (g in 1:G)
+         loglikg[[g]] <- ObsLik(as.matrix(Y[grp == g, ]),
+                                Ng[g], M, R, 1000, 1e-8)
+
+      loglik0 <- sum(loglikg)
    } else {
       Y0 <- Y[rowSums(Y == 0) == 0,]
-      Y.sorted <- Y0[do.call(order, data.frame(Y0)),]
+      g0 <- grp[rowSums(Y == 0) == 0]
+      Yg <- cbind(Y0, g0)
+      Y.sorted <- Yg[do.call(order, data.frame(Yg)[(M + 1):1]),]
       pattern <- as.matrix(unique(Y.sorted))
       obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
                         nrow(Y.sorted), nrow(pattern))
-      loglik0 <- sum(obsvd * log(obsvd / sum(obsvd)))
+      loglikg <- numeric(G)
+      for (g in 1:G) {
+         tmp = obsvd[Y.sorted[, M + 1] == g]
+         loglikg[[g]] <- sum(tmp * log(tmp / sum(tmp)))
+      }
+
+      loglik0 <- sum(loglikg)
    }
-   dimnames(pattern) = list(NULL, y.names)
-
-   # if (W > 0) {
-   #    like = numeric(G)
-   #    for (g in 1:G)
-   #    {
-   #       like[g] = ObsLik(y[[g]], nrow(y[[g]]), M, R, 1000, 1e-8)
-   #    }
-   #    loglik0 = sum(like)
-   # }
-
+   dimnames(pattern) = list(NULL, c(y.names, deparse(call$group)))
 
    if (W == 0) {
       if (P == 1) {
@@ -139,7 +145,7 @@ glca_encode <- function(
             type <- "Standard LCA"
          else
             type <- "Multigroup LCA"
-         if (measure_inv)
+         if (measure.inv)
             npar <- G * (C - 1) + C * sum(R - 1)
          else
             npar <- G * (C - 1) + G * C * sum(R - 1)
@@ -148,7 +154,7 @@ glca_encode <- function(
             type <- "Standard LCA with Covariates"
          else
             type <- "Multigroup LCA with Covariates"
-         if (measure_inv)
+         if (measure.inv)
             npar <- G * (C - 1) * P + C * sum(R - 1)
          else
             npar <- G * (C - 1) * P + G * C * sum(R - 1)
@@ -169,7 +175,7 @@ glca_encode <- function(
                            observed = obsvd,
                            loglik0 = loglik0),
            model = list(type = type,
-                        measure_inv = measure_inv,
+                        measure.inv = measure.inv,
                         N = N, Ng = Ng, G = G,
                         C = C, W = W, M = M, R = R,
                         P = P, Q = Q,
