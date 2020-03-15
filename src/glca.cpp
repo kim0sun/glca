@@ -733,31 +733,23 @@ double GetLik(List y,
 // Marginal likelihood for MGLCA
 // [[Rcpp::export]]
 NumericVector GetFitted(IntegerMatrix pattern,
-                        List gamma,
+                        NumericMatrix gamma,
                         List rho,
-                        IntegerVector Ng,
-                        int G,
+                        int N,
                         int C,
                         int M,
                         IntegerVector R)
 {
-   int g;
    NumericVector fitted(pattern.nrow());
 
-   for (g = 0; g < G; g ++)
-   {
-      NumericVector fitted_g(Ng[g]);
-      NumericMatrix gamma_g = gamma[g];
+   // Avoid numerical underflow
+   NumericMatrix clike =
+      std::numeric_limits<double>::max() * clone(gamma);
 
-      // Avoid numerical underflow
-      NumericMatrix clike_g =
-         std::numeric_limits<double>::max() * clone(gamma_g);
-
-      clike_g = MeasProd(pattern, rho[g], pattern.nrow(),
-                         C, M, R, clone(clike_g));
-      fitted +=
-         rowSums(clike_g) / std::numeric_limits<double>::max() * Ng[g];
-   }
+   clike = MeasProd(pattern, rho, pattern.nrow(),
+                    C, M, R, clone(clike));
+   fitted =
+      rowSums(clike) / std::numeric_limits<double>::max() * N;
 
    return fitted;
 }
@@ -808,32 +800,26 @@ double GetUDlik(List y,
 // [[Rcpp::export]]
 NumericVector GetUDfit(IntegerMatrix pattern,
                        NumericVector delta,
-                       List gamma_m,
+                       NumericVector gamma_m,
                        List rho,
-                       IntegerVector Ng,
-                       int G,
+                       int N,
                        int W,
                        int C,
                        int M,
                        IntegerVector R)
 {
-   int i, g, w, c;
+   int i, w, c;
    NumericVector fitted(pattern.nrow());
 
    NumericMatrix MeasP =
       MeasProd1(pattern, rho, pattern.nrow(), C, M, R);
 
-   for (g = 0; g < G; g ++)
-   {
-      NumericMatrix gamma_g = gamma_m[g];
-
-      for (i = 0; i < pattern.nrow(); i ++)
-         for (w = 0; w < W; w ++)
-            for (c = 0; c < C; c ++)
-               fitted[i] +=
-                  delta[w] * gamma_g(w, c) * MeasP(i, c) /
-                  std::numeric_limits<double>::max() * Ng[g];
-   }
+   for (i = 0; i < pattern.nrow(); i ++)
+      for (w = 0; w < W; w ++)
+         for (c = 0; c < C; c ++)
+            fitted[i] +=
+               delta[w] * gamma_m(w, c) * MeasP(i, c) /
+               std::numeric_limits<double>::max() * N;
 
    return fitted;
 }
@@ -1355,4 +1341,3 @@ IntegerVector ObsCell2(IntegerMatrix sy,
 
    return x;
 }
-

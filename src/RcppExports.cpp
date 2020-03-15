@@ -223,20 +223,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // GetFitted
-NumericVector GetFitted(IntegerMatrix pattern, List gamma, List rho, IntegerVector Ng, int G, int C, int M, IntegerVector R);
-RcppExport SEXP _glca_GetFitted(SEXP patternSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP) {
+NumericVector GetFitted(IntegerMatrix pattern, NumericMatrix gamma, List rho, int N, int C, int M, IntegerVector R);
+RcppExport SEXP _glca_GetFitted(SEXP patternSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerMatrix >::type pattern(patternSEXP);
-    Rcpp::traits::input_parameter< List >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type gamma(gammaSEXP);
     Rcpp::traits::input_parameter< List >::type rho(rhoSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type Ng(NgSEXP);
-    Rcpp::traits::input_parameter< int >::type G(GSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
     Rcpp::traits::input_parameter< int >::type C(CSEXP);
     Rcpp::traits::input_parameter< int >::type M(MSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type R(RSEXP);
-    rcpp_result_gen = Rcpp::wrap(GetFitted(pattern, gamma, rho, Ng, G, C, M, R));
+    rcpp_result_gen = Rcpp::wrap(GetFitted(pattern, gamma, rho, N, C, M, R));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -261,22 +260,21 @@ BEGIN_RCPP
 END_RCPP
 }
 // GetUDfit
-NumericVector GetUDfit(IntegerMatrix pattern, NumericVector delta, List gamma_m, List rho, IntegerVector Ng, int G, int W, int C, int M, IntegerVector R);
-RcppExport SEXP _glca_GetUDfit(SEXP patternSEXP, SEXP deltaSEXP, SEXP gamma_mSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP WSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP) {
+NumericVector GetUDfit(IntegerMatrix pattern, NumericVector delta, NumericVector gamma_m, List rho, int N, int W, int C, int M, IntegerVector R);
+RcppExport SEXP _glca_GetUDfit(SEXP patternSEXP, SEXP deltaSEXP, SEXP gamma_mSEXP, SEXP rhoSEXP, SEXP NSEXP, SEXP WSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerMatrix >::type pattern(patternSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type delta(deltaSEXP);
-    Rcpp::traits::input_parameter< List >::type gamma_m(gamma_mSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type gamma_m(gamma_mSEXP);
     Rcpp::traits::input_parameter< List >::type rho(rhoSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type Ng(NgSEXP);
-    Rcpp::traits::input_parameter< int >::type G(GSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
     Rcpp::traits::input_parameter< int >::type W(WSEXP);
     Rcpp::traits::input_parameter< int >::type C(CSEXP);
     Rcpp::traits::input_parameter< int >::type M(MSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type R(RSEXP);
-    rcpp_result_gen = Rcpp::wrap(GetUDfit(pattern, delta, gamma_m, rho, Ng, G, W, C, M, R));
+    rcpp_result_gen = Rcpp::wrap(GetUDfit(pattern, delta, gamma_m, rho, N, W, C, M, R));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -467,9 +465,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glca_GetUDScore", (DL_FUNC) &_glca_GetUDScore, 10},
     {"_glca_GetUDScoreX", (DL_FUNC) &_glca_GetUDScoreX, 14},
     {"_glca_GetLik", (DL_FUNC) &_glca_GetLik, 8},
-    {"_glca_GetFitted", (DL_FUNC) &_glca_GetFitted, 8},
+    {"_glca_GetFitted", (DL_FUNC) &_glca_GetFitted, 7},
     {"_glca_GetUDlik", (DL_FUNC) &_glca_GetUDlik, 10},
-    {"_glca_GetUDfit", (DL_FUNC) &_glca_GetUDfit, 10},
+    {"_glca_GetUDfit", (DL_FUNC) &_glca_GetUDfit, 9},
     {"_glca_GetUDlikX", (DL_FUNC) &_glca_GetUDlikX, 10},
     {"_glca_GetDeriv", (DL_FUNC) &_glca_GetDeriv, 6},
     {"_glca_UpDelta", (DL_FUNC) &_glca_UpDelta, 1},

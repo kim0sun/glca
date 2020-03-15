@@ -45,16 +45,16 @@ GetLik <- function(y, gamma, rho, Ng, G, C, M, R) {
     .Call(`_glca_GetLik`, y, gamma, rho, Ng, G, C, M, R)
 }
 
-GetFitted <- function(pattern, gamma, rho, Ng, G, C, M, R) {
-    .Call(`_glca_GetFitted`, pattern, gamma, rho, Ng, G, C, M, R)
+GetFitted <- function(pattern, gamma, rho, N, C, M, R) {
+    .Call(`_glca_GetFitted`, pattern, gamma, rho, N, C, M, R)
 }
 
 GetUDlik <- function(y, delta, gamma, rho, Ng, G, W, C, M, R) {
     .Call(`_glca_GetUDlik`, y, delta, gamma, rho, Ng, G, W, C, M, R)
 }
 
-GetUDfit <- function(pattern, delta, gamma_m, rho, Ng, G, W, C, M, R) {
-    .Call(`_glca_GetUDfit`, pattern, delta, gamma_m, rho, Ng, G, W, C, M, R)
+GetUDfit <- function(pattern, delta, gamma_m, rho, N, W, C, M, R) {
+    .Call(`_glca_GetUDfit`, pattern, delta, gamma_m, rho, N, W, C, M, R)
 }
 
 GetUDlikX <- function(y, delta, gamma, rho, Ng, G, W, C, M, R) {
