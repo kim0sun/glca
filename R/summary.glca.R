@@ -2,9 +2,9 @@
 #'
 #' \code{summary} method for class "\code{glca}".
 #'
-#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
-#' @param digits the number of digits to be printed.
-#' @param ... further arguments passed to or from other methods.
+#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}
+#' @param digits the number of digits to be printed
+#' @param ... further arguments passed to or from other methods
 #'
 #' @return This function prints decriptions of model and its more detailed estimated parameters but returns \code{NULL}.
 #'
@@ -93,8 +93,8 @@ summary.glca <- function(
             print(round(param$rho[[1]][[m]], digits))
          }
       } else {
-         if (object$model$measure_inv) {
-            cat("Rho (invariant across group) :\n")
+         if (object$model$measure.inv) {
+            cat("Rho (invariant across groups) :\n")
 
             for (m in 1:object$model$M) {
                cat(object$var.names$y.names[m], "\n")
