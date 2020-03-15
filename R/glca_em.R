@@ -1,6 +1,6 @@
 glca_em <- function(
    model, datalist, init,
-   verbose, maxiter, eps
+   miniter, maxiter, eps, verbose
 )
 {
    Ng <- model$Ng; G <- model$G
@@ -24,20 +24,20 @@ glca_em <- function(
    # EM iteration
    if (W == 0) {
       if (P == 1) {
-         for (iter in 1:maxiter)
+         for (iter in miniter:maxiter)
          {
             # E-step
             Post <- GetPost(y, gamma, rho, Ng, G, C, M, R)
 
             # M-step
             n_gamma <- UpGamma(Post, Ng, G, C)
-            if (model$measure_inv)
+            if (model$measure.inv)
                n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
             else
                n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
 
-            maxdiff <- max(max(unlist(n_gamma) - unlist(gamma)),
-                          max(unlist(n_rho) - unlist(rho)))
+            maxdiff <- max(max(abs(unlist(n_gamma) - unlist(gamma))),
+                           max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose)
                if (iter %% 100 == 0)
@@ -54,7 +54,7 @@ glca_em <- function(
          param$gamma <- n_gamma
          param$rho   <- n_rho
       } else {
-         for (iter in 1:maxiter)
+         for (iter in miniter:maxiter)
          {
             # E-step
             exb <- lapply(1:G, function(g) exp(x[[g]] %*% beta[[g]]))
@@ -77,13 +77,13 @@ glca_em <- function(
                next
             }
 
-            if (model$measure_inv)
+            if (model$measure.inv)
                n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
             else
                n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
 
-            maxdiff <- max(max(unlist(n_beta) - unlist(beta)),
-                          max(unlist(n_rho) - unlist(rho)))
+            maxdiff <- max(max(abs(unlist(n_beta) - unlist(beta))),
+                           max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose)
                if (iter %% 100 == 0)
@@ -102,13 +102,19 @@ glca_em <- function(
          param$rho   <- n_rho
       }
 
-      gamma_m = lapply(gamma, function(g)
-         matrix(colMeans(g), nrow(pattern), C, byrow = TRUE))
-      fitted <- GetFitted(pattern, gamma_m, rho, Ng, G, C, M, R)
+      fitted <- list()
+      for (g in 1:G) {
+         tmp_patt <- pattern[pattern[, M + 1] == g, 1:M]
+         gamma_m <- matrix(colMeans(gamma[[g]]),
+                           nrow(tmp_patt), C, byrow = TRUE)
+         fitted[[g]] <- GetFitted(tmp_patt, gamma_m, rho[[g]], Ng[g], C, M, R)
+      }
+      fitted <- unlist(fitted)
+
       llik <- GetLik(y, gamma, rho, Ng, G, C, M, R)
    } else {
       if (P == 1 && Q == 0) {
-         for (iter in 1:maxiter) {
+         for (iter in miniter:maxiter) {
             # E-step
             Post <- GetUDPost(y, delta, gamma, rho, Ng, G, W, C, M, R)
 
@@ -117,8 +123,9 @@ glca_em <- function(
             n_gamma <- UpGammaML(Post$PostWC, W, C)
             n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
 
-            maxdiff <- max(max(unlist(n_gamma) - unlist(gamma)),
-                          max(unlist(n_rho) - unlist(rho)))
+            maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),
+                           max(abs(unlist(n_gamma) - unlist(gamma))),
+                           max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose)
                if (iter %% 100 == 0)
@@ -140,7 +147,7 @@ glca_em <- function(
          llik <- GetUDlik(y, delta, gamma, rho, Ng, G, W, C, M, R)
          gamma_m = lapply(1:G, function(g) gamma)
       } else {
-         for (iter in 1:maxiter) {
+         for (iter in miniter:maxiter) {
             # E-step
             if (Q > 0)
                beta2 <- matrix(
@@ -182,8 +189,9 @@ glca_em <- function(
             }
             n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
 
-            maxdiff <- max(max(n_beta - beta),
-                          max(unlist(n_rho) - unlist(rho)))
+            maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),
+                           max(abs(unlist(n_beta) - unlist(beta))),
+                           max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose)
                if (iter %% 100 == 0)
@@ -208,16 +216,22 @@ glca_em <- function(
             t(sapply(gamma[[g]], function(w) colMeans(w))))
       }
 
-      fitted = GetUDfit(pattern, delta, gamma_m, rho, Ng, G, W, C, M, R)
+      fitted = list()
+      for (g in 1:G) {
+         tmp_patt <- pattern[pattern[, M + 1] == g, 1:M]
+         fitted[[g]] = GetUDfit(tmp_patt, delta, gamma_m[[g]], rho,
+                           Ng[g], W, C, M, R)
+      }
+      fitted = unlist(fitted)
    }
 
    if (verbose) {
       if (converged)
-         cat("\nConverged at ", iter, " iteration (loglike :",
+         cat("\nConverged at ", iter, " iteration (loglik :",
              llik, ")\n", sep = "")
       else
          cat("\nIteration End, Not Converged",
-         " (log-like : ", llik, ")\n", sep = "")
+         " (loglik : ", llik, ")\n", sep = "")
    }
 
    return(

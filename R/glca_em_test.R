@@ -1,6 +1,6 @@
 glca_em_test <- function(
-   model, datalist,
-   n_init, verbose
+   model, datalist, n.init,
+   testiter, eps, verbose
 )
 {
    Ng <- model$Ng; G <- model$G
@@ -12,23 +12,25 @@ glca_em_test <- function(
    x <- datalist$x; z <- datalist$z
 
    init_list = list()
-   llik = numeric(n_init)
+   llik = numeric(n.init)
+   niters = numeric(n.init)
 
-   for (rep in 1:n_init) {
-      init_ran = glca_init(model)
+   for (rep in 1:n.init) {
+      init.ran = glca_init(model)
 
-      delta <- init_ran$delta
-      gamma <- init_ran$gamma
-      beta  <- init_ran$beta
-      rho   <- init_ran$rho
+      delta <- init.ran$delta
+      gamma <- init.ran$gamma
+      beta  <- init.ran$beta
+      rho   <- init.ran$rho
 
       if (verbose) cat("SET :", rep, " ")
       iter <- 0
+      maxdiff <- 0
 
       # EM iteration
       if (W == 0) {
          if (P == 1) {
-            while (iter <= 100)
+            while (iter <= testiter)
             {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
@@ -37,13 +39,15 @@ glca_em_test <- function(
 
                # M-step
                n_gamma <- UpGamma(Post, Ng, G, C)
-               if (model$measure_inv)
+               if (model$measure.inv)
                   n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
                else
                   n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
 
-               maxdiff <- max(max(unlist(n_gamma) - unlist(gamma)),
-                              max(unlist(n_rho) - unlist(rho)))
+               maxdiff <- max(max(abs(unlist(n_gamma) - unlist(gamma))),
+                              max(abs(unlist(n_rho) - unlist(rho))))
+
+               if (maxdiff < eps) break
 
                gamma <- n_gamma
                rho <- n_rho
@@ -55,7 +59,7 @@ glca_em_test <- function(
             )
 
          } else {
-            while (iter <= 100)
+            while (iter <= testiter)
             {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
@@ -72,10 +76,15 @@ glca_em_test <- function(
                   n_beta[[g]] = beta[[g]] + diff
                }
 
-               if (model$measure_inv)
+               if (model$measure.inv)
                   n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
                else
                   n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
+
+               maxdiff <- max(max(abs(unlist(n_beta) - unlist(beta))),
+                              max(abs(unlist(n_rho) - unlist(rho))))
+
+               if (maxdiff < eps) break
 
                beta <- n_beta
                rho <- n_rho
@@ -95,7 +104,7 @@ glca_em_test <- function(
          }
       } else {
          if (P == 1 && Q == 0) {
-            while (iter <= 100) {
+            while (iter <= testiter) {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
 
@@ -106,6 +115,12 @@ glca_em_test <- function(
                n_delta <- UpDelta(Post$PostW)
                n_gamma <- UpGammaML(Post$PostWC, W, C)
                n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
+
+               maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),
+                              max(abs(unlist(n_gamma) - unlist(gamma))),
+                              max(abs(unlist(n_rho) - unlist(rho))))
+
+               if (maxdiff < eps) break
 
                delta <- n_delta
                gamma <- n_gamma
@@ -118,7 +133,7 @@ glca_em_test <- function(
             )
 
          } else {
-            while (iter <= 100) {
+            while (iter <= testiter) {
                iter <- iter + 1
                if (iter %% 10 == 0 && verbose) cat(".")
 
@@ -154,6 +169,12 @@ glca_em_test <- function(
                   Post$hess) %*% Post$grad, TRUE)
                n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
 
+               maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),
+                              max(abs(unlist(n_beta) - unlist(beta))),
+                              max(abs(unlist(n_rho) - unlist(rho))))
+
+               if (maxdiff < eps) break
+
                delta <- n_delta
                beta  <- n_beta
                rho   <- n_rho
@@ -174,7 +195,8 @@ glca_em_test <- function(
          }
       }
 
-      if (verbose) cat("log-like :", llik[rep], "\n")
+      if (verbose) cat("loglik :", llik[rep], "\n")
+      niters[rep] <- iter
    }
 
    if (verbose) cat("\nStart with SET ", which.max(llik),
@@ -182,6 +204,7 @@ glca_em_test <- function(
                     ")\n\n", sep = "")
 
    param = init_list[[which.max(llik)]]
+   niter = niters[which.max(llik)]
 
-   return(param)
+   return(list(param = param, niter = niter))
 }
