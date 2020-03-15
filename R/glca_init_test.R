@@ -1,21 +1,21 @@
 glca_init_test <- function(
-   init_param, init_random, verbose
+   init.param, init.random, verbose
 )
 {
-   if (is.null(init_param))
-      return(init_random)
+   if (is.null(init.param))
+      return(init.random)
 
    init = list()
-   pars = names(init_random)
+   pars = names(init.random)
 
-   if (is.matrix(init_param$gamma) && is.null(init_param$delta))
-      init_param$gamma = lapply(1:nrow(init_param$gamma), function(g)
-         matrix(init_param$gamma[g, ], nrow(init_random$gamma[[g]]),
-                ncol(init_param$gamma), byrow = TRUE))
+   if (is.matrix(init.param$gamma) && is.null(init.param$delta))
+      init.param$gamma = lapply(1:nrow(init.param$gamma), function(g)
+         matrix(init.param$gamma[g, ], nrow(init.random$gamma[[g]]),
+                ncol(init.param$gamma), byrow = TRUE))
 
    for (par in pars) {
-      cust = getElement(init_param, par)
-      rand = getElement(init_random, par)
+      cust = getElement(init.param, par)
+      rand = getElement(init.random, par)
       if (par != "rho") {
          cust = list(cust)
          rand = list(rand)
@@ -30,10 +30,10 @@ glca_init_test <- function(
       identical(str1, str2)
       if (!identical(str1, str2, ignore.environment = TRUE)) {
          if (verbose) cat(par, "is randomly generated.\n")
-         init[[par]] = getElement(init_random, par)
+         init[[par]] = getElement(init.random, par)
       } else {
          if (verbose) cat(par, "is user-defined.\n")
-         init[[par]] = getElement(init_param, par)
+         init[[par]] = getElement(init.param, par)
       }
    }
    if (verbose) cat("\n")
