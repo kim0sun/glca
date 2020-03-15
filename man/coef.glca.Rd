@@ -8,21 +8,21 @@
   show.signif.stars = getOption("show.signif.stars"), ...)
 }
 \arguments{
-\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
+\item{object}{an object of "\code{glca}"}
 
-\item{digits}{the number of significant digits to use when printing.}
+\item{digits}{number of significant digits to use when printing}
 
-\item{show.signif.stars}{logical. If TRUE, ‘significance stars’ are printed for each coefficient.}
+\item{show.signif.stars}{logical. If TRUE, ‘significance stars’ are printed for each coefficient}
 
-\item{...}{further arguments passed to or from other methods.}
+\item{...}{further arguments passed to or from other methods}
 }
 \value{
 Coefficient matrix from the \code{glca} model.
 
-If the model has been calculated standard error, coefficient matrix contains standard error and t, p-value.
+If the model has calculated standard errors, coefficient matrix contains standard errors and t-statistic and its p-value.
 }
 \description{
-Extracts \code{glca} model coefficients if the model includes covariates.
+Extracts regression coefficients of \code{glca} model if the model includes covariates.
 }
 \examples{
 ## For examples see example(glca)

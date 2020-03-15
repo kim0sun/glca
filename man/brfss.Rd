@@ -3,7 +3,7 @@
 \docType{data}
 \name{brfss}
 \alias{brfss}
-\title{Behavioral Risk Factor Surveillance System 2017}
+\title{Behavioral Risk Factor Surveillance System 2017 (BRFSS 2017)}
 \format{A data frame with 444023 observations on the following 10 variables.
 \describe{
 \item{\code{OBESE}}{(original : \code{_RFBMI5}) Adults who have a body mass index greater than 25.00 (Overweight or Obese)
@@ -16,16 +16,16 @@
 }
 \item{\code{FRTLT1A}}{(original : \code{_FRTLT1A}) Consume Fruit 1 or more times per day
 
-(1) Consumed fruit one or more times per day \cr
-(2) Consumed fruit less than one time per day}
+(1) Consumed fruit one or more times per day : Yes \cr
+(2) Consumed fruit less than one time per day : No}
 \item{\code{VEGLT1A}}{(original : \code{_VEGLT1A}) Consume Vegetables 1 or more times per day
 
-(1) Consumed vegetables one or more times per day \cr
-(2) Consumed vegetables less than one time per day}
+(1) Consumed vegetables one or more times per day : Yes\cr
+(2) Consumed vegetables less than one time per day : No}
 \item{\code{SMOKER}}{(original : \code{_SMOKER3}) Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
 
-(1) Current smoker - now smokes every day\cr
-(2) Current smoker - now smokes some days\cr
+(1) Current smoker - now smokes every day : Everyday smoker\cr
+(2) Current smoker - now smokes some days : Some day smoker\cr
 (3) Former smoker\cr
 (4) Never smoked
 }
@@ -45,7 +45,7 @@
 \url{https://doi.org/10.7910/DVN/42MVDX}
 }
 \description{
-This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, from the 2017 BRFSS survey. Data includes individual level covariates such as respondents’ gender and income levels. State is a group variable indicating the respondent's resides. States are categorized as 8 regions and 2 parties as they won the 2016 presidential election in the state.
+This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, and smoking and drinking behaviors from the BRFSS 2017 survey. State is a group variable indicating the respondent's residential state. The data includes both individual-level (level-1) and group-level (level-2) covariates. The level-1 covariates include respondents' gender and income level. The level-2 covariates are regions of the United States and political parties which won the 2016 presidential election in the state.
 }
 \examples{
 data("brfss")
@@ -85,8 +85,8 @@ summary(mlcr2)
 coef(mlcr2)
 }
 \references{
-Centers for Disease Control and Prevention (CDC). Behavioral Risk Factor Surveillance System Survey Data. Atlanta, Georgia: U.S. Department of Health and Human Services, Centers for Disease Control and Prevention, [2017].
+Centers for Disease Control and Prevention. (2017). 2017 Behavioral Risk Factor Surveillance System Survey Data. Retrieved from \url{https://www.cdc.gov/brfss/}.
 
-MIT Election Data and Science Lab, 2017, "U.S. President 1976–2016", Harvard Dataverse, V5.
+MIT Election Data and Science Lab, (2017). U.S. President 1976-2016. Retrieved from \url{https://doi.org/10.7910/DVN/42MVDX}.
 }
 \keyword{datasets}

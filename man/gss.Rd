@@ -9,7 +9,7 @@
 \item{\code{ABDEFECT}}{If there is a strong chance of serious defect in the baby?}
 \item{\code{ABNOMORE}}{If she is married and does not want any more children?}
 \item{\code{ABHLTH}}{If the womans own health is seriously endangered by the pregnancy?}
-\item{\code{ABPOOR}}{ If the family has a very low income and cannot afford any more children?}
+\item{\code{ABPOOR}}{If the family has a very low income and cannot afford any more children?}
 \item{\code{ABRAPE}}{If she became pregnant as a result of rape?}
 \item{\code{ABSINGLE}}{If she is not married and does not want to marry the man?}
 \item{\code{AGE}}{Respondent's age}
@@ -21,35 +21,35 @@
 \url{http://gss.norc.org}
 }
 \description{
-This dataset includes 7 manifest items about abortion and several covariates among 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include the age, sex, region, and degree of respondents.
+This dataset includes 6 manifest items about abortion and several covariates from 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, region, and degree of respondents.
 }
 \examples{
 data("gss")
 
 # Model 1: LCA
-lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
            data = gss, nclass = 3)
 summary(lca)
 
 # Model 2: LCA with a covariate
-lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
            data = gss, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Model 3: MGLCA
-mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-             group = DEGREE, data = gss, nclass = 3)
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = REGION, data = gss, nclass = 3)
 
 # Model 4: MGLCA with covariates
 summary(mglca)
-mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
              group = SEX, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
 # Model 5: MLCA
-mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+mlca =  glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
              group = REGION, data = gss, nclass = 3, ncluster = 2)
 summary(mlca)
 }

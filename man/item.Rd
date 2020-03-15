@@ -4,15 +4,17 @@
 \alias{item}
 \title{Specify Manifest Items for \code{glca}}
 \usage{
-item(...)
+item(..., starts.with = NULL, ends.with = NULL)
 }
 \arguments{
 \item{\dots}{vectors of manifest items. These can be given as named arguments which is colnames of \code{data.frame}.}
+
+\item{starts.with}{a string}
+
+\item{ends.with}{a string}
 }
 \value{
-a \code{matrix} of specified variables, which contains following attributes about items.
-
-Names and levels of manifest items.
+a \code{matrix} of specified variables, which contains names and levels of manifest items.
 }
 \description{
 Specifying manifest items in formula of \code{glca} function.

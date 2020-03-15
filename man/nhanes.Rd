@@ -11,6 +11,10 @@
 \item{\code{DPQ030}}{Trouble sleeping or sleeping too much}
 \item{\code{DPQ040}}{Feeling tired or having little energy}
 \item{\code{DPQ050}}{Poor appetite or overeating}
+\item{\code{DPQ060}}{Feeling bad about yourself}
+\item{\code{DPQ070}}{Trouble concentrating on things}
+\item{\code{DPQ080}}{Moving or speaking slowly or too fast}
+\item{\code{DPQ090}}{Thought you would be better off dead}
 \item{\code{AGE}}{Age in years at screening}
 \item{\code{GENDER}}{Respondent's Gender}
 \item{\code{RACE}}{Race/Hispanic origin w/ NH Asian}
@@ -19,35 +23,35 @@
 \url{https://wwwn.cdc.gov/Nchs/Nhanes/}
 }
 \description{
-There is a nine-item depression screening instrument of National Health and Nutrition Examination Survey, which can indicating mental health of respondents. Among thoes items, former 5 items are selected. And the covariates include gender, age, and race of respondents.
+There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 item are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those items are converted to binary, "Yes" or "No". The dataset includes gender, age, and race of respondents as covariates.
 }
 \examples{
 data("nhanes")
 
 # Model 1: LCA
-lca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+lca = glca(item(starts.with = "DPQ") ~ 1,
            data = nhanes, nclass = 2)
 summary(lca)
 
 # Model 2: LCA with covariate(s)
-lcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
+lcr = glca(item(starts.with = "DPQ") ~ AGE,
            data = nhanes, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Model 3: MGLCA
-mglca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+mglca = glca(item(starts.with = "DPQ") ~ 1,
              group = GENDER, data = nhanes, nclass = 3)
 summary(mglca)
 
 # Model 4: MGLCA with covariate(s)
-mglcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
+mglcr = glca(item(starts.with = "DPQ") ~ AGE,
              group = GENDER, data = nhanes, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
 # Model 5: MLCA
-mlca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+mlca = glca(item(starts.with = "DPQ") ~ 1,
             group = RACE, data = nhanes, nclass = 3, ncluster = 2)
 summary(mlca)
 }

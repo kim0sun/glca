@@ -2,34 +2,35 @@
 % Please edit documentation in R/glca.gof.R
 \name{glca.gof}
 \alias{glca.gof}
-\title{Goodness of Fit Tests for Fitted \code{glca} Model (AIC, BIC, Bootstrap p-value)}
+\title{Goodness of Fit Tests for Fitted \code{glca} Model}
 \usage{
 glca.gof(object, object2 = NULL, test = NULL, nboot = 25,
   random.seed = NULL, maxiter = 500, eps = 1e-05, verbose = TRUE)
 }
 \arguments{
-\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
+\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
 
-\item{object2}{an optional object of "\code{glca}" to be compared with former object.}
+\item{object2}{an optional object of "\code{glca}" to be compared with \code{object}}
 
-\item{test}{a character string, one of \code{"chisq"} or \code{"boot"}. given \code{"chisq"}, p-value of chisq-test for deviance will be computed, and given \code{"boot"}, bootstrap p-value for deviance will be computed.}
+\item{test}{a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})}
 
 \item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}}
 
-\item{random.seed}{random seed which generates the seed from \code{R}}
+\item{random.seed}{random seed to have the equivalent solution for every bootstrap trials}
 
-\item{maxiter}{an integer for maximum number of iteration for bootstrap sample.}
+\item{maxiter}{an integer for maximum number of iteration for bootstrap sample}
 
-\item{eps}{positive convergence tolerance for bootstrap sample.}
+\item{eps}{positive convergence tolerance for bootstrap sample}
 
-\item{verbose}{an logical value for whether or not to print the result of a function's execution.}
+\item{verbose}{an logical value for whether or not to print the result of a function's execution}
 }
 \value{
-\item{table}{a table with model fit criteria and bootstrap p-value.}
-\item{boot}{a list of \eqn{G^2} statistics from each bootstrap sample}
+\item{criteria}{a table with model fit criteria}
+\item{dev.table}{a table with deviance statistic and bootstrap p-value}
+\item{boot}{a list of LRT statistics from each bootstrap sample}
 }
 \description{
-Provides model fit criteria such as AIC, BIC, deviance statistics\eqn{(G^2)} and bootstrap p-value for "absolute" model fit. Given \code{object2}, it also computes bootstrap p-value for "relative" model fit. The bootstrap p-value is obtained from the empirical distribution of \eqn{G^2} statistics.
+Provides AIC, BIC, deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 }
 \examples{
 ## Example 1.
@@ -60,7 +61,7 @@ cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
 measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
                group = SEX, n_init = 10, data = gss, nclass = 4)
 measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, n_init = 10, data = gss, nclass = 4, measure_inv = FALSE)
+               group = SEX, n_init = 10, data = gss, nclass = 4, measure.inv = FALSE)
 
 \dontrun{glca.gof(measInv, measVar)}
 \dontrun{glca.gof(measInv, measVar, test = "chisq")}
@@ -68,11 +69,11 @@ measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
 
 }
 \references{
-Akaike H (1974). \emph{A New Look at the Statistical Model Identification.} IEEE Transactions on Automatic Control, 19, 716–723. \url{http://doi.org/10.1109/tac.1974.1100705}
+Akaike, H. (1974) A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, \bold{19}, 716–723. \url{http://doi.org/10.1109/tac.1974.1100705}
 
-Schwarz G (1978). \emph{Estimating the Dimensions of a Model.} The Annals of Statistics, 6, 461–464. \url{http://doi.org/10.1214/aos/1176344136}
+Schwarz, G. (1978) Estimating the dimensions of a model. \emph{The Annals of Statistics}, \bold{6}, 461–464. \url{http://doi.org/10.1214/aos/1176344136}
 
-LANGEHEINE, ROLF & Pannekoek, Jeroen & van de Pol, Frank. (1996). \emph{Bootstrapping Goodness-of-Fit Measures in Categorical Data Analysis.} Sociological Methods &amp Research. 24. 492-516. \url{http://doi.org/10.1177/0049124196024004004}
+Langeheine, R., Pannekoek, J., and van de Pol, F. (1996) Bootstrapping goodness-of-fit measures in categorical data analysis. \emph{Sociological Methods and Research}. \bold{24}. 492-516. \url{http://doi.org/10.1177/0049124196024004004}
 }
 \seealso{
 \code{\link{glca}} \code{\link{gss}}

@@ -2,71 +2,74 @@
 % Please edit documentation in R/glca.R
 \name{glca}
 \alias{glca}
-\title{Fits Latent Class Analysis Including Group Variable and Covariates}
+\title{Fits Latent Class Models for Data Containing Group Variable and Covariates}
 \usage{
 glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
-  measure_inv = TRUE, std_err = TRUE, init_param = NULL,
-  n_init = 1, maxiter = 5000, eps = 1e-06, na.rm = FALSE,
-  random.seed = NULL, verbose = TRUE)
+  measure.inv = TRUE, std.err = TRUE, init.param = NULL,
+  n.init = 1, testiter = 50, maxiter = 5000, eps = 1e-06,
+  na.rm = FALSE, random.seed = NULL, verbose = TRUE)
 }
 \arguments{
-\item{formula}{a formula for specifying manifest items using the "\code{item}" function and covariates.}
+\item{formula}{a formula for specifying manifest items and covariates using the "\code{item}" function}
 
-\item{group}{an optional vector specifying a group of observations, which can be include group covariates using "\code{group}" function. given group variable, group covariates can be incorporated.}
+\item{group}{an optional vector specifying a group of observations. given group variable, group covariates can be incorporated}
 
-\item{data}{a data frame containing the manifest item, covariates and group variable.}
+\item{data}{a data frame containing the manifest item, covariates and group variable}
 
-\item{nclass}{number of latent classes. default is 3.}
+\item{nclass}{number of level-1 (individual-level) latent classes}
 
-\item{ncluster}{number of level 2 latent classes. given ncluster and group variable, the MLCA will be fitted.}
+\item{ncluster}{number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted}
 
-\item{measure_inv}{a logical value of the assumption of measurement invariance across groups.}
+\item{measure.inv}{a logical value of the measurement invariance assumption across groups}
 
-\item{std_err}{a logical value whether calculating standard error of estimates. default is TRUE.}
+\item{std.err}{a logical value for whether calculating standard errors for estimates}
 
-\item{init_param}{a list which contains user-defined initial parameter.}
+\item{init.param}{a list which contains user-defined initial parameter}
 
-\item{n_init}{number of random initial parameter set.}
+\item{n.init}{number of random initial parameter sets}
 
-\item{maxiter}{an integer for maximum number of iteration.}
+\item{testiter}{an integer for maximum number of test set iteration}
 
-\item{eps}{positive convergence tolerance.}
+\item{maxiter}{an integer for maximum number of iteration}
 
-\item{na.rm}{a logical value whether or not to remove observations missing at least 1 item.}
+\item{eps}{positive convergence tolerance}
 
-\item{random.seed}{random seed which generates the seed from R}
+\item{na.rm}{a logical value for whether or not to remove observations who has at least 1 item missing}
 
-\item{verbose}{a logical value for whether or not to print the result of a function's execution.}
+\item{random.seed}{random seed to have the equivalent solution for every trials}
+
+\item{verbose}{a logical value for whether or not to print the result of a function's execution}
 }
 \value{
 \code{glca} returns an object of class "\code{glca}".
 
 The function \code{summary} prints estimates for parameters and \code{glca.gof} function gives goodness of fit measures for the model.
 
-An object of class "\code{glca}" is a list containing at least the following components:
+An object of class "\code{glca}" is a list containing the following components:
 
-\item{call}{the matched call.}
-\item{model}{a list which contains model descriptions.}
-\item{datalist}{a list of data used for fitting.}
-\item{param}{a list of parameter estimates.}
-\item{std.err}{a list of standard error for estimates}
-\item{coefficient}{a list of model coefficients for prevalence.}
-\item{posterior}{a data frame with posterior probablity of each individaul for latent classes and each group for latent clusters}
-\item{count}{a data frame with unique patterns of manifest items and corresponding observed and predicted counts.}
-\item{gof}{a list of goodness of fit measures, i.e. AIC, BIC, and log-likelihood.}
-\item{convergence}{a list about convergence which contains whether or not it has been converged, number of iterations and scores.}
+\item{call}{the matched call}
+\item{model}{a list of model description}
+\item{datalist}{a list of data used for fitting}
+\item{param}{a list of parameter estimates}
+\item{std.err}{a list of standard errors for estimates}
+\item{coefficient}{a list of logistic regression coefficients for prevalence of level-1 class}
+\item{posterior}{a data frame of posterior probablities of each individaul for latent classes and each group for latent clusters}
+\item{count}{a data frame of unique response patterns of manifest items and their corresponding observed and predicted frequencies}
+\item{gof}{a list of goodness of fit measures}
+\item{convergence}{a list containing information about convergence}
 }
 \description{
-Function for fitting LCA models with multiple groups, which may include latent class structure for group variable.
+Function for fitting latent class models with multiple groups, which may or may not include latent class structure for group variable.
 }
 \details{
+The \code{glca} is the function for implementing LCA consist of two-type latent categorical variables (i.e., level-1 and level-2 latent class). The level-1 (individual-level) latent class is identified by the association among the individuals' responses to multiple manifest items, but level-2 (group-level) latent class is categorized by the prevalence of level-1 latent class for group variable. The function \code{glca} can handle two types of covariates: level-1 and level-2 covariates. If covariates vary across individuals, they are considered as level-1 covariates. When \code{group} and \code{ncluster} (>1) are given, covariates which are varying across groups are considered as level-2 covariates. Both types of covariates have effect on level-1 class prevalence.
+
 The formula should consist of an \code{~} operator between two sides. Manifest items should be indicated in LHS of formula using \code{item} function and covariates should be specified in RHS of formula. For example, \cr
 \code{item(y1, y2, y3) ~ 1}\cr
 \code{item(y1, y2, y3) ~ x1 + x2}
+where the first fomula indicates LCA with three manifest variables (\code{y1}, \code{y2}, and \code{y3}) and no covariate, and the second formula includes two covariates (\code{x1} and \code{x2}). Two types of covariates (i.e., level-1 and level-2 covariates) will be automatically detected by \code{glca}.
 
-In \code{glca}, manifest items should be categorical variable and the probability of each category of manifest items varies across latent classes. This probabilities are called "item response probability" (\code{rho} in \code{glca} output). The latent variables (i.e latent class or latent cluster) are categorical as well. The parameters indicating probability of each category is called "prevalence" (\code{delta}, \code{gamma} in \code{glca} output). The prevalence for latent class (\code{gamma}) can be modeled with covariates. Using logistic regression, coefficients for each covariates (\code{beta} in \code{glca} output) can be estimated.
-
-\code{glca} can handle two types of covariates. If covariates vary across individuals, the covariates are considered as level-1 covariates. Given group, and the covariates varying across groups are considered as level-2 covariates. Both type of covariates have an effect on class prevalence. These covariate type will be automatically detected by \code{glca}.
+The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delta}, and \code{beta}. The set of item response probabilities for each level-1 class is \code{rho}. The sets of prevalences for level-1 and level-2 class are \code{gamma} and \code{delta}, respectively. The prevalence for level-1 class (i.e., \code{gamma}) can be modeled as logistic regression using level-1 and/or level-2 covariates. The set of logistic regression coefficients is \code{beta} in \code{glca} output.
 }
 \examples{
 ##
@@ -75,23 +78,24 @@ In \code{glca}, manifest items should be categorical variable and the probabilit
 data("gss")
 
 # LCA
-lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-            data = gss, nclass = 4)
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+            data = gss, nclass = 3, na.rm = TRUE)
 summary(lca)
 
 # LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ AGE,
-           data = gss, nclass = 4)
+lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
+           data = gss, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Multitple Group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-             group = DEGREE, data = gss, nclass = 4)
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = DEGREE, data = gss, nclass = 3)
 summary(mglca)
 
+
 # Multitple Group LCA with Covariates (MGLCR)
-mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ SEX,
+mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
@@ -116,9 +120,9 @@ coef(mlcr)
 
 }
 \references{
-Jeroen K. Vermunt (2003). \emph{7. Multilevel Latent Class Models}. Sociological Methodology, 33(1), 213–239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}
+Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, \bold{33}, 213--239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}
 
-Linda M. Collins, Stephanie T. Lanza (2009). \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
+Collins, L.M. and Lanza, S.T. (2009) \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
 }
 \seealso{
 \code{\link{gss}} \code{\link{brfss}}
