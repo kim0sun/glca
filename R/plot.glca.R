@@ -3,7 +3,7 @@
 #' \code{summary} method for class "\code{glca}".
 #'
 #' @param x an object of "\code{glca}", usually, a result of a call to \code{glca}
-#' @param group.name
+#' @param group.name a vector of strings which indicates groups, rho-parameters of which will be printed when \code{measure.inv = FALSE}.
 #' @param ... further arguments passed to or from other methods
 #'
 #' @return This function prints decriptions of model and its more detailed estimated parameters but returns \code{NULL}.
@@ -109,7 +109,7 @@ plot.glca <- function(x, group.name = NULL, ...)
                legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
                       fill = gray.colors(ncol(prev)), xpd = TRUE)
                title(paste0("Item Response Probabilities by Class", "\n(Item : ",
-                            names(rho[m]),"/", x$var.names$g.names[g], ")"))
+                            names(rho[m])," / Group : ", x$var.names$g.names[g], ")"))
             }
          }
       }
