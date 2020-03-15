@@ -49,7 +49,7 @@
 #' @seealso \code{\link{gss}} \code{\link{brfss}}
 #'
 #' @references
-#' Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, {\bf 33}, 213--239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}
+#' Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, \bold{33}, 213--239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}
 #'
 #' Collins, L.M. and Lanza, S.T. (2009) \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
 #'
