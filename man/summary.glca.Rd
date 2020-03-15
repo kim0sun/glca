@@ -8,11 +8,11 @@
   ...)
 }
 \arguments{
-\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
+\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
 
-\item{digits}{the number of digits to be printed.}
+\item{digits}{the number of digits to be printed}
 
-\item{...}{further arguments passed to or from other methods.}
+\item{...}{further arguments passed to or from other methods}
 }
 \value{
 This function prints decriptions of model and its more detailed estimated parameters but returns \code{NULL}.
