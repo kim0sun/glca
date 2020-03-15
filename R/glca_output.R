@@ -12,7 +12,8 @@ glca_output <- function(
    df <- model$df
 
    y.names <- vname$y.names
-   r.names <- vname$r.names
+   r.names1 <- vname$r.names
+   r.names <- list()
    for (m in 1:M) {
       r.names[[m]] = paste0("Y = ", 1:R[m])
    }
@@ -275,11 +276,19 @@ glca_output <- function(
    }
 
    # Cell count
+   if (G == 1)
+      tmp_patt = datalist$pattern[, 1:M]
+   else
+      tmp_patt = datalist$pattern
    count <- data.frame(
-      datalist$pattern,
+      tmp_patt,
       observed = round(datalist$observed, 3),
       fitted = round(EM$fitted, 3)
    )
+
+   count[1:M] = lapply(1:M, function(m) factor(count[[m]], labels = r.names1[[m]]))
+   if (G > 1)
+      count[[M + 1]] = factor(count[[M + 1]], labels = g.names)
 
    # Goodness of fit
    tmp_count = count[count$fitted != 0 & count$observed != 0, ]
@@ -290,7 +299,8 @@ glca_output <- function(
       bic = -2 * EM$loglike + log(N) * npar,
       Gsq = 2 * sum(tmp_count$observed *
          log(tmp_count$observed / tmp_count$fitted)),
-      resid.dev = 2 * (datalist$loglik0 - EM$loglike)
+      chisq = sum((tmp_count$observed - tmp_count$fitted)^2 /
+                     tmp_count$fitted)
    )
 
    # Convergence
