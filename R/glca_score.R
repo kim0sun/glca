@@ -21,7 +21,7 @@ glca_score <- function(
       if (P == 1) {
          S = GetScore(y, posterior, gamma, rho, Ng, G, C, M, R)
 
-         if (model$measure_inv) {
+         if (model$measure.inv) {
             Sg = do.call(rbind, S$g)
             Sr = do.call(rbind, S$r)
             fS = cbind(Sg, Sr)
@@ -55,7 +55,7 @@ glca_score <- function(
          }))
 
          std.err$rho = list()
-         if (model$measure_inv) {
+         if (model$measure.inv) {
             tmp_rho = diag(t(gmat3(rho[[1]])) %*% Ir %*% gmat3(rho[[1]]))
             tmp_rho[tmp_rho < 0] = 0
             for (m in 1:M) {
@@ -88,7 +88,7 @@ glca_score <- function(
       } else {
          S = GetScoreX(y, x, posterior, gamma, rho, Ng, G, C, M, R, P)
 
-         if (model$measure_inv) {
+         if (model$measure.inv) {
             Sb = do.call(rbind, S$b)
             Sr = do.call(rbind, S$r)
             fS = cbind(Sb, Sr)
@@ -122,7 +122,7 @@ glca_score <- function(
          })
 
          std.err$rho = list()
-         if (model$measure_inv) {
+         if (model$measure.inv) {
             tmp_rho = diag(t(gmat3(rho[[1]])) %*% Ir %*% gmat3(rho[[1]]))
             tmp_rho[tmp_rho < 0] = 0
             for (m in 1:M) {
