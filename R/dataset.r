@@ -1,6 +1,6 @@
 #' General Social Study 2018
 #'
-#' This dataset includes 7 manifest items about abortion and several covariates among 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include the age, sex, region, and degree of respondents.
+#' This dataset includes 6 manifest items about abortion and several covariates from 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, region, and degree of respondents.
 #'
 #' @name gss
 #' @docType data
@@ -10,7 +10,7 @@
 #' \item{\code{ABDEFECT}}{If there is a strong chance of serious defect in the baby?}
 #' \item{\code{ABNOMORE}}{If she is married and does not want any more children?}
 #' \item{\code{ABHLTH}}{If the womans own health is seriously endangered by the pregnancy?}
-#' \item{\code{ABPOOR}}{ If the family has a very low income and cannot afford any more children?}
+#' \item{\code{ABPOOR}}{If the family has a very low income and cannot afford any more children?}
 #' \item{\code{ABRAPE}}{If she became pregnant as a result of rape?}
 #' \item{\code{ABSINGLE}}{If she is not married and does not want to marry the man?}
 #' \item{\code{AGE}}{Respondent's age}
@@ -25,36 +25,36 @@
 #' data("gss")
 #'
 #' # Model 1: LCA
-#' lca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+#' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'            data = gss, nclass = 3)
 #' summary(lca)
 #'
 #' # Model 2: LCA with a covariate
-#' lcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+#' lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
 #'            data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
-#' mglca = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
-#'              group = DEGREE, data = gss, nclass = 3)
+#' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+#'              group = REGION, data = gss, nclass = 3)
 #'
 #' # Model 4: MGLCA with covariates
 #' summary(mglca)
-#' mglcr = glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ AGE,
+#' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
 #'              group = SEX, data = gss, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
 #' # Model 5: MLCA
-#' mlca =  glca(item(ABDEFECT, ABNOMORE, ABHLTH, ABPOOR, ABRAPE, ABSINGLE) ~ 1,
+#' mlca =  glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'              group = REGION, data = gss, nclass = 3, ncluster = 2)
 #' summary(mlca)
 NULL
 
 #' National Health and Nutrition Examination Survey 2015-2016
 #'
-#' There is a nine-item depression screening instrument of National Health and Nutrition Examination Survey, which can indicating mental health of respondents. Among thoes items, former 5 items are selected. And the covariates include gender, age, and race of respondents.
+#' There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 item are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those items are converted to binary, "Yes" or "No". The dataset includes gender, age, and race of respondents as covariates.
 #'
 #' @name nhanes
 #' @docType data
@@ -66,6 +66,11 @@ NULL
 #' \item{\code{DPQ030}}{Trouble sleeping or sleeping too much}
 #' \item{\code{DPQ040}}{Feeling tired or having little energy}
 #' \item{\code{DPQ050}}{Poor appetite or overeating}
+#' \item{\code{DPQ060}}{Feeling bad about yourself}
+#' \item{\code{DPQ070}}{Trouble concentrating on things}
+#' \item{\code{DPQ080}}{Moving or speaking slowly or too fast}
+#' \item{\code{DPQ090}}{Thought you would be better off dead}
+
 #' \item{\code{AGE}}{Age in years at screening}
 #' \item{\code{GENDER}}{Respondent's Gender}
 #' \item{\code{RACE}}{Race/Hispanic origin w/ NH Asian}
@@ -76,36 +81,36 @@ NULL
 #' data("nhanes")
 #'
 #' # Model 1: LCA
-#' lca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+#' lca = glca(item(starts.with = "DPQ") ~ 1,
 #'            data = nhanes, nclass = 2)
 #' summary(lca)
 #'
 #' # Model 2: LCA with covariate(s)
-#' lcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
+#' lcr = glca(item(starts.with = "DPQ") ~ AGE,
 #'            data = nhanes, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
-#' mglca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+#' mglca = glca(item(starts.with = "DPQ") ~ 1,
 #'              group = GENDER, data = nhanes, nclass = 3)
 #' summary(mglca)
 #'
 #' # Model 4: MGLCA with covariate(s)
-#' mglcr = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ AGE,
+#' mglcr = glca(item(starts.with = "DPQ") ~ AGE,
 #'              group = GENDER, data = nhanes, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
 #' # Model 5: MLCA
-#' mlca = glca(item(DPQ010, DPQ020, DPQ030, DPQ040, DPQ050) ~ 1,
+#' mlca = glca(item(starts.with = "DPQ") ~ 1,
 #'             group = RACE, data = nhanes, nclass = 3, ncluster = 2)
 #' summary(mlca)
 NULL
 
-#' Behavioral Risk Factor Surveillance System 2017
+#' Behavioral Risk Factor Surveillance System 2017 (BRFSS 2017)
 #'
-#' This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, smoking and drinking, from the 2017 BRFSS survey. Data includes individual level covariates such as respondents’ gender and income levels. State is a group variable indicating the respondent's resides. States are categorized as 8 regions and 2 parties as they won the 2016 presidential election in the state.
+#' This data is comprised of questions related to healthy lifestyles, such as obesity, exercise time, eating habits, and smoking and drinking behaviors from the BRFSS 2017 survey. State is a group variable indicating the respondent's residential state. The data includes both individual-level (level-1) and group-level (level-2) covariates. The level-1 covariates include respondents' gender and income level. The level-2 covariates are regions of the United States and political parties which won the 2016 presidential election in the state.
 #'
 #' @name brfss
 #' @docType data
@@ -122,16 +127,16 @@ NULL
 #' }
 #' \item{\code{FRTLT1A}}{(original : \code{_FRTLT1A}) Consume Fruit 1 or more times per day
 #'
-#' (1) Consumed fruit one or more times per day \cr
-#' (2) Consumed fruit less than one time per day}
+#' (1) Consumed fruit one or more times per day : Yes \cr
+#' (2) Consumed fruit less than one time per day : No}
 #' \item{\code{VEGLT1A}}{(original : \code{_VEGLT1A}) Consume Vegetables 1 or more times per day
 #'
-#' (1) Consumed vegetables one or more times per day \cr
-#' (2) Consumed vegetables less than one time per day}
+#' (1) Consumed vegetables one or more times per day : Yes\cr
+#' (2) Consumed vegetables less than one time per day : No}
 #' \item{\code{SMOKER}}{(original : \code{_SMOKER3}) Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
 #'
-#' (1) Current smoker - now smokes every day\cr
-#' (2) Current smoker - now smokes some days\cr
+#' (1) Current smoker - now smokes every day : Everyday smoker\cr
+#' (2) Current smoker - now smokes some days : Some day smoker\cr
 #' (3) Former smoker\cr
 #' (4) Never smoked
 #' }
@@ -149,9 +154,9 @@ NULL
 #'
 #' \url{https://doi.org/10.7910/DVN/42MVDX}
 #' @references
-#' Centers for Disease Control and Prevention (CDC). Behavioral Risk Factor Surveillance System Survey Data. Atlanta, Georgia: U.S. Department of Health and Human Services, Centers for Disease Control and Prevention, [2017].
+#' Centers for Disease Control and Prevention. (2017). 2017 Behavioral Risk Factor Surveillance System Survey Data. Retrieved from \url{https://www.cdc.gov/brfss/}.
 #'
-#' MIT Election Data and Science Lab, 2017, "U.S. President 1976–2016", Harvard Dataverse, V5.
+#' MIT Election Data and Science Lab, (2017). U.S. President 1976-2016. Retrieved from \url{https://doi.org/10.7910/DVN/42MVDX}.
 #' @examples
 #' data("brfss")
 #' brfss2000 = brfss[sample(1:nrow(brfss), 2000),]
