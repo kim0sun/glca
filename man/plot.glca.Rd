@@ -2,20 +2,22 @@
 % Please edit documentation in R/plot.glca.R
 \name{plot.glca}
 \alias{plot.glca}
-\title{Summarize the Estimated Parameters of Fitted glca Model}
+\title{Plot the Estimated Parameters of Fitted glca Model}
 \usage{
 \method{plot}{glca}(x, group.name = NULL, ...)
 }
 \arguments{
 \item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
 
+\item{group.name}{a vector of strings which indicates groups, rho-parameters of which will be printed when \code{measure.inv = FALSE}.}
+
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-This function prints decriptions of model and its more detailed estimated parameters but returns \code{NULL}.
+This function plots estimated parameters of model.
 }
 \description{
-\code{summary} method for class "\code{glca}".
+\code{plot} method for class "\code{glca}".
 }
 \examples{
 ## For examples see example(glca)
