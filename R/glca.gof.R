@@ -32,9 +32,9 @@
 #' ## LCA model selection between two models with different number of latent classes.
 #' data(gss)
 #' class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, n_init = 10, nclass = 4)
+#'               data = gss, n.init = 10, nclass = 4)
 #' class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, n_init = 10, nclass = 5)
+#'               data = gss, n.init = 10, nclass = 5)
 #'
 #' glca.gof(class4, class5)
 #' \dontrun{glca.gof(class4, class5, test = "chisq")}
@@ -54,9 +54,9 @@
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, n_init = 10, data = gss, nclass = 4)
+#'                group = SEX, n.init = 10, data = gss, nclass = 4)
 #' measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, n_init = 10, data = gss, nclass = 4, measure.inv = FALSE)
+#'                group = SEX, n.init = 10, data = gss, nclass = 4, measure.inv = FALSE)
 #'
 #' \dontrun{glca.gof(measInv, measVar)}
 #' \dontrun{glca.gof(measInv, measVar, test = "chisq")}

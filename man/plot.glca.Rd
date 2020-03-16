@@ -20,7 +20,27 @@ This function plots estimated parameters of model.
 \code{plot} method for class "\code{glca}".
 }
 \examples{
-## For examples see example(glca)
+\dontrun{
+# LCA
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+            data = gss, nclass = 3, na.rm = TRUE)
+plot(lca)
+
+# Multitple Group LCA (MGLCA)
+mglca1 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = DEGREE, data = gss, nclass = 3)
+plot(mglca1)
+
+# Multitple Group LCA (MGLCA) (measure.inv = FALSE)
+mglca2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = DEGREE, data = gss, nclass = 3, measure.inv = FALSE)
+plot(mglca2)
+
+# Multilvel LCA (MLCA)
+mlca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = REGION, data = gss, nclass = 3, ncluster = 3)
+plot(mlca)
+}
 
 }
 \seealso{
