@@ -54,7 +54,7 @@ NULL
 
 #' National Health and Nutrition Examination Survey 2015-2016
 #'
-#' There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 item are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those items are converted to binary, "Yes" or "No". The dataset includes gender, age, and race of respondents as covariates.
+#' There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 items are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those four categories are converted to binary as "Yes" ("Nearly every day", "More than half the days", "Several days") and "No" ("Not at all"). The dataset includes gender, age, and race of respondents as covariates.
 #'
 #' @name nhanes
 #' @docType data
@@ -81,30 +81,28 @@ NULL
 #' data("nhanes")
 #'
 #' # Model 1: LCA
-#' lca = glca(item(starts.with = "DPQ") ~ 1,
-#'            data = nhanes, nclass = 2)
+#' lca = glca(item(starts.with = "DPQ") ~ 1, data = nhanes, nclass = 2)
 #' summary(lca)
 #'
 #' # Model 2: LCA with covariate(s)
-#' lcr = glca(item(starts.with = "DPQ") ~ AGE,
-#'            data = nhanes, nclass = 3)
+#' lcr = glca(item(starts.with = "DPQ") ~ AGE, data = nhanes, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
-#' mglca = glca(item(starts.with = "DPQ") ~ 1,
-#'              group = GENDER, data = nhanes, nclass = 3)
+#' mglca = glca(item(starts.with = "DPQ") ~ 1, group = GENDER,
+#'              data = nhanes, nclass = 3)
 #' summary(mglca)
 #'
 #' # Model 4: MGLCA with covariate(s)
-#' mglcr = glca(item(starts.with = "DPQ") ~ AGE,
-#'              group = GENDER, data = nhanes, nclass = 3)
+#' mglcr = glca(item(starts.with = "DPQ") ~ AGE, group = GENDER,
+#'              data = nhanes, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
 #' # Model 5: MLCA
-#' mlca = glca(item(starts.with = "DPQ") ~ 1,
-#'             group = RACE, data = nhanes, nclass = 3, ncluster = 2)
+#' mlca = glca(item(starts.with = "DPQ") ~ 1, group = RACE,
+#'             data = nhanes, nclass = 3, ncluster = 2)
 #' summary(mlca)
 NULL
 
@@ -120,34 +118,34 @@ NULL
 #' \item{\code{OBESE}}{(original : \code{_RFBMI5}) Adults who have a body mass index greater than 25.00 (Overweight or Obese)
 #'
 #' (1) No \cr (2) Yes}
-#' \item{\code{PA300}}{(original : \code{_PA300R2}) Adults that participated in 300 minutes (or vigorous equivalent minutes) of physical activity per week.
+#' \item{\code{PA300}}{(original : \code{_PA300R2}) Adults that participated in 300 minutes (or vigorous equivalent minutes) of physical activity per week
 #'
 #' (1) 301+ minutes \cr (2) 1-300 minutes \cr (3) 0 minutes
 #' \cr
 #' }
-#' \item{\code{FRTLT1A}}{(original : \code{_FRTLT1A}) Consume Fruit 1 or more times per day
+#' \item{\code{FRTLT1A}}{(original : \code{_FRTLT1A}) Consume fruit 1 or more times per day
 #'
-#' (1) Consumed fruit one or more times per day : Yes \cr
-#' (2) Consumed fruit less than one time per day : No}
-#' \item{\code{VEGLT1A}}{(original : \code{_VEGLT1A}) Consume Vegetables 1 or more times per day
-#'
-#' (1) Consumed vegetables one or more times per day : Yes\cr
-#' (2) Consumed vegetables less than one time per day : No}
-#' \item{\code{SMOKER}}{(original : \code{_SMOKER3}) Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
-#'
-#' (1) Current smoker - now smokes every day : Everyday smoker\cr
-#' (2) Current smoker - now smokes some days : Some day smoker\cr
-#' (3) Former smoker\cr
-#' (4) Never smoked
-#' }
-#' \item{\code{DRNK30}}{(original : \code{DRNKANY5}) Adults who reported having had at least one drink of alcohol in the past 30 days.
+#' (1) Yes \cr
+#' (2) No}
+#' \item{\code{VEGLT1A}}{(original : \code{_VEGLT1A}) Consume vegetables 1 or more times per day
 #'
 #' (1) Yes\cr
 #' (2) No}
+#' \item{\code{SMOKER}}{(original : \code{_SMOKER3}) Four-level smoker status
+#'
+#' (1) Never smoked\cr
+#' (2) Former smoker\cr
+#' (3) Occational smoker\cr
+#' (4) Everyday smoker
+#' }
+#' \item{\code{DRNK30}}{(original : \code{DRNKANY5}) Adults who reported having had at least one drink of alcohol in the past 30 days
+#'
+#' (1) No\cr
+#' (2) Yes}
 #' \item{\code{SEX}}{Respondents Sex}
-#' \item{\code{INCOME}}{(original : \code{INCOME2}) Income Level}
-#' \item{\code{STATE}}{(original : \code{_STATE}) State FIPS Code}
-#' \item{\code{REGION}}{Region to which the states belongs}
+#' \item{\code{INCOME}}{(original : \code{INCOME2}) Income level}
+#' \item{\code{STATE}}{(original : \code{_STATE}) State FIPS code}
+#' \item{\code{REGION}}{Region to which the state belongs}
 #' \item{\code{PARTY}}{The party that won the 2016 presidential election by state}
 #' }
 #' @source \url{https://www.cdc.gov/brfss/}
@@ -166,29 +164,30 @@ NULL
 #'    data = brfss2000, nclass = 3)
 #' summary(lca)
 #'
-#' # Model 2: LCA with covariate(s)
-#' lcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
-#'    group = INCOME, data = brfss2000, nclass = 3)
-#' summary(lcr)
-#' coef(lcr)
-#'
-#' # Model 3: MGLCA
+#' # Model 2: MGLCA
 #' mglca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
 #'    group = SEX, data = brfss2000, nclass = 3)
 #' summary(mglca)
+#'
+#' Model 3: MGLCA with covariate(s)
+#' mglcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ REGION,
+#'    group = SEX, data = brfss2000, nclass = 3)
+#' summary(mglcr)
+#' coef(mglcr)
 #'
 #' # Model 4: MLCA
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
 #'    group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
-#' # Model 5: MLCA with covariate(s)
+#' # Model 5: MLCA with level-1 covariate(s) only
 #' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX,
 #'             group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
 #'
-#' # Model 6: MLCA with level 1 and level 2covariate(s)
+#' # Model 6: MLCA with level-1 and level-2 covariate(s)
+#' # (SEX: level-1 covariate, PARTY: level-2 covariate)
 #' mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
 #'              group = STATE, data = brfss2000, nclass = 3, ncluster = 2)
 #' summary(mlcr2)

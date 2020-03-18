@@ -3,10 +3,10 @@
 #' Function for fitting latent class models with multiple groups, which may or may not include latent class structure for group variable.
 #'
 #' @param formula a formula for specifying manifest items and covariates using the "\code{item}" function
-#' @param group an optional vector specifying a group of observations. given group variable, group covariates can be incorporated
+#' @param group an optional vector specifying a group of observations. Given group variable, group covariates can be incorporated.
 #' @param data a data frame containing the manifest item, covariates and group variable
 #' @param nclass number of level-1 (individual-level) latent classes
-#' @param ncluster number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted
+#' @param ncluster number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted.
 #' @param measure.inv a logical value of the measurement invariance assumption across groups
 #' @param std.err a logical value for whether calculating standard errors for estimates
 #' @param init.param a list which contains user-defined initial parameter
@@ -70,13 +70,13 @@
 #' summary(lcr)
 #' coef(lcr)
 #'
-#' # Multitple Group LCA (MGLCA)
+#' # Multiple-group LCA (MGLCA)
 #' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'              group = DEGREE, data = gss, nclass = 3)
 #' summary(mglca)
 #'
 #'
-#' # Multitple Group LCA with Covariates (MGLCR)
+#' # Multiple-group LCA with covariate(s) (MGLCR)
 #' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
 #'              group = DEGREE, data = gss, nclass = 3)
 #' summary(mglcr)
@@ -93,9 +93,9 @@
 #'             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
-#' # MLCA with Covariates (MLCR)
+#' # MLCA with covariate(s) (MLCR)
 #' # (SEX: level-1 covariate, REGION: level-2 covariate)
-#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
+#' mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
 #'             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)

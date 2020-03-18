@@ -1,4 +1,4 @@
-#' Summarize the Estimated Parameters of Fitted glca Model
+#' Summarizes the Estimated Parameters of Fitted glca Model
 #'
 #' \code{summary} method for class "\code{glca}".
 #'

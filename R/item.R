@@ -1,4 +1,4 @@
-#' Specify Manifest Items for \code{glca}
+#' Specifies Manifest Items for \code{glca}
 #'
 #' Specifying manifest items in formula of \code{glca} function.
 #'

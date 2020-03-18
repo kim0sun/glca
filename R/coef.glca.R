@@ -1,4 +1,4 @@
-#' Extracts \code{glca} Model Coefficients.
+#' Extracts \code{glca} Model Coefficients
 #'
 #' Extracts regression coefficients of \code{glca} model if the model includes covariates.
 #'
@@ -7,9 +7,9 @@
 #' @param show.signif.stars logical. If TRUE, ‘significance stars’ are printed for each coefficient
 #' @param ... further arguments passed to or from other methods
 #'
-#' @return Coefficient matrix from the \code{glca} model.
+#' @return Coefficient matrix from the \code{glca} model
 #'
-#' If the model has calculated standard errors, coefficient matrix contains standard errors and t-statistic and its p-value.
+#' If the model has calculated standard errors, coefficient matrix contains standard errors, t-statistic, and its p-value.
 #'
 #' @seealso \code{\link{glca}}
 #'
