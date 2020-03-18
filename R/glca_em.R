@@ -236,7 +236,7 @@ glca_em <- function(
 
    return(
       list(param = param, posterior = Post,
-           fitted = fitted, loglike = llik,
+           fitted = fitted, loglik = llik,
            niter = iter, converged = converged)
    )
 }

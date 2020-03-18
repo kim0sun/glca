@@ -62,9 +62,10 @@ glca_encode <- function(
       if (na.rm)
          cat(dataN - modelN + length(isna),
              "observation(s) for missing at least 1 variable \n\n")
-      else
-         cat(length(totmis), "observation(s) for missing all manifest items\n",
-             dataN - modelN, "observation(s) for missing at least 1 covariates\n\n")
+      else {
+         cat(length(totmis), "observation(s) for missing all manifest items\n")
+         cat(dataN - modelN, "observation(s) for missing at least 1 covariates\n\n")
+      }
    }
 
    if (na.rm & length(isna) > 0) {

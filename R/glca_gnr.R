@@ -75,5 +75,5 @@ glca_gnr <- function(
 
    return(list(y = y, x = datalist$x, z = datalist$z,
                pattern = as.matrix(pattern), observed = obsvd,
-               loglike = loglik0))
+               loglik0 = loglik0))
 }

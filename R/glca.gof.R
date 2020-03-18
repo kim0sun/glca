@@ -1,6 +1,6 @@
 #' Goodness of Fit Tests for Fitted \code{glca} Model
 #'
-#' Provides AIC, BIC, deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
+#' Provides AIC, BIC, and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 #'
 #' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}
 #' @param object2 an optional object of "\code{glca}" to be compared with \code{object}
@@ -29,7 +29,7 @@
 #'
 #' @examples
 #' ## Example 1.
-#' ## LCA model selection between two models with different number of latent classes.
+#' ## Model selection between two LCA models with different number of latent classes.
 #' data(gss)
 #' class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
 #'               data = gss, n.init = 10, nclass = 4)
@@ -41,7 +41,7 @@
 #' \dontrun{glca.gof(class4, class5, test = "boot")}
 #'
 #' ## Example 2.
-#' ## MLCA model selection between two models with different number of latent clusters.
+#' ## Model selection between two MLCA models with different number of latent clusters.
 #' cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
 #'                 group = REGION, data = gss, nclass = 4, ncluster = 2, na.rm = TRUE)
 #' cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
@@ -108,7 +108,7 @@ glca.gof = function(
          H0 <- 2; H1 <- 1
       }
       if (Rel)
-         GsqR <- 2 * abs(m[[H1]]$gof$loglike - m[[H0]]$gof$loglike)
+         GsqR <- abs(m[[H1]]$gof$Gsq - m[[H0]]$gof$Gsq)
       else
          warning("Response or group might be different.")
    }
@@ -130,27 +130,25 @@ glca.gof = function(
             init1$gamma <- lapply(1:nrow(init1$gamma), function(g)
                matrix(init1$gamma[g, ], m1$model$Ng[g],
                       ncol(init1$gamma), byrow = TRUE))
-         EMb1 <- glca_em(m1$model, b1, init1, FALSE, maxiter, eps)
+         EMb1 <- glca_em(m1$model, b1, init1, 1, maxiter, eps,  FALSE)
 
          if (is.null(EMb1))
             bGsq1[b] <- NA
          else {
-            obsvd <- b1$obsvd[b1$obsvd != 0 & EMb1$fitted != 0]
-            fitted <- EMb1$fitted[b1$obsvd != 0 & EMb1$fitted != 0]
-            bGsq1[b] <- 2 * sum(obsvd * log(obsvd / fitted))
+            bGsq1[b] <- 2 * (b1$loglik0 - EMb1$loglik)
          }
 
 
          if (!is.null(object2)) {
             b2 <- glca_gnr(m2$model, m2$param, m2$datalist)
             init2 <- glca_init(m2$model)
-            EMb2 <- glca_em(m2$model, b2, init2, FALSE, maxiter, eps)
+            EMb2 <- glca_em(m2$model, b2, init2, 1, maxiter, eps, FALSE)
             if (is.null(EMb2))
                bGsq2[b] <- NA
             else {
                obsvd <- b2$obsvd[b2$obsvd != 0 & EMb2$fitted != 0]
                fitted <- EMb2$fitted[b2$obsvd != 0 & EMb2$fitted != 0]
-               bGsq1[b] <- 2 * sum(obsvd * log(obsvd / fitted))
+               bGsq2[b] <- 2 * (b2$loglik0 - EMb2$loglik)
             }
 
             if (Rel) {
@@ -163,20 +161,13 @@ glca.gof = function(
                   inith0 <- init2
                   inith1 <- init1
                }
-               EMh0 <- glca_em(m[[H0]]$model, h0b, inith0, FALSE, maxiter, eps)
+               EMh0 <- glca_em(m[[H0]]$model, h0b, inith0, 1, maxiter, eps, FALSE)
                modelh1 <- m[[H1]]$model; modelh1$Ng <- m[[H0]]$model$Ng
-               EMh1 <- glca_em(modelh1, h0b, inith1, FALSE, maxiter, eps)
+               EMh1 <- glca_em(modelh1, h0b, inith1, 1, maxiter, eps, FALSE)
                if (is.null(EMh0) | is.null(EMh1))
                   bGsqR[b] <- NA
                else {
-                  obsvd0 <- h0b$obsvd[h0b$obsvd != 0 & EMh0$fitted != 0]
-                  obsvd1 <- h0b$obsvd[h0b$obsvd != 0 & EMh1$fitted != 0]
-                  fitted0 <- EMh0$fitted[h0b$obsvd != 0 & EMh0$fitted != 0]
-                  fitted1 <- EMh1$fitted[h0b$obsvd != 0 & EMh1$fitted != 0]
-
-                  temp0 <- 2 * sum(obsvd0 * log(obsvd0 / fitted0))
-                  temp1 <- 2 * sum(obsvd1 * log(obsvd1 / fitted1))
-                  bGsqR[b] <- temp0 - temp1
+                  bGsqR[b] <- 2 * (EMh1$loglik - EMh0$loglik)
                }
             }
          }
@@ -192,7 +183,7 @@ glca.gof = function(
    if (is.null(object2))
       criteria <- data.frame(
          "Res.Df" = m1$gof$df,
-         "Loglik" = m1$gof$loglike,
+         "Loglik" = m1$gof$loglik,
          "AIC" = round(m1$gof$aic, 2),
          "BIC" = round(m1$gof$bic, 2),
          "Gsq" = round(m1$gof$Gsq, 2),
@@ -201,7 +192,7 @@ glca.gof = function(
    else
       criteria <- data.frame(
          "Res.Df" = c(m1$gof$df, m2$gof$df),
-         "Loglik" = c(m1$gof$loglike, m2$gof$loglike),
+         "Loglik" = c(m1$gof$loglik, m2$gof$loglik),
          "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
          "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
          "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2),
@@ -274,7 +265,7 @@ glca.gof = function(
 
    cat("\nModel Goodness of Fit Criteria :\n")
    print(criteria)
-   cat("\nAnalysis of Deviance(Gsq) Table :\n")
+   cat("\nAnalysis of Deviance (Gsq) Table :\n")
    print(dev.table)
 
    ret <- list(
