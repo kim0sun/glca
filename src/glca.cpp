@@ -748,8 +748,8 @@ NumericVector GetFitted(IntegerMatrix pattern,
 
    clike = MeasProd(pattern, rho, pattern.nrow(),
                     C, M, R, clone(clike));
-   fitted =
-      rowSums(clike) / std::numeric_limits<double>::max() * N;
+   fitted = exp(log(N) + log(rowSums(clike)) -
+      log(std::numeric_limits<double>::max()));
 
    return fitted;
 }
@@ -794,6 +794,7 @@ double GetUDlik(List y,
 
    return mlike;
 }
+
 
 
 // Marginal likelihood for MLCA (without covariates)
