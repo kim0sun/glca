@@ -1,4 +1,4 @@
-#' Plot the Estimated Parameters of Fitted glca Model
+#' Plots the Estimated Parameters of Fitted glca Model
 #'
 #' \code{plot} method for class "\code{glca}".
 #'
@@ -51,19 +51,19 @@ plot.glca <- function(x, group.name = NULL, ...)
       rownames(prev) = paste0(rownames(prev), "\n(", round(param$delta, 2), ")")
 
       xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group",
-                      ylab = "Class Prevalence")
+                                ylab = "Class Prevalence", las = 1)
       graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
              fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
    } else {
       # gamma
       if (model$G == 1) {
          graphics::barplot(param$gamma[1,], main = "Class Prevalence",
-                 ylab = "Class Prevalence",
-                 col = grDevices::gray.colors(model$C), space = 0)
+                           ylab = "Class Prevalence", las = 1,
+                           col = grDevices::gray.colors(model$C), space = 0)
       } else {
          prev <- t(sapply(post, colMeans))
 
-         xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group")
+         xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
          graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
                 fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
       }
@@ -76,14 +76,16 @@ plot.glca <- function(x, group.name = NULL, ...)
          else rho <- param$rho[[1]]
          irp <- sapply(rho, function(i) i[,1])
          graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
-              xlim = c(0.5, model$M + 0.5), type = "n",
+              xlim = c(0.5, model$M + 0.5), ylim = c(-0.2, 1.2),
               xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
-              xaxt = "n")
+              type = "n", xaxt = "n", yaxt = "n")
          graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
+         graphics::axis(side=2, at = (0:5)/5, las = "1")
          for (c in 1:model$C) {
             graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
          }
-         graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3, legend = rownames(irp), xpd = TRUE)
+         graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3,
+                          legend = rownames(irp), xpd = TRUE, fill = "white")
          graphics::title("Item Response Probabilities by Class")
       } else {
          if (is.null(group.name))
@@ -93,14 +95,16 @@ plot.glca <- function(x, group.name = NULL, ...)
          for (g in match(group.name, x$var.names$g.names)) {
             irp <- sapply(param$rho[[g]], function(i) i[,1])
             graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
-                 xlim = c(0.5, model$M + 0.5), type = "n",
+                 xlim = c(0.5, model$M + 0.5), ylim = c(-0.2, 1.2),
                  xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
-                 xaxt = "n")
+                 type = "n", xaxt = "n", yaxt = "n")
             graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
+            graphics::axis(side=2, at = (0:5)/5, las = 1)
             for (c in 1:model$C) {
                graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
             }
-            graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3, legend = rownames(irp), xpd = TRUE)
+            graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3,
+                             legend = rownames(irp), xpd = TRUE, fill = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Group : ",
                          x$var.names$g.names[g],")"))
          }
@@ -113,9 +117,10 @@ plot.glca <- function(x, group.name = NULL, ...)
          for (m in 1:model$M) {
             xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
             graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
-                   fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
+                             fill = grDevices::gray.colors(ncol(rho[[m]])),
+                             xpd = TRUE, fill = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
-                         names(rho[m]),")"))
+                         names(rho)[m],")"))
          }
       } else {
          if (is.null(group.name))
@@ -127,9 +132,10 @@ plot.glca <- function(x, group.name = NULL, ...)
             for (m in 1:model$M) {
                xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
                graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
-                      fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
+                                fill = grDevices::gray.colors(ncol(rho[[m]])),
+                                xpd = TRUE, fill = "white")
                graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
-                            names(rho[m])," / Group : ", x$var.names$g.names[g], ")"))
+                                      names(rho)[m]," / Group : ", x$var.names$g.names[g], ")"))
             }
          }
       }
