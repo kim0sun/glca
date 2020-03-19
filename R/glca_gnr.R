@@ -45,35 +45,42 @@ glca_gnr <- function(
          y[[g]][datalist$y[[g]] == 0] = 0
    }
 
-   npatt <- prod(R)
-   if (npatt < 1e+6) {
-      pattern <- expand.grid(c(lapply(1:M, function(m)
-         1:R[m]), list(1:G)))
-      obsvd <- unlist(lapply(1:G, function(g)
-         ObsCell(cbind(y[[g]], g), Ng[g], M, R, 1000, 1e-8)))
-      loglikg <- numeric(G)
-      for (g in 1:G)
-         loglikg[[g]] <- ObsLik(as.matrix(y[[g]]),
-                                Ng[g], M, R, 1000, 1e-8)
-
-      loglik0 <- sum(loglikg)
-   } else {
-      Y = do.call(rbind, lapply(1:G, function(g) cbind(y[[g]], g)))
-      Y0 <- Y[rowSums(Y == 0) == 0,]
-      Y.sorted <- Y0[do.call(order, data.frame(Y0)[(M + 1):1]),]
-      pattern <- unique(Y.sorted)
-
-      obsvd <- unlist(ObsCell2(as.matrix(Y.sorted), as.matrix(pattern),
-                               nrow(Y.sorted), nrow(pattern)))
+   if (prod(R) < 1e+6 & sum(sapply(y, function(x) sum(x == 0))) != 0) {
       loglikg <- numeric(G)
       for (g in 1:G) {
-         tmp = obsvd[pattern[, M + 1] == g]
-         loglikg[[g]] <- sum(tmp * log(tmp / sum(tmp)))
+         uniqx <- unique(datalist$x[[g]])
+         xind <- match(data.frame(t(datalist$x[[g]])), data.frame(t(uniqx)))
+         I <- nrow(uniqx)
+         logliki <- numeric(I)
+         for (i in 1:I) {
+            yi = y[[g]][xind == i, , drop = FALSE]
+            logliki[i] <- ObsLik(as.matrix(yi), nrow(yi), M, R, 1000, 1e-8)
+         }
+         loglikg[g] <- sum(logliki)
+      }
+      loglik0 <- sum(loglikg)
+   } else {
+      loglikg <- numeric(G)
+      for (g in 1:G) {
+         uniqx <- unique(datalist$x[[g]])
+         xind <- match(data.frame(t(datalist$x[[g]])), data.frame(t(uniqx)))
+         y0 <- y[[g]][rowSums(Y == 0) == 0, , drop = FALSE]
+         x0 <- xind[rowSums(Y == 0) == 0]
+         I <- nrow(uniqx)
+         logliki <- numeric(I)
+         for (i in 1:I) {
+            yi <- y0[x0 == i, , drop = FALSE]
+            y.sorted <- yi[do.call(order, data.frame(yi)[M:1]), , drop = FALSE]
+            pattern <- as.matrix(unique(y.sorted))
+            obsvd <- ObsCell2(as.matrix(y.sorted), pattern,
+                              nrow(y.sorted), nrow(pattern))
+            logliki[i] <- sum(obsvd * log(obsvd / sum(obsvd)))
+         }
+         loglikg[g] <- sum(logliki)
       }
       loglik0 <- sum(loglikg)
    }
 
    return(list(y = y, x = datalist$x, z = datalist$z,
-               pattern = as.matrix(pattern), observed = obsvd,
                loglik0 = loglik0))
 }

@@ -8,8 +8,7 @@ glca_em_test <- function(
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
 
-   y <- datalist$y; pattern <- datalist$pattern
-   x <- datalist$x; z <- datalist$z
+   y <- datalist$y; x <- datalist$x; z <- datalist$z
 
    init_list = list()
    llik = numeric(n.init)
@@ -23,7 +22,7 @@ glca_em_test <- function(
       beta  <- init.ran$beta
       rho   <- init.ran$rho
 
-      if (verbose) cat("SET :", rep, " ")
+      if (verbose) cat("SET :", rep, rep("", nchar(n.init) - nchar(rep) + 1))
       iter <- 0
       maxdiff <- 0
 

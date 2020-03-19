@@ -8,8 +8,7 @@ glca_em <- function(
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
 
-   y <- datalist$y; pattern <- datalist$pattern
-   x <- datalist$x; z <- datalist$z
+   y <- datalist$y; x <- datalist$x; z <- datalist$z
 
    delta <- init$delta
    gamma <- init$gamma
@@ -39,12 +38,16 @@ glca_em <- function(
             maxdiff <- max(max(abs(unlist(n_gamma) - unlist(gamma))),
                            max(abs(unlist(n_rho) - unlist(rho))))
 
-            if (verbose)
+            if (verbose) {
                if (iter %% 100 == 0)
-                  cat(iter, "iteration \n")
+                  cat(".")
+               if (iter %% 1000 == 0)
+                  cat("", iter, "iteration \n")
+            }
 
             if (maxdiff < eps) {
                converged <- TRUE
+               if (verbose) cat("", iter, "iteration \n")
                break
             } else {
                gamma <- n_gamma
@@ -85,12 +88,16 @@ glca_em <- function(
             maxdiff <- max(max(abs(unlist(n_beta) - unlist(beta))),
                            max(abs(unlist(n_rho) - unlist(rho))))
 
-            if (verbose)
+            if (verbose) {
                if (iter %% 100 == 0)
-                  cat(iter, "iteration \n")
+                  cat(".")
+               if (iter %% 1000 == 0)
+                  cat("", iter, "iteration \n")
+            }
 
             if (maxdiff < eps) {
                converged <- TRUE
+               if (verbose) cat("", iter, "iteration \n")
                break
             } else {
                beta <- n_beta
@@ -102,16 +109,13 @@ glca_em <- function(
          param$rho   <- n_rho
       }
 
-      fitted <- list()
-      for (g in 1:G) {
-         tmp_patt <- pattern[pattern[, M + 1] == g, 1:M]
-         gamma_m <- matrix(colMeans(gamma[[g]]),
-                           nrow(tmp_patt), C, byrow = TRUE)
-         fitted[[g]] <- GetFitted(tmp_patt, gamma_m, rho[[g]], Ng[g], C, M, R)
-      }
-      fitted <- unlist(fitted)
-
       llik <- GetLik(y, gamma, rho, Ng, G, C, M, R)
+      gamma_m <- list(
+         matrix(colMeans(do.call(rbind, Post)),
+                sum(Ng), C, byrow = TRUE)
+      )
+      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho,
+                     sum(Ng), 1, C, M, R)
    } else {
       if (P == 1 && Q == 0) {
          for (iter in miniter:maxiter) {
@@ -127,12 +131,16 @@ glca_em <- function(
                            max(abs(unlist(n_gamma) - unlist(gamma))),
                            max(abs(unlist(n_rho) - unlist(rho))))
 
-            if (verbose)
+            if (verbose) {
                if (iter %% 100 == 0)
-                  cat(iter, "iteration \n")
+                  cat(".")
+               if (iter %% 1000 == 0)
+                  cat("", iter, "iteration \n")
+            }
 
             if (maxdiff < eps) {
                converged <- TRUE
+               if (verbose) cat("", iter, "iteration \n")
                break
             } else {
                delta <- n_delta
@@ -145,7 +153,6 @@ glca_em <- function(
          param$rho   <- n_rho
 
          llik <- GetUDlik(y, delta, gamma, rho, Ng, G, W, C, M, R)
-         gamma_m = lapply(1:G, function(g) gamma)
       } else {
          for (iter in miniter:maxiter) {
             # E-step
@@ -193,12 +200,16 @@ glca_em <- function(
                            max(abs(unlist(n_beta) - unlist(beta))),
                            max(abs(unlist(n_rho) - unlist(rho))))
 
-            if (verbose)
+            if (verbose) {
                if (iter %% 100 == 0)
-                  cat(iter, "iteration \n")
+                  cat(".")
+               if (iter %% 1000 == 0)
+                  cat("", iter, "iteration \n")
+            }
 
             if (maxdiff < eps) {
                converged <- TRUE
+               if (verbose) cat("", iter, "iteration \n")
                break
             } else {
                delta <- n_delta
@@ -212,17 +223,14 @@ glca_em <- function(
          param$rho   <- n_rho
 
          llik = GetUDlikX(y, delta, gamma, rho, Ng, G, W, C, M, R)
-         gamma_m = lapply(1:G, function(g)
-            t(sapply(gamma[[g]], function(w) colMeans(w))))
       }
 
-      fitted = list()
-      for (g in 1:G) {
-         tmp_patt <- pattern[pattern[, M + 1] == g, 1:M]
-         fitted[[g]] = GetUDfit(tmp_patt, delta, gamma_m[[g]], rho,
-                           Ng[g], W, C, M, R)
-      }
-      fitted = unlist(fitted)
+      gamma_m = list(
+         matrix(colMeans(do.call(rbind, Post$PostC)),
+                sum(Ng), C, byrow = TRUE)
+      )
+      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, list(rho),
+                     sum(Ng), 1, C, M, R)
    }
 
    if (verbose) {
@@ -236,7 +244,7 @@ glca_em <- function(
 
    return(
       list(param = param, posterior = Post,
-           fitted = fitted, loglik = llik,
+           loglik = llik, nullik = nullik,
            niter = iter, converged = converged)
    )
 }

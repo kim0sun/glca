@@ -32,9 +32,9 @@
 #' ## Model selection between two LCA models with different number of latent classes.
 #' data(gss)
 #' class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, n.init = 10, nclass = 4)
+#'               data = gss, n.init = 5, nclass = 4)
 #' class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, n.init = 10, nclass = 5)
+#'               data = gss, n.init = 5, nclass = 5)
 #'
 #' glca.gof(class4, class5)
 #' \dontrun{glca.gof(class4, class5, test = "chisq")}
@@ -87,6 +87,7 @@ glca.gof = function(
    model1 <- object$call
    m1 <- object
    Gsq1 <- object$gof$Gsq
+   Rel <- FALSE; nll <- FALSE
    if (!is.null(object2)) {
       model2 <- object2$call
       m2 <- object2
@@ -96,9 +97,7 @@ glca.gof = function(
 
    # Relative indicator
    if (!is.null(object2)) {
-      Rel <- identical(object$datalist$y, object2$datalist$y) &
-         identical(object$datalist$group, object2$datalist$group)
-
+      Rel <- identical(object$datalist$y, object2$datalist$y)
       Nestd <- object$model$C == object2$model$C &&
          object$model$W == object2$model$W
 
@@ -108,9 +107,12 @@ glca.gof = function(
          H0 <- 2; H1 <- 1
       }
       if (Rel)
-         GsqR <- abs(m[[H1]]$gof$Gsq - m[[H0]]$gof$Gsq)
+         GsqR <- abs(m[[H1]]$gof$loglik - m[[H0]]$gof$loglik)
       else
          warning("Response or group might be different.")
+   } else if (object$model$type != "Standard LCA") {
+      Rel <- TRUE; nll <- TRUE
+      GsqR <- abs(m1$gof$loglik - m1$gof$nullik)
    }
 
    # Bootstrap
@@ -134,10 +136,8 @@ glca.gof = function(
 
          if (is.null(EMb1))
             bGsq1[b] <- NA
-         else {
+         else
             bGsq1[b] <- 2 * (b1$loglik0 - EMb1$loglik)
-         }
-
 
          if (!is.null(object2)) {
             b2 <- glca_gnr(m2$model, m2$param, m2$datalist)
@@ -182,63 +182,69 @@ glca.gof = function(
 
    if (is.null(object2))
       criteria <- data.frame(
-         "Res.Df" = m1$gof$df,
-         "Loglik" = m1$gof$loglik,
          "AIC" = round(m1$gof$aic, 2),
+         "CAIC" = round(m1$gof$caic, 2),
          "BIC" = round(m1$gof$bic, 2),
-         "Gsq" = round(m1$gof$Gsq, 2),
-         "Pearson.Chisq" = round(m1$gof$chisq, 2)
+         "Res.Df" = m1$gof$df,
+         "Gsq" = round(m1$gof$Gsq, 2)
       )
    else
       criteria <- data.frame(
-         "Res.Df" = c(m1$gof$df, m2$gof$df),
-         "Loglik" = c(m1$gof$loglik, m2$gof$loglik),
          "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
+         "CAIC" = round(c(m1$gof$caic, m2$gof$caic), 2),
          "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
-         "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2),
-         "Pearson Chisq" = round(c(m1$gof$chisq, m2$gof$chisq), 2)
+         "Res.Df" = c(m1$gof$df, m2$gof$df),
+         "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2)
       )
 
    if (is.null(object2)) {
-      dev.table <- as.data.frame(cbind(
-         "Res.Df" = m1$gof$df,
-         "Resid.Dev(Gsq)" = round(Gsq1, 2)
-      ))
       if (test == "chisq") {
-         dev.table <- cbind(dev.table, "Pr(>Chi)" =
+         criteria <- cbind(criteria, "Pr(>Chi)" =
             round(pchisq(Gsq1, m1$gof$df, lower.tail = FALSE), 3))
       } else if (test == "boot")
-         dev.table <- cbind(dev.table, "Pr(>BootGsq)" =
+         criteria <- cbind(criteria, "Boot p-value" =
             round(mean(Gsq1 < bGsq1), 3))
    } else {
-      dev.table <- as.data.frame(cbind(
-         "Res.Df" = c(m1$gof$df, m2$gof$df),
-         "Resid.Dev(Gsq)" = round(c(Gsq1, Gsq2), 2)
-      ))
-
       if (test == "chisq") {
          if (!Nestd)
             warning("The models are not nested. Chi-square test is not appropriate.")
-         dev.table <- cbind(dev.table, "Pr(>Chi)" =
+         criteria <- cbind(criteria, "Pr(>Chi)" =
            round(c(1 - pchisq(Gsq1, m1$gof$df),
                    1 - pchisq(Gsq2, m1$gof$df)), 3))
       } else if (test == "boot") {
-         dev.table <- cbind(dev.table, "Boot p-value" =
+         criteria <- cbind(criteria, "Boot p-value" =
            round(c(mean(Gsq1 < bGsq1), mean(Gsq2 < bGsq2)), 3))
       }
+   }
 
-      if (Rel) {
-         Df <- Vrel <- Prel <- c("", "")
-         Df[H1] <- m[[H0]]$gof$df - m[[H1]]$gof$df
-         Vrel[H1] <- round(GsqR, 2)
-         dev.table <- cbind(dev.table, "Df" = Df, "Deviance(Gsq)" = Vrel)
-         if (test == "chisq") {
-            Prel[H1] <- round(1 - pchisq(GsqR, as.numeric(Df[H1])), 3)
-            dev.table <- cbind(dev.table, "Pr(>Chi)" = Prel)
-         } else if (test == "boot") {
-            Prel[H1] <- round(boot3, 3)
-            dev.table <- cbind(dev.table, "Boot p-value" = Prel)
-         }
+   if (nll) {
+      nullpar <- m1$model$C - 1 + m1$model$C * sum(m1$model$R - 1)
+      deviance <- round(m1$gof$loglik - m1$gof$nullik, 2)
+      Df <- m1$model$npar - nullpar
+      Pval <-  round(1 - pchisq(deviance, as.numeric(Df)), 3)
+      dev.table <- as.data.frame(cbind(
+         "npar" = c(nullpar, m1$model$npar),
+         "Loglik" = round(c(m1$gof$nullik, m1$gof$loglik), 2),
+         "Df" = c("", Df),
+         "Deviance" = c("", deviance),
+         "Pr(>Chi)" = c("", Pval)
+      ))
+      row.names(dev.table) = c("NULL", 1)
+   } else if (Rel) {
+      dev.table <- as.data.frame(cbind(
+         "npar" = c(m1$model$npar, m2$model$npar),
+         "Loglik" = c(m1$gof$loglik, m2$gof$loglik)
+      ))
+      Df <- Vrel <- Prel <- c("", "")
+      Df[H1] <- m[[H0]]$gof$df - m[[H1]]$gof$df
+      Vrel[H1] <- round(GsqR, 2)
+      dev.table <- cbind(dev.table, "Df" = Df, "Deviance" = Vrel)
+      if (test == "chisq") {
+         Prel[H1] <- round(1 - pchisq(GsqR, as.numeric(Df[H1])), 3)
+         dev.table <- cbind(dev.table, "Pr(>Chi)" = Prel)
+      } else if (test == "boot") {
+         Prel[H1] <- round(boot3, 3)
+         dev.table <- cbind(dev.table, "Boot p-value" = Prel)
       }
    }
 
@@ -265,8 +271,10 @@ glca.gof = function(
 
    cat("\nModel Goodness of Fit Criteria :\n")
    print(criteria)
-   cat("\nAnalysis of Deviance (Gsq) Table :\n")
-   print(dev.table)
+   if (Rel | nll) {
+      cat("\nAnalysis of Deviance Table :\n")
+      print(dev.table)
+   }
 
    ret <- list(
       criteria = criteria,

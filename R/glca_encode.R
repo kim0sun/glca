@@ -1,5 +1,5 @@
 glca_encode <- function(
-   call, mf, data, nclass, ncluster,
+   call, mf, dataN, nclass, ncluster,
    measure.inv, na.rm, verbose
 )
 {
@@ -10,9 +10,7 @@ glca_encode <- function(
    if (class(Y) != "items")
       stop("Manifest items should be indicated by item function.\n")
 
-   dataN <- nrow(data)
    modelN <- nrow(mf)
-
    isna <- which(rowSums(Y == 0) > 0)
    totmis <- which(rowSums(Y != 0) == 0)
 
@@ -108,37 +106,35 @@ glca_encode <- function(
    }
 
    C <- floor(nclass)
-   npatt <- prod(R) * G
 
-   if (npatt < 1e+6) {
-      pattern <- as.matrix(expand.grid(
-         c(lapply(1:M, function(m) 1:R[m]), list(1:G))))
-      obsvd <- ObsCell(as.matrix(cbind(Y, grp)),
-                       N, M + 1, c(R, G), 1000, 1e-8)
+   grpx <- cbind(grp, X)
+   uniqH <- unique(grpx)
+   hind <- match(data.frame(t(grpx)), data.frame(t(uniqH)))
+   H <- nrow(uniqH)
 
-      loglikg <- numeric(G)
-      for (g in 1:G)
-         loglikg[[g]] <- ObsLik(as.matrix(Y[grp == g, ]),
-                                Ng[g], M, R, 1000, 1e-8)
+   fulldf <- prod(R) * H
 
-      loglik0 <- sum(loglikg)
-   } else {
-      Y0 <- Y[rowSums(Y == 0) == 0,]
-      g0 <- grp[rowSums(Y == 0) == 0]
-      Yg <- cbind(Y0, g0)
-      Y.sorted <- Yg[do.call(order, data.frame(Yg)[(M + 1):1]),]
-      pattern <- as.matrix(unique(Y.sorted))
-      obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
-                        nrow(Y.sorted), nrow(pattern))
-      loglikg <- numeric(G)
-      for (g in 1:G) {
-         tmp = obsvd[Y.sorted[, M + 1] == g]
-         loglikg[[g]] <- sum(tmp * log(tmp / sum(tmp)))
+   if (prod(R) < 1e+6 & na.rm != TRUE & length(isna) != 0) {
+      loglikh <- numeric(H)
+      for (h in 1:H) {
+         Yh <- Y[hind == h, , drop = FALSE]
+         loglikh[h] <- ObsLik(as.matrix(Yh), nrow(Yh), M, R, 1000, 1e-8)
       }
-
-      loglik0 <- sum(loglikg)
+      loglik0 <- sum(loglikh)
+   } else {
+      Y0 <- Y[rowSums(Y == 0) == 0, , drop = FALSE]
+      h0 <- hind[rowSums(Y == 0) == 0]
+      loglikh <- numeric(H)
+      for (h in 1:H) {
+         Yh <- Y0[hind == h, , drop = FALSE]
+         Y.sorted <- Yh[do.call(order, data.frame(Yh)[M:1]), , drop = FALSE]
+         pattern <- as.matrix(unique(Y.sorted))
+         obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
+                           nrow(Y.sorted), nrow(pattern))
+         loglikh[h] <- sum(obsvd * log(obsvd / sum(obsvd)))
+      }
+      loglik0 <- sum(loglikh)
    }
-   dimnames(pattern) = list(NULL, c(y.names, deparse(call$group)))
 
    if (W == 0) {
       if (P == 1) {
@@ -172,8 +168,6 @@ glca_encode <- function(
 
    return(
       list(datalist = list(y = y, x = x, z = z, group = grp,
-                           pattern = pattern,
-                           observed = obsvd,
                            loglik0 = loglik0),
            model = list(type = type,
                         measure.inv = measure.inv,
@@ -181,7 +175,7 @@ glca_encode <- function(
                         C = C, W = W, M = M, R = R,
                         P = P, Q = Q,
                         npar = npar,
-                        df = min(N, npatt - 1) - npar),
+                        df = min(N, fulldf - 1) - npar),
            vname = list(y.names = y.names,
                         g.names = g.names,
                         r.names = r.names,
