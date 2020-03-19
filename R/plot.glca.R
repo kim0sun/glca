@@ -53,19 +53,19 @@ plot.glca <- function(x, group.name = NULL, ...)
       xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group",
                                 ylab = "Class Prevalence", las = 1)
       graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-             fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
+             fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
    } else {
       # gamma
       if (model$G == 1) {
          graphics::barplot(param$gamma[1,], main = "Class Prevalence",
                            ylab = "Class Prevalence", las = 1,
-                           col = grDevices::gray.colors(model$C), space = 0)
+                           col = grDevices::gray.colors(model$C))
       } else {
          prev <- t(sapply(post, colMeans))
 
          xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
          graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-                fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE)
+                fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
       }
    }
 
@@ -85,7 +85,7 @@ plot.glca <- function(x, group.name = NULL, ...)
             graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
          }
          graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3,
-                          legend = rownames(irp), xpd = TRUE, fill = "white")
+                          legend = rownames(irp), xpd = TRUE, bg = "white")
          graphics::title("Item Response Probabilities by Class")
       } else {
          if (is.null(group.name))
@@ -104,7 +104,7 @@ plot.glca <- function(x, group.name = NULL, ...)
                graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
             }
             graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3,
-                             legend = rownames(irp), xpd = TRUE, fill = "white")
+                             legend = rownames(irp), xpd = TRUE, bg = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Group : ",
                          x$var.names$g.names[g],")"))
          }
@@ -118,7 +118,7 @@ plot.glca <- function(x, group.name = NULL, ...)
             xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
             graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
                              fill = grDevices::gray.colors(ncol(rho[[m]])),
-                             xpd = TRUE, fill = "white")
+                             xpd = TRUE, bg = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
                          names(rho)[m],")"))
          }
@@ -133,7 +133,7 @@ plot.glca <- function(x, group.name = NULL, ...)
                xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
                graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
                                 fill = grDevices::gray.colors(ncol(rho[[m]])),
-                                xpd = TRUE, fill = "white")
+                                xpd = TRUE, bg = "white")
                graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
                                       names(rho)[m]," / Group : ", x$var.names$g.names[g], ")"))
             }
