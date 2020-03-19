@@ -275,32 +275,15 @@ glca_output <- function(
          names(post[[g]]) <- paste0("Class ", 1:C)
    }
 
-   # Cell count
-   if (G == 1)
-      tmp_patt = datalist$pattern[, 1:M]
-   else
-      tmp_patt = datalist$pattern
-   count <- data.frame(
-      tmp_patt,
-      observed = datalist$observed,
-      fitted = EM$fitted
-   )
-
-   obs = datalist$observed[datalist$observed != 0 & EM$fitted != 0]
-   fit = EM$fitted[datalist$observed != 0 & EM$fitted != 0]
-
-   count[1:M] = lapply(1:M, function(m) factor(count[[m]], labels = r.names1[[m]]))
-   if (G > 1)
-      count[[M + 1]] = factor(count[[M + 1]], labels = g.names)
-
    # Goodness of fit
    gof <- list(
       df = df,
       loglik = EM$loglik,
+      nullik = EM$nullik,
       aic = -2 * EM$loglik + 2 * npar,
+      caic = -2 * EM$loglik + (log(N) + 1) * npar,
       bic = -2 * EM$loglik + log(N) * npar,
-      Gsq = 2 * (datalist$loglik0 - EM$loglik),
-      chisq = sum((obs - fit)^2 / fit)
+      Gsq = 2 * (datalist$loglik0 - EM$loglik)
    )
 
    # Convergence
@@ -321,7 +304,6 @@ glca_output <- function(
       ret$std.err <- std.err
    ret$coefficient <- coeff
    ret$posterior <- post
-   ret$count <- count
    ret$gof <- gof
    ret$convergence <- convergence
 
