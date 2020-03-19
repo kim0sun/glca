@@ -7,8 +7,7 @@ glca_score <- function(
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
 
-   y <- datalist$y
-   x <- datalist$x; z <- datalist$z
+   y <- datalist$y; x <- datalist$x; z <- datalist$z
 
    delta <- param$delta
    gamma <- param$gamma
