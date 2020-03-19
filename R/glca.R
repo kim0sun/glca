@@ -42,7 +42,6 @@
 #' \item{std.err}{a list of standard errors for estimates}
 #' \item{coefficient}{a list of logistic regression coefficients for prevalence of level-1 class}
 #' \item{posterior}{a data frame of posterior probablities of each individaul for latent classes and each group for latent clusters}
-#' \item{count}{a data frame of unique response patterns of manifest items and their corresponding observed and predicted frequencies}
 #' \item{gof}{a list of goodness of fit measures}
 #' \item{convergence}{a list containing information about convergence}
 #'
@@ -61,7 +60,7 @@
 #'
 #' # LCA
 #' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-#'             data = gss, nclass = 3, na.rm = TRUE)
+#'             data = gss, nclass = 3)
 #' summary(lca)
 #'
 #' # LCA with covariate(s)
@@ -103,7 +102,7 @@
 #' @export
 
 glca <- function(
-   formula, group = NULL, data,
+   formula, group = NULL, data = NULL,
    nclass = 3, ncluster = 0,
    measure.inv = TRUE, std.err = TRUE,
    init.param = NULL, n.init = 1, testiter = 50,
@@ -118,17 +117,22 @@ glca <- function(
 
    # Function call
    call <- match.call()
-   mf <- match.call(expand.dots = FALSE)
-   m <- match(c("formula", "group", "data"), names(mf), 0L)
-   mf <- mf[c(1L, m)]
-   mf[[1L]] <- quote(stats::model.frame)
-   mf <- eval(mf, parent.frame())
+   mcall <- match.call(expand.dots = FALSE)
+   m <- match(c("formula", "group", "data"), names(mcall), 0L)
+   mcall <- mcall[c(1L, m)]
+   mcall[[1L]] <- quote(stats::model.frame)
+   nacll <- mcall
+   mf <- eval(mcall, parent.frame())
+   nacll[length(nacll) + 1] <- "na.pass"
+   names(nacll)[length(nacll)] <- "na.action"
+   dataN <- nrow(eval(nacll, parent.frame()))
+
 
    # Ecoding arguments (model, datalist, vname)
    # (type, N, Ng, G, C, W, M, R, P, Q, npar)
-   # (x, y, z, pattern, observed)
+   # (x, y, z, observed)
    # (y.names, g.names, r.names, x.names, z.names)
-   encode = glca_encode(call, mf, data, nclass, ncluster,
+   encode = glca_encode(call, mf, dataN, nclass, ncluster,
                         measure.inv, na.rm, verbose)
    datalist = encode$datalist
    model = encode$model
