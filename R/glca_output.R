@@ -294,6 +294,12 @@ glca_output <- function(
    if (!is.null(scores))
       convergence$score = scores$score
 
+   null <- list(
+      model0 = EM$model0,
+      param0 = EM$param0,
+      nullik = EM$nullik
+   )
+
    ret <- list()
    ret$call <- call
    ret$model <- model
@@ -306,6 +312,7 @@ glca_output <- function(
    ret$posterior <- post
    ret$gof <- gof
    ret$convergence <- convergence
+   ret$null <- null
 
    return(ret)
 }

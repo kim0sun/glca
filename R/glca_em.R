@@ -114,7 +114,8 @@ glca_em <- function(
          matrix(colMeans(do.call(rbind, Post)),
                 sum(Ng), C, byrow = TRUE)
       )
-      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho,
+      rho_m <- UpRhoR(y, Post, rho, Ng, G, C, M, R)[1]
+      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho_m,
                      sum(Ng), 1, C, M, R)
    } else {
       if (P == 1 && Q == 0) {
@@ -229,9 +230,15 @@ glca_em <- function(
          matrix(colMeans(do.call(rbind, Post$PostC)),
                 sum(Ng), C, byrow = TRUE)
       )
-      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, list(rho),
+      rho_m = list(rho)
+      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho_m,
                      sum(Ng), 1, C, M, R)
    }
+
+   model0 <- list(Ng = Ng, G = G, W = 0, C = C,
+                  M = M, R = R, P = 1, Q = 0)
+   param0 <- list(gamma = t(sapply(1:G, function(g) colMeans(gamma_m[[1]]))),
+                  rho = lapply(1:G, function(g) rho_m[[1]]))
 
    if (verbose) {
       if (converged)
@@ -243,8 +250,8 @@ glca_em <- function(
    }
 
    return(
-      list(param = param, posterior = Post,
-           loglik = llik, nullik = nullik,
+      list(param = param, posterior = Post, loglik = llik,
+           model0 = model0, param0 = param0, nullik = nullik,
            niter = iter, converged = converged)
    )
 }

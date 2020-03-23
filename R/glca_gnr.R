@@ -64,8 +64,8 @@ glca_gnr <- function(
       for (g in 1:G) {
          uniqx <- unique(datalist$x[[g]])
          xind <- match(data.frame(t(datalist$x[[g]])), data.frame(t(uniqx)))
-         y0 <- y[[g]][rowSums(Y == 0) == 0, , drop = FALSE]
-         x0 <- xind[rowSums(Y == 0) == 0]
+         y0 <- y[[g]][rowSums(y[[g]] == 0) == 0, , drop = FALSE]
+         x0 <- xind[rowSums(y[[g]] == 0) == 0]
          I <- nrow(uniqx)
          logliki <- numeric(I)
          for (i in 1:I) {
