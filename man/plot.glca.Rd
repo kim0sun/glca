@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.glca.R
 \name{plot.glca}
 \alias{plot.glca}
-\title{Plot the Estimated Parameters of Fitted glca Model}
+\title{Plots the Estimated Parameters of Fitted glca Model}
 \usage{
 \method{plot}{glca}(x, group.name = NULL, ...)
 }
