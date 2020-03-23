@@ -2,7 +2,7 @@
 % Please edit documentation in R/item.R
 \name{item}
 \alias{item}
-\title{Specify Manifest Items for \code{glca}}
+\title{Specifies Manifest Items for \code{glca}}
 \usage{
 item(..., starts.with = NULL, ends.with = NULL)
 }

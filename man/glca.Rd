@@ -4,7 +4,7 @@
 \alias{glca}
 \title{Fits Latent Class Models for Data Containing Group Variable and Covariates}
 \usage{
-glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
+glca(formula, group = NULL, data = NULL, nclass = 3, ncluster = 0,
   measure.inv = TRUE, std.err = TRUE, init.param = NULL,
   n.init = 1, testiter = 50, maxiter = 5000, eps = 1e-06,
   na.rm = FALSE, random.seed = NULL, verbose = TRUE)
@@ -12,13 +12,13 @@ glca(formula, group = NULL, data, nclass = 3, ncluster = 0,
 \arguments{
 \item{formula}{a formula for specifying manifest items and covariates using the "\code{item}" function}
 
-\item{group}{an optional vector specifying a group of observations. given group variable, group covariates can be incorporated}
+\item{group}{an optional vector specifying a group of observations. Given group variable, group covariates can be incorporated.}
 
 \item{data}{a data frame containing the manifest item, covariates and group variable}
 
 \item{nclass}{number of level-1 (individual-level) latent classes}
 
-\item{ncluster}{number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted}
+\item{ncluster}{number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted.}
 
 \item{measure.inv}{a logical value of the measurement invariance assumption across groups}
 
@@ -54,7 +54,6 @@ An object of class "\code{glca}" is a list containing the following components:
 \item{std.err}{a list of standard errors for estimates}
 \item{coefficient}{a list of logistic regression coefficients for prevalence of level-1 class}
 \item{posterior}{a data frame of posterior probablities of each individaul for latent classes and each group for latent clusters}
-\item{count}{a data frame of unique response patterns of manifest items and their corresponding observed and predicted frequencies}
 \item{gof}{a list of goodness of fit measures}
 \item{convergence}{a list containing information about convergence}
 }
@@ -79,7 +78,7 @@ data("gss")
 
 # LCA
 lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-            data = gss, nclass = 3, na.rm = TRUE)
+            data = gss, nclass = 3)
 summary(lca)
 
 # LCA with covariate(s)
@@ -88,13 +87,13 @@ lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
 summary(lcr)
 coef(lcr)
 
-# Multitple Group LCA (MGLCA)
+# Multiple-group LCA (MGLCA)
 mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglca)
 
 
-# Multitple Group LCA with Covariates (MGLCR)
+# Multiple-group LCA with covariate(s) (MGLCR)
 mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglcr)
@@ -111,9 +110,9 @@ mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlca)
 
-# MLCA with Covariates (MLCR)
+# MLCA with covariate(s) (MLCR)
 # (SEX: level-1 covariate, REGION: level-2 covariate)
-mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + REGION,
+mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)

@@ -23,36 +23,34 @@
 \url{https://wwwn.cdc.gov/Nchs/Nhanes/}
 }
 \description{
-There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 item are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those items are converted to binary, "Yes" or "No". The dataset includes gender, age, and race of respondents as covariates.
+There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 items are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those four categories are converted to binary as "Yes" ("Nearly every day", "More than half the days", "Several days") and "No" ("Not at all"). The dataset includes gender, age, and race of respondents as covariates.
 }
 \examples{
 data("nhanes")
 
 # Model 1: LCA
-lca = glca(item(starts.with = "DPQ") ~ 1,
-           data = nhanes, nclass = 2)
+lca = glca(item(starts.with = "DPQ") ~ 1, data = nhanes, nclass = 2)
 summary(lca)
 
 # Model 2: LCA with covariate(s)
-lcr = glca(item(starts.with = "DPQ") ~ AGE,
-           data = nhanes, nclass = 3)
+lcr = glca(item(starts.with = "DPQ") ~ AGE, data = nhanes, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Model 3: MGLCA
-mglca = glca(item(starts.with = "DPQ") ~ 1,
-             group = GENDER, data = nhanes, nclass = 3)
+mglca = glca(item(starts.with = "DPQ") ~ 1, group = GENDER,
+             data = nhanes, nclass = 3)
 summary(mglca)
 
 # Model 4: MGLCA with covariate(s)
-mglcr = glca(item(starts.with = "DPQ") ~ AGE,
-             group = GENDER, data = nhanes, nclass = 3)
+mglcr = glca(item(starts.with = "DPQ") ~ AGE, group = GENDER,
+             data = nhanes, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
 # Model 5: MLCA
-mlca = glca(item(starts.with = "DPQ") ~ 1,
-            group = RACE, data = nhanes, nclass = 3, ncluster = 2)
+mlca = glca(item(starts.with = "DPQ") ~ 1, group = RACE,
+            data = nhanes, nclass = 3, ncluster = 2)
 summary(mlca)
 }
 \references{

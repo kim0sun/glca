@@ -30,40 +30,44 @@ glca.gof(object, object2 = NULL, test = NULL, nboot = 25,
 \item{boot}{a list of LRT statistics from each bootstrap sample}
 }
 \description{
-Provides AIC, BIC, deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
+Provides AIC, BIC, and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 }
 \examples{
 ## Example 1.
-## LCA model selection between two models with different number of latent classes.
+## Model selection between two LCA models with different number of latent classes.
 data(gss)
 class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, n.init = 10, nclass = 4)
+              data = gss, nclass = 4)
 class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, n.init = 10, nclass = 5)
+              data = gss, nclass = 5)
 
 glca.gof(class4, class5)
 \dontrun{glca.gof(class4, class5, test = "chisq")}
 \dontrun{glca.gof(class4, class5, test = "boot")}
 
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
+             group = DEGREE, data = gss, nclass = 4)
+\dontrun{glca.gof(mglca, test = "boot")}
+
 ## Example 2.
-## MLCA model selection between two models with different number of latent clusters.
+## Model selection between two MLCA models with different number of latent clusters.
 cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
                 group = REGION, data = gss, nclass = 4, ncluster = 2, na.rm = TRUE)
 cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
                 group = REGION, data = gss, nclass = 4, ncluster = 3, na.rm = TRUE)
 
-\dontrun{glca.gof(cluster2, cluster3)}
+glca.gof(cluster2, cluster3)
 \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
 \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
 measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, n.init = 10, data = gss, nclass = 4)
+               group = SEX, data = gss, nclass = 4)
 measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, n.init = 10, data = gss, nclass = 4, measure.inv = FALSE)
+               group = SEX, data = gss, nclass = 4, measure.inv = FALSE)
 
-\dontrun{glca.gof(measInv, measVar)}
+glca.gof(measInv, measVar)
 \dontrun{glca.gof(measInv, measVar, test = "chisq")}
 \dontrun{glca.gof(measInv, measVar, test = "boot")}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/coef.glca.R
 \name{coef.glca}
 \alias{coef.glca}
-\title{Extracts \code{glca} Model Coefficients.}
+\title{Extracts \code{glca} Model Coefficients}
 \usage{
 \method{coef}{glca}(object, digits = max(3, getOption("digits") - 3),
   show.signif.stars = getOption("show.signif.stars"), ...)
@@ -17,9 +17,9 @@
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-Coefficient matrix from the \code{glca} model.
+Coefficient matrix from the \code{glca} model
 
-If the model has calculated standard errors, coefficient matrix contains standard errors and t-statistic and its p-value.
+If the model has calculated standard errors, coefficient matrix contains standard errors, t-statistic, and its p-value.
 }
 \description{
 Extracts regression coefficients of \code{glca} model if the model includes covariates.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.glca.R
 \name{summary.glca}
 \alias{summary.glca}
-\title{Summarize the Estimated Parameters of Fitted glca Model}
+\title{Summarizes the Estimated Parameters of Fitted glca Model}
 \usage{
 \method{summary}{glca}(object, digits = max(3, getOption("digits") - 3),
   ...)
