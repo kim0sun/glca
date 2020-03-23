@@ -28,7 +28,7 @@ glca_init <- function(model)
          init$delta <- rep(1, W) / W;
          init$gamma <- do.call(rbind, lapply(1:W, function(w)
          {
-            ran = rep(1, C) + stats::runif(C, -0.01, + 0.01)
+            ran = rep(1, C) + stats::runif(C, -0.5, + 0.5)
             return(ran / sum(ran))
          }))
          init$rho   <- lapply(1:M, function(x)
