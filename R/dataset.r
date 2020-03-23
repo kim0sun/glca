@@ -169,7 +169,7 @@ NULL
 #'    group = SEX, data = brfss2000, nclass = 3)
 #' summary(mglca)
 #'
-#' Model 3: MGLCA with covariate(s)
+#' # Model 3: MGLCA with covariate(s)
 #' mglcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ REGION,
 #'    group = SEX, data = brfss2000, nclass = 3)
 #' summary(mglcr)
