@@ -28,9 +28,8 @@ item <- function(..., starts.with = NULL, ends.with = NULL)
          stop("No manifest items were entered.")
       y[is.na(y)] <- 0
 
-      attr(y, "y.names") <- sapply(obj, deparse)[-1]
-      attr(y, "y.level") <- lapply(argf, levels)
-      class(y) <- "items"
+      yname <- sapply(obj, deparse)[-1]
+      ylevel <- lapply(argf, levels)
    } else {
       sname <- ename <- name <- ls(parent.frame())
 
@@ -51,10 +50,22 @@ item <- function(..., starts.with = NULL, ends.with = NULL)
       y <- do.call("cbind", lapply(argf, as.numeric))
       y[is.na(y)] <- 0
 
-      attr(y, "y.names") <- name
-      attr(y, "y.level") <- lapply(argf, levels)
-      class(y) <- "items"
+      yname <- name
+      ylevel <- lapply(argf, levels)
    }
 
+   ylen <- sapply(ylevel, length)
+   if (sum(ylen == 1) > 1) {
+      lev1 <- which(ylen == 1)
+      y <- y[,-lev1]
+      cat(paste(length(lev1), "variables has only 1 category, so that removed.\n\n"))
+      yname <- yname[-lev1]
+      ylevel <- ylevel[-lev1]
+   }
+
+   attr(y, "y.names") <- yname
+   attr(y, "y.level") <- ylevel
+   attr(y, "dataN") <- nrow(y)
+   class(y) <- "items"
    return(y)
 }

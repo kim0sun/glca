@@ -1,5 +1,5 @@
 glca_encode <- function(
-   call, mf, dataN, nclass, ncluster,
+   call, mf, nclass, ncluster,
    measure.inv, na.rm, verbose
 )
 {
@@ -10,6 +10,7 @@ glca_encode <- function(
    if (class(Y) != "items")
       stop("Manifest items should be indicated by item function.\n")
 
+   dataN <- attr(Y, "dataN")
    modelN <- nrow(mf)
    isna <- which(rowSums(Y == 0) > 0)
    totmis <- which(rowSums(Y != 0) == 0)

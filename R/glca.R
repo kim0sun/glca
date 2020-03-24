@@ -121,18 +121,13 @@ glca <- function(
    m <- match(c("formula", "group", "data"), names(mcall), 0L)
    mcall <- mcall[c(1L, m)]
    mcall[[1L]] <- quote(stats::model.frame)
-   nacll <- mcall
    mf <- eval(mcall, parent.frame())
-   nacll[length(nacll) + 1] <- "na.pass"
-   names(nacll)[length(nacll)] <- "na.action"
-   dataN <- nrow(eval(nacll, parent.frame()))
-
 
    # Ecoding arguments (model, datalist, vname)
    # (type, N, Ng, G, C, W, M, R, P, Q, npar)
    # (x, y, z, observed)
    # (y.names, g.names, r.names, x.names, z.names)
-   encode = glca_encode(call, mf, dataN, nclass, ncluster,
+   encode = glca_encode(call, mf, nclass, ncluster,
                         measure.inv, na.rm, verbose)
    datalist = encode$datalist
    model = encode$model
