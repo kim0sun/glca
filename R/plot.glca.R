@@ -103,7 +103,7 @@ plot.glca <- function(x, group.name = NULL, ...)
             for (c in 1:model$C) {
                graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
             }
-            graphics::legend(x = model$M + 0.5, y = 1, pch = 1:3,
+            graphics::legend(x = model$M + 0.5, y = 1, pch = 1:model$C,
                              legend = rownames(irp), xpd = TRUE, bg = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Group : ",
                          x$var.names$g.names[g],")"))
