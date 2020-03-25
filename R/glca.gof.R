@@ -293,7 +293,7 @@ glca.gof = function(
       cat(", measure.inv :", m2$model$measure.inv, "\n")
    }
 
-   cat("\nModel Goodness of Fit Criteria :\n")
+   cat("\Goodness of Fit Table :\n")
    print(criteria)
    if (Rel | nll) {
       cat("\nAnalysis of Deviance Table :\n")
