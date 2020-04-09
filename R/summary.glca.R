@@ -65,10 +65,14 @@ summary.glca <- function(
          cat("\n")
       }
 
-      cat("Rho :\n")
       if (all(model$R == 2)) {
-
+         cat ("Rho (Y = 1) :\n")
+         Rhomat <- sapply(1:model$M, function(m)
+            round(param$rho[[m]][,1], digits))
+         colnames(Rhomat) <- var.names$y.names
+         print(Rhomat)
       } else {
+         cat("Rho :\n")
          for (m in 1:model$M) {
             cat(var.names$y.names[m], "\n")
             print(round(param$rho[[m]], digits))
