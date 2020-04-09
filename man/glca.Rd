@@ -75,7 +75,7 @@ The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delt
 ## Example 1. GSS dataset
 ##
 data("gss")
-
+\donttest{
 # LCA
 lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
             data = gss, nclass = 3)
@@ -116,7 +116,7 @@ mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
-
+}
 }
 \references{
 Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, \bold{33}, 213--239. \url{https://doi.org/10.1111/j.0081-1750.2003.t01-1-00131.x}

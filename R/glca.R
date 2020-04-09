@@ -57,7 +57,7 @@
 #' ## Example 1. GSS dataset
 #' ##
 #' data("gss")
-#'
+#' \donttest{
 #' # LCA
 #' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'             data = gss, nclass = 3)
@@ -98,7 +98,7 @@
 #'             group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
-#'
+#' }
 #' @export
 
 glca <- function(

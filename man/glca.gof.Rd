@@ -36,6 +36,7 @@ Provides AIC, BIC, and deviance statitistic for goodness of fit test for the fit
 ## Example 1.
 ## Model selection between two LCA models with different number of latent classes.
 data(gss)
+\donttest{
 class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
               data = gss, nclass = 4)
 class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
@@ -70,7 +71,7 @@ measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
 glca.gof(measInv, measVar)
 \dontrun{glca.gof(measInv, measVar, test = "chisq")}
 \dontrun{glca.gof(measInv, measVar, test = "boot")}
-
+}
 }
 \references{
 Akaike, H. (1974) A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, \bold{19}, 716–723. \url{http://doi.org/10.1109/tac.1974.1100705}

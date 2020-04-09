@@ -23,7 +23,7 @@
 #' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2010/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
 #' @examples
 #' data("gss")
-#'
+#' \donttest{
 #' # Model 1: LCA
 #' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'            data = gss, nclass = 3)
@@ -50,6 +50,7 @@
 #' mlca =  glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'              group = REGION, data = gss, nclass = 3, ncluster = 2)
 #' summary(mlca)
+#' }
 NULL
 
 #' National Health and Nutrition Examination Survey 2015-2016
@@ -79,7 +80,7 @@ NULL
 #' @references Centers for Disease Control and Prevention (CDC). National Center for Health Statistics (NCHS). National Health and Nutrition Examination Survey Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers for Disease Control and Prevention, [2015-2016][\url{https://wwwn.cdc.gov/nchs/nhanes/ContinuousNhanes/Default.aspx?BeginYear=2015}]
 #' @examples
 #' data("nhanes")
-#'
+#' \donttest{
 #' # Model 1: LCA
 #' lca = glca(item(starts.with = "DPQ") ~ 1, data = nhanes, nclass = 2)
 #' summary(lca)
@@ -104,6 +105,7 @@ NULL
 #' mlca = glca(item(starts.with = "DPQ") ~ 1, group = RACE,
 #'             data = nhanes, nclass = 3, ncluster = 2)
 #' summary(mlca)
+#' }
 NULL
 
 #' Behavioral Risk Factor Surveillance System 2017 (BRFSS 2017)
@@ -157,6 +159,7 @@ NULL
 #' MIT Election Data and Science Lab, (2017). U.S. President 1976-2016. Retrieved from \url{https://doi.org/10.7910/DVN/42MVDX}.
 #' @examples
 #' data("brfss")
+#' \donttest{
 #' brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
 #'
 #' # Model 1: LCA
@@ -192,4 +195,5 @@ NULL
 #'              group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 #' summary(mlcr2)
 #' coef(mlcr2)
+#' }
 NULL

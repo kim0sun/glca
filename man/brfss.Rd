@@ -49,6 +49,7 @@ This data is comprised of questions related to healthy lifestyles, such as obesi
 }
 \examples{
 data("brfss")
+\donttest{
 brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
 
 # Model 1: LCA
@@ -84,6 +85,7 @@ mlcr2 = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
              group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
 summary(mlcr2)
 coef(mlcr2)
+}
 }
 \references{
 Centers for Disease Control and Prevention. (2017). 2017 Behavioral Risk Factor Surveillance System Survey Data. Retrieved from \url{https://www.cdc.gov/brfss/}.
