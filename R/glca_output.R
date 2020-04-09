@@ -279,7 +279,6 @@ glca_output <- function(
    gof <- list(
       df = df,
       loglik = EM$loglik,
-      nullik = EM$nullik,
       aic = -2 * EM$loglik + 2 * npar,
       caic = -2 * EM$loglik + (log(N) + 1) * npar,
       bic = -2 * EM$loglik + log(N) * npar,
@@ -294,10 +293,15 @@ glca_output <- function(
    if (!is.null(scores))
       convergence$score = scores$score
 
+   nullpar = C - 1 + C * sum(R - 1)
    null <- list(
       model0 = EM$model0,
       param0 = EM$param0,
-      nullik = EM$nullik
+      nullik = EM$nullik,
+      aic = -2 * EM$nullik + 2 * nullpar,
+      caic = -2 * EM$nullik + (log(N) + 1) * nullpar,
+      bic = -2 * EM$nullik + log(N) * nullpar,
+      Gsq = 2 * (datalist$nullik0 - EM$nullik)
    )
 
    ret <- list()

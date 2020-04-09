@@ -122,6 +122,7 @@ glca_encode <- function(
          loglikh[h] <- ObsLik(as.matrix(Yh), nrow(Yh), M, R, 1000, 1e-8)
       }
       loglik0 <- sum(loglikh)
+      nullik0 <- ObsLik(as.matrix(Y), N, M, R, 1000, 1e-8)
    } else {
       Y0 <- Y[rowSums(Y == 0) == 0, , drop = FALSE]
       h0 <- hind[rowSums(Y == 0) == 0]
@@ -135,6 +136,12 @@ glca_encode <- function(
          loglikh[h] <- sum(obsvd * log(obsvd / sum(obsvd)))
       }
       loglik0 <- sum(loglikh)
+      Y0 <- Y[rowSums(Y == 0) == 0,]
+      Y.sorted <- Y0[do.call(order, data.frame(Y0)),]
+      pattern <- as.matrix(unique(Y.sorted))
+      obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
+                        nrow(Y.sorted), nrow(pattern))
+      nullik0 <- sum(obsvd * log(obsvd / sum(obsvd)))
    }
 
    if (W == 0) {
@@ -169,7 +176,7 @@ glca_encode <- function(
 
    return(
       list(datalist = list(y = y, x = x, z = z, group = grp,
-                           loglik0 = loglik0),
+                           loglik0 = loglik0, nullik0 = nullik0),
            model = list(type = type,
                         measure.inv = measure.inv,
                         N = N, Ng = Ng, G = G,

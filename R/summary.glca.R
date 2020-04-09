@@ -20,18 +20,22 @@ summary.glca <- function(
    object, digits = max(3, getOption("digits") - 3), ...
 )
 {
+   model <- object$model
+   param <- object$param
+   var.names <- object$var.names
+
    cat("\nCall:\n",  paste(deparse(object$call), sep = "\n", collapse = "\n"),
        "\n\n", sep = "")
-   cat("Model :", object$model$type, "\n")
-   if (object$model$W > 1){
-      cat("Number of latent classes :", object$model$C, "\n")
-      cat("Number of latent clusters :", object$model$W, "\n")
+   cat("Model :", model$type, "\n")
+   if (model$W > 1){
+      cat("Number of latent classes :", model$C, "\n")
+      cat("Number of latent clusters :", model$W, "\n")
    } else {
-      cat("Number of latent classes :", object$model$C, "\n")
+      cat("Number of latent classes :", model$C, "\n")
    }
-   cat("Number of parameters :", object$model$npar, "\n")
-   if (object$model$G > 1)
-      cat("Number of groups :", object$model$G, "\n")
+   cat("Number of parameters :", model$npar, "\n")
+   if (model$G > 1)
+      cat("Number of groups :", model$G, "\n")
 
    cat("\nlog-likelihood :", object$gof$loglik,
        "\n     G-squared :", object$gof$Gsq,
@@ -39,42 +43,45 @@ summary.glca <- function(
        "\n           BIC :", object$gof$bic)
 
    cat("\n\nResponse numbering:\n")
-   print(object$var.names$resp.name)
+   print(var.names$resp.name)
 
    cat("\n\nParameters :\n")
-   param = object$param
-   if (object$model$W > 1) {
+   if (model$W > 1) {
       cat("Delta :\n")
       print(round(param$delta, digits))
       cat("\n")
-      if (object$model$P > 1 | object$model$Q > 0) {
+
+      if (model$P > 1 | model$Q > 0) {
          cat("Beta (level 1) :\n")
          print(lapply(param$beta[[1]], round, digits))
-         if (object$model$Q > 0) {
+         if (model$Q > 0) {
             cat("Beta (level 2) :\n")
             print(round(param$beta[[2]], digits))
          }
-
          cat("\n")
       } else {
          cat("Gamma :\n")
          print(round(param$gamma, digits))
          cat("\n")
       }
-      cat("Rho :\n")
 
-      for (m in 1:object$model$M) {
-         cat(object$var.names$y.names[m], "\n")
-         print(round(param$rho[[m]], digits))
+      cat("Rho :\n")
+      if (all(model$R == 2)) {
+
+      } else {
+         for (m in 1:model$M) {
+            cat(var.names$y.names[m], "\n")
+            print(round(param$rho[[m]], digits))
+         }
       }
+
       cat("\n")
    } else {
-      if (object$model$P > 1) {
+      if (model$P > 1) {
          cat("Beta :\n")
-
-         if (object$model$G > 1) {
-            for (g in 1:object$model$G) {
-               cat("Group :", object$var.names$g.names[g], "\n")
+         if (model$G > 1) {
+            for (g in 1:model$G) {
+               cat("Group :", var.names$g.names[g], "\n")
                print(round(param$beta[[g]], digits))
             }
          } else {
@@ -87,30 +94,53 @@ summary.glca <- function(
          cat("\n")
       }
 
-      if (object$model$G == 1) {
-         for (m in 1:object$model$M) {
-            cat(object$var.names$y.names[m], "\n")
-            print(round(param$rho[[1]][[m]], digits))
-         }
-      } else {
-         if (object$model$measure.inv) {
-            cat("Rho (invariant across groups) :\n")
-
-            for (m in 1:object$model$M) {
-               cat(object$var.names$y.names[m], "\n")
+      if (model$G == 1) {
+         if (all(model$R == 2)) {
+            cat ("Rho (Y = 1) :\n")
+            Rhomat <- sapply(1:model$M, function(m)
+               round(param$rho[[1]][[m]][,1], digits))
+            colnames(Rhomat) <- var.names$y.names
+            print(Rhomat)
+         } else {
+            cat ("Rho :\n")
+            for (m in 1:model$M) {
+               cat(var.names$y.names[m], "\n")
                print(round(param$rho[[1]][[m]], digits))
             }
-
-            cat("\n")
+         }
+      } else {
+         if (model$measure.inv) {
+            if (all(model$R == 2)) {
+               cat ("Rho (Y = 1) :\n")
+               Rhomat <- sapply(1:model$M, function(m)
+                  round(param$rho[[1]][[m]][,1], digits))
+               colnames(Rhomat) <- var.names$y.names
+               print(Rhomat)
+            } else {
+               cat("Rho (invariant across groups) :\n")
+               for (m in 1:model$M) {
+                  cat(var.names$y.names[m], "\n")
+                  print(round(param$rho[[1]][[m]], digits))
+               }
+            }
          } else {
-            Rhomat = lapply(param$rho, function(g)
-               sapply(g, function(m) apply(m, 1, which.max)))
-            cat("Rho (Most likely response) : \n")
-
-            for (g in 1:object$model$G) {
-               cat("Group :", object$var.names$g.names[[g]], "\n")
-               print(sapply(param$rho[[g]], function(m)
-                  apply(m, 1, which.max)))
+            if (all(model$R == 2)) {
+               cat ("Rho (Y = 1) :\n")
+               for (g in 1:model$G) {
+                  cat("Group :", var.names$g.names[[g]], "\n")
+                  Rhomat <- sapply(1:model$M, function(m)
+                     round(param$rho[[g]][[m]][,1], digits))
+                  colnames(Rhomat) <- var.names$y.names
+                  print(Rhomat)
+                  cat("\n")
+               }
+            } else {
+               cat("Rho (Most likely response) :\n")
+               for (g in 1:model$G) {
+                  cat("Group :", var.names$g.names[[g]], "\n")
+                  print(sapply(param$rho[[g]], function(m)
+                     apply(m, 1, which.max)))
+               }
             }
          }
       }

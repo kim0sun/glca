@@ -59,6 +59,8 @@ glca_gnr <- function(
          loglikg[g] <- sum(logliki)
       }
       loglik0 <- sum(loglikg)
+      Y = do.call(rbind, y)
+      nullik0 <- ObsLik(as.matrix(Y), sum(Ng), M, R, 1000, 1e-8)
    } else {
       loglikg <- numeric(G)
       for (g in 1:G) {
@@ -79,8 +81,15 @@ glca_gnr <- function(
          loglikg[g] <- sum(logliki)
       }
       loglik0 <- sum(loglikg)
+      Y = do.call(rbind, y)
+      Y0 <- Y[rowSums(Y == 0) == 0,]
+      Y.sorted <- Y0[do.call(order, data.frame(Y0)),]
+      pattern <- as.matrix(unique(Y.sorted))
+      obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
+                        nrow(Y.sorted), nrow(pattern))
+      nullik0 <- sum(obsvd * log(obsvd / sum(obsvd)))
    }
 
    return(list(y = y, x = datalist$x, z = datalist$z,
-               loglik0 = loglik0))
+               loglik0 = loglik0, nullik0 = nullik0))
 }

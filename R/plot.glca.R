@@ -59,25 +59,17 @@ plot.glca <- function(x, group.name = NULL, ...)
                           fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
       }
    } else {
-      if (model$P > 1) {
-         if (is.null(cov.name)) {
-
-         } else {
-
-         }
+      # gamma
+      if (model$G == 1) {
+         graphics::barplot(param$gamma[1,], main = "Class Prevalence",
+                           ylab = "Class Prevalence", las = 1,
+                           col = grDevices::gray.colors(model$C))
       } else {
-         # gamma
-         if (model$G == 1) {
-            graphics::barplot(param$gamma[1,], main = "Class Prevalence",
-                              ylab = "Class Prevalence", las = 1,
-                              col = grDevices::gray.colors(model$C))
-         } else {
-            prev <- t(sapply(post, colMeans))
+         prev <- t(sapply(post, colMeans))
 
-            xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
-            graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-                             fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
-         }
+         xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
+         graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
+                          fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
       }
    }
 
