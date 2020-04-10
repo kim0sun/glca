@@ -12,6 +12,7 @@ Description: Fits latent class analysis (LCA) including group variable and covar
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
 Imports: Rcpp (>= 1.0.3), MASS
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
