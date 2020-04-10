@@ -17,11 +17,11 @@
 #' \item{boot}{a list of LRT statistics from each bootstrap sample}
 #'
 #' @references
-#' Akaike, H. (1974) A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, \bold{19}, 716–723. \url{http://doi.org/10.1109/tac.1974.1100705}
+#' Akaike, H. (1974) A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, \bold{19}, 716–723. \doi{10.1109/tac.1974.1100705}
 #'
-#' Schwarz, G. (1978) Estimating the dimensions of a model. \emph{The Annals of Statistics}, \bold{6}, 461–464. \url{http://doi.org/10.1214/aos/1176344136}
+#' Schwarz, G. (1978) Estimating the dimensions of a model. \emph{The Annals of Statistics}, \bold{6}, 461–464. \doi{10.1214/aos/1176344136}
 #'
-#' Langeheine, R., Pannekoek, J., and van de Pol, F. (1996) Bootstrapping goodness-of-fit measures in categorical data analysis. \emph{Sociological Methods and Research}. \bold{24}. 492-516. \url{http://doi.org/10.1177/0049124196024004004}
+#' Langeheine, R., Pannekoek, J., and van de Pol, F. (1996) Bootstrapping goodness-of-fit measures in categorical data analysis. \emph{Sociological Methods and Research}. \bold{24}. 492-516. \doi{10.1177/0049124196024004004}
 #'
 #' @author Youngsun Kim
 #'

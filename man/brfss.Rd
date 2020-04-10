@@ -90,6 +90,6 @@ coef(mlcr2)
 \references{
 Centers for Disease Control and Prevention. (2017). 2017 Behavioral Risk Factor Surveillance System Survey Data. Retrieved from \url{https://www.cdc.gov/brfss/}.
 
-MIT Election Data and Science Lab, (2017). U.S. President 1976-2016. Retrieved from \url{https://doi.org/10.7910/DVN/42MVDX}.
+MIT Election Data and Science Lab, (2017). U.S. President 1976-2016. Retrieved from \doi{10.7910/DVN/42MVDX}.
 }
 \keyword{datasets}
