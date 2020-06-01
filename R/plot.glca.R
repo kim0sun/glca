@@ -26,10 +26,11 @@
 #' mglca2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
 #'              group = DEGREE, data = gss, nclass = 3, measure.inv = FALSE)
 #' plot(mglca2)
+#' plot(mglca2, "all")
 #'
 #' # Multilvel LCA (MLCA)
 #' mlca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-#'              group = REGION, data = gss, nclass = 3, ncluster = 3)
+#'              group = REGION, data = gss, nclass = 3, ncluster = 2)
 #' plot(mlca)
 #' }
 #'
@@ -38,26 +39,25 @@
 
 plot.glca <- function(x, group.name = NULL, ...)
 {
+   oldpar <- par(no.readonly = TRUE)
+   on.exit(par(oldpar))
    grDevices::devAskNewPage(TRUE)
 
    model <- x$model
    param <- x$param
    post <- x$posterior
+
    graphics::par(mar = c(5.1, 4.1, 4.1, 4.5), mfrow = c(1, 1))
 
    if (model$W > 1) {
-      if (model$P > 1 | model$Q > 0) {
-         cat("")
-      } else {
-         # delta, gamma
-         prev <- post$wclass
-         rownames(prev) = paste0(rownames(prev), "\n(", round(param$delta, 2), ")")
+      # delta, gamma
+      prev <- post$wclass
+      rownames(prev) = paste0(rownames(prev), "\n(", round(param$delta, 2), ")")
 
-         xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group",
-                                   ylab = "Class Prevalence", las = 1)
-         graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-                          fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
-      }
+      xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group",
+                                ylab = "Class Prevalence", las = 1)
+      graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
+                       fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
    } else {
       # gamma
       if (model$G == 1) {
@@ -93,8 +93,8 @@ plot.glca <- function(x, group.name = NULL, ...)
          graphics::title("Item Response Probabilities by Class")
       } else {
          if (is.null(group.name))
-            warning("Input group names to be plotted Item Response Probabilities.")
-         if (group.name == "all")
+            stop("Input group names to be plotted Item Response Probabilities.")
+         else if (group.name == "all")
             group.name <- x$var.names$g.names
          for (g in match(group.name, x$var.names$g.names)) {
             irp <- sapply(param$rho[[g]], function(i) i[,1])
@@ -128,8 +128,8 @@ plot.glca <- function(x, group.name = NULL, ...)
          }
       } else {
          if (is.null(group.name))
-            warning("Input group names to be plotted Item Response Probabilities.")
-         if (group.name == "all")
+            stop("Input group names to be plotted Item Response Probabilities.")
+         else if (group.name == "all")
             group.name <- x$var.names$g.names
          for (g in match(group.name, x$var.names$g.names)) {
             rho <- param$rho[[g]]

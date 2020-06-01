@@ -35,10 +35,11 @@ plot(mglca1)
 mglca2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
              group = DEGREE, data = gss, nclass = 3, measure.inv = FALSE)
 plot(mglca2)
+plot(mglca2, "all")
 
 # Multilvel LCA (MLCA)
 mlca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-             group = REGION, data = gss, nclass = 3, ncluster = 3)
+             group = REGION, data = gss, nclass = 3, ncluster = 2)
 plot(mlca)
 }
 
