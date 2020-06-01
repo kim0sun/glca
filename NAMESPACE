@@ -3,6 +3,7 @@
 S3method(coef,glca)
 S3method(plot,glca)
 S3method(print,glca)
+S3method(print,glca.gof)
 S3method(summary,glca)
 export(glca)
 export(glca.gof)

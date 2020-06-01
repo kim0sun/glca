@@ -31,37 +31,33 @@
 #' ## Example 1.
 #' ## Model selection between two LCA models with different number of latent classes.
 #' data(gss)
-#' \donttest{
-#' class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, nclass = 4)
-#' class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, nclass = 5)
+#' class2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'               data = gss, nclass = 2)
+#' class3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'               data = gss, nclass = 3)
 #'
-#' glca.gof(class4, class5)
-#' \dontrun{glca.gof(class4, class5, test = "chisq")}
-#' \dontrun{glca.gof(class4, class5, test = "boot")}
-#'
-#' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'              group = DEGREE, data = gss, nclass = 4)
-#' \dontrun{glca.gof(mglca, test = "boot")}
+#' glca.gof(class2, class3)
+#' \dontrun{glca.gof(class2, class3, test = "chisq")}
+#' \dontrun{glca.gof(class2, class3, test = "boot")}
 #'
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
-#' cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                 group = REGION, data = gss, nclass = 4, ncluster = 2, na.rm = TRUE)
-#' cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                 group = REGION, data = gss, nclass = 4, ncluster = 3, na.rm = TRUE)
+#' cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'                 group = REGION, data = gss, nclass = 3, ncluster = 2, na.rm = TRUE)
+#' cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'                 group = REGION, data = gss, nclass = 3, ncluster = 3, na.rm = TRUE)
 #'
 #' glca.gof(cluster2, cluster3)
 #' \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
 #' \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 #'
+#' \donttest{
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
-#' measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, data = gss, nclass = 4)
-#' measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, data = gss, nclass = 4, measure.inv = FALSE)
+#' measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'                group = SEX, data = gss, nclass = 3)
+#' measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+#'                group = SEX, data = gss, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
 #' \dontrun{glca.gof(measInv, measVar, test = "chisq")}
@@ -69,7 +65,7 @@
 #' }
 #' @export
 
-glca.gof = function(
+glca.gof <- function(
    object, object2 = NULL, test = NULL, nboot = 25,
    random.seed = NULL, maxiter = 500, eps = 1e-5, verbose = TRUE
 )
@@ -89,12 +85,12 @@ glca.gof = function(
       set.seed(random.seed)
 
    # Model
-   model1 <- object$call
+   call1 <- object$call
    m1 <- object
    Gsq1 <- object$gof$Gsq
    Rel <- FALSE; nll <- FALSE
    if (!is.null(object2)) {
-      model2 <- object2$call
+      call2 <- object2$call
       m2 <- object2
       Gsq2 <- object2$gof$Gsq
       m <- list(m1, m2)
@@ -116,7 +112,6 @@ glca.gof = function(
       else
          warning("Response or group might be different.\n")
    } else if (object$model$type != "Standard LCA") {
-      model0 <- object$call
       Rel <- FALSE; nll <- TRUE
       GsqR <- 2 * abs(m1$gof$loglik - m1$null$nullik)
    }
@@ -292,44 +287,21 @@ glca.gof = function(
       }
    }
 
-   if (nll) {
-      cat("NULL   :", paste(paste(model0$formula)[c(2,1)], collapse = " "), 1, "\n")
-      cat("         nclass :", m1$model$C, "\n")
-   }
-   cat("Model 1:", paste(paste(model1$formula)[c(2,1,3)], collapse = " "), "\n")
-   if (m1$model$G > 1) {
-      cat("         group :", model1$group)
-      cat(", nclass :", m1$model$C)
-   } else
-      cat("         nclass :", m1$model$C)
-   if (m1$model$W > 1)
-       cat(", ncluster :", m1$model$W)
-   cat(", measure.inv :", m1$model$measure.inv, "\n")
-   if (!is.null(object2)) {
-      cat("Model 2:", paste(paste(model1$formula)[c(2,1,3)], collapse = " "), "\n")
-      if (m2$model$G > 1) {
-         cat("         group :", model2$group)
-         cat(", nclass :", m2$model$C)
-      } else
-         cat("         nclass :", m2$model$C)
-      if (m2$model$W > 1)
-         cat(", ncluster :", m2$model$W)
-      cat(", measure.inv :", m2$model$measure.inv, "\n")
-   }
+   ret <- list()
+   ret$type <- list(Rel = Rel, nll = nll)
+   ret$model <- list()
+   ret$model$model1 <- m1
+   if (Rel) ret$model$model2 <- m2
+   ret$call <- list()
+   ret$call$call1 <- call1
+   if (Rel) ret$call$call2 <- call2
 
-   cat("Goodness of Fit Table :\n")
-   print(criteria)
-   if (Rel | nll) {
-      cat("\nAnalysis of Deviance Table :\n")
-      print(dev.table)
-   }
-
-   ret <- list(criteria = criteria)
+   ret$criteria <- criteria
    if (Rel | nll)
-      ret$dev.table = dev.table
+      ret$dev.table <- dev.table
 
-   ret$boot <- list()
    if (test == "boot" & nboot > 0) {
+      ret$boot <- list()
       if (!is.null(object2)) {
          ret$boot$boot_Gsq1 <- bGsq1
          ret$boot$boot_Gsq2 <- bGsq2
@@ -342,5 +314,6 @@ glca.gof = function(
          ret$boot$boot_Gsq1 <- bGsq1
    }
 
-   invisible(ret)
+   class(ret) <- "glca.gof"
+   return(ret)
 }

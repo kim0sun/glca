@@ -36,37 +36,33 @@ Provides AIC, BIC, and deviance statitistic for goodness of fit test for the fit
 ## Example 1.
 ## Model selection between two LCA models with different number of latent classes.
 data(gss)
-\donttest{
-class4 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, nclass = 4)
-class5 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, nclass = 5)
+class2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+              data = gss, nclass = 2)
+class3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+              data = gss, nclass = 3)
 
-glca.gof(class4, class5)
-\dontrun{glca.gof(class4, class5, test = "chisq")}
-\dontrun{glca.gof(class4, class5, test = "boot")}
-
-mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-             group = DEGREE, data = gss, nclass = 4)
-\dontrun{glca.gof(mglca, test = "boot")}
+glca.gof(class2, class3)
+\dontrun{glca.gof(class2, class3, test = "chisq")}
+\dontrun{glca.gof(class2, class3, test = "boot")}
 
 ## Example 2.
 ## Model selection between two MLCA models with different number of latent clusters.
-cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 4, ncluster = 2, na.rm = TRUE)
-cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 4, ncluster = 3, na.rm = TRUE)
+cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+                group = REGION, data = gss, nclass = 3, ncluster = 2, na.rm = TRUE)
+cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+                group = REGION, data = gss, nclass = 3, ncluster = 3, na.rm = TRUE)
 
 glca.gof(cluster2, cluster3)
 \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
 \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 
+\donttest{
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
-measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, data = gss, nclass = 4)
-measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABNOMORE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, data = gss, nclass = 4, measure.inv = FALSE)
+measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+               group = SEX, data = gss, nclass = 3)
+measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
+               group = SEX, data = gss, nclass = 3, measure.inv = FALSE)
 
 glca.gof(measInv, measVar)
 \dontrun{glca.gof(measInv, measVar, test = "chisq")}
