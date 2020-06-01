@@ -287,7 +287,7 @@ List GetUDPostX(List y,
 
                for (p1 = 0; p1 < P; p1 ++)
                {
-                  grad(w * (C - 1) * P + c1 * P + p1) +=
+                  grad[w * (C - 1) * P + c1 * P + p1] +=
                      (postcw - gamma_w(i, c1) * postw) * x_g(i, p1);
                   for (c2 = 0; c2 < C - 1; c2 ++)
                   {
@@ -305,7 +305,7 @@ List GetUDPostX(List y,
 
                for (q1 = 0; q1 < Q; q1 ++)
                {
-                  grad(W * (C - 1) * P + c1 * Q + q1) +=
+                  grad[W * (C - 1) * P + c1 * Q + q1] +=
                      (postcw - gamma_w(i, c1) * postw) * z_g(i, q1);
 
                   for (c2 = 0; c2 < C - 1; c2 ++)
@@ -748,7 +748,7 @@ NumericVector GetFitted(IntegerMatrix pattern,
 
    clike = MeasProd(pattern, rho, pattern.nrow(),
                     C, M, R, clone(clike));
-   fitted = exp(log(N) + log(rowSums(clike)) -
+   fitted = exp(log(1.0 * N) + log(rowSums(clike)) -
       log(std::numeric_limits<double>::max()));
 
    return fitted;
