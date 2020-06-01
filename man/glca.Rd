@@ -6,7 +6,7 @@
 \usage{
 glca(formula, group = NULL, data = NULL, nclass = 3, ncluster = 0,
   measure.inv = TRUE, std.err = TRUE, init.param = NULL,
-  n.init = 1, testiter = 50, maxiter = 5000, eps = 1e-06,
+  n.init = 1, testiter = 50, maxiter = 1000, eps = 1e-06,
   na.rm = FALSE, random.seed = NULL, verbose = TRUE)
 }
 \arguments{
@@ -75,35 +75,34 @@ The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delt
 ## Example 1. GSS dataset
 ##
 data("gss")
-\donttest{
 # LCA
-lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
             data = gss, nclass = 3)
 summary(lca)
 
 # LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
+lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ AGE,
            data = gss, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Multiple-group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglca)
 
 
 # Multiple-group LCA with covariate(s) (MGLCR)
-mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
+mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ SEX,
              group = DEGREE, data = gss, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
+\donttest{
 ##
 ## Example 2. BRFSS data
 ##
 data("brfss")
-
 # Multilevel LCA (MLCA)
 brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
 mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
@@ -117,6 +116,7 @@ mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
 summary(mlcr)
 coef(mlcr)
 }
+
 }
 \references{
 Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, \bold{33}, 213--239. \doi{10.1111/j.0081-1750.2003.t01-1-00131.x}

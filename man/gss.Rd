@@ -25,7 +25,6 @@ This dataset includes 6 manifest items about abortion and several covariates fro
 }
 \examples{
 data("gss")
-\donttest{
 # Model 1: LCA
 lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
            data = gss, nclass = 3)
@@ -52,7 +51,6 @@ coef(mglcr)
 mlca =  glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
              group = REGION, data = gss, nclass = 3, ncluster = 2)
 summary(mlca)
-}
 }
 \references{
 Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2010/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago

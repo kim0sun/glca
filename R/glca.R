@@ -57,35 +57,34 @@
 #' ## Example 1. GSS dataset
 #' ##
 #' data("gss")
-#' \donttest{
 #' # LCA
-#' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+#' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
 #'             data = gss, nclass = 3)
 #' summary(lca)
 #'
 #' # LCA with covariate(s)
-#' lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
+#' lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ AGE,
 #'            data = gss, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Multiple-group LCA (MGLCA)
-#' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+#' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
 #'              group = DEGREE, data = gss, nclass = 3)
 #' summary(mglca)
 #'
 #'
 #' # Multiple-group LCA with covariate(s) (MGLCR)
-#' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
+#' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ SEX,
 #'              group = DEGREE, data = gss, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
+#' \donttest{
 #' ##
 #' ## Example 2. BRFSS data
 #' ##
 #' data("brfss")
-#'
 #' # Multilevel LCA (MLCA)
 #' brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
 #' mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
@@ -99,6 +98,7 @@
 #' summary(mlcr)
 #' coef(mlcr)
 #' }
+#'
 #' @export
 
 glca <- function(
@@ -106,7 +106,7 @@ glca <- function(
    nclass = 3, ncluster = 0,
    measure.inv = TRUE, std.err = TRUE,
    init.param = NULL, n.init = 1, testiter = 50,
-   maxiter = 5000, eps = 1e-6,
+   maxiter = 1000, eps = 1e-6,
    na.rm = FALSE, random.seed = NULL,
    verbose = TRUE
 )

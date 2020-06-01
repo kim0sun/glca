@@ -27,7 +27,6 @@ There is a 9 manifest items about frequency of depression symptoms over the past
 }
 \examples{
 data("nhanes")
-\donttest{
 # Model 1: LCA
 lca = glca(item(starts.with = "DPQ") ~ 1, data = nhanes, nclass = 2)
 summary(lca)
@@ -52,7 +51,6 @@ coef(mglcr)
 mlca = glca(item(starts.with = "DPQ") ~ 1, group = RACE,
             data = nhanes, nclass = 3, ncluster = 2)
 summary(mlca)
-}
 }
 \references{
 Centers for Disease Control and Prevention (CDC). National Center for Health Statistics (NCHS). National Health and Nutrition Examination Survey Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers for Disease Control and Prevention, [2015-2016][\url{https://wwwn.cdc.gov/nchs/nhanes/ContinuousNhanes/Default.aspx?BeginYear=2015}]
