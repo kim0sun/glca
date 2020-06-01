@@ -58,7 +58,7 @@ item <- function(..., starts.with = NULL, ends.with = NULL)
    if (sum(ylen == 1) > 1) {
       lev1 <- which(ylen == 1)
       y <- y[,-lev1]
-      cat(paste(length(lev1), "variables has only 1 category, so that removed.\n\n"))
+      message(paste(length(lev1), "variables has only 1 category, so that removed.\n\n"))
       yname <- yname[-lev1]
       ylevel <- ylevel[-lev1]
    }
