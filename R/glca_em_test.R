@@ -70,9 +70,9 @@ glca_em_test <- function(
                n_beta = list()
                for (g in 1:G) {
                   gradhess <- GetDeriv(Post[[g]], x[[g]], gamma[[g]], Ng[g], C, P)
-                  diff <- try(matrix(MASS::ginv(-gradhess[[2]]) %*% gradhess[[1]], P), TRUE)
+                  diff <- try(matrix(MASS::ginv(gradhess[[2]]) %*% gradhess[[1]], P), TRUE)
                   if (inherits(diff, "try-error")) break
-                  n_beta[[g]] = beta[[g]] + diff
+                  n_beta[[g]] = beta[[g]] - diff
                }
 
                if (model$measure.inv)
@@ -164,8 +164,7 @@ glca_em_test <- function(
 
                # M-step
                n_delta <- colSums(Post$PostW) / sum(Post$PostW)
-               n_beta  <- try(beta - MASS::ginv(
-                  Post$hess) %*% Post$grad, TRUE)
+               n_beta  <- try(beta - MASS::ginv(Post$hess) %*% Post$grad, TRUE)
                n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
 
                maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),

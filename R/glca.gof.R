@@ -1,6 +1,6 @@
 #' Goodness of Fit Tests for Fitted \code{glca} Model
 #'
-#' Provides AIC, BIC, and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
+#' Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 #'
 #' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}
 #' @param object2 an optional object of "\code{glca}" to be compared with \code{object}
@@ -22,6 +22,8 @@
 #' Schwarz, G. (1978) Estimating the dimensions of a model. \emph{The Annals of Statistics}, \bold{6}, 461–464. \doi{10.1214/aos/1176344136}
 #'
 #' Langeheine, R., Pannekoek, J., and van de Pol, F. (1996) Bootstrapping goodness-of-fit measures in categorical data analysis. \emph{Sociological Methods and Research}. \bold{24}. 492-516. \doi{10.1177/0049124196024004004}
+#'
+#' Ramaswamy, V., Desarbo, W., Reibstein, D., & Robinson, W. (1993). An Empirical Pooling Approach for Estimating Marketing Mix Elasticities with PIMS Data. Marketing Science, 12(1), 103-124. \doi{10.1287/mksc.12.1.103}
 #'
 #' @author Youngsun Kim
 #'
@@ -200,6 +202,7 @@ glca.gof <- function(
          "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
          "CAIC" = round(c(m1$gof$caic, m2$gof$caic), 2),
          "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
+         "entropy" = round(c(m1$gof$entropy, m2$gof$entropy), 2),
          "Res.Df" = c(m1$gof$df, m2$gof$df),
          "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2)
       )
@@ -210,6 +213,7 @@ glca.gof <- function(
          "AIC" = round(c(m1$null$aic, m1$gof$aic), 2),
          "CAIC" = round(c(m1$null$caic, m1$gof$caic), 2),
          "BIC" = round(c(m1$null$bic, m1$gof$bic), 2),
+         "entropy" = round(c(m1$null$entropy, m1$gof$entropy), 2),
          "Res.Df" = c(nulldf, m1$gof$df),
          "Gsq" = round(c(m1$null$Gsq, m1$gof$Gsq), 2),
          row.names = c("NULL", 1)
@@ -220,6 +224,7 @@ glca.gof <- function(
          "AIC" = round(m1$gof$aic, 2),
          "CAIC" = round(m1$gof$caic, 2),
          "BIC" = round(m1$gof$bic, 2),
+         "entropy" = round(m1$gof$entropy, 2),
          "Res.Df" = m1$gof$df,
          "Gsq" = round(m1$gof$Gsq, 2)
       )

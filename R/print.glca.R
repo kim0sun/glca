@@ -23,9 +23,11 @@ print.glca = function(x, ...)
       print(round(prev, 5))
       cat("\n")
    }
-   cat("Number of parameters :", x$model$npar, "\n")
+
+   cat("Number of observations :", x$model$N, "\n")
+   cat("  Number of parameters :", x$model$npar, "\n")
    if (x$model$G > 1)
-      cat("Number of groups :", x$model$G, "\n")
+      cat("      Number of groups :", x$model$G, "\n")
 
    cat("\nlog-likelihood :", x$gof$loglik,
        "\n     G-squared :", x$gof$Gsq,

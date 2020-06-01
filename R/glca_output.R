@@ -12,7 +12,7 @@ glca_output <- function(
    df <- model$df
 
    y.names <- vname$y.names
-   r.names1 <- vname$r.names
+   r.names <- vname$r.names
    r.names <- list()
    for (m in 1:M) {
       r.names[[m]] = paste0("Y = ", 1:R[m])
@@ -264,25 +264,29 @@ glca_output <- function(
       )
       names(post$wclass) <- paste0("Class ", 1:C)
 
-      post$class <- lapply(posterior$PostC, data.frame)
+      pclass <- posterior$PostC
+      post$class <- lapply(pclass, data.frame)
       names(post$class) <- g.names
       for (g in 1:G)
          names(post$class[[g]]) <- paste0("Class ", 1:C)
    } else {
-      post <- lapply(posterior, data.frame)
+      pclass <- posterior
+      post <- lapply(pclass, data.frame)
       names(post) = g.names
       for (g in 1:G)
          names(post[[g]]) <- paste0("Class ", 1:C)
    }
 
    # Goodness of fit
+   P = do.call(rbind, pclass)
    gof <- list(
       df = df,
       loglik = EM$loglik,
       aic = -2 * EM$loglik + 2 * npar,
       caic = -2 * EM$loglik + (log(N) + 1) * npar,
       bic = -2 * EM$loglik + log(N) * npar,
-      Gsq = 2 * (datalist$loglik0 - EM$loglik)
+      Gsq = 2 * (datalist$loglik0 - EM$loglik),
+      entropy = 1 - sum(-P[P != 0] * log(P)[P != 0]) / (N * log(C))
    )
 
    # Convergence
@@ -294,6 +298,7 @@ glca_output <- function(
       convergence$score = scores$score
 
    nullpar = C - 1 + C * sum(R - 1)
+   nP = do.call(rbind, EM$nullpost)
    null <- list(
       model0 = EM$model0,
       param0 = EM$param0,
@@ -301,7 +306,8 @@ glca_output <- function(
       aic = -2 * EM$nullik + 2 * nullpar,
       caic = -2 * EM$nullik + (log(N) + 1) * nullpar,
       bic = -2 * EM$nullik + log(N) * nullpar,
-      Gsq = 2 * (datalist$nullik0 - EM$nullik)
+      Gsq = 2 * (datalist$nullik0 - EM$nullik),
+      entropy = 1 - sum(-nP[nP != 0] * log(nP[nP != 0])) / (N * C)
    )
 
    ret <- list()
