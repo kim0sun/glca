@@ -95,8 +95,7 @@ glca_encode <- function(
          W <- 0
       else if (G <= ncluster) {
          if (verbose)
-            cat("Number of latent clusters should be less than number of groups.\n
-              MGLCA will be fitted.")
+            cat("Number of latent clusters should be less than number of groups.\nMGLCA will be fitted.\n")
          W <- 0
       } else {
          W <- floor(ncluster)
