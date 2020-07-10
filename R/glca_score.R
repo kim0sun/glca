@@ -6,6 +6,8 @@ glca_score <- function(
    C <- model$C; W <- model$W
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
+   measure.inv = model$measure.inv
+   coeff.inv = model$coeff.inv
 
    y <- datalist$y; x <- datalist$x; z <- datalist$z
 
@@ -20,7 +22,7 @@ glca_score <- function(
       if (P == 1) {
          S = GetScore(y, posterior, gamma, rho, Ng, G, C, M, R)
 
-         if (model$measure.inv) {
+         if (measure.inv) {
             Sg = do.call(rbind, S$g)
             Sr = do.call(rbind, S$r)
             fS = cbind(Sg, Sr)
@@ -54,7 +56,7 @@ glca_score <- function(
          }))
 
          std.err$rho = list()
-         if (model$measure.inv) {
+         if (measure.inv) {
             tmp_rho = diag(t(gmat3(rho[[1]])) %*% Ir %*% gmat3(rho[[1]]))
             tmp_rho[tmp_rho < 0] = 0
             for (m in 1:M) {
@@ -85,32 +87,28 @@ glca_score <- function(
             }
          }
       } else {
-         S = GetScoreX(y, x, posterior, gamma, rho, Ng, G, C, M, R, P)
+         S = GetScoreX(y, x, posterior, gamma, rho, Ng, G, C, M, R, P, coeff.inv)
 
-         if (model$measure.inv) {
-            Sb = do.call(rbind, S$b)
+         Sb = do.call(rbind, S$b)
+         if (measure.inv)
             Sr = do.call(rbind, S$r)
-            fS = cbind(Sb, Sr)
-         } else {
-            Sb = do.call(rbind, S$b)
+         else {
             Sr = matrix(0, sum(Ng), G * C * (sum(R) - M))
-            row = 1; col = 1
 
+            row = 1; col = 1
             for (g in 1:G) {
                Sr[row:(row + Ng[g] - 1), col:(col + C * (sum(R) - M) - 1)] = S$r[[g]]
                row = row + Ng[g]
                col = col + C * (sum(R) - M)
             }
-
-            fS = cbind(Sb, Sr)
          }
 
+         fS = cbind(Sb, Sr)
          score = colSums(fS)
-
          invI = MASS::ginv(t(fS) %*% fS)
-         Ir = invI[(G * P * (C - 1) + 1):ncol(invI),
-                   (G * P * (C - 1) + 1):ncol(invI)]
+
          std.err = list()
+
          std.err$beta = lapply(1:G, function(g) {
             Ig = invI[((g - 1) * P * (C - 1) + 1):(g * P * (C - 1)),
                       ((g - 1) * P * (C - 1) + 1):(g * P * (C - 1))]
@@ -120,8 +118,11 @@ glca_score <- function(
             return(tmp_beta)
          })
 
+         Ir = invI[(G * P * (C - 1) + 1):ncol(invI),
+                   (G * P * (C - 1) + 1):ncol(invI)]
+
          std.err$rho = list()
-         if (model$measure.inv) {
+         if (measure.inv) {
             tmp_rho = diag(t(gmat3(rho[[1]])) %*% Ir %*% gmat3(rho[[1]]))
             tmp_rho[tmp_rho < 0] = 0
             for (m in 1:M) {
@@ -180,7 +181,7 @@ glca_score <- function(
             )
          }
       } else {
-         S <- GetUDScoreX(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R)
+         S <- GetUDScoreX(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R, coeff.inv)
          score <- colSums(S)
 
          invI <- MASS::ginv(t(S) %*% S)
@@ -190,14 +191,14 @@ glca_score <- function(
          tmp_delta <- diag(t(g1) %*% invI[1:(W - 1), 1:(W - 1)] %*% g1)
          tmp_delta[tmp_delta < 0] = 0
          std.err$delta <- sqrt(tmp_delta)
-         tmp_beta <- diag(invI[W:(W + (W * P + Q) * (C - 1)),
-                               W:(W + (W * P + Q) * (C - 1))])
+         tmp_beta <- diag(invI[W:(W - 1 + (W * P + Q) * (C - 1)),
+                               W:(W - 1 + (W * P + Q) * (C - 1))])
          tmp_beta[tmp_beta < 0] = 0
          std.err$beta <- sqrt(tmp_beta)
 
          std.err$rho = list()
-         tmp_rho = diag(t(g3) %*% invI[(W + (W * P + Q) * (C - 1) + 1):ncol(invI),
-                      (W + (W * P + Q) * (C - 1) + 1):ncol(invI)] %*% g3)
+         tmp_rho = diag(t(g3) %*% invI[(W + (W * P + Q) * (C - 1)):ncol(invI),
+                      (W + (W * P + Q) * (C - 1)):ncol(invI)] %*% g3)
          tmp_rho[tmp_rho < 0] = 0
          tmp_rho = sqrt(tmp_rho)
 

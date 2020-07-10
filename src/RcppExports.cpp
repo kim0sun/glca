@@ -140,8 +140,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // GetScoreX
-List GetScoreX(List y, List x, List post, List gamma, List rho, IntegerVector Ng, int G, int C, int M, IntegerVector R, int P);
-RcppExport SEXP _glca_GetScoreX(SEXP ySEXP, SEXP xSEXP, SEXP postSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP, SEXP PSEXP) {
+List GetScoreX(List y, List x, List post, List gamma, List rho, IntegerVector Ng, int G, int C, int M, IntegerVector R, int P, bool coeff_inv);
+RcppExport SEXP _glca_GetScoreX(SEXP ySEXP, SEXP xSEXP, SEXP postSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP, SEXP PSEXP, SEXP coeff_invSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -156,7 +156,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type M(MSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type R(RSEXP);
     Rcpp::traits::input_parameter< int >::type P(PSEXP);
-    rcpp_result_gen = Rcpp::wrap(GetScoreX(y, x, post, gamma, rho, Ng, G, C, M, R, P));
+    Rcpp::traits::input_parameter< bool >::type coeff_inv(coeff_invSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetScoreX(y, x, post, gamma, rho, Ng, G, C, M, R, P, coeff_inv));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -181,8 +182,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // GetUDScoreX
-NumericMatrix GetUDScoreX(List y, List x, List z, NumericVector delta, List gamma, List rho, IntegerVector Ng, int G, int W, int P, int Q, int C, int M, IntegerVector R);
-RcppExport SEXP _glca_GetUDScoreX(SEXP ySEXP, SEXP xSEXP, SEXP zSEXP, SEXP deltaSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP WSEXP, SEXP PSEXP, SEXP QSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP) {
+NumericMatrix GetUDScoreX(List y, List x, List z, NumericVector delta, List gamma, List rho, IntegerVector Ng, int G, int W, int P, int Q, int C, int M, IntegerVector R, bool coeff_inv);
+RcppExport SEXP _glca_GetUDScoreX(SEXP ySEXP, SEXP xSEXP, SEXP zSEXP, SEXP deltaSEXP, SEXP gammaSEXP, SEXP rhoSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP WSEXP, SEXP PSEXP, SEXP QSEXP, SEXP CSEXP, SEXP MSEXP, SEXP RSEXP, SEXP coeff_invSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -200,7 +201,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type C(CSEXP);
     Rcpp::traits::input_parameter< int >::type M(MSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type R(RSEXP);
-    rcpp_result_gen = Rcpp::wrap(GetUDScoreX(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R));
+    Rcpp::traits::input_parameter< bool >::type coeff_inv(coeff_invSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetUDScoreX(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R, coeff_inv));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -311,6 +313,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type C(CSEXP);
     Rcpp::traits::input_parameter< int >::type P(PSEXP);
     rcpp_result_gen = Rcpp::wrap(GetDeriv(post, x, gamma, N, C, P));
+    return rcpp_result_gen;
+END_RCPP
+}
+// GetDeriv2
+List GetDeriv2(List post, List x, List gamma, IntegerVector Ng, int G, int C, int P);
+RcppExport SEXP _glca_GetDeriv2(SEXP postSEXP, SEXP xSEXP, SEXP gammaSEXP, SEXP NgSEXP, SEXP GSEXP, SEXP CSEXP, SEXP PSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type post(postSEXP);
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    Rcpp::traits::input_parameter< List >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type Ng(NgSEXP);
+    Rcpp::traits::input_parameter< int >::type G(GSEXP);
+    Rcpp::traits::input_parameter< int >::type C(CSEXP);
+    Rcpp::traits::input_parameter< int >::type P(PSEXP);
+    rcpp_result_gen = Rcpp::wrap(GetDeriv2(post, x, gamma, Ng, G, C, P));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -461,15 +480,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_glca_GetMLLike", (DL_FUNC) &_glca_GetMLLike, 10},
     {"_glca_GetUDPostX", (DL_FUNC) &_glca_GetUDPostX, 14},
     {"_glca_GetScore", (DL_FUNC) &_glca_GetScore, 9},
-    {"_glca_GetScoreX", (DL_FUNC) &_glca_GetScoreX, 11},
+    {"_glca_GetScoreX", (DL_FUNC) &_glca_GetScoreX, 12},
     {"_glca_GetUDScore", (DL_FUNC) &_glca_GetUDScore, 10},
-    {"_glca_GetUDScoreX", (DL_FUNC) &_glca_GetUDScoreX, 14},
+    {"_glca_GetUDScoreX", (DL_FUNC) &_glca_GetUDScoreX, 15},
     {"_glca_GetLik", (DL_FUNC) &_glca_GetLik, 8},
     {"_glca_GetFitted", (DL_FUNC) &_glca_GetFitted, 7},
     {"_glca_GetUDlik", (DL_FUNC) &_glca_GetUDlik, 10},
     {"_glca_GetUDfit", (DL_FUNC) &_glca_GetUDfit, 9},
     {"_glca_GetUDlikX", (DL_FUNC) &_glca_GetUDlikX, 10},
     {"_glca_GetDeriv", (DL_FUNC) &_glca_GetDeriv, 6},
+    {"_glca_GetDeriv2", (DL_FUNC) &_glca_GetDeriv2, 7},
     {"_glca_UpDelta", (DL_FUNC) &_glca_UpDelta, 1},
     {"_glca_UpGammaML", (DL_FUNC) &_glca_UpGammaML, 3},
     {"_glca_UpGamma", (DL_FUNC) &_glca_UpGamma, 4},

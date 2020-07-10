@@ -4,8 +4,7 @@
 \alias{summary.glca}
 \title{Summarizes the Estimated Parameters of Fitted glca Model}
 \usage{
-\method{summary}{glca}(object, digits = max(3, getOption("digits") - 3),
-  ...)
+\method{summary}{glca}(object, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}

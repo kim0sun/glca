@@ -1,6 +1,7 @@
 glca_encode <- function(
    call, mf, nclass, ncluster,
-   measure.inv, na.rm, verbose
+   measure.inv, coeff.inv,
+   na.rm, verbose
 )
 {
    # Import data
@@ -26,8 +27,14 @@ glca_encode <- function(
          by(x, grp, function(y) length(unique(y))))) == length(unique(grp)))
    }
 
-   X <- Cov[, !Zind, drop = FALSE]
-   Z <- Cov[,  Zind, drop = FALSE]
+   if (ncluster >= 1) {
+      X <- Cov[, !Zind, drop = FALSE]
+      Z <- Cov[,  Zind, drop = FALSE]
+   } else {
+      X <- Cov
+      Z <- NULL
+   }
+
 
    if (is.null(grp))
       grp <- factor(rep("ALL", nrow(Y)))
@@ -41,7 +48,6 @@ glca_encode <- function(
    R <- sapply(attr(Y, "y.level"), length)
    P <- ncol(X)
    Q <- ncol(Z)
-   G <- nlevels(grp)
 
    y.names <- attr(Y, "y.names")
    r.names <- attr(Y, "y.level")
@@ -52,9 +58,6 @@ glca_encode <- function(
    names(resp.name) <- paste0("Y = ", 1:max(R))
    for (m in 1:M)
       resp.name[m, 1:R[m]] <- c(r.names[[m]])
-   x.names <- colnames(X)
-   g.names <- levels(grp)
-   z.names <- colnames(Z)
 
    if (verbose) {
       cat("Deleted observation(s) : \n")
@@ -80,12 +83,21 @@ glca_encode <- function(
       grp <- droplevels(grp[-totmis])
    }
 
+   # Covariate names
+   x.names <- colnames(X)
+   g.names <- levels(grp)
+   z.names <- colnames(Z)
+
    # Grouping data
+   G <- nlevels(grp)
    grp <- as.numeric(grp)
    Ng <- sapply(1:G, function(g) sum(grp == g))
    y <- lapply(1:G, function(g) as.matrix(Y[grp == g, , drop = FALSE]))
    x <- lapply(1:G, function(g) as.matrix(X[grp == g, , drop = FALSE]))
-   z <- lapply(1:G, function(g) as.matrix(Z[grp == g, , drop = FALSE]))
+   if (ncluster >= 1)
+      z <- lapply(1:G, function(g) as.matrix(Z[grp == g, , drop = FALSE]))
+   else
+      z <- NULL
 
    if (nclass < 2)
       stop("Number of latent classes should be greater than 1.")
@@ -135,8 +147,8 @@ glca_encode <- function(
          loglikh[h] <- sum(obsvd * log(obsvd / sum(obsvd)))
       }
       loglik0 <- sum(loglikh)
-      Y0 <- Y[rowSums(Y == 0) == 0,]
-      Y.sorted <- Y0[do.call(order, data.frame(Y0)),]
+      Y0 <- Y[rowSums(Y == 0) == 0, , drop = FALSE]
+      Y.sorted <- Y0[do.call(order, data.frame(Y0)), , drop = FALSE]
       pattern <- as.matrix(unique(Y.sorted))
       obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
                         nrow(Y.sorted), nrow(pattern))
@@ -158,10 +170,14 @@ glca_encode <- function(
             type <- "Standard LCA with Covariates"
          else
             type <- "Multigroup LCA with Covariates"
-         if (measure.inv)
-            npar <- G * (C - 1) * P + C * sum(R - 1)
+         if (coeff.inv)
+            npar <- G * (C - 1) + (C - 1) * (P - 1)
          else
-            npar <- G * (C - 1) * P + G * C * sum(R - 1)
+            npar <- G * (C - 1) * P
+         if (measure.inv)
+            npar <- npar + C * sum(R - 1)
+         else
+            npar <- npar + G * C * sum(R - 1)
       }
    } else {
       if (P == 1) {
@@ -169,7 +185,11 @@ glca_encode <- function(
          npar <- W - 1 + W * (C - 1) + C * sum(R - 1)
       } else {
          type <- "Multilevel LCA with Covariates"
-         npar <- W - 1 + (W * P + Q) * (C - 1) + C * sum(R - 1)
+         if (coeff.inv)
+            npar <- W - 1 + W * (C - 1) + (P - 1 + Q) * (C - 1) +
+               C * sum(R - 1)
+         else
+            npar <- W - 1 + (W * P + Q) * (C - 1) + C * sum(R - 1)
       }
    }
 
@@ -178,6 +198,7 @@ glca_encode <- function(
                            loglik0 = loglik0, nullik0 = nullik0),
            model = list(type = type,
                         measure.inv = measure.inv,
+                        coeff.inv = coeff.inv,
                         N = N, Ng = Ng, G = G,
                         C = C, W = W, M = M, R = R,
                         P = P, Q = Q,

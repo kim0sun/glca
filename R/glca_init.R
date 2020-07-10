@@ -9,6 +9,7 @@ glca_init <- function(model)
    C <- model$C; W <- model$W
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
+   coeff.inv <- model$coeff.inv
 
    init = list()
 
@@ -35,7 +36,12 @@ glca_init <- function(model)
             do.call(rbind, lapply(1:C, function(c) prob_gnr(R[x]))))
       } else {
          init$delta <- rep(1, W) / W;
-         init$beta  <- stats::rnorm((W * P + Q) * (C - 1), 0, 0.1)
+         if (coeff.inv)
+            init$beta  <-
+               c(stats::rnorm(W * (C - 1), 0, 0.1) %x% c(1, numeric(P - 1)),
+                 numeric(Q * (C - 1)))
+         else
+            init$beta  <- stats::rnorm((W * P + Q) * (C - 1), 0, 0.1)
          init$rho   <- lapply(1:M, function(x)
             do.call(rbind, lapply(1:C, function(c) prob_gnr(R[x]))))
       }

@@ -4,10 +4,24 @@
 \alias{glca}
 \title{Fits Latent Class Models for Data Containing Group Variable and Covariates}
 \usage{
-glca(formula, group = NULL, data = NULL, nclass = 3, ncluster = 0,
-  measure.inv = TRUE, std.err = TRUE, init.param = NULL,
-  n.init = 1, testiter = 50, maxiter = 1000, eps = 1e-06,
-  na.rm = FALSE, random.seed = NULL, verbose = TRUE)
+glca(
+  formula,
+  group = NULL,
+  data = NULL,
+  nclass = 3,
+  ncluster = 0,
+  std.err = TRUE,
+  measure.inv = TRUE,
+  coeff.inv = TRUE,
+  init.param = NULL,
+  n.init = 1,
+  testiter = 50,
+  maxiter = 1000,
+  eps = 1e-06,
+  na.rm = TRUE,
+  random.seed = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{formula}{a formula for specifying manifest items and covariates using the "\code{item}" function}
@@ -20,9 +34,11 @@ glca(formula, group = NULL, data = NULL, nclass = 3, ncluster = 0,
 
 \item{ncluster}{number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted.}
 
+\item{std.err}{a logical value for whether calculating standard errors for estimates}
+
 \item{measure.inv}{a logical value of the measurement invariance assumption across groups}
 
-\item{std.err}{a logical value for whether calculating standard errors for estimates}
+\item{coeff.inv}{a logical value of the coefficient invariance assumption across groups (random intercept model)}
 
 \item{init.param}{a list which contains user-defined initial parameter}
 
@@ -74,45 +90,44 @@ The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delt
 ##
 ## Example 1. GSS dataset
 ##
-data("gss")
+data("gss06")
 # LCA
-lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-            data = gss, nclass = 3)
+lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+            data = gss06, nclass = 3)
 summary(lca)
 
 # LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ AGE,
-           data = gss, nclass = 3)
+lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
+           data = gss06, nclass = 3)
 summary(lcr)
-coef(lcr)
+coef.glca(lcr)
 
 # Multiple-group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-             group = DEGREE, data = gss, nclass = 3)
+mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+             group = DEGREE, data = gss06, nclass = 3)
 summary(mglca)
 
 
 # Multiple-group LCA with covariate(s) (MGLCR)
-mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ SEX,
-             group = DEGREE, data = gss, nclass = 3)
+mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
+             group = DEGREE, data = gss06, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
 \donttest{
 ##
-## Example 2. BRFSS data
+## Example 2. NYTS data
 ##
-data("brfss")
+data("nyts18")
 # Multilevel LCA (MLCA)
-brfss1000 = brfss[sample(1:nrow(brfss), 1000),]
-mlca = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ 1,
-            group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
+mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ 1,
+            group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlca)
 
 # MLCA with covariate(s) (MLCR)
-# (SEX: level-1 covariate, REGION: level-2 covariate)
-mlcr = glca(item(OBESE, PA300, FRTLT1A, VEGLT1A, SMOKER, DRNK30) ~ SEX + PARTY,
-            group = STATE, data = brfss1000, nclass = 3, ncluster = 2)
+# (HOME: level-1 covariate, School_lev: level-2 covariate)
+mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ HOME + School_lev,
+            group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 }

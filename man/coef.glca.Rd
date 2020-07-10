@@ -4,8 +4,12 @@
 \alias{coef.glca}
 \title{Extracts \code{glca} Model Coefficients}
 \usage{
-\method{coef}{glca}(object, digits = max(3, getOption("digits") - 3),
-  show.signif.stars = getOption("show.signif.stars"), ...)
+\method{coef}{glca}(
+  object,
+  digits = max(3, getOption("digits") - 3),
+  show.signif.stars = getOption("show.signif.stars"),
+  ...
+)
 }
 \arguments{
 \item{object}{an object of "\code{glca}"}

@@ -427,9 +427,10 @@ List GetScoreX(List y,
                int C,
                int M,
                IntegerVector R,
-               int P)
+               int P,
+               bool coeff_inv)
 {
-   int i, g, c, m, k, p, pos, ind;
+   int i, g, g2, c, m, k, p, pos, ind;
 
    List ret;
    List bscore(G);
@@ -447,10 +448,25 @@ List GetScoreX(List y,
       List rho_g = rho[g];
 
       for (i = 0; i < Ng[g]; i ++)
+      {
          for (c = 0; c < C - 1; c ++)
-            for (p = 0; p < P; p ++)
-               bscore_g(i, g * P * (C - 1) + c * P + p) =
-                  x_g(i, p) * (post_g(i, c) - gamma_g(i, c));
+         {
+            bscore_g(i, g * P * (C - 1) + c * P) =
+               post_g(i, c) - gamma_g(i, c);
+
+            for (p = 1; p < P; p ++)
+            {
+               if (coeff_inv)
+                  for (g2 = 0; g2 < G; g2 ++)
+                     bscore_g(i, g2 * P * (C - 1) + c * P + p) =
+                        x_g(i, p) * (post_g(i, c) - gamma_g(i, c));
+               else
+                  bscore_g(i, g * P * (C - 1) + c * P + p) =
+                     x_g(i, p) * (post_g(i, c) - gamma_g(i, c));
+            }
+         }
+      }
+
 
       for (m = 0; m < M; m ++)
       {
@@ -597,10 +613,11 @@ NumericMatrix GetUDScoreX(List y,
                           int Q,
                           int C,
                           int M,
-                          IntegerVector R)
+                          IntegerVector R,
+                          bool coeff_inv)
 {
-   int i, g, w, c, p, q, m, k, pos, ind;
-   NumericMatrix score(G, W + (W * P + Q) * (C - 1) + C * (sum(R) - M));
+   int i, g, w, w2, c, p, q, m, k, pos, ind;
+   NumericMatrix score(G, W - 1 + (W * P + Q) * (C - 1) + C * (sum(R) - M));
 
    for (g = 0; g < G; g ++)
    {
@@ -657,10 +674,20 @@ NumericMatrix GetUDScoreX(List y,
 
                if (c < C - 1)
                {
-                  for (p = 0; p < P; p ++)
+                  score(g, W - 1 + w * (C - 1) * P + c * P) +=
+                     value - gamma_w(i, c) * value1;
+
+                  for (p = 1; p < P; p ++)
                   {
-                     score(g, W - 1 + w * (C - 1) * P + c * P + p) +=
-                        (value - gamma_w(i, c) * value1) * x_g(i, p);
+                     if (coeff_inv)
+                     {
+                        for (w2 = 0; w2 < W; w2 ++)
+                           score(g, W - 1 + w2 * (C - 1) * P + c * P + p) +=
+                              (value - gamma_w(i, c) * value1) * x_g(i, p);
+                     }
+                     else
+                        score(g, W - 1 + w * (C - 1) * P + c * P + p) +=
+                           (value - gamma_w(i, c) * value1) * x_g(i, p);
                   }
 
                   for (q = 0; q < Q; q ++)
@@ -903,6 +930,77 @@ List GetDeriv(NumericMatrix post,
                   hess(c1 * P + p, c2 * P + q) +=
                      x(i, p) * x(i, q) *
                         - gamma(i, c1) * (ind - gamma(i, c2));
+               }
+            }
+         }
+      }
+   }
+
+   ret["grad"] = grad;
+   ret["hess"] = hess;
+   return ret;
+}
+
+// Gradient / Hessian for prevalence in MGLCA (coeff.inv)
+// [[Rcpp::export]]
+List GetDeriv2(List post,
+               List x,
+               List gamma,
+               IntegerVector Ng,
+               int G,
+               int C,
+               int P)
+{
+   int i, g, c1, c2, p, q;
+   double ind;
+   NumericVector grad((G + P - 1) * (C - 1));
+   NumericMatrix hess((G + P - 1) * (C - 1), (G + P - 1) * (C - 1));
+   List ret;
+
+   for (g = 0; g < G; g ++)
+   {
+      NumericMatrix gamma_g = gamma[g];
+      NumericMatrix post_g = post[g];
+      NumericMatrix x_g = x[g];
+
+      for (i = 0; i < Ng[g]; i ++)
+      {
+         for (c1 = 0; c1 < C - 1; c1 ++)
+         {
+            grad[g * (C - 1) + c1] += (post_g(i, c1) - gamma_g(i, c1));
+
+            for (c2 = 0; c2 < C - 1; c2 ++)
+            {
+               if (c1 == c2) ind = 1.0;
+               else ind = 0.0;
+               hess(g * (C - 1) + c1, g * (C - 1) + c2) +=
+                  - gamma_g(i, c1) * (ind - gamma_g(i, c2));
+
+               for (p = 1; p < P; p ++)
+               {
+                  hess(g * (C - 1) + c1, G * (C - 1) + c2 * (P - 1) + p - 1) +=
+                     - x_g(i, p) * gamma_g(i, c1) * (ind - gamma_g(i, c2));
+                  hess(G * (C - 1) + c2 * (P - 1) + p - 1, g * (C - 1) + c1) +=
+                     - x_g(i, p) * gamma_g(i, c1) * (ind - gamma_g(i, c2));
+               }
+            }
+
+            for (p = 1; p < P; p ++) // gradient
+            {
+               grad[G * (C - 1) + c1 * (P - 1) + p - 1] +=
+                  x_g(i, p) * (post_g(i, c1) - gamma_g(i, c1));
+               for (c2 = 0; c2 < C - 1; c2 ++)
+               {
+                  if (c1 == c2) ind = 1.0;
+                  else ind = 0.0;
+
+                  for (q = 1; q < P; q ++) // hessian
+                  {
+                     hess(G * (C - 1) + c1 * (P - 1) + p - 1,
+                          G * (C - 1) + c2 * (P - 1) + q - 1) +=
+                        x_g(i, p) * x_g(i, q) *
+                        - gamma_g(i, c1) * (ind - gamma_g(i, c2));
+                  }
                }
             }
          }

@@ -29,16 +29,16 @@ GetScore <- function(y, post, gamma, rho, Ng, G, C, M, R) {
     .Call(`_glca_GetScore`, y, post, gamma, rho, Ng, G, C, M, R)
 }
 
-GetScoreX <- function(y, x, post, gamma, rho, Ng, G, C, M, R, P) {
-    .Call(`_glca_GetScoreX`, y, x, post, gamma, rho, Ng, G, C, M, R, P)
+GetScoreX <- function(y, x, post, gamma, rho, Ng, G, C, M, R, P, coeff_inv) {
+    .Call(`_glca_GetScoreX`, y, x, post, gamma, rho, Ng, G, C, M, R, P, coeff_inv)
 }
 
 GetUDScore <- function(y, delta, gamma, rho, Ng, G, W, C, M, R) {
     .Call(`_glca_GetUDScore`, y, delta, gamma, rho, Ng, G, W, C, M, R)
 }
 
-GetUDScoreX <- function(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R) {
-    .Call(`_glca_GetUDScoreX`, y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R)
+GetUDScoreX <- function(y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R, coeff_inv) {
+    .Call(`_glca_GetUDScoreX`, y, x, z, delta, gamma, rho, Ng, G, W, P, Q, C, M, R, coeff_inv)
 }
 
 GetLik <- function(y, gamma, rho, Ng, G, C, M, R) {
@@ -63,6 +63,10 @@ GetUDlikX <- function(y, delta, gamma, rho, Ng, G, W, C, M, R) {
 
 GetDeriv <- function(post, x, gamma, N, C, P) {
     .Call(`_glca_GetDeriv`, post, x, gamma, N, C, P)
+}
+
+GetDeriv2 <- function(post, x, gamma, Ng, G, C, P) {
+    .Call(`_glca_GetDeriv2`, post, x, gamma, Ng, G, C, P)
 }
 
 UpDelta <- function(PostW) {

@@ -7,15 +7,17 @@ glca_em_test <- function(
    C <- model$C; W <- model$W
    M <- model$M; R <- model$R
    P <- model$P; Q <- model$Q
+   measure.inv <- model$measure.inv
+   coeff.inv <- model$coeff.inv
 
    y <- datalist$y; x <- datalist$x; z <- datalist$z
 
-   init_list = list()
-   llik = numeric(n.init)
-   niters = numeric(n.init)
+   init_list <- list()
+   llik <- numeric(n.init)
+   niters <- numeric(n.init)
 
    for (rep in 1:n.init) {
-      init.ran = glca_init(model)
+      init.ran <- glca_init(model)
 
       delta <- init.ran$delta
       gamma <- init.ran$gamma
@@ -38,7 +40,7 @@ glca_em_test <- function(
 
                # M-step
                n_gamma <- UpGamma(Post, Ng, G, C)
-               if (model$measure.inv)
+               if (measure.inv)
                   n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
                else
                   n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
@@ -67,15 +69,36 @@ glca_em_test <- function(
                exb <- lapply(1:G, function(g) exp(x[[g]] %*% beta[[g]]))
                gamma <- lapply(exb, function(x) cbind(x, 1) / (rowSums(x) + 1))
                Post <- GetPost(y, gamma, rho, Ng, G, C, M, R)
-               n_beta = list()
-               for (g in 1:G) {
-                  gradhess <- GetDeriv(Post[[g]], x[[g]], gamma[[g]], Ng[g], C, P)
-                  diff <- try(matrix(MASS::ginv(gradhess[[2]]) %*% gradhess[[1]], P), TRUE)
+
+               if (coeff.inv) {
+                  Amat <- cbind(diag(G * (C - 1)) %x% c(1, numeric(P - 1)),
+                                rep(1, G) %x% diag(C - 1) %x% rbind(0, diag(P - 1)))
+                  gradhess <- GetDeriv2(Post, x, gamma, Ng, G, C, P)
+                  diff <- try(Amat %*% (MASS::ginv(gradhess[[2]]) %*% gradhess[[1]]), TRUE)
+
                   if (inherits(diff, "try-error")) break
-                  n_beta[[g]] = beta[[g]] - diff
+                  n_beta = lapply(1:G, function(g)
+                     beta[[g]]- matrix(diff[((g - 1) * (C - 1) * P + 1):(g* (C - 1) * P)], P)
+                  )
+               } else {
+                  n_beta <- list()
+
+                  for (g in 1:G) {
+                     gradhess <- GetDeriv(Post[[g]], x[[g]], gamma[[g]], Ng[g], C, P)
+                     diff <- try(matrix(MASS::ginv(gradhess[[2]]) %*% gradhess[[1]], P), TRUE)
+                     if (inherits(diff, "try-error")) break
+                     n_beta[[g]] = beta[[g]] - diff
+                  }
                }
 
-               if (model$measure.inv)
+               if (inherits(diff, "try-error")) {
+                  iter <- 0
+                  init <- glca_init(model)
+                  beta  <- init$beta
+                  rho   <- init$rho
+               }
+
+               if (measure.inv)
                   n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
                else
                   n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
@@ -87,13 +110,6 @@ glca_em_test <- function(
 
                beta <- n_beta
                rho <- n_rho
-
-               if (inherits(diff, "try-error")) {
-                  iter <- 0
-                  init <- glca_init(model)
-                  beta  <- init$beta
-                  rho   <- init$rho
-               }
             }
 
             llik[rep] <- GetLik(y, gamma, rho, Ng, G, C, M, R)
@@ -164,7 +180,33 @@ glca_em_test <- function(
 
                # M-step
                n_delta <- colSums(Post$PostW) / sum(Post$PostW)
-               n_beta  <- try(beta - MASS::ginv(Post$hess) %*% Post$grad, TRUE)
+
+               if (coeff.inv) {
+                  if (P > 1)
+                     A1 = cbind(diag(W * (C - 1)) %x% c(1, numeric(P - 1)),
+                                rep(1, W) %x% diag(C - 1) %x% rbind(0, diag(P - 1)))
+                  else
+                     A1 = diag(W * (C - 1))
+                  A2 = diag((C - 1) * Q)
+                  d1 = dim(A1); d2 = dim(A2)
+                  Amat = array(0, dim = rev(d1 + d2))
+                  Amat[1:d1[2], 1:d1[1]] = t(A1)
+                  Amat[-(1:d1[2]), -(1:d1[1])] = A2
+
+                  hess <- Amat %*% Post$hess %*% t(Amat)
+                  grad <- Amat %*% Post$grad
+                  n_beta  <- try(beta - t(Amat) %*% MASS::ginv(hess) %*% grad, TRUE)
+               } else
+                  n_beta  <- try(beta - MASS::ginv(Post$hess) %*% Post$grad, TRUE)
+
+               if (inherits(n_beta, "try-error")) {
+                  iter <- 0
+                  init <- glca_init(model)
+                  delta <- init$delta
+                  beta  <- init$beta
+                  rho   <- init$rho
+               }
+
                n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
 
                maxdiff <- max(max(abs(unlist(n_delta) - unlist(delta))),
@@ -176,17 +218,9 @@ glca_em_test <- function(
                delta <- n_delta
                beta  <- n_beta
                rho   <- n_rho
-
-               if (inherits(n_beta, "try-error")) {
-                  iter <- 0
-                  init <- glca_init(model)
-                  delta <- init$delta
-                  beta  <- init$beta
-                  rho   <- init$rho
-               }
             }
 
-            llik[rep] = GetUDlikX(y, delta, gamma, rho, Ng, G, W, C, M, R)
+            llik[rep] <- GetUDlikX(y, delta, gamma, rho, Ng, G, W, C, M, R)
             init_list[[rep]] <- list(
                delta = delta, beta = beta, rho = rho
                )
@@ -201,8 +235,8 @@ glca_em_test <- function(
                     " (", llik[which.max(llik)],
                     ")\n\n", sep = "")
 
-   param = init_list[[which.max(llik)]]
-   niter = niters[which.max(llik)]
+   param <- init_list[[which.max(llik)]]
+   niter <- niters[which.max(llik)]
 
    return(list(param = param, niter = niter))
 }

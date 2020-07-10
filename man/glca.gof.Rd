@@ -4,8 +4,16 @@
 \alias{glca.gof}
 \title{Goodness of Fit Tests for Fitted \code{glca} Model}
 \usage{
-glca.gof(object, object2 = NULL, test = NULL, nboot = 25,
-  random.seed = NULL, maxiter = 500, eps = 1e-05, verbose = TRUE)
+glca.gof(
+  object,
+  object2 = NULL,
+  test = NULL,
+  nboot = 25,
+  random.seed = NULL,
+  maxiter = 500,
+  eps = 1e-05,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
