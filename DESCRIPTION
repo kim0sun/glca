@@ -2,7 +2,7 @@ Package: glca
 Type: Package
 Title: Latent Class Analysis with Grouped Data
 Date: 2020-05-31
-Version: 0.1.1
+Version: 0.1.2
 Author: Youngsun Kim, 
    Hwan Chung
 Maintainer: Youngsun Kim <kim0sun@korea.ac.kr>
@@ -16,4 +16,4 @@ LazyData: true
 Depends: R (>= 3.5.0)
 Imports: Rcpp (>= 1.0.3), MASS
 LinkingTo: Rcpp
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
