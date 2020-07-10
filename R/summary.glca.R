@@ -22,6 +22,7 @@ summary.glca <- function(
 {
    model <- object$model
    param <- object$param
+   posterior <- object$posterior
    var.names <- object$var.names
 
    cat("\nCall:\n",  paste(deparse(object$call), sep = "\n", collapse = "\n"),
@@ -30,10 +31,25 @@ summary.glca <- function(
    if (model$W > 1){
       cat("Number of latent classes :", model$C, "\n")
       cat("Number of latent clusters :", model$W, "\n")
+      cat("\nMean Prevalence for latent clusters:\n")
+      print(round(colMeans(posterior$cluster), 5))
+      cat("\nMean Prevalence for latent classes:\n")
+      print(round(posterior$wclass, 5))
+      cat("\n")
    } else {
       cat("Number of latent classes :", model$C, "\n")
+      if (model$G < 10) {
+         cat("\nMean Prevalence for latent classes for each group:\n")
+         prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
+         dimnames(prev) = list(var.names$g.names,
+                               paste0("Class ", 1:model$C))
+         print(round(prev, 5))
+      } else {
+         cat("\nMean Prevalence for latent classes:\n")
+         print(round(colMeans(do.call(rbind, posterior)), 5))
+      }
    }
-   cat("Number of parameters :", model$npar, "\n")
+   cat("\nNumber of parameters :", model$npar, "\n")
    if (model$G > 1)
       cat("Number of groups :", model$G, "\n")
 
@@ -45,7 +61,7 @@ summary.glca <- function(
    cat("\n\nResponse numbering:\n")
    print(var.names$resp.name)
 
-   cat("\n\nParameters :\n")
+   cat("\nEstimated model parameters :\n")
    if (model$W > 1) {
       cat("Delta :\n")
       print(round(param$delta, digits))
@@ -84,9 +100,18 @@ summary.glca <- function(
       if (model$P > 1) {
          cat("Beta :\n")
          if (model$G > 1) {
-            for (g in 1:model$G) {
-               cat("Group :", var.names$g.names[g], "\n")
-               print(round(param$beta[[g]], digits))
+            if (model$coeff.inv) {
+               cat("Intercepts :\n")
+               int = do.call(rbind, lapply(param$beta, function(x) x[1,]))
+               rownames(int) = paste0("Group :", var.names$g.names)
+               print(round(int, digits))
+               cat("\nCoefficients :\n")
+               print(round(param$beta[[1]][2:model$P,], digits))
+            } else {
+               for (g in 1:model$G) {
+                  cat("Group :", var.names$g.names[g], "\n")
+                  print(round(param$beta[[g]], digits))
+               }
             }
          } else {
             print(round(param$beta[[1]], digits))

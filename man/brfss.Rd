@@ -4,7 +4,8 @@
 \name{brfss}
 \alias{brfss}
 \title{Behavioral Risk Factor Surveillance System 2017 (BRFSS 2017)}
-\format{A data frame with 444023 observations on the following 10 variables.
+\format{
+A data frame with 444023 observations on the following 10 variables.
 \describe{
 \item{\code{OBESE}}{(original : \code{_RFBMI5}) Adults who have a body mass index greater than 25.00 (Overweight or Obese)
 
@@ -38,7 +39,8 @@
 \item{\code{STATE}}{(original : \code{_STATE}) State FIPS code}
 \item{\code{REGION}}{Region to which the state belongs}
 \item{\code{PARTY}}{The party that won the 2016 presidential election by state}
-}}
+}
+}
 \source{
 \url{https://www.cdc.gov/brfss/}
 

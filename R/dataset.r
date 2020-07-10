@@ -1,106 +1,54 @@
 #' General Social Study 2018
 #'
-#' This dataset includes 6 manifest items about abortion and several covariates from 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, region, and degree of respondents.
+#' This dataset includes 6 manifest items about abortion and several covariates from 2044 respondents to the 2018 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, race, region, and degree of respondents.
 #'
-#' @name gss
+#' @name gss06
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 2044 observations on 9 variables.
+#' @format A data frame with 1003 observations on 11 variables.
 #' \describe{
 #' \item{\code{ABDEFECT}}{If there is a strong chance of serious defect in the baby?}
-#' \item{\code{ABNOMORE}}{If she is married and does not want any more children?}
 #' \item{\code{ABHLTH}}{If the womans own health is seriously endangered by the pregnancy?}
-#' \item{\code{ABPOOR}}{If the family has a very low income and cannot afford any more children?}
 #' \item{\code{ABRAPE}}{If she became pregnant as a result of rape?}
+#' \item{\code{ABPOOR}}{If the family has a very low income and cannot afford any more children?}
 #' \item{\code{ABSINGLE}}{If she is not married and does not want to marry the man?}
+#' \item{\code{ABNOMORE}}{If she is married and does not want any more children?}
 #' \item{\code{AGE}}{Respondent's age}
-#' \item{\code{SEX}}{Respondent's sex}
+#' \item{\code{SEX}}{Respondent's race}
+#' \item{\code{RACE}}{Respondent's sex}
 #' \item{\code{REGION}}{Region of interview}
 #' \item{\code{DEGREE}}{Respondent's degree}
 #' }
 #' @source \url{http://gss.norc.org}
 #' @references
-#' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2010/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
+#' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2006/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
 #' @examples
 #' data("gss")
 #' # Model 1: LCA
 #' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-#'            data = gss, nclass = 3)
+#'            data = gss06, nclass = 3)
 #' summary(lca)
 #'
 #' # Model 2: LCA with a covariate
 #' lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
-#'            data = gss, nclass = 3)
+#'            data = gss06, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
 #' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-#'              group = REGION, data = gss, nclass = 3)
+#'              group = REGION, data = gss06, nclass = 3)
 #'
 #' # Model 4: MGLCA with covariates
 #' summary(mglca)
 #' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
-#'              group = SEX, data = gss, nclass = 3)
+#'              group = SEX, data = gss06, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
 #' # Model 5: MLCA
 #' mlca =  glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-#'              group = REGION, data = gss, nclass = 3, ncluster = 2)
-#' summary(mlca)
-NULL
-
-#' National Health and Nutrition Examination Survey 2015-2016
-#'
-#' There is a 9 manifest items about frequency of depression symptoms over the past 2 weeks from National Health and Nutrition Examination Survey (NHANES). All of 9 items are measured 4 point-scale, "Not at all", "Several days", "More than half the days", and "Nearly every day". Those four categories are converted to binary as "Yes" ("Nearly every day", "More than half the days", "Several days") and "No" ("Not at all"). The dataset includes gender, age, and race of respondents as covariates.
-#'
-#' @name nhanes
-#' @docType data
-#' @keywords datasets
-#' @format A data frame with 5735 observations on the following 8 variables.
-#' \describe{
-#' \item{\code{DPQ010}}{Have little interest in doing things}
-#' \item{\code{DPQ020}}{Feeling down, depressed, or hopeless}
-#' \item{\code{DPQ030}}{Trouble sleeping or sleeping too much}
-#' \item{\code{DPQ040}}{Feeling tired or having little energy}
-#' \item{\code{DPQ050}}{Poor appetite or overeating}
-#' \item{\code{DPQ060}}{Feeling bad about yourself}
-#' \item{\code{DPQ070}}{Trouble concentrating on things}
-#' \item{\code{DPQ080}}{Moving or speaking slowly or too fast}
-#' \item{\code{DPQ090}}{Thought you would be better off dead}
-
-#' \item{\code{AGE}}{Age in years at screening}
-#' \item{\code{GENDER}}{Respondent's Gender}
-#' \item{\code{RACE}}{Race/Hispanic origin w/ NH Asian}
-#' }
-#' @source \url{https://wwwn.cdc.gov/Nchs/Nhanes/}
-#' @references Centers for Disease Control and Prevention (CDC). National Center for Health Statistics (NCHS). National Health and Nutrition Examination Survey Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers for Disease Control and Prevention, [2015-2016][\url{https://wwwn.cdc.gov/nchs/nhanes/ContinuousNhanes/Default.aspx?BeginYear=2015}]
-#' @examples
-#' data("nhanes")
-#' # Model 1: LCA
-#' lca = glca(item(starts.with = "DPQ") ~ 1, data = nhanes, nclass = 2)
-#' summary(lca)
-#'
-#' # Model 2: LCA with covariate(s)
-#' lcr = glca(item(starts.with = "DPQ") ~ AGE, data = nhanes, nclass = 3)
-#' summary(lcr)
-#' coef(lcr)
-#'
-#' # Model 3: MGLCA
-#' mglca = glca(item(starts.with = "DPQ") ~ 1, group = GENDER,
-#'              data = nhanes, nclass = 3)
-#' summary(mglca)
-#'
-#' # Model 4: MGLCA with covariate(s)
-#' mglcr = glca(item(starts.with = "DPQ") ~ AGE, group = GENDER,
-#'              data = nhanes, nclass = 3)
-#' summary(mglcr)
-#' coef(mglcr)
-#'
-#' # Model 5: MLCA
-#' mlca = glca(item(starts.with = "DPQ") ~ 1, group = RACE,
-#'             data = nhanes, nclass = 3, ncluster = 2)
+#'              group = REGION, data = gss06, nclass = 3, ncluster = 2)
 #' summary(mlca)
 NULL
 
