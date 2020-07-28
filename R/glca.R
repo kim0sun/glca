@@ -103,7 +103,7 @@
 
 glca <- function(
    formula, group = NULL, data = NULL, nclass = 3, ncluster = 0, std.err = TRUE,
-   measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 1, testiter = 50,
+   measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 10, testiter = 50,
    maxiter = 1000, eps = 1e-6, na.rm = TRUE, random.seed = NULL, verbose = TRUE
 )
 {
