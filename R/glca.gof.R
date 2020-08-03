@@ -32,11 +32,11 @@
 #' @examples
 #' ## Example 1.
 #' ## Model selection between two LCA models with different number of latent classes.
-#' data(gss)
-#' class2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, nclass = 2)
-#' class3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'               data = gss, nclass = 3)
+#' data(gss06)
+#' class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'               data = gss06, nclass = 2)
+#' class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'               data = gss06, nclass = 3)
 #'
 #' glca.gof(class2, class3)
 #' \dontrun{glca.gof(class2, class3, test = "chisq")}
@@ -44,10 +44,10 @@
 #'
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
-#' cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'                 group = REGION, data = gss, nclass = 3, ncluster = 2, na.rm = TRUE)
-#' cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'                 group = REGION, data = gss, nclass = 3, ncluster = 3, na.rm = TRUE)
+#' cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'                 group = REGION, data = gss06, nclass = 3, ncluster = 2, na.rm = TRUE)
+#' cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'                 group = REGION, data = gss06, nclass = 3, ncluster = 3, na.rm = TRUE)
 #'
 #' glca.gof(cluster2, cluster3)
 #' \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
@@ -56,10 +56,10 @@
 #' \donttest{
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
-#' measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, data = gss, nclass = 3)
-#' measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-#'                group = SEX, data = gss, nclass = 3, measure.inv = FALSE)
+#' measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'                group = SEX, data = gss06, nclass = 3)
+#' measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'                group = SEX, data = gss06, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
 #' \dontrun{glca.gof(measInv, measVar, test = "chisq")}
@@ -68,8 +68,8 @@
 #' @export
 
 glca.gof <- function(
-   object, object2 = NULL, test = NULL, nboot = 25,
-   random.seed = NULL, maxiter = 500, eps = 1e-5, verbose = TRUE
+   object, object2 = NULL, test = NULL, nboot = 50,
+   random.seed = NULL, maxiter = 500, eps = 1e-4, verbose = FALSE
 )
 {
    # Check_
@@ -125,6 +125,18 @@ glca.gof <- function(
       bGsq2 <- numeric(nboot)
       bGsqR <- numeric(nboot)
 
+      data0 = lapply(m1$datalist[1:3], function(x) list(Reduce(rbind, x)))
+      init0 <- m1$null$param0
+      init0_1 <- m1$null$param0
+      init0_1$gamma = matrix(init0_1$gamma[[1]][1,], 1)
+      init1 <- m1$param
+      if (is.matrix(init1$gamma) && is.null(init1$delta))
+         init1$gamma <- lapply(1:nrow(init1$gamma), function(g)
+            matrix(init1$gamma[g, ], m1$model$Ng[g],
+                   ncol(init1$gamma), byrow = TRUE))
+      if (!is.null(init1$beta) && !is.null(init1$delta))
+         init1$beta <- unlist(init1$beta)
+
       for (b in 1:nboot) {
          if (verbose) {
             if (b %% 10 == 0) cat(".")
@@ -133,16 +145,10 @@ glca.gof <- function(
          }
 
          b1 <- glca_gnr(m1$model, m1$param, m1$datalist)
-         init1 <- m1$param
-         if (is.matrix(init1$gamma) && is.null(init1$delta))
-            init1$gamma <- lapply(1:nrow(init1$gamma), function(g)
-               matrix(init1$gamma[g, ], m1$model$Ng[g],
-                      ncol(init1$gamma), byrow = TRUE))
-
          EMb1 <- glca_em(m1$model, b1, init1, 1, maxiter, eps,  FALSE)
 
          if (nll) {
-            b0 <- glca_gnr(m1$null$model0, m1$null$param0, m1$datalist)
+            b0 <- glca_gnr(m1$null$model0, init0_1, data0)
             EMb0 <- glca_em(m1$model, b0, init1, 1, maxiter, eps,  FALSE)
          }
 
@@ -280,7 +286,7 @@ glca.gof <- function(
          "Loglik" = c(m1$gof$loglik, m2$gof$loglik)
       ))
       Df <- Vrel <- Prel <- c("", "")
-      Df[H1] <- m[[H0]]$gof$df - m[[H1]]$gof$df
+      Df[H1] <- m[[H1]]$model$npar - m[[H0]]$model$npar
       Vrel[H1] <- round(GsqR, 2)
       dev.table <- cbind(dev.table, "Df" = Df, "Deviance" = Vrel)
       if (test == "chisq") {
@@ -296,10 +302,10 @@ glca.gof <- function(
    ret$type <- list(Rel = Rel, nll = nll)
    ret$model <- list()
    ret$model$model1 <- m1
-   if (Rel) ret$model$model2 <- m2
+   if (!is.null(object2)) ret$model$model2 <- m2
    ret$call <- list()
    ret$call$call1 <- call1
-   if (Rel) ret$call$call2 <- call2
+   if (!is.null(object2)) ret$call$call2 <- call2
 
    ret$criteria <- criteria
    if (Rel | nll)
