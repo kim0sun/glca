@@ -560,12 +560,12 @@ NumericMatrix GetUDScore(List y,
             for (c = 0; c < C; c ++)
                value1 += Uprob[w] * Dprob_w(i, c);
 
+            if (w < W - 1 && i == 0)
+               score(g, w) += value1 - delta[w];
+
             for (c = 0; c < C; c ++)
             {
                double value = Uprob[w] * Dprob_w(i, c);
-
-               if (w < W - 1)
-                  score(g, w) += value;
 
                if (c < C - 1)
                   score(g, W - 1 + w * (C - 1) + c) +=
@@ -588,9 +588,6 @@ NumericMatrix GetUDScore(List y,
                   }
                }
             }
-
-            if (w < W - 1)
-               score(g, w) -= delta[w];
          }
       }
    }
