@@ -18,7 +18,6 @@ glca_gnr <- function(
             lapply(1:W, function(w)
                matrix(gamma[w, ], Ng[g], C, byrow = TRUE)))
       }
-      # MLCA with constraint
       class2 = sample(1:W, G, prob = delta,
                        replace = TRUE)
       class = lapply(1:G, function(g) sapply(1:Ng[g], function(i)
