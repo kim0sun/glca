@@ -59,24 +59,24 @@
 #' ##
 #' data("gss06")
 #' # LCA
-#' lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+#' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'             data = gss06, nclass = 3)
 #' summary(lca)
 #'
 #' # LCA with covariate(s)
-#' lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
+#' lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
 #'            data = gss06, nclass = 3)
 #' summary(lcr)
 #' coef.glca(lcr)
 #'
 #' # Multiple-group LCA (MGLCA)
-#' mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
+#' mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'              group = DEGREE, data = gss06, nclass = 3)
 #' summary(mglca)
 #'
 #'
 #' # Multiple-group LCA with covariate(s) (MGLCR)
-#' mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
+#' mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
 #'              group = DEGREE, data = gss06, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
@@ -88,12 +88,12 @@
 #' data("nyts18")
 #' # Multilevel LCA (MLCA)
 #' mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ 1,
-#'             group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
+#'             group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
 #' # MLCA with covariate(s) (MLCR)
 #' # (HOME: level-1 covariate, School_lev: level-2 covariate)
-#' mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ HOME + School_lev,
+#' mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ School_lev,
 #'             group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
