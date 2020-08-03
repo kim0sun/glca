@@ -37,7 +37,7 @@
 #' @method plot glca
 #' @export
 
-plot.glca <- function(x, group.name = NULL, ...)
+plot.glca <- function(x, group.name = "all", ...)
 {
    oldpar <- par(no.readonly = TRUE)
    on.exit(par(oldpar))
@@ -80,7 +80,7 @@ plot.glca <- function(x, group.name = NULL, ...)
          else rho <- param$rho[[1]]
          irp <- sapply(rho, function(i) i[,1])
          graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
-              xlim = c(0.5, model$M + 0.5), ylim = c(-0.2, 1.2),
+              xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
               xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
               type = "n", xaxt = "n", yaxt = "n")
          graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
@@ -88,7 +88,7 @@ plot.glca <- function(x, group.name = NULL, ...)
          for (c in 1:model$C) {
             graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
          }
-         graphics::legend(x = model$M + 0.5, y = 1, pch = 1:model$C,
+         graphics::legend(x = model$M + 0.2, y = 1, pch = 1:model$C,
                           legend = rownames(irp), xpd = TRUE, bg = "white")
          graphics::title("Item Response Probabilities by Class")
       } else {
@@ -99,7 +99,7 @@ plot.glca <- function(x, group.name = NULL, ...)
          for (g in match(group.name, x$var.names$g.names)) {
             irp <- sapply(param$rho[[g]], function(i) i[,1])
             graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
-                 xlim = c(0.5, model$M + 0.5), ylim = c(-0.2, 1.2),
+                 xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
                  xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
                  type = "n", xaxt = "n", yaxt = "n")
             graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
@@ -107,7 +107,7 @@ plot.glca <- function(x, group.name = NULL, ...)
             for (c in 1:model$C) {
                graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
             }
-            graphics::legend(x = model$M + 0.5, y = 1, pch = 1:model$C,
+            graphics::legend(x = model$M + 0.2, y = 1, pch = 1:model$C,
                              legend = rownames(irp), xpd = TRUE, bg = "white")
             graphics::title(paste0("Item Response Probabilities by Class", "\n(Group : ",
                          x$var.names$g.names[g],")"))
