@@ -8,10 +8,10 @@ print.glca.gof <- function(x, ...)
    call1 <- x$call$call1; call2 <- x$call$call2
 
    if (nll) {
-      cat("NULL   :", paste(paste(call1$formula)[c(2,1)], collapse = " "), 1, "\n")
+      cat("NULL   :", paste(paste(formula(call1))[c(2,1)], collapse = " "), 1, "\n")
       cat("         nclass :", m1$model$C, "\n")
    }
-   cat("Model 1:", paste(paste(call1$formula)[c(2,1,3)], collapse = " "), "\n")
+   cat("Model 1:", paste(paste(formula(call1))[c(2,1,3)], collapse = " "), "\n")
    if (m1$model$G > 1) {
       cat("         group :", call1$group)
       cat(", nclass :", m1$model$C)
@@ -21,7 +21,7 @@ print.glca.gof <- function(x, ...)
       cat(", ncluster :", m1$model$W)
    cat(", measure.inv :", m1$model$measure.inv, "\n")
    if (!is.null(m2)) {
-      cat("Model 2:", paste(paste(call1$formula)[c(2,1,3)], collapse = " "), "\n")
+      cat("Model 2:", paste(paste(formula(call2))[c(2,1,3)], collapse = " "), "\n")
       if (m2$model$G > 1) {
          cat("         group :", call2$group)
          cat(", nclass :", m2$model$C)
