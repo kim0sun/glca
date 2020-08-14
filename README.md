@@ -1,2 +1,2 @@
 # glca
-R package for LCA with grouped data
+Latent Class Analysis with Group Variable
