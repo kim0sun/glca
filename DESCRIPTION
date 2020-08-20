@@ -1,19 +1,25 @@
 Package: glca
 Type: Package
-Title: Latent Class Analysis with Grouped Data
-Date: 2020-05-31
-Version: 0.1.2
-Author: Youngsun Kim, 
-   Hwan Chung
+Title: Latent Class Analysis with Group Variable
+Date: 2020-08-20
+Version: 1.0.0
+Authors@R: 
+   c(person("Youngsun", "Kim", email = "kim0sun@korea.ac.kr", role = c("aut", "cre")),
+     person("Hwan", "Chung", email = "hwanch@korea.ac.kr", role = c("aut")))
+Author: Youngsun Kim [aut, cre],
+   Hwan Chung [aut]
 Maintainer: Youngsun Kim <kim0sun@korea.ac.kr>
 Description: Fits latent class analysis (LCA) including group variable and covariates. 
    The group variable can be handled either by multilevel LCA described in Vermunt (2003) <DOI:10.1111/j.0081-1750.2003.t01-1-00131.x> or standard LCA at each level of group variable.
    The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al. (1997) <DOI:10.1080/01621459.1997.10473658>).
-License: GPL (>= 2)
+License: GPL-3
 BugReports: https://github.com/kim0sun/glca/issues
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
-Imports: Rcpp (>= 1.0.3), MASS
-LinkingTo: Rcpp
 RoxygenNote: 7.1.0
+Imports: 
+    MASS,
+    Rcpp
+LinkingTo: 
+    Rcpp

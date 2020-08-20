@@ -4,6 +4,7 @@
 print.glca.gof <- function(x, ...)
 {
    nll <- x$type$nll; Rel <- x$type$Rel
+   chisq <- x$type$test == "chisq"
    m1 <- x$model$model1; m2 <- x$model$model2
    call1 <- x$call$call1; call2 <- x$call$call2
 
@@ -34,7 +35,7 @@ print.glca.gof <- function(x, ...)
 
    cat("\nGoodness of Fit Table :\n")
    print(x$criteria)
-   if (Rel | nll) {
+   if (Rel | (nll & chisq)) {
       cat("\nAnalysis of Deviance Table :\n")
       print(x$dev.table)
    }
