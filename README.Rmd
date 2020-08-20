@@ -1,0 +1,82 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/README-",
+  out.width = "100%"
+)
+```
+
+# glca
+
+<!-- badges: start -->
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue)](https://r-pkg.org/pkg/glca)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/glca?color=orange)](https://r-pkg.org/pkg/glca)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-week/glca?color=red)](https://r-pkg.org/pkg/glca)
+
+<!-- badges: end -->
+
+Fits latent class analysis (LCA) including group variable and covariates. 
+The group variable can be handled either by multilevel LCA described in Vermunt (2003) <DOI:10.1111/j.0081-1750.2003.t01-1-00131.x> or standard LCA at each level of group variable. 
+The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al. (1997) <DOI:10.1080/01621459.1997.10473658>).
+
+## Installation
+
+You can install the released version of glca from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("glca")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("kim0sun/glca")
+```
+
+## Example
+
+```{r example}
+library(glca)
+data("gss12")
+# LCA
+lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss12, nclass = 3, verbose = FALSE)
+summary(lca)
+plot(lca)
+
+# Multiple-group LCA (MGLCA)
+mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+             group = DEGREE, data = gss12, nclass = 3, verbose = FALSE)
+summary(mglca)
+plot(mglca)
+
+# Multiple-group LCA with covariate(s) (MGLCR)
+mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
+             group = DEGREE, data = gss12, nclass = 3, verbose = FALSE)
+summary(mglcr)
+coef(mglcr)
+
+data("nyts18")
+# Multilevel LCA (MLCA)
+mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
+            data = nyts18, nclass = 3, ncluster = 2, verbose = FALSE)
+summary(mlca)
+plot(mlca)
+
+# MLCA with covariate(s) (MLCR)
+# (HOME: level-1 covariate, School_lev: level-2 covariate)
+mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SCH_LEV, group = SCH_ID,
+            data = nyts18, nclass = 3, ncluster = 2, verbose = FALSE)
+summary(mlcr)
+coef(mlcr)
+```
+
+

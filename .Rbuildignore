@@ -4,4 +4,7 @@
 # Github stuffs
 .gitignore
 README.md
+^figures$
 .Rhistory
+^LICENSE\.md$
+^README\.Rmd$
