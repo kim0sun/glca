@@ -14,11 +14,11 @@ glca(
   measure.inv = TRUE,
   coeff.inv = TRUE,
   init.param = NULL,
-  n.init = 1,
+  n.init = 10,
   testiter = 50,
   maxiter = 1000,
   eps = 1e-06,
-  na.rm = TRUE,
+  na.rm = FALSE,
   random.seed = NULL,
   verbose = TRUE
 )
@@ -90,27 +90,27 @@ The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delt
 ##
 ## Example 1. GSS dataset
 ##
-data("gss06")
+data("gss12")
 # LCA
-lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-            data = gss06, nclass = 3)
+lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss12, nclass = 3)
 summary(lca)
 
 # LCA with covariate(s)
-lcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ AGE,
-           data = gss06, nclass = 3)
+lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
+           data = gss12, nclass = 3)
 summary(lcr)
-coef.glca(lcr)
+coef(lcr)
 
 # Multiple-group LCA (MGLCA)
-mglca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-             group = DEGREE, data = gss06, nclass = 3)
+mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+             group = DEGREE, data = gss12, nclass = 3)
 summary(mglca)
 
 
 # Multiple-group LCA with covariate(s) (MGLCR)
-mglcr = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ SEX,
-             group = DEGREE, data = gss06, nclass = 3)
+mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
+             group = DEGREE, data = gss12, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
@@ -121,12 +121,12 @@ coef(mglcr)
 data("nyts18")
 # Multilevel LCA (MLCA)
 mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ 1,
-            group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
+            group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlca)
 
 # MLCA with covariate(s) (MLCR)
 # (HOME: level-1 covariate, School_lev: level-2 covariate)
-mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ HOME + School_lev,
+mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ School_lev,
             group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
@@ -139,7 +139,7 @@ Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodol
 Collins, L.M. and Lanza, S.T. (2009) \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
 }
 \seealso{
-\code{\link{gss}} \code{\link{brfss}}
+\code{\link{gss12}} \code{\link{nyts18}}
 }
 \author{
 Youngsun Kim

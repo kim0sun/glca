@@ -27,16 +27,16 @@
 #'
 #' @author Youngsun Kim
 #'
-#' @seealso \code{\link{glca}} \code{\link{gss}}
+#' @seealso \code{\link{glca}} \code{\link{gss12}}
 #'
 #' @examples
 #' ## Example 1.
 #' ## Model selection between two LCA models with different number of latent classes.
-#' data(gss06)
+#' data(gss12)
 #' class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'               data = gss06, nclass = 2)
+#'               data = gss12, nclass = 2)
 #' class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'               data = gss06, nclass = 3)
+#'               data = gss12, nclass = 3)
 #'
 #' glca.gof(class2, class3)
 #' \dontrun{glca.gof(class2, class3, test = "chisq")}
@@ -45,9 +45,9 @@
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
 #' cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = REGION, data = gss06, nclass = 3, ncluster = 2, na.rm = TRUE)
+#'                 group = REGION, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
 #' cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = REGION, data = gss06, nclass = 3, ncluster = 3, na.rm = TRUE)
+#'                 group = REGION, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
 #'
 #' glca.gof(cluster2, cluster3)
 #' \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
@@ -57,9 +57,9 @@
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = SEX, data = gss06, nclass = 3)
+#'                group = SEX, data = gss12, nclass = 3)
 #' measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = SEX, data = gss06, nclass = 3, measure.inv = FALSE)
+#'                group = SEX, data = gss12, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
 #' \dontrun{glca.gof(measInv, measVar, test = "chisq")}
@@ -149,7 +149,7 @@ glca.gof <- function(
 
          if (nll) {
             b0 <- glca_gnr(m1$null$model0, init0_1, data0)
-            EMb0 <- glca_em(m1$model, b0, init1, 1, maxiter, eps,  FALSE)
+            EMb0 <- glca_em(m1$null$model0, b0, init0, 1, maxiter, eps,  FALSE)
          }
 
          if (is.null(EMb1)) {
@@ -159,8 +159,7 @@ glca.gof <- function(
          else {
             bGsq1[b] <- 2 * (b1$loglik0 - EMb1$loglik)
             if (nll) {
-               bGsq0[b] <- 2 * (b0$nullik0 - EMb0$nullik)
-               bGsqR[b] <- 2 * (EMb0$loglik - EMb0$nullik)
+               bGsq0[b] <- 2 * (b0$loglik0 - EMb0$loglik)
             }
          }
 
@@ -195,7 +194,6 @@ glca.gof <- function(
       boot1 <- mean(bGsq1 > Gsq1, na.rm = TRUE)
       if (nll) {
          boot0 <- mean(bGsq0 > m1$null$Gsq, na.rm = TRUE)
-         boot3 <- mean(bGsqR > GsqR, na.rm = TRUE)
       }
       if (!is.null(object2)) {
          boot2 <- mean(bGsq2 > Gsq2, na.rm = TRUE)
@@ -262,7 +260,8 @@ glca.gof <- function(
          criteria <- cbind(criteria, "Boot p-value" = round(boot1, 3))
    }
 
-   if (nll) {
+   dev.table <- NULL
+   if (nll & test == "chisq") {
       nullpar <- m1$model$C - 1 + m1$model$C * sum(m1$model$R - 1)
       deviance <- round(2 * (m1$gof$loglik - m1$null$nullik), 2)
       Df <- m1$model$npar - nullpar
@@ -299,7 +298,7 @@ glca.gof <- function(
    }
 
    ret <- list()
-   ret$type <- list(Rel = Rel, nll = nll)
+   ret$type <- list(Rel = Rel, nll = nll, test = test)
    ret$model <- list()
    ret$model$model1 <- m1
    if (!is.null(object2)) ret$model$model2 <- m2
@@ -308,8 +307,7 @@ glca.gof <- function(
    if (!is.null(object2)) ret$call$call2 <- call2
 
    ret$criteria <- criteria
-   if (Rel | nll)
-      ret$dev.table <- dev.table
+   ret$dev.table <- dev.table
 
    if (test == "boot" & nboot > 0) {
       ret$boot <- list()

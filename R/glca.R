@@ -46,7 +46,7 @@
 #' \item{gof}{a list of goodness of fit measures}
 #' \item{convergence}{a list containing information about convergence}
 #'
-#' @seealso \code{\link{gss}} \code{\link{brfss}}
+#' @seealso \code{\link{gss12}} \code{\link{nyts18}}
 #'
 #' @references
 #' Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodology}, \bold{33}, 213--239. \doi{10.1111/j.0081-1750.2003.t01-1-00131.x}
@@ -57,27 +57,27 @@
 #' ##
 #' ## Example 1. GSS dataset
 #' ##
-#' data("gss06")
+#' data("gss12")
 #' # LCA
 #' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'             data = gss06, nclass = 3)
+#'             data = gss12, nclass = 3)
 #' summary(lca)
 #'
 #' # LCA with covariate(s)
 #' lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
-#'            data = gss06, nclass = 3)
+#'            data = gss12, nclass = 3)
 #' summary(lcr)
-#' coef.glca(lcr)
+#' coef(lcr)
 #'
 #' # Multiple-group LCA (MGLCA)
 #' mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = DEGREE, data = gss06, nclass = 3)
+#'              group = DEGREE, data = gss12, nclass = 3)
 #' summary(mglca)
 #'
 #'
 #' # Multiple-group LCA with covariate(s) (MGLCR)
 #' mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-#'              group = DEGREE, data = gss06, nclass = 3)
+#'              group = DEGREE, data = gss12, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
@@ -87,14 +87,14 @@
 #' ##
 #' data("nyts18")
 #' # Multilevel LCA (MLCA)
-#' mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ 1,
-#'             group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
+#' mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 #' summary(mlca)
 #'
 #' # MLCA with covariate(s) (MLCR)
 #' # (HOME: level-1 covariate, School_lev: level-2 covariate)
-#' mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ School_lev,
-#'             group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
+#' mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SCH_LEV,
+#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 #' summary(mlcr)
 #' coef(mlcr)
 #' }
@@ -104,7 +104,7 @@
 glca <- function(
    formula, group = NULL, data = NULL, nclass = 3, ncluster = 0, std.err = TRUE,
    measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 10, testiter = 50,
-   maxiter = 1000, eps = 1e-6, na.rm = TRUE, random.seed = NULL, verbose = TRUE
+   maxiter = 1000, eps = 1e-6, na.rm = FALSE, random.seed = NULL, verbose = TRUE
 )
 {
    # Random seed

@@ -8,11 +8,11 @@ glca.gof(
   object,
   object2 = NULL,
   test = NULL,
-  nboot = 25,
+  nboot = 50,
   random.seed = NULL,
   maxiter = 500,
-  eps = 1e-05,
-  verbose = TRUE
+  eps = 1e-04,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -43,11 +43,11 @@ Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit te
 \examples{
 ## Example 1.
 ## Model selection between two LCA models with different number of latent classes.
-data(gss)
-class2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, nclass = 2)
-class3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-              data = gss, nclass = 3)
+data(gss12)
+class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+              data = gss12, nclass = 2)
+class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+              data = gss12, nclass = 3)
 
 glca.gof(class2, class3)
 \dontrun{glca.gof(class2, class3, test = "chisq")}
@@ -55,10 +55,10 @@ glca.gof(class2, class3)
 
 ## Example 2.
 ## Model selection between two MLCA models with different number of latent clusters.
-cluster2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 3, ncluster = 2, na.rm = TRUE)
-cluster3 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-                group = REGION, data = gss, nclass = 3, ncluster = 3, na.rm = TRUE)
+cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+                group = REGION, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
+cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+                group = REGION, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
 
 glca.gof(cluster2, cluster3)
 \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
@@ -67,10 +67,10 @@ glca.gof(cluster2, cluster3)
 \donttest{
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
-measInv = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, data = gss, nclass = 3)
-measVar = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE) ~ 1,
-               group = SEX, data = gss, nclass = 3, measure.inv = FALSE)
+measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+               group = SEX, data = gss12, nclass = 3)
+measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+               group = SEX, data = gss12, nclass = 3, measure.inv = FALSE)
 
 glca.gof(measInv, measVar)
 \dontrun{glca.gof(measInv, measVar, test = "chisq")}
@@ -87,7 +87,7 @@ Langeheine, R., Pannekoek, J., and van de Pol, F. (1996) Bootstrapping goodness-
 Ramaswamy, V., Desarbo, W., Reibstein, D., & Robinson, W. (1993). An Empirical Pooling Approach for Estimating Marketing Mix Elasticities with PIMS Data. Marketing Science, 12(1), 103-124. \doi{10.1287/mksc.12.1.103}
 }
 \seealso{
-\code{\link{glca}} \code{\link{gss}}
+\code{\link{glca}} \code{\link{gss12}}
 }
 \author{
 Youngsun Kim

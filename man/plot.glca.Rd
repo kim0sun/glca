@@ -4,7 +4,7 @@
 \alias{plot.glca}
 \title{Plots the Estimated Parameters of Fitted glca Model}
 \usage{
-\method{plot}{glca}(x, group.name = NULL, ...)
+\method{plot}{glca}(x, group.name = "all", ...)
 }
 \arguments{
 \item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
@@ -22,28 +22,28 @@ This function plots estimated parameters of model.
 \examples{
 \dontrun{
 # LCA
-lca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-            data = gss, nclass = 3, na.rm = TRUE)
+lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss12, nclass = 3, na.rm = TRUE)
 plot(lca)
 
 # Multitple Group LCA (MGLCA)
-mglca1 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-             group = DEGREE, data = gss, nclass = 3)
+mglca1 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+             group = DEGREE, data = gss12, nclass = 3)
 plot(mglca1)
 
 # Multitple Group LCA (MGLCA) (measure.inv = FALSE)
-mglca2 = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-             group = DEGREE, data = gss, nclass = 3, measure.inv = FALSE)
+mglca2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+             group = DEGREE, data = gss12, nclass = 3, measure.inv = FALSE)
 plot(mglca2)
 plot(mglca2, "all")
 
 # Multilvel LCA (MLCA)
-mlca = glca(item(ABDEFECT, ABHLTH, ABRAPE, ABPOOR, ABSINGLE, ABNOMORE) ~ 1,
-             group = REGION, data = gss, nclass = 3, ncluster = 2)
+mlca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+             group = REGION, data = gss12, nclass = 3, ncluster = 2)
 plot(mlca)
 }
 
 }
 \seealso{
-\code{\link{glca}}
+\code{\link{glca}} \code{\link{gss12}}
 }
