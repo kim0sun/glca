@@ -120,14 +120,14 @@ coef(mglcr)
 ##
 data("nyts18")
 # Multilevel LCA (MLCA)
-mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ 1,
-            group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
+mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlca)
 
 # MLCA with covariate(s) (MLCR)
 # (HOME: level-1 covariate, School_lev: level-2 covariate)
-mlca = glca(item(CIGRT, E_CIGAR, HOOKAH, CIGAR, CHEW) ~ School_lev,
-            group = School_ID, data = nyts18, nclass = 3, ncluster = 2)
+mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SCH_LEV,
+            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 }

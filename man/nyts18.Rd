@@ -5,59 +5,59 @@
 \alias{nyts18}
 \title{National Youth Tobacco Survey (NYTS) 2018}
 \format{
-A data frame with 3018 observations on the following 8 variables.
+A data frame with 0000 observations on the following 8 variables.
 \describe{
-\item{\code{CIGRT}}{}
-\item{\code{CIGAR}}{}
-\item{\code{CHEW}}{}
-\item{\code{E_CIGAR}}{}
-\item{\code{HOOKAH}}{}
+\item{\code{ECIGT}}{Whether to have tried cigarette smoking, even one or two puffs}
+\item{\code{ECIGAR}}{Whether to have ever tried cigar smoking, even one or two puffs}
+\item{\code{ESLT}}{Whether to have used chewing tobacco, snuff, or dip}
+\item{\code{EELCIGT}}{Whether to have used electronic cigarettes or e-cigarettes}
+\item{\code{EHOOKAH}}{Whether to have tried smoking tobacco from a hookah or a waterpipe}
 
-\item{\code{SEX}}{Respondents Sex}
-\item{\code{Sch_ID}}{}
-\item{\code{Sch_type}}{}
+\item{\code{SEX}}{Respondent's Sex}
+\item{\code{SCH_ID}}{School ID to which the respondent belongs}
+\item{\code{SCH_LEV}}{Level of the corresponding school}
 }
 }
 \source{
 \url{https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/index.htm}
 }
 \description{
-National Youth Tobacco Survey (NYTS) 2018
+This dataset includes 5 manifest items about abortion and several covariates. From the original 2018 National Youth Tobacco Survey data, the Non Hispanic, white students are selected and schools with 30-50 students were selected. Thus, the dataset has 1743 respondents. The covariates include the sex of the respondents and the school ID to which the respondnets belong, and the level of the corresponding school.
 }
 \examples{
 data("nyts18")
 \donttest{
 # Model 1: LCA
-lca = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ 1,
+lca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
            data = nyts18, nclass = 3)
 summary(lca)
 
 # Model 2: LCR
-lca = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ SEX,
+lca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX,
            data = nyts18, nclass = 3)
 summary(lca)
 coef(lca)
 
 # Model 3: MGLCA
-mglca = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ 1,
+mglca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
              group = SEX, data = nyts18, nclass = 3)
 summary(mglca)
 
 # Model 4: MLCA
-mlca = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ 1,
-   group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
+mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+   group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlca)
 
 # Model 5: MLCA with level-1 covariate(s) only
-mlcr = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ SEX,
-            group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
+mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX,
+            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)
 
 # Model 6: MLCA with level-1 and level-2 covariate(s)
 # (SEX: level-1 covariate, PARTY: level-2 covariate)
-mlcr2 = glca(item(CIGRT, CIGAR, CHEW, E_CIGAR, HOOKAH) ~ SEX + Sch_type,
-             group = Sch_ID, data = nyts18, nclass = 3, ncluster = 2)
+mlcr2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
+             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr2)
 coef(mlcr2)
 }

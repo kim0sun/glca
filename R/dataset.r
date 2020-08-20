@@ -61,10 +61,10 @@ NULL
 #' @keywords datasets
 #' @format A data frame with 0000 observations on the following 8 variables.
 #' \describe{
-#' \item{\code{ECIGRT}}{Whether to have tried cigarette smoking, even one or two puffs}
+#' \item{\code{ECIGT}}{Whether to have tried cigarette smoking, even one or two puffs}
 #' \item{\code{ECIGAR}}{Whether to have ever tried cigar smoking, even one or two puffs}
-#' \item{\code{ESNUS}}{Whether to have used chewing tobacco, snuff, or dip}
-#' \item{\code{EELECTRCRT}}{Whether to have used electronic cigarettes or e-cigarettes}
+#' \item{\code{ESLT}}{Whether to have used chewing tobacco, snuff, or dip}
+#' \item{\code{EELCIGT}}{Whether to have used electronic cigarettes or e-cigarettes}
 #' \item{\code{EHOOKAH}}{Whether to have tried smoking tobacco from a hookah or a waterpipe}
 #'
 #' \item{\code{SEX}}{Respondent's Sex}
