@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 ```
 
 # glca
-
 <!-- badges: start -->
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue)](https://r-pkg.org/pkg/glca)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/glca?color=orange)](https://r-pkg.org/pkg/glca)
