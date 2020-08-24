@@ -39,18 +39,18 @@
 #'               data = gss12, nclass = 3)
 #'
 #' glca.gof(class2, class3)
-#' \dontrun{glca.gof(class2, class3, test = "chisq")}
+#' glca.gof(class2, class3, test = "chisq")
 #' \dontrun{glca.gof(class2, class3, test = "boot")}
 #'
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
 #' cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = REGION, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
+#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
 #' cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = REGION, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
+#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
 #'
 #' glca.gof(cluster2, cluster3)
-#' \dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
+#' glca.gof(cluster2, cluster3, test = "chisq")
 #' \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 #'
 #' \donttest{
@@ -62,7 +62,7 @@
 #'                group = SEX, data = gss12, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
-#' \dontrun{glca.gof(measInv, measVar, test = "chisq")}
+#' glca.gof(measInv, measVar, test = "chisq")
 #' \dontrun{glca.gof(measInv, measVar, test = "boot")}
 #' }
 #' @export
@@ -237,9 +237,6 @@ glca.gof <- function(
       if (test == "chisq") {
          if (!Nestd)
             warning("The models are not nested. Chi-square test is not appropriate.")
-         criteria <- cbind(criteria, "Pr(>Chi)" =
-                              round(c(1 - pchisq(Gsq1, m1$gof$df),
-                                      1 - pchisq(Gsq2, m1$gof$df)), 3))
       } else if (test == "boot") {
          criteria <- cbind(criteria, "Boot p-value" =
                               round(c(boot1, boot2), 3))
