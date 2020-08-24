@@ -245,18 +245,11 @@ glca.gof <- function(
                               round(c(boot1, boot2), 3))
       }
    } else if (nll) {
-      if (test == "chisq")
-         criteria <- cbind(criteria, "Pr(>Chi)" =
-                              round(c(1 - pchisq(m1$null$Gsq, nulldf),
-                                      1 - pchisq(Gsq1, m1$gof$df)), 3))
-      else if (test == "boot")
+      if (test == "boot")
          criteria <- cbind(criteria, "Boot p-value" =
                               round(c(boot0, boot1), 3))
    } else {
-      if (test == "chisq") {
-         criteria <- cbind(criteria, "Pr(>Chi)" =
-                              round(pchisq(Gsq1, m1$gof$df, lower.tail = FALSE), 3))
-      } else if (test == "boot")
+      if (test == "boot")
          criteria <- cbind(criteria, "Boot p-value" = round(boot1, 3))
    }
 
