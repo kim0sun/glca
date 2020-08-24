@@ -50,13 +50,13 @@ plot.glca <- function(x, ...)
 
    if (model$W > 1) {
       # delta, gamma
-      prev <- post$wclass
-      rownames(prev) = paste0(rownames(prev), "\n(", round(param$delta, 2), ")")
+      prev <- apply(post$wclass, 1, rev)
+      colnames(prev) = paste0(colnames(prev), "\n(", round(param$delta, 2), ")")
 
-      xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group",
+      xpos <- graphics::barplot(prev, main = "Class Prevalence by Group",
                                 ylab = "Class Prevalence", las = 1)
-      graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-                       fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
+      graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = rev(rownames(prev)),
+                       fill = rev(grDevices::gray.colors(nrow(prev))), xpd = TRUE, bg = "white")
    } else {
       # gamma
       if (model$G == 1) {
@@ -64,11 +64,11 @@ plot.glca <- function(x, ...)
                            ylab = "Class Prevalence", las = 1,
                            col = grDevices::gray.colors(model$C))
       } else {
-         prev <- t(sapply(post, colMeans))
+         prev <- t(apply(sapply(post, colMeans), 2, rev))
 
          xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
-         graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(prev),
-                          fill = grDevices::gray.colors(ncol(prev)), xpd = TRUE, bg = "white")
+         graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = rev(colnames(prev)),
+                          fill = rev(grDevices::gray.colors(ncol(prev))), xpd = TRUE, bg = "white")
       }
    }
 
