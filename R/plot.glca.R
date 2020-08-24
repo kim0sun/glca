@@ -3,7 +3,6 @@
 #' \code{plot} method for class "\code{glca}".
 #'
 #' @param x an object of "\code{glca}", usually, a result of a call to \code{glca}
-#' @param group.name a vector of strings which indicates groups, rho-parameters of which will be printed when \code{measure.inv = FALSE}.
 #' @param ... further arguments passed to or from other methods
 #'
 #' @return This function plots estimated parameters of model.
@@ -37,7 +36,7 @@
 #' @method plot glca
 #' @export
 
-plot.glca <- function(x, group.name = "all", ...)
+plot.glca <- function(x, ...)
 {
    oldpar <- par(no.readonly = TRUE)
    on.exit(par(oldpar))
@@ -92,11 +91,7 @@ plot.glca <- function(x, group.name = "all", ...)
                           legend = rownames(irp), xpd = TRUE, bg = "white")
          graphics::title("Item Response Probabilities by Class")
       } else {
-         if (is.null(group.name))
-            stop("Input group names to be plotted Item Response Probabilities.")
-         else if (group.name == "all")
-            group.name <- x$var.names$g.names
-         for (g in match(group.name, x$var.names$g.names)) {
+         for (g in 1:model$G) {
             irp <- sapply(param$rho[[g]], function(i) i[,1])
             graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
                  xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
@@ -127,11 +122,7 @@ plot.glca <- function(x, group.name = "all", ...)
                          names(rho)[m],")"))
          }
       } else {
-         if (is.null(group.name))
-            stop("Input group names to be plotted Item Response Probabilities.")
-         else if (group.name == "all")
-            group.name <- x$var.names$g.names
-         for (g in match(group.name, x$var.names$g.names)) {
+         for (g in 1:model$G) {
             rho <- param$rho[[g]]
             for (m in 1:model$M) {
                xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
