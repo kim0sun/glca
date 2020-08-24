@@ -20,7 +20,7 @@
 #' @export
 
 coef.glca = function(
-   object, digits = max(3, getOption("digits") - 3),
+   object, intercept = FALSE, digits = max(3, getOption("digits") - 3),
    show.signif.stars = getOption("show.signif.stars"), ...
 )
 {
@@ -30,20 +30,22 @@ coef.glca = function(
       if (object$model$coeff.inv) {
          coef = object$coefficient
          if (object$model$W > 1) {
-            cat("Intercept :\n\n")
-            intmat = lapply(1:object$model$W, function(w) {
-               mat = t(sapply(1:(object$model$C - 1), function(c) coef[[1]][[w]][[c]][1,]))
-               rownames(mat) = paste("Class", 1:(object$model$C - 1), "/", object$model$C)
-               as.data.frame(mat)
-            })
+            if (intercept) {
+               cat("Intercept :\n\n")
+               intmat = lapply(1:object$model$W, function(w) {
+                  mat = t(sapply(1:(object$model$C - 1), function(c) coef[[1]][[w]][[c]][1,]))
+                  rownames(mat) = paste("Class", 1:(object$model$C - 1), "/", object$model$C)
+                  as.data.frame(mat)
+               })
 
-            for (w in 1:object$model$W) {
-               cat("Cluster", w, ":\n")
-               stats::printCoefmat(intmat[[w]],
-                                   digits = digits,
-                                   signif.stars = getOption("show.signif.stars"),
-                                   P.values = TRUE, has.Pvalue = TRUE)
-               cat("\n")
+               for (w in 1:object$model$W) {
+                  cat("Cluster", w, ":\n")
+                  stats::printCoefmat(intmat[[w]],
+                                      digits = digits,
+                                      signif.stars = getOption("show.signif.stars"),
+                                      P.values = TRUE, has.Pvalue = TRUE)
+                  cat("\n")
+               }
             }
 
             if (object$model$P > 1) {
@@ -87,19 +89,21 @@ coef.glca = function(
                   cat("\n")
                }
             } else {
-               cat("Intercept :\n\n")
-               intmat = lapply(1:object$model$G, function(g) {
-                  mat = t(sapply(1:(object$model$C - 1), function(c) coef[[g]][[c]][1,]))
-                  rownames(mat) = paste("Class", 1:(object$model$C - 1), "/", object$model$C)
-                  as.data.frame(mat)
-               })
-               for (g in 1:object$model$G) {
-                  cat("Group ", object$var.names$g.names[g], ":\n", sep = "")
-                  stats::printCoefmat(intmat[[g]],
-                                      digits = digits,
-                                      signif.stars = getOption("show.signif.stars"),
-                                      P.values = TRUE, has.Pvalue = TRUE)
-                  cat("\n")
+               if (intercept) {
+                  cat("Intercept :\n\n")
+                  intmat = lapply(1:object$model$G, function(g) {
+                     mat = t(sapply(1:(object$model$C - 1), function(c) coef[[g]][[c]][1,]))
+                     rownames(mat) = paste("Class", 1:(object$model$C - 1), "/", object$model$C)
+                     as.data.frame(mat)
+                  })
+                  for (g in 1:object$model$G) {
+                     cat("Group ", object$var.names$g.names[g], ":\n", sep = "")
+                     stats::printCoefmat(intmat[[g]],
+                                         digits = digits,
+                                         signif.stars = getOption("show.signif.stars"),
+                                         P.values = TRUE, has.Pvalue = TRUE)
+                     cat("\n")
+                  }
                }
 
                cat("Coefficients :\n\n")
