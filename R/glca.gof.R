@@ -45,9 +45,9 @@
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
 #' cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
+#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 2)
 #' cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
+#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 3)
 #'
 #' glca.gof(cluster2, cluster3)
 #' glca.gof(cluster2, cluster3, test = "chisq")
@@ -74,9 +74,9 @@ glca.gof <- function(
 {
    # Check_
    if (!inherits(object, "glca"))
-      stop("object should be glca class.")
+      stop("Object should be glca class.")
    else if (!is.null(object2) && !inherits(object2, "glca"))
-      stop("object2 should be glca class.")
+      stop("Object2 should be glca class.")
    if (is.null(test))
       test <- "none"
    else if (length(test) != 1)
