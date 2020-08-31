@@ -37,6 +37,7 @@
 #' An object of class "\code{glca}" is a list containing the following components:
 #'
 #' \item{call}{the matched call}
+#' \item{call}{the \code{\link{terms}} object used.}
 #' \item{model}{a list of model description}
 #' \item{datalist}{a list of data used for fitting}
 #' \item{param}{a list of parameter estimates}
@@ -118,14 +119,14 @@ glca <- function(
    mcall <- mcall[c(1L, m)]
    mcall[[1L]] <- quote(stats::model.frame)
    mf <- eval(mcall, parent.frame())
+   terms <- attr(mf, "terms")
 
    # Ecoding arguments (model, datalist, vname)
    # (type, N, Ng, G, C, W, M, R, P, Q, npar)
    # (x, y, z, observed)
    # (y.names, g.names, r.names, x.names, z.names)
-   encode = glca_encode(call, mf, nclass, ncluster,
-                        measure.inv, coeff.inv,
-                        na.rm, verbose)
+   encode = glca_encode(call, terms, mf, nclass, ncluster,
+                        measure.inv, coeff.inv, na.rm, verbose)
    datalist = encode$datalist
    model = encode$model
    if(model$df <= 0) {
@@ -162,7 +163,7 @@ glca <- function(
 
    # Output Design (output)
    # (model, x, y, group, z, param, posterior, gof, iter)
-   ret = glca_output(call, model, datalist, vname, EM, scores)
+   ret = glca_output(call, terms, model, datalist, vname, EM, scores)
    class(ret) = "glca"
 
    return(ret)

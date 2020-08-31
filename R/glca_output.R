@@ -1,5 +1,5 @@
 glca_output <- function(
-   call, model, datalist, vname, EM, scores
+   call, terms, model, datalist, vname, EM, scores
 )
 {
    N <- model$N; Ng <- model$Ng;
@@ -280,13 +280,13 @@ glca_output <- function(
    # Goodness of fit
    P = do.call(rbind, pclass)
    gof <- list(
-      df = df,
       loglik = EM$loglik,
       aic = -2 * EM$loglik + 2 * npar,
       caic = -2 * EM$loglik + (log(N) + 1) * npar,
       bic = -2 * EM$loglik + log(N) * npar,
-      Gsq = 2 * (datalist$loglik0 - EM$loglik),
-      entropy = 1 - sum(-P[P != 0] * log(P)[P != 0]) / (N * log(C))
+      entropy = 1 - sum(-P[P != 0] * log(P)[P != 0]) / (N * log(C)),
+      df = df,
+      Gsq = 2 * (datalist$loglik0 - EM$loglik)
    )
 
    # Convergence
@@ -297,21 +297,9 @@ glca_output <- function(
    if (!is.null(scores))
       convergence$score = scores$score
 
-   nullpar = C - 1 + C * sum(R - 1)
-   nP = do.call(rbind, EM$nullpost)
-   null <- list(
-      model0 = EM$model0,
-      param0 = EM$param0,
-      nullik = EM$nullik,
-      aic = -2 * EM$nullik + 2 * nullpar,
-      caic = -2 * EM$nullik + (log(N) + 1) * nullpar,
-      bic = -2 * EM$nullik + log(N) * nullpar,
-      Gsq = 2 * (datalist$nullik0 - EM$nullik),
-      entropy = 1 - sum(-nP[nP != 0] * log(nP[nP != 0])) / (N * C)
-   )
-
    ret <- list()
    ret$call <- call
+   ret$terms <- terms
    ret$model <- model
    ret$var.names <- vname
    ret$datalist <- datalist
@@ -322,7 +310,6 @@ glca_output <- function(
    ret$posterior <- post
    ret$gof <- gof
    ret$convergence <- convergence
-   ret$null <- null
 
    return(ret)
 }

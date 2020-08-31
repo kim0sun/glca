@@ -127,16 +127,6 @@ glca_em <- function(
       }
 
       llik <- GetLik(y, gamma, rho, Ng, G, C, M, R)
-      gamma_m <- list(
-         matrix(colMeans(do.call(rbind, Post)),
-                sum(Ng), C, byrow = TRUE)
-      )
-
-      rho_m <- UpRhoR(y, Post, rho, Ng, G, C, M, R)[1]
-      nullpost <- GetPost(list(do.call(rbind, y)), gamma_m, rho_m,
-                          sum(Ng), 1, C, M, R)
-      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho_m,
-                     sum(Ng), 1, C, M, R)
    } else {
       if (P == 1 && Q == 0) {
          for (iter in miniter:maxiter) {
@@ -264,23 +254,7 @@ glca_em <- function(
 
          llik = GetUDlikX(y, delta, gamma, rho, Ng, G, W, C, M, R)
       }
-
-      gamma_m = list(
-         matrix(colMeans(do.call(rbind, Post$PostC)),
-                sum(Ng), C, byrow = TRUE)
-      )
-
-      rho_m = list(rho)
-      nullpost <- GetPost(list(do.call(rbind, y)), gamma_m, rho_m,
-                          sum(Ng), 1, C, M, R)
-      nullik <- GetLik(list(do.call(rbind, y)), gamma_m, rho_m,
-                     sum(Ng), 1, C, M, R)
    }
-
-   model0 <- list(Ng = sum(Ng), G = 1, W = 0, C = C,
-                  M = M, R = R, P = 1, Q = 0, measure.inv = TRUE, coeff.inv = TRUE)
-   param0 <- list(gamma = list(matrix(colMeans(gamma_m[[1]]), sum(Ng), C, byrow = TRUE)),
-                  rho = rho_m)
 
    if (verbose) {
       if (converged)
@@ -293,7 +267,6 @@ glca_em <- function(
 
    return(
       list(param = param, posterior = Post, loglik = llik,
-           model0 = model0, param0 = param0, nullik = nullik, nullpost = nullpost,
            niter = iter, converged = converged)
    )
 }

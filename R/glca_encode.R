@@ -1,5 +1,6 @@
 glca_encode <- function(
-   call, mf, nclass, ncluster,
+   call, terms, mf,
+   nclass, ncluster,
    measure.inv, coeff.inv,
    na.rm, verbose
 )
@@ -13,17 +14,17 @@ glca_encode <- function(
 
    dataN <- attr(Y, "dataN")
    modelN <- nrow(mf)
-   isna <- which(rowSums(Y == 0) > 0)
-   totmis <- which(rowSums(Y != 0) == 0)
+   isna <- which(rowSums(Y == 0L) > 0L)
+   totmis <- which(rowSums(Y != 0L) == 0L)
 
-   Cov <- stats::model.matrix(stats::terms(mf), mf)
+   Cov <- stats::model.matrix(terms, mf)
    grp <- stats::model.extract(mf, "group")
 
-   if (is.null(grp) || ncol(Cov) == 1) {
+   if (is.null(grp) || ncol(Cov) == 1L) {
       Zind <- rep(FALSE, ncol(Cov))
    }
    else {
-      Zind <- c(FALSE, colSums(apply(Cov[, -1, drop = FALSE], 2, function(x)
+      Zind <- c(FALSE, colSums(apply(Cov[, -1L, drop = FALSE], 2L, function(x)
          by(x, grp, function(y) length(unique(y))))) == length(unique(grp)))
    }
 
@@ -47,7 +48,7 @@ glca_encode <- function(
    M <- ncol(Y)
    R <- sapply(attr(Y, "y.level"), length)
    P <- ncol(X)
-   Q <- ncol(Z)
+   Q <- if (!is.null(Z)) ncol(Z) else 0L
 
    y.names <- attr(Y, "y.names")
    r.names <- attr(Y, "y.level")
@@ -55,9 +56,9 @@ glca_encode <- function(
       matrix("", M, max(R)), row.names = y.names,
       stringsAsFactors = FALSE
    )
-   names(resp.name) <- paste0("Y = ", 1:max(R))
-   for (m in 1:M)
-      resp.name[m, 1:R[m]] <- c(r.names[[m]])
+   names(resp.name) <- paste0("Y = ", seq_len(max(R)))
+   for (m in seq_len(M))
+      resp.name[m, seq_len(R[m])] <- c(r.names[[m]])
 
    if (verbose) {
       cat("Deleted observation(s) : \n")
@@ -91,11 +92,11 @@ glca_encode <- function(
    # Grouping data
    G <- nlevels(grp)
    grp <- as.numeric(grp)
-   Ng <- sapply(1:G, function(g) sum(grp == g))
-   y <- lapply(1:G, function(g) as.matrix(Y[grp == g, , drop = FALSE]))
-   x <- lapply(1:G, function(g) as.matrix(X[grp == g, , drop = FALSE]))
+   Ng <- sapply(seq_len(G), function(g) sum(grp == g))
+   y <- lapply(seq_len(G), function(g) as.matrix(Y[grp == g, , drop = FALSE]))
+   x <- lapply(seq_len(G), function(g) as.matrix(X[grp == g, , drop = FALSE]))
    if (ncluster >= 1)
-      z <- lapply(1:G, function(g) as.matrix(Z[grp == g, , drop = FALSE]))
+      z <- lapply(seq_len(G), function(g) as.matrix(Z[grp == g, , drop = FALSE]))
    else
       z <- NULL
 
@@ -128,17 +129,16 @@ glca_encode <- function(
 
    if (prod(R) < 1e+6 & na.rm != TRUE & length(isna) != 0) {
       loglikh <- numeric(H)
-      for (h in 1:H) {
+      for (h in seq_len(H)) {
          Yh <- Y[hind == h, , drop = FALSE]
          loglikh[h] <- ObsLik(as.matrix(Yh), nrow(Yh), M, R, 1000, 1e-8)
       }
       loglik0 <- sum(loglikh)
-      nullik0 <- ObsLik(as.matrix(Y), N, M, R, 1000, 1e-8)
    } else {
       Y0 <- Y[rowSums(Y == 0) == 0, , drop = FALSE]
       h0 <- hind[rowSums(Y == 0) == 0]
       loglikh <- numeric(H)
-      for (h in 1:H) {
+      for (h in seq_len(H)) {
          Yh <- Y0[hind == h, , drop = FALSE]
          Y.sorted <- Yh[do.call(order, data.frame(Yh)[M:1]), , drop = FALSE]
          pattern <- as.matrix(unique(Y.sorted))
@@ -147,12 +147,6 @@ glca_encode <- function(
          loglikh[h] <- sum(obsvd * log(obsvd / sum(obsvd)))
       }
       loglik0 <- sum(loglikh)
-      Y0 <- Y[rowSums(Y == 0) == 0, , drop = FALSE]
-      Y.sorted <- Y0[do.call(order, data.frame(Y0)), , drop = FALSE]
-      pattern <- as.matrix(unique(Y.sorted))
-      obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
-                        nrow(Y.sorted), nrow(pattern))
-      nullik0 <- sum(obsvd * log(obsvd / sum(obsvd)))
    }
 
    if (W == 0) {
@@ -195,7 +189,7 @@ glca_encode <- function(
 
    return(
       list(datalist = list(y = y, x = x, z = z, group = grp,
-                           loglik0 = loglik0, nullik0 = nullik0),
+                           loglik0 = loglik0),
            model = list(type = type,
                         measure.inv = measure.inv,
                         coeff.inv = coeff.inv,
