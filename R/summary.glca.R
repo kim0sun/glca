@@ -87,6 +87,11 @@ summary.glca <- function(
             round(param$rho[[m]][,1], digits))
          colnames(Rhomat) <- var.names$y.names
          print(Rhomat)
+         cat ("Rho (Y = 2) :\n")
+         Rhomat <- sapply(1:model$M, function(m)
+            round(param$rho[[m]][,2], digits))
+         colnames(Rhomat) <- var.names$y.names
+         print(Rhomat)
       } else {
          cat("Rho :\n")
          for (m in 1:model$M) {
@@ -130,6 +135,11 @@ summary.glca <- function(
                round(param$rho[[1]][[m]][,1], digits))
             colnames(Rhomat) <- var.names$y.names
             print(Rhomat)
+            cat ("Rho (Y = 2) :\n")
+            Rhomat <- sapply(1:model$M, function(m)
+               round(param$rho[[1]][[m]][,2], digits))
+            colnames(Rhomat) <- var.names$y.names
+            print(Rhomat)
          } else {
             cat ("Rho :\n")
             for (m in 1:model$M) {
@@ -143,6 +153,11 @@ summary.glca <- function(
                cat ("Rho (Y = 1) :\n")
                Rhomat <- sapply(1:model$M, function(m)
                   round(param$rho[[1]][[m]][,1], digits))
+               colnames(Rhomat) <- var.names$y.names
+               print(Rhomat)
+               cat ("Rho (Y = 2) :\n")
+               Rhomat <- sapply(1:model$M, function(m)
+                  round(param$rho[[1]][[m]][,2], digits))
                colnames(Rhomat) <- var.names$y.names
                print(Rhomat)
             } else {
@@ -159,6 +174,15 @@ summary.glca <- function(
                   cat("Group :", var.names$g.names[[g]], "\n")
                   Rhomat <- sapply(1:model$M, function(m)
                      round(param$rho[[g]][[m]][,1], digits))
+                  colnames(Rhomat) <- var.names$y.names
+                  print(Rhomat)
+                  cat("\n")
+               }
+               cat ("Rho (Y = 2) :\n")
+               for (g in 1:model$G) {
+                  cat("Group :", var.names$g.names[[g]], "\n")
+                  Rhomat <- sapply(1:model$M, function(m)
+                     round(param$rho[[g]][[m]][,2], digits))
                   colnames(Rhomat) <- var.names$y.names
                   print(Rhomat)
                   cat("\n")
