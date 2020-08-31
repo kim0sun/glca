@@ -1,7 +1,7 @@
 Package: glca
 Type: Package
 Title: Latent Class Analysis with Group Variable
-Date: 2020-08-20
+Date: 2020-09-01
 Version: 1.0.0
 Authors@R: 
    c(person("Youngsun", "Kim", email = "kim0sun@korea.ac.kr", role = c("aut", "cre")),
@@ -17,7 +17,7 @@ BugReports: https://github.com/kim0sun/glca/issues
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports: 
     MASS,
     Rcpp
