@@ -56,7 +56,7 @@ summary(lca)
 #> 
 #> Mean Prevalence for latent classes for each group:
 #>     Class 1 Class 2 Class 3
-#> ALL 0.36303 0.44226  0.1947
+#> ALL 0.44226 0.19471 0.36303
 #> 
 #> Number of parameters : 20 
 #> 
@@ -77,18 +77,18 @@ summary(lca)
 #> Estimated model parameters :
 #> Gamma :
 #>     Class 1 Class 2 Class 3
-#> ALL   0.363  0.4423  0.1947
+#> ALL  0.4423  0.1947   0.363
 #> 
 #> Rho (Y = 1) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#> Class 1 0.8281 0.9782 0.8522 0.1114 0.0514 0.0985
-#> Class 2 0.9845 1.0000 0.9901 0.9431 0.9394 0.9983
-#> Class 3 0.0626 0.4481 0.0622 0.0000 0.0000 0.0157
+#> Class 1 0.9845 1.0000 0.9901 0.9431 0.9394 0.9984
+#> Class 2 0.0626 0.4481 0.0622 0.0000 0.0000 0.0157
+#> Class 3 0.8281 0.9782 0.8522 0.1115 0.0514 0.0985
 #> Rho (Y = 2) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#> Class 1 0.1719 0.0218 0.1478 0.8886 0.9486 0.9015
-#> Class 2 0.0155 0.0000 0.0099 0.0569 0.0606 0.0017
-#> Class 3 0.9374 0.5519 0.9378 1.0000 1.0000 0.9843
+#> Class 1 0.0155 0.0000 0.0099 0.0569 0.0606 0.0016
+#> Class 2 0.9374 0.5519 0.9378 1.0000 1.0000 0.9843
+#> Class 3 0.1719 0.0218 0.1478 0.8885 0.9486 0.9015
 plot(lca)
 ```
 
@@ -110,10 +110,10 @@ summary(mglca)
 #> 
 #> Mean Prevalence for latent classes for each group:
 #>             Class 1 Class 2 Class 3
-#> <= HS       0.30479 0.27011 0.42510
-#> HIGH SCHOOL 0.20474 0.38661 0.40865
-#> COLLEGE     0.15035 0.51168 0.33797
-#> GRADUATE    0.15689 0.74073 0.10239
+#> <= HS       0.27011 0.30479 0.42510
+#> HIGH SCHOOL 0.38661 0.20474 0.40865
+#> COLLEGE     0.51168 0.15035 0.33797
+#> GRADUATE    0.74073 0.15689 0.10238
 #> 
 #> Number of parameters : 26 
 #> Number of groups : 4 
@@ -135,20 +135,20 @@ summary(mglca)
 #> Estimated model parameters :
 #> Gamma :
 #>             Class 1 Class 2 Class 3
-#> <= HS        0.3048  0.2701  0.4251
-#> HIGH SCHOOL  0.2047  0.3866  0.4086
-#> COLLEGE      0.1503  0.5117  0.3380
-#> GRADUATE     0.1569  0.7407  0.1024
+#> <= HS        0.2701  0.3048  0.4251
+#> HIGH SCHOOL  0.3866  0.2047  0.4086
+#> COLLEGE      0.5117  0.1503  0.3380
+#> GRADUATE     0.7407  0.1569  0.1024
 #> 
 #> Rho (Y = 1) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#> Class 1 0.0715 0.4613 0.0699 0.0000 0.0000 0.0175
-#> Class 2 0.9848 1.0000 0.9902 0.9451 0.9417 0.9978
+#> Class 1 0.9848 1.0000 0.9902 0.9451 0.9417 0.9978
+#> Class 2 0.0715 0.4613 0.0699 0.0000 0.0000 0.0175
 #> Class 3 0.8348 0.9792 0.8592 0.1140 0.0527 0.1015
 #> Rho (Y = 2) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#> Class 1 0.9285 0.5387 0.9301 1.0000 1.0000 0.9825
-#> Class 2 0.0152 0.0000 0.0098 0.0549 0.0583 0.0022
+#> Class 1 0.0152 0.0000 0.0098 0.0549 0.0583 0.0022
+#> Class 2 0.9285 0.5387 0.9301 1.0000 1.0000 0.9825
 #> Class 3 0.1652 0.0208 0.1408 0.8860 0.9473 0.8985
 plot(mglca)
 ```
@@ -171,10 +171,10 @@ summary(mglcr)
 #> 
 #> Mean Prevalence for latent classes for each group:
 #>             Class 1 Class 2 Class 3
-#> <= HS       0.26926 0.41709 0.31364
-#> HIGH SCHOOL 0.38580 0.40375 0.21045
-#> COLLEGE     0.51154 0.33333 0.15513
-#> GRADUATE    0.74040 0.09758 0.16203
+#> <= HS       0.26927 0.31364 0.41709
+#> HIGH SCHOOL 0.38580 0.21045 0.40375
+#> COLLEGE     0.51154 0.15513 0.33333
+#> GRADUATE    0.74040 0.16202 0.09758
 #> 
 #> Number of parameters : 28 
 #> Number of groups : 4 
@@ -197,37 +197,37 @@ summary(mglcr)
 #> Beta :
 #> Intercepts :
 #>                    Class 1/3 Class 2/3
-#> Group :<= HS          0.0910    0.6159
-#> Group :HIGH SCHOOL    0.8701    1.0117
-#> Group :COLLEGE        1.4714    1.1454
-#> Group :GRADUATE       1.7669   -0.1707
+#> Group :<= HS         -0.5249   -0.6160
+#> Group :HIGH SCHOOL   -0.1416   -1.0117
+#> Group :COLLEGE        0.3260   -1.1454
+#> Group :GRADUATE       1.9376    0.1707
 #> 
 #> Coefficients :
 #> Class 1/3 Class 2/3 
-#>   -0.4293   -0.6067 
+#>    0.1774    0.6067 
 #> 
 #> Rho (Y = 1) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
 #> Class 1 0.9848 1.0000 0.9902 0.9457 0.9422 0.9981
-#> Class 2 0.8424 0.9811 0.8662 0.1164 0.0544 0.1030
-#> Class 3 0.0803 0.4714 0.0793 0.0000 0.0000 0.0190
+#> Class 2 0.0803 0.4714 0.0792 0.0000 0.0000 0.0190
+#> Class 3 0.8424 0.9811 0.8662 0.1164 0.0544 0.1030
 #> Rho (Y = 2) :
 #>         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
 #> Class 1 0.0152 0.0000 0.0098 0.0543 0.0578 0.0019
-#> Class 2 0.1576 0.0189 0.1338 0.8836 0.9456 0.8970
-#> Class 3 0.9197 0.5286 0.9207 1.0000 1.0000 0.9810
+#> Class 2 0.9197 0.5286 0.9208 1.0000 1.0000 0.9810
+#> Class 3 0.1576 0.0189 0.1338 0.8836 0.9456 0.8970
 coef(mglcr)
 #> Coefficients :
 #> 
 #> Class 1 / 3 :
 #>           Odds Ratio Coefficient  Std. Error  t value  Pr(>|t|)    
-#> SEXFEMALE    0.65098    -0.42928     0.05974   -7.186  2.55e-12 ***
+#> SEXFEMALE    1.19411     0.17740     0.04866    3.646  0.000296 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> Class 2 / 3 :
 #>           Odds Ratio Coefficient  Std. Error  t value  Pr(>|t|)    
-#> SEXFEMALE    0.54516    -0.60668     0.06391   -9.493    <2e-16 ***
+#> SEXFEMALE    1.83433     0.60668     0.06391    9.493    <2e-16 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -253,7 +253,7 @@ summary(mlca)
 #> Mean Prevalence for latent classes:
 #>           Class 1 Class 2 Class 3
 #> Cluster 1 0.00877 0.92994 0.06129
-#> Cluster 2 0.14125 0.50889 0.34985
+#> Cluster 2 0.14126 0.50889 0.34985
 #> 
 #> 
 #> Number of parameters : 20 
@@ -316,12 +316,12 @@ summary(mlcr)
 #> 
 #> Mean Prevalence for latent clusters:
 #> Cluster 1 Cluster 2 
-#>   0.55456   0.44544 
+#>   0.44544   0.55456 
 #> 
 #> Mean Prevalence for latent classes:
 #>           Class 1 Class 2 Class 3
-#> Cluster 1 0.02188 0.09646 0.88166
-#> Cluster 2 0.11841 0.29383 0.58776
+#> Cluster 1 0.58776 0.29383 0.11841
+#> Cluster 2 0.88166 0.09646 0.02188
 #> 
 #> 
 #> Number of parameters : 20 
@@ -343,44 +343,42 @@ summary(mlcr)
 #> Estimated model parameters :
 #> Delta :
 #> Cluster 1 Cluster 2 
-#>    0.5546    0.4454 
+#>    0.4454    0.5546 
 #> 
 #> Beta (level 1) :
 #> $Cluster1
 #>             Class 1/3 Class 2/3
-#> (Intercept)   -2.1964   -0.9525
+#> (Intercept)    0.4899    0.7615
 #> 
 #> $Cluster2
 #>             Class 1/3 Class 2/3
-#> (Intercept)   -0.4899    0.2716
+#> (Intercept)    2.1964     1.244
 #> 
 #> Beta (level 2) :
 #>                    Class 1/3 Class 2/3
-#> SCH_LEVHigh School   -2.6632   -1.9514
+#> SCH_LEVHigh School    2.6632    0.7118
 #> 
 #> Rho (Y = 1) :
 #>          ECIGT ECIGAR   ESLT EELCIGT EHOOKAH
-#> Class 1 0.8957 0.9687 0.5377  0.9780  0.5007
+#> Class 1 0.0033 0.0037 0.0071  0.0347  0.0056
 #> Class 2 0.3131 0.1623 0.1183  0.7280  0.0387
-#> Class 3 0.0033 0.0037 0.0071  0.0347  0.0056
+#> Class 3 0.8957 0.9687 0.5377  0.9780  0.5007
 #> Rho (Y = 2) :
 #>          ECIGT ECIGAR   ESLT EELCIGT EHOOKAH
-#> Class 1 0.1043 0.0313 0.4623  0.0220  0.4993
+#> Class 1 0.9967 0.9963 0.9929  0.9653  0.9944
 #> Class 2 0.6869 0.8377 0.8817  0.2720  0.9613
-#> Class 3 0.9967 0.9963 0.9929  0.9653  0.9944
+#> Class 3 0.1043 0.0313 0.4623  0.0220  0.4993
 coef(mlcr)
 #> 
 #> Level 2 Coefficients :
 #> 
 #> Class 1 / 3 :
 #>                    Odds Ratio Coefficient  Std. Error  t value  Pr(>|t|)    
-#> SCH_LEVHigh School    0.06972    -2.66324     0.61681   -4.318  1.69e-05 ***
+#> SCH_LEVHigh School    14.3426      2.6632      0.6168    4.318  1.69e-05 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> Class 2 / 3 :
-#>                    Odds Ratio Coefficient  Std. Error  t value  Pr(>|t|)    
-#> SCH_LEVHigh School     0.1421     -1.9514      0.4369   -4.467  8.58e-06 ***
-#> ---
-#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#>                    Odds Ratio Coefficient  Std. Error  t value  Pr(>|t|)
+#> SCH_LEVHigh School     2.0377      0.7118      0.6921    1.029     0.304
 ```
