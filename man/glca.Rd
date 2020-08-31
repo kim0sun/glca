@@ -64,6 +64,7 @@ The function \code{summary} prints estimates for parameters and \code{glca.gof} 
 An object of class "\code{glca}" is a list containing the following components:
 
 \item{call}{the matched call}
+\item{call}{the \code{\link{terms}} object used.}
 \item{model}{a list of model description}
 \item{datalist}{a list of data used for fitting}
 \item{param}{a list of parameter estimates}
@@ -126,7 +127,7 @@ summary(mlca)
 
 # MLCA with covariate(s) (MLCR)
 # (HOME: level-1 covariate, School_lev: level-2 covariate)
-mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SCH_LEV,
+mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
 summary(mlcr)
 coef(mlcr)

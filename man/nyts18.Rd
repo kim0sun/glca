@@ -5,7 +5,7 @@
 \alias{nyts18}
 \title{National Youth Tobacco Survey (NYTS) 2018}
 \format{
-A data frame with 0000 observations on the following 8 variables.
+A data frame with 1743 observations on the following 8 variables.
 \describe{
 \item{\code{ECIGT}}{Whether to have tried cigarette smoking, even one or two puffs}
 \item{\code{ECIGAR}}{Whether to have ever tried cigar smoking, even one or two puffs}

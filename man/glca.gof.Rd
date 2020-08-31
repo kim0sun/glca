@@ -6,9 +6,10 @@
 \usage{
 glca.gof(
   object,
-  object2 = NULL,
+  ...,
   test = NULL,
   nboot = 50,
+  criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
   random.seed = NULL,
   maxiter = 500,
   eps = 1e-04,
@@ -18,11 +19,13 @@ glca.gof(
 \arguments{
 \item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
 
-\item{object2}{an optional object of "\code{glca}" to be compared with \code{object}}
+\item{...}{an optional object of "\code{glca}" to be compared with \code{object}}
 
 \item{test}{a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})}
 
 \item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}}
+
+\item{criteria}{a}
 
 \item{random.seed}{random seed to have the equivalent solution for every bootstrap trials}
 
@@ -48,33 +51,34 @@ class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
               data = gss12, nclass = 2)
 class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
               data = gss12, nclass = 3)
+class4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+              data = gss12, nclass = 4)
 
-glca.gof(class2, class3)
-\dontrun{glca.gof(class2, class3, test = "chisq")}
+glca.gof(class2, class3, class4)
+glca.gof(class2, class3, class4, test = "chisq")
 \dontrun{glca.gof(class2, class3, test = "boot")}
 
 ## Example 2.
 ## Model selection between two MLCA models with different number of latent clusters.
 cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-                group = REGION, data = gss12, nclass = 3, ncluster = 2, na.rm = TRUE)
+                group = DEGREE, data = gss12, nclass = 3, ncluster = 2)
 cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-                group = REGION, data = gss12, nclass = 3, ncluster = 3, na.rm = TRUE)
+                group = DEGREE, data = gss12, nclass = 3, ncluster = 3)
 
 glca.gof(cluster2, cluster3)
-\dontrun{glca.gof(cluster2, cluster3, test = "chisq")}
+glca.gof(cluster2, cluster3, test = "chisq")
 \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 
 \donttest{
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
 measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-               group = SEX, data = gss12, nclass = 3)
+               group = DEGREE, data = gss12, nclass = 3)
 measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-               group = SEX, data = gss12, nclass = 3, measure.inv = FALSE)
+               group = DEGREE, data = gss12, nclass = 3, measure.inv = FALSE)
 
 glca.gof(measInv, measVar)
-\dontrun{glca.gof(measInv, measVar, test = "chisq")}
-\dontrun{glca.gof(measInv, measVar, test = "boot")}
+glca.gof(measInv, measVar, test = "chisq")
 }
 }
 \references{

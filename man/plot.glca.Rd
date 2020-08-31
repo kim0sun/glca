@@ -4,12 +4,10 @@
 \alias{plot.glca}
 \title{Plots the Estimated Parameters of Fitted glca Model}
 \usage{
-\method{plot}{glca}(x, group.name = "all", ...)
+\method{plot}{glca}(x, ...)
 }
 \arguments{
 \item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
-
-\item{group.name}{a vector of strings which indicates groups, rho-parameters of which will be printed when \code{measure.inv = FALSE}.}
 
 \item{...}{further arguments passed to or from other methods}
 }
