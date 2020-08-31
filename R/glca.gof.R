@@ -3,9 +3,10 @@
 #' Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 #'
 #' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}
-#' @param object2 an optional object of "\code{glca}" to be compared with \code{object}
+#' @param ... an optional object of "\code{glca}" to be compared with \code{object}
 #' @param test a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})
 #' @param nboot number of bootstrap samples, only used when \code{test = "boot"}
+#' @param criteria a
 #' @param random.seed random seed to have the equivalent solution for every bootstrap trials
 #' @param maxiter an integer for maximum number of iteration for bootstrap sample
 #' @param eps positive convergence tolerance for bootstrap sample
@@ -37,9 +38,11 @@
 #'               data = gss12, nclass = 2)
 #' class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'               data = gss12, nclass = 3)
+#' class4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'               data = gss12, nclass = 4)
 #'
-#' glca.gof(class2, class3)
-#' glca.gof(class2, class3, test = "chisq")
+#' glca.gof(class2, class3, class4)
+#' glca.gof(class2, class3, class4, test = "chisq")
 #' \dontrun{glca.gof(class2, class3, test = "boot")}
 #'
 #' ## Example 2.
@@ -57,262 +60,154 @@
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = SEX, data = gss12, nclass = 3)
+#'                group = DEGREE, data = gss12, nclass = 3)
 #' measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = SEX, data = gss12, nclass = 3, measure.inv = FALSE)
+#'                group = DEGREE, data = gss12, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
 #' glca.gof(measInv, measVar, test = "chisq")
-#' \dontrun{glca.gof(measInv, measVar, test = "boot")}
 #' }
 #' @export
 
 glca.gof <- function(
-   object, object2 = NULL, test = NULL, nboot = 50,
+   object, ..., test = NULL, nboot = 50,
+   criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
    random.seed = NULL, maxiter = 500, eps = 1e-4, verbose = FALSE
 )
 {
-   # Check_
-   if (!inherits(object, "glca"))
-      stop("Object should be glca class.")
-   else if (!is.null(object2) && !inherits(object2, "glca"))
-      stop("Object2 should be glca class.")
-   if (is.null(test))
-      test <- "none"
-   else if (length(test) != 1)
-      test <- "none"
+   # Check_class
+   if (!all(sapply(list(object, ...), inherits, "glca")))
+      stop("All objects should inherit glca class.")
 
    # Random seed
    if (is.numeric(random.seed))
       set.seed(random.seed)
 
+   # Test
+   if (!is.null(test)) {
+      match.test <- function(test = c("boot", "chisq")) match.arg(test)
+      test <- match.test(test)
+   }
+
    # Model
-   call1 <- object$call
-   m1 <- object
-   Gsq1 <- object$gof$Gsq
-   Rel <- FALSE; nll <- FALSE
-   if (!is.null(object2)) {
-      call2 <- object2$call
-      m2 <- object2
-      Gsq2 <- object2$gof$Gsq
-      m <- list(m1, m2)
-   }
-
-   # Relative indicator
-   if (!is.null(object2)) {
-      Rel <- identical(object$datalist$y, object2$datalist$y)
-      Nestd <- object$model$C == object2$model$C &&
-         object$model$W == object2$model$W
-
-      if (object$model$npar < object2$model$npar) {
-         H0 <- 1; H1 <- 2
-      } else {
-         H0 <- 2; H1 <- 1
+   obj <- list(object, ...)
+   nmodels <- length(obj)
+   notes <- sapply(obj, function(x) {
+      note <- deparse(formula(x))
+      if (x$model$G > 1) {
+         note <- paste0(note, "\n", strrep(" ", 8 + nchar(nmodels)),
+                        "Group: ", x$call$group, ", nclass: ", x$model$C)
+         if (x$model$W > 1)
+            note <- paste0(note, ", ncluster: ", x$model$W)
+         else
+            note <- paste0(note, ", Meas.inv: ", x$model$measure.inv)
+         if (x$model$P > 1)
+            note <- paste0(note, ", Coef.inv: ", x$model$coeff.inv)
       }
-      if (Rel)
-         GsqR <- 2 * abs(m[[H1]]$gof$loglik - m[[H0]]$gof$loglik)
-      else
-         warning("Response or group might be different.\n")
-   } else if (object$model$type != "Standard LCA") {
-      Rel <- FALSE; nll <- TRUE
-      GsqR <- 2 * abs(m1$gof$loglik - m1$null$nullik)
-   }
+      else note <- paste0(note, "\n", strrep(" ", 8 + nchar(nmodels)),
+                          "nclass: ", x$model$C)
+      note
+   })
 
-   # Bootstrap
-   if (test == "boot" & nboot > 0) {
-      bGsq0 <- numeric(nboot)
-      bGsq1 <- numeric(nboot)
-      bGsq2 <- numeric(nboot)
-      bGsqR <- numeric(nboot)
+   criteria <- match.arg(criteria, several.ok = TRUE)
+   valid.ind <- match(criteria, c("logLik", "AIC", "CAIC", "BIC", "entropy"), 0)
+   gof <- lapply(obj, function(x) x$gof[c(valid.ind, 6L:7L)])
 
-      data0 = lapply(m1$datalist[1:3], function(x) list(Reduce(rbind, x)))
-      init0 <- m1$null$param0
-      init0_1 <- m1$null$param0
-      init0_1$gamma = matrix(init0_1$gamma[[1]][1,], 1)
-      init1 <- m1$param
-      if (is.matrix(init1$gamma) && is.null(init1$delta))
-         init1$gamma <- lapply(1:nrow(init1$gamma), function(g)
-            matrix(init1$gamma[g, ], m1$model$Ng[g],
-                   ncol(init1$gamma), byrow = TRUE))
-      if (!is.null(init1$beta) && !is.null(init1$delta))
-         init1$beta <- unlist(init1$beta)
+   models <- sapply(obj, function(x) x$model)
+   resp <- as.character(sapply(obj, function(x) deparse(x$terms[[2L]])))
+   datn <- sapply(obj, function(x) x$model$N)
+   cls  <- sapply(obj, function(x) c(x$model$C, x$model$W))
 
-      for (b in 1:nboot) {
-         if (verbose) {
-            if (b %% 10 == 0) cat(".")
-            if (b %% 100 == 0) cat(" b =", b, "\n")
-            if (b == nboot) cat("b =", b, "End\n")
-         }
+   rel <- all(resp == resp[1L], datn == datn[1L], length(obj) > 1)
+   nested <- all(apply(cls, 1L, function(x) x == x[1L]), rel)
 
-         b1 <- glca_gnr(m1$model, m1$param, m1$datalist)
-         EMb1 <- glca_em(m1$model, b1, init1, 1, maxiter, eps,  FALSE)
+   ord <- order(sapply(obj, function(x) x$model$npar))
+   llik <- sapply(obj[ord], function(x) x$gof$loglik)
+   gsqR <- 2L * diff(llik)
 
-         if (nll) {
-            b0 <- glca_gnr(m1$null$model0, init0_1, data0)
-            EMb0 <- glca_em(m1$null$model0, b0, init0, 1, maxiter, eps,  FALSE)
-         }
+   gtable <- as.matrix(do.call(rbind, lapply(gof[ord], unlist)))
+   colnames(gtable) <- c(criteria, "Res.Df", "Gsq")
+   rownames(gtable) <- ord
 
-         if (is.null(EMb1)) {
-            bGsq1[b] <- NA
-            if (nll) bGsqR[b] <- NA
-         }
-         else {
-            bGsq1[b] <- 2 * (b1$loglik0 - EMb1$loglik)
-            if (nll) {
-               bGsq0[b] <- 2 * (b0$loglik0 - EMb0$loglik)
+   if (!is.null(test)) {
+      # Bootstrap
+      if (test == "boot" & nboot > 0L) {
+         bgsq <- matrix(0L, length(obj), nboot)
+         if (rel) bgsqR <- matrix(0L, length(obj) - 1L, nboot)
+
+         init <- lapply(obj, function(x) {
+            init <- x$param
+            if (is.matrix(init$gamma) && is.null(init$delta))
+               init$gamma <- lapply(seq_len(x$model$G), function(g)
+                  matrix(init$gamma[g, ], x$model$Ng[g],
+                         x$model$C, byrow = TRUE))
+            if (!is.null(init$beta) && !is.null(init$delta))
+               init$beta <- unlist(init$beta)
+            init
+         })
+
+         for (b in 1:nboot) {
+            if (verbose) {
+               if (b %% 10 == 0) cat(".")
+               if (b %% 100 == 0) cat(" b =", b, "\n")
+               if (b == nboot) cat("b =", b, "End\n")
             }
-         }
 
-         if (!is.null(object2)) {
-            b2 <- glca_gnr(m2$model, m2$param, m2$datalist)
-            init2 <- glca_init(m2$model)
-            EMb2 <- glca_em(m2$model, b2, init2, 1, maxiter, eps, FALSE)
+            for (x in seq_along(obj)) {
+               obj0 <- obj[[ord[x]]]; obj1 <- obj[[ord[x + 1]]]
+               init0 <- init[[ord[x]]]; init1 <- init[[ord[x + 1]]]
 
-            if (is.null(EMb2)) bGsq2[b] <- NA
-            else bGsq2[b] <- 2 * (b2$loglik0 - EMb2$loglik)
+               bs0 <- glca_gnr(obj0$model, obj0$param, obj0$datalist)
+               ll0 <- glca_em(obj0$model, bs0, init0, 1, maxiter, eps, FALSE)$loglik
+               bgsq[x, b]  <- 2 * (bs0$loglik0 - ll0)
 
-            if (Rel) {
-               if (object$model$npar < object2$model$npar) {
-                  h0b <- b1
-                  inith0 <- init1
-                  inith1 <- init2
-               } else {
-                  h0b <- b2
-                  inith0 <- init2
-                  inith1 <- init1
+               if (rel && x != length(obj)) {
+                  bs1 <- bs0
+                  if (obj0$model$G != obj1$model$G) {
+                     Y <- do.call(rbind, bs0$y)
+                     bs1$y <- lapply(seq_len(obj1$model$G), function(g)
+                        Y[obj1$datalist$group == g, ])
+                  }
+                  if (obj0$model$P != obj1$model$P)
+                     bs1$x <- obj1$datalist$x
+                  if (obj0$model$Q != obj1$model$Q)
+                     bs1$z <- obj1$datalist$z
+
+                  ll1 <- glca_em(obj1$model, bs1, init1, 1, maxiter, eps, FALSE)$loglik
+                  bgsqR[x, b] <- 2 * (ll1 - ll0)
                }
-               EMh0 <- glca_em(m[[H0]]$model, h0b, inith0, 1, maxiter, eps, FALSE)
-               modelh1 <- m[[H1]]$model; modelh1$Ng <- m[[H0]]$model$Ng
-               EMh1 <- glca_em(modelh1, h0b, inith1, 1, maxiter, eps, FALSE)
-
-               if (is.null(EMh0) | is.null(EMh1)) bGsqR[b] <- NA
-               else bGsqR[b] <- 2 * (EMh1$loglik - EMh0$loglik)
             }
          }
-      }
 
-      boot1 <- mean(bGsq1 > Gsq1, na.rm = TRUE)
-      if (nll) {
-         boot0 <- mean(bGsq0 > m1$null$Gsq, na.rm = TRUE)
-      }
-      if (!is.null(object2)) {
-         boot2 <- mean(bGsq2 > Gsq2, na.rm = TRUE)
-         if (Rel) boot3 <- mean(bGsqR > GsqR, na.rm = TRUE)
+         boot  <- rowMeans(bgsq  > sapply(gof[ord], function(x) x$Gsq))
+         if (rel) bootR <- rowMeans(bgsqR > gsqR)
+         gtable <- cbind(gtable, `Boot p-value` = boot)
       }
    }
 
-   if (!is.null(object2))
-      criteria <- data.frame(
-         "AIC" = round(c(m1$gof$aic, m2$gof$aic), 2),
-         "CAIC" = round(c(m1$gof$caic, m2$gof$caic), 2),
-         "BIC" = round(c(m1$gof$bic, m2$gof$bic), 2),
-         "entropy" = round(c(m1$gof$entropy, m2$gof$entropy), 2),
-         "Res.Df" = c(m1$gof$df, m2$gof$df),
-         "Gsq" = round(c(m1$gof$Gsq, m2$gof$Gsq), 2)
-      )
-   else if (nll) {
-      nullpar <- m1$model$C - 1 + m1$model$C * sum(m1$model$R - 1)
-      nulldf <- min(prod(m1$model$R) - 1, m1$model$N) - nullpar
-      criteria <- data.frame(
-         "AIC" = round(c(m1$null$aic, m1$gof$aic), 2),
-         "CAIC" = round(c(m1$null$caic, m1$gof$caic), 2),
-         "BIC" = round(c(m1$null$bic, m1$gof$bic), 2),
-         "entropy" = round(c(m1$null$entropy, m1$gof$entropy), 2),
-         "Res.Df" = c(nulldf, m1$gof$df),
-         "Gsq" = round(c(m1$null$Gsq, m1$gof$Gsq), 2),
-         row.names = c("NULL", 1)
-      )
-   }
-   else
-      criteria <- data.frame(
-         "AIC" = round(m1$gof$aic, 2),
-         "CAIC" = round(m1$gof$caic, 2),
-         "BIC" = round(m1$gof$bic, 2),
-         "entropy" = round(m1$gof$entropy, 2),
-         "Res.Df" = m1$gof$df,
-         "Gsq" = round(m1$gof$Gsq, 2)
-      )
+   if (rel) {
+      npar <- sapply(obj[ord], function(x) x$model$npar)
+      Df  <- diff(npar)
+      dtable <- cbind(npar, llik, c(NA, Df), c(NA, round(gsqR, 3)))
+      colnames(dtable) <- c("npar", "logLik", "Df", "Deviance")
+      rownames(dtable) <- ord
 
-   if (!is.null(object2)) {
-      if (test == "chisq") {
-         if (!Nestd)
-            warning("The models are not nested. Chi-square test is not appropriate.")
-      } else if (test == "boot") {
-         criteria <- cbind(criteria, "Boot p-value" =
-                              round(c(boot1, boot2), 3))
-      }
-   } else if (nll) {
-      if (test == "boot")
-         criteria <- cbind(criteria, "Boot p-value" =
-                              round(c(boot0, boot1), 3))
-   } else {
-      if (test == "boot")
-         criteria <- cbind(criteria, "Boot p-value" = round(boot1, 3))
-   }
-
-   dev.table <- NULL
-   if (nll & test == "chisq") {
-      nullpar <- m1$model$C - 1 + m1$model$C * sum(m1$model$R - 1)
-      deviance <- round(2 * (m1$gof$loglik - m1$null$nullik), 2)
-      Df <- m1$model$npar - nullpar
-      dev.table <- as.data.frame(cbind(
-         "npar" = c(nullpar, m1$model$npar),
-         "Loglik" = round(c(m1$null$nullik, m1$gof$loglik), 2),
-         "Df" = c("", Df),
-         "Deviance" = c("", deviance)
-      ))
-      row.names(dev.table) = c("NULL", 1)
-      if (test == "chisq") {
-         Pval <-  round(1 - pchisq(deviance, as.numeric(Df)), 3)
-         dev.table <- cbind(dev.table, "Pr(>Chi)" = c("", Pval))
-      } else if (test == "boot") {
-         Pval <- round(boot3, 3)
-         dev.table <- cbind(dev.table, "Boot p-value" = c("", Pval))
-      }
-   } else if (Rel) {
-      dev.table <- as.data.frame(cbind(
-         "npar" = c(m1$model$npar, m2$model$npar),
-         "Loglik" = c(m1$gof$loglik, m2$gof$loglik)
-      ))
-      Df <- Vrel <- Prel <- c("", "")
-      Df[H1] <- m[[H1]]$model$npar - m[[H0]]$model$npar
-      Vrel[H1] <- round(GsqR, 2)
-      dev.table <- cbind(dev.table, "Df" = Df, "Deviance" = Vrel)
-      if (test == "chisq") {
-         Prel[H1] <- round(1 - pchisq(GsqR, as.numeric(Df[H1])), 3)
-         dev.table <- cbind(dev.table, "Pr(>Chi)" = Prel)
-      } else if (test == "boot") {
-         Prel[H1] <- round(boot3, 3)
-         dev.table <- cbind(dev.table, "Boot p-value" = Prel)
-      }
+      if (!is.null(test))
+         dtable <- switch(test, "chisq" = {
+            cbind(dtable, `Pr(>Chi)` = c(NA, 1 - pchisq(gsqR, as.numeric(Df))))
+         }, "boot" = cbind(dtable, `Boot p-value` = c(NA, round(bootR, 2))))
    }
 
    ret <- list()
-   ret$type <- list(Rel = Rel, nll = nll, test = test)
-   ret$model <- list()
-   ret$model$model1 <- m1
-   if (!is.null(object2)) ret$model$model2 <- m2
-   ret$call <- list()
-   ret$call$call1 <- call1
-   if (!is.null(object2)) ret$call$call2 <- call2
-
-   ret$criteria <- criteria
-   ret$dev.table <- dev.table
-
-   if (test == "boot" & nboot > 0) {
-      ret$boot <- list()
-      if (!is.null(object2)) {
-         ret$boot$boot_Gsq1 <- bGsq1
-         ret$boot$boot_Gsq2 <- bGsq2
-         ret$boot$boot_GsqR <- bGsqR
-      } else if (nll) {
-         ret$boot$boot_Gsq0 <- bGsq0
-         ret$boot$boot_Gsq1 <- bGsq1
-         ret$boot$boot_GsqR <- bGsqR
-      } else
-         ret$boot$boot_Gsq1 <- bGsq1
+   ret$gtable <- gtable
+   if (rel) ret$dtable <- dtable
+   if (!is.null(test)) {
+      if (test == "boot") {
+         ret$boot <- list(boot.Gsq = bgsq)
+         if (rel) ret$boot$boot.GsqR <- bgsqR
+      }
    }
-
+   attr(ret, "notes") <- notes
    class(ret) <- "glca.gof"
    return(ret)
 }
