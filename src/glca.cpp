@@ -123,15 +123,18 @@ List GetUDPost(List y,
 
          for (i = 0; i < Ng[g]; i ++)
          {
-            NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
-               Like_cw(c) = gamma(w, c) * MeasP(i, c);
+            {
+               like_cw[c] = log(gamma(w, c)) + log(MeasP(i, c));
+            }
 
-            Uprob[w] += log(sum(Like_cw));
+            Uprob[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw);
 
-            for (c = 0; c < C; c ++)
-               Dprob_w(i, c) = Like_cw(c) / sum(Like_cw);
+            Dprob_w.row(i) = exp(like_cw - max(like_cw)) /
+               sum(exp(like_cw - max(like_cw)));
          }
 
          Dprob[w] = Dprob_w;
@@ -248,15 +251,18 @@ List GetUDPostX(List y,
 
          for (i = 0; i < Ng[g]; i ++)
          {
-            NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
-               Like_cw(c) = gamma_w(i, c) * MeasP(i, c);
+            {
+               like_cw[c] = log(gamma_w(i, c)) + log(MeasP(i, c));
+            }
 
-            Uprob[w] += log(sum(Like_cw));
+            Uprob[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw);
 
-            for (c = 0; c < C; c ++)
-               Dprob_w(i, c) = Like_cw(c) / sum(Like_cw);
+            Dprob_w.row(i) = exp(like_cw - max(like_cw)) /
+               sum(exp(like_cw - max(like_cw)));
          }
 
          Dprob[w] = Dprob_w;
@@ -533,15 +539,18 @@ NumericMatrix GetUDScore(List y,
 
          for (i = 0; i < Ng[g]; i ++)
          {
-            NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
-               Like_cw[c] = gamma(w, c) * MeasP(i, c);
+            {
+               like_cw[c] = log(gamma(w, c)) + log(MeasP(i, c));
+            }
 
-            Uprob[w] += log(sum(Like_cw));
+            Uprob[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw);
 
-            for (c = 0; c < C; c ++)
-               Dprob_w(i, c) = Like_cw(c) / sum(Like_cw);
+            Dprob_w.row(i) = exp(like_cw - max(like_cw)) /
+               sum(exp(like_cw - max(like_cw)));
          }
 
          Dprob[w] = Dprob_w;
@@ -634,15 +643,18 @@ NumericMatrix GetUDScoreX(List y,
 
          for (i = 0; i < Ng[g]; i ++)
          {
-            NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
-               Like_cw[c] = gamma_w(i, c) * MeasP(i, c);
+            {
+               like_cw[c] = log(gamma_w(i, c)) + log(MeasP(i, c));
+            }
 
-            Uprob[w] += log(sum(Like_cw));
+            Uprob[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw);
 
-            for (c = 0; c < C; c ++)
-               Dprob_w(i, c) = Like_cw(c) / sum(Like_cw);
+            Dprob_w.row(i) = exp(like_cw - max(like_cw)) /
+               sum(exp(like_cw - max(like_cw)));
          }
 
          Dprob[w] = Dprob_w;
@@ -804,12 +816,13 @@ double GetUDlik(List y,
       {
          for (i = 0; i < Ng[g]; i ++)
          {
-            NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
-               Like_cw[c] = gamma(w, c) * MeasP(i, c);
+               like_cw[c] = log(gamma(w, c)) + log(MeasP(i, c));
 
-            clike[w] += log(sum(Like_cw)) - log(std::numeric_limits<double>::max());
+            clike[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw) - log(std::numeric_limits<double>::max());
          }
       }
 
@@ -880,11 +893,16 @@ double GetUDlikX(List y,
          for (i = 0; i < Ng[g]; i ++)
          {
             NumericVector Like_cw(C);
+            NumericVector like_cw(C);
 
             for (c = 0; c < C; c ++)
+            {
                Like_cw[c] = gamma_w(i, c) * MeasP(i, c);
+               like_cw[c] = log(gamma_w(i, c)) + log(MeasP(i, c));
+            }
 
-            clike[w] += log(sum(Like_cw)) - log(std::numeric_limits<double>::max());
+            clike[w] += log(sum(exp(like_cw - max(like_cw)))) +
+               max(like_cw) - log(std::numeric_limits<double>::max());
          }
       }
 
