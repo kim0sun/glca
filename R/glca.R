@@ -103,7 +103,7 @@
 #' @export
 
 glca <- function(
-   formula, group = NULL, data = NULL, nclass = 3, ncluster = 0, std.err = TRUE,
+   formula, group = NULL, data = NULL, nclass = 3, ncluster = NULL, std.err = TRUE,
    measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 10, testiter = 50,
    maxiter = 1000, eps = 1e-6, na.rm = FALSE, random.seed = NULL, verbose = TRUE
 )
@@ -114,11 +114,10 @@ glca <- function(
 
    # Function call
    call <- match.call()
-   mcall <- match.call(expand.dots = FALSE)
-   m <- match(c("formula", "group", "data"), names(mcall), 0L)
-   mcall <- mcall[c(1L, m)]
-   mcall[[1L]] <- quote(stats::model.frame)
-   mf <- eval(mcall, parent.frame())
+   mc <- match(c("formula", "group", "data"), names(call), 0L)
+   cll <- call[c(1L, mc)]
+   cll[[1L]] <- quote(stats::model.frame)
+   mf <- eval(cll, parent.frame())
    terms <- attr(mf, "terms")
 
    # Ecoding arguments (model, datalist, vname)
@@ -129,7 +128,7 @@ glca <- function(
                         measure.inv, coeff.inv, na.rm, verbose)
    datalist = encode$datalist
    model = encode$model
-   if(model$df <= 0) {
+   if(model$df <= 0L) {
       if (verbose) cat("Warning: Negative degree of freedom.\n")
       std.err = FALSE
    }
@@ -140,10 +139,10 @@ glca <- function(
    if (!is.null(init.param)) {
       init.random = glca_init(model)
       init = glca_init_test(init.param, init.random, verbose)
-      miniter = 1
-   } else if (n.init == 1) {
+      miniter = 1L
+   } else if (n.init == 1L) {
       init = glca_init(model)
-      miniter = 1
+      miniter = 1L
    } else {
       test = glca_em_test(model, datalist, n.init, testiter, eps, verbose)
       init = test$param

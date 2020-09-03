@@ -3,34 +3,48 @@
 
 print.glca = function(x, ...)
 {
+   model <- x$model
+   param <- x$param
+   posterior <- x$posterior
+   var.names <- x$var.names
+   gof <- x$gof
+
    cat("\nCall:\n",  paste(deparse(x$call), sep = "\n", collapse = "\n"),
        "\n\n", sep = "")
-   cat("Model :", x$model$type, "\n")
-   if (x$model$W > 1){
-      cat("Number of latent classes :", x$model$C, "\n")
-      cat("Number of latent clusters :", x$model$W, "\n")
+
+   cat("Manifest items :\n", var.names$y.names, "\n")
+   if (!is.null(x$call$group)) cat("Grouping variable :", x$call$group, "\n")
+   if (model$W > 0L) {
+      if (model$Q > 0L) cat("Covariates (Level 2) : \n", var.names$Z.names, "\n")
+      if (model$P > 1L) cat("Covariates (Level 1) : \n", var.names$X.names, "\n")
+   } else if (model$P > 1L) cat("Covariates : \n", var.names$X.names, "\n")
+
+   cat("\nModel :", model$type, "\n")
+   if (model$W > 1L){
+      cat("Number of latent classes :", model$C, "\n")
+      cat("Number of latent clusters :", model$W, "\n")
       cat("\nMean Prevalence for latent clusters:\n")
-      print(round(colMeans(x$posterior$cluster), 5))
+      print(round(colMeans(posterior$cluster), 5L))
       cat("\nMean Prevalence for latent classes:\n")
-      print(round(x$posterior$wclass, 5))
+      print(round(posterior$wclass, 5L))
       cat("\n")
    } else {
-      cat("Number of latent classes :", x$model$C, "\n")
+      cat("Number of latent classes :", model$C, "\n")
       cat("\nMean Prevalence for latent classes:\n")
-      prev = as.matrix(do.call(rbind, lapply(x$posterior, colMeans)))
-      dimnames(prev) = list(x$var.names$g.names,
-                            paste0("Class ", 1:x$model$C))
-      print(round(prev, 5))
+      prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
+      dimnames(prev) = list(var.names$g.names,
+                            paste0("Class ", 1L:model$C))
+      print(round(prev, 5L))
       cat("\n")
    }
 
-   cat("Number of observations :", x$model$N, "\n")
-   cat("  Number of parameters :", x$model$npar, "\n")
-   if (x$model$G > 1)
-      cat("      Number of groups :", x$model$G, "\n")
+   cat("Number of observations :", model$N, "\n")
+   cat("  Number of parameters :", model$npar, "\n")
+   if (model$G > 1L)
+      cat("      Number of groups :", model$G, "\n")
 
-   cat("\nlog-likelihood :", x$gof$loglik,
-       "\n     G-squared :", x$gof$Gsq,
-       "\n           AIC :", x$gof$aic,
-       "\n           BIC :", x$gof$bic, "\n\n")
+   cat("\nlog-likelihood :", gof$loglik,
+       "\n     G-squared :", gof$Gsq,
+       "\n           AIC :", gof$aic,
+       "\n           BIC :", gof$bic, "\n\n")
 }

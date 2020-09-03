@@ -9,7 +9,7 @@ glca(
   group = NULL,
   data = NULL,
   nclass = 3,
-  ncluster = 0,
+  ncluster = NULL,
   std.err = TRUE,
   measure.inv = TRUE,
   coeff.inv = TRUE,
