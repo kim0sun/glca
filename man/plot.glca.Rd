@@ -4,10 +4,12 @@
 \alias{plot.glca}
 \title{Plots the Estimated Parameters of Fitted glca Model}
 \usage{
-\method{plot}{glca}(x, ...)
+\method{plot}{glca}(x, ask = TRUE, ...)
 }
 \arguments{
 \item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
+
+\item{ask}{a logical value whether to be asked before each plot, see \code{\link{par}(ask=.)}.}
 
 \item{...}{further arguments passed to or from other methods}
 }
