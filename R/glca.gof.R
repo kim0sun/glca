@@ -93,24 +93,24 @@ glca.gof <- function(
    obj <- list(object, ...)
    nmodels <- length(obj)
    notes <- sapply(obj, function(x) {
-      note <- deparse(formula(x))
-      if (x$model$G > 1) {
+      note <- deparse(stats::formula(x))
+      if (x$model$G > 1L) {
          note <- paste0(note, "\n", strrep(" ", 8 + nchar(nmodels)),
                         "Group: ", x$call$group, ", nclass: ", x$model$C)
-         if (x$model$W > 1)
+         if (x$model$W > 1L)
             note <- paste0(note, ", ncluster: ", x$model$W)
          else
             note <- paste0(note, ", Meas.inv: ", x$model$measure.inv)
-         if (x$model$P > 1)
+         if (x$model$P > 1L)
             note <- paste0(note, ", Coef.inv: ", x$model$coeff.inv)
       }
-      else note <- paste0(note, "\n", strrep(" ", 8 + nchar(nmodels)),
+      else note <- paste0(note, "\n", strrep(" ", 8L + nchar(nmodels)),
                           "nclass: ", x$model$C)
       note
    })
 
    criteria <- match.arg(criteria, several.ok = TRUE)
-   valid.ind <- match(criteria, c("logLik", "AIC", "CAIC", "BIC", "entropy"), 0)
+   valid.ind <- match(criteria, c("logLik", "AIC", "CAIC", "BIC", "entropy"), 0L)
    gof <- lapply(obj, function(x) x$gof[c(valid.ind, 6L:7L)])
 
    models <- sapply(obj, function(x) x$model)
@@ -118,7 +118,7 @@ glca.gof <- function(
    datn <- sapply(obj, function(x) x$model$N)
    cls  <- sapply(obj, function(x) c(x$model$C, x$model$W))
 
-   rel <- all(resp == resp[1L], datn == datn[1L], length(obj) > 1)
+   rel <- all(resp == resp[1L], datn == datn[1L], length(obj) > 1L)
    nested <- all(apply(cls, 1L, function(x) x == x[1L]), rel)
 
    ord <- order(sapply(obj, function(x) x$model$npar))
@@ -146,20 +146,20 @@ glca.gof <- function(
             init
          })
 
-         for (b in 1:nboot) {
+         for (b in 1L:nboot) {
             if (verbose) {
-               if (b %% 10 == 0) cat(".")
-               if (b %% 100 == 0) cat(" b =", b, "\n")
+               if (b %% 10L == 0L) cat(".")
+               if (b %% 100L == 0L) cat(" b =", b, "\n")
                if (b == nboot) cat("b =", b, "End\n")
             }
 
             for (x in seq_along(obj)) {
-               obj0 <- obj[[ord[x]]]; obj1 <- obj[[ord[x + 1]]]
-               init0 <- init[[ord[x]]]; init1 <- init[[ord[x + 1]]]
+               obj0 <- obj[[ord[x]]]; obj1 <- obj[[ord[x + 1L]]]
+               init0 <- init[[ord[x]]]; init1 <- init[[ord[x + 1L]]]
 
                bs0 <- glca_gnr(obj0$model, obj0$param, obj0$datalist)
-               ll0 <- glca_em(obj0$model, bs0, init0, 1, maxiter, eps, FALSE)$loglik
-               bgsq[x, b]  <- 2 * (bs0$loglik0 - ll0)
+               ll0 <- glca_em(obj0$model, bs0, init0, 1L, maxiter, eps, FALSE)$loglik
+               bgsq[x, b]  <- 2L * (bs0$loglik0 - ll0)
 
                if (rel && x != length(obj)) {
                   bs1 <- bs0
@@ -173,8 +173,8 @@ glca.gof <- function(
                   if (obj0$model$Q != obj1$model$Q)
                      bs1$z <- obj1$datalist$z
 
-                  ll1 <- glca_em(obj1$model, bs1, init1, 1, maxiter, eps, FALSE)$loglik
-                  bgsqR[x, b] <- 2 * (ll1 - ll0)
+                  ll1 <- glca_em(obj1$model, bs1, init1, 1L, maxiter, eps, FALSE)$loglik
+                  bgsqR[x, b] <- 2L * (ll1 - ll0)
                }
             }
          }
@@ -188,14 +188,14 @@ glca.gof <- function(
    if (rel) {
       npar <- sapply(obj[ord], function(x) x$model$npar)
       Df  <- diff(npar)
-      dtable <- cbind(npar, llik, c(NA, Df), c(NA, round(gsqR, 3)))
+      dtable <- cbind(npar, llik, c(NA, Df), c(NA, round(gsqR, 3L)))
       colnames(dtable) <- c("npar", "logLik", "Df", "Deviance")
       rownames(dtable) <- ord
 
       if (!is.null(test))
          dtable <- switch(test, "chisq" = {
-            cbind(dtable, `Pr(>Chi)` = c(NA, 1 - pchisq(gsqR, as.numeric(Df))))
-         }, "boot" = cbind(dtable, `Boot p-value` = c(NA, round(bootR, 2))))
+            cbind(dtable, `Pr(>Chi)` = c(NA, 1L - stats::pchisq(gsqR, as.numeric(Df))))
+         }, "boot" = cbind(dtable, `Boot p-value` = c(NA, round(bootR, 2L))))
    }
 
    ret <- list()

@@ -23,8 +23,8 @@ glca_em <- function(
    param = list()
 
    # EM iteration
-   if (W == 0) {
-      if (P == 1) {
+   if (W == 0L) {
+      if (P == 1L) {
          for (iter in miniter:maxiter)
          {
             # E-step
@@ -41,9 +41,9 @@ glca_em <- function(
                            max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose) {
-               if (iter %% 100 == 0)
+               if (iter %% 100L == 0L)
                   cat(".")
-               if (iter %% 1000 == 0)
+               if (iter %% 1000L == 0L)
                   cat("", iter, "iteration \n")
             }
 
@@ -62,33 +62,33 @@ glca_em <- function(
          for (iter in miniter:maxiter)
          {
             # E-step
-            exb <- lapply(1:G, function(g) exp(x[[g]] %*% beta[[g]]))
-            gamma <- lapply(exb, function(x) cbind(x, 1) / (rowSums(x) + 1))
+            exb <- lapply(1L:G, function(g) exp(x[[g]] %*% beta[[g]]))
+            gamma <- lapply(exb, function(x) cbind(x, 1L) / (rowSums(x) + 1L))
             Post <- GetPost(y, gamma, rho, Ng, G, C, M, R)
 
             if (coeff.inv) {
-               Amat <- cbind(diag(G * (C - 1)) %x% c(1, numeric(P - 1)),
-                            rep(1, G) %x% diag(C - 1) %x% rbind(0, diag(P - 1)))
+               Amat <- cbind(diag(G * (C - 1L)) %x% c(1L, numeric(P - 1L)),
+                            rep(1L, G) %x% diag(C - 1L) %x% rbind(0L, diag(P - 1L)))
                gradhess <- GetDeriv2(Post, x, gamma, Ng, G, C, P)
-               diff <- try(Amat %*% (MASS::ginv(gradhess[[2]]) %*% gradhess[[1]]), TRUE)
+               diff <- try(Amat %*% (MASS::ginv(gradhess[[2L]]) %*% gradhess[[1L]]), TRUE)
 
                if (inherits(diff, "try-error")) break
-               n_beta = lapply(1:G, function(g)
-                  beta[[g]]- matrix(diff[((g - 1) * (C - 1) * P + 1):(g* (C - 1) * P)], P)
+               n_beta = lapply(1L:G, function(g)
+                  beta[[g]]- matrix(diff[((g - 1L) * (C - 1L) * P + 1L):(g* (C - 1L) * P)], P)
                )
             } else {
                n_beta = list()
 
-               for (g in 1:G) {
+               for (g in 1L:G) {
                   gradhess <- GetDeriv(Post[[g]], x[[g]], gamma[[g]], Ng[g], C, P)
-                  diff <- try(matrix(MASS::ginv(gradhess[[2]]) %*% gradhess[[1]], P), TRUE)
+                  diff <- try(matrix(MASS::ginv(gradhess[[2L]]) %*% gradhess[[1L]], P), TRUE)
                   if (inherits(diff, "try-error")) break
                   n_beta[[g]] = beta[[g]] - diff
                }
             }
 
             if (inherits(diff, "try-error")) {
-               iter <- 1
+               iter <- 1L
                if (verbose)
                   cat("Fail to get Hessian inverse, restarted with new initial value.\n")
                init <- glca_init(model)
@@ -106,9 +106,9 @@ glca_em <- function(
                            max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose) {
-               if (iter %% 100 == 0)
+               if (iter %% 100L == 0L)
                   cat(".")
-               if (iter %% 1000 == 0)
+               if (iter %% 1000L == 0L)
                   cat("", iter, "iteration \n")
             }
 
@@ -128,7 +128,7 @@ glca_em <- function(
 
       llik <- GetLik(y, gamma, rho, Ng, G, C, M, R)
    } else {
-      if (P == 1 && Q == 0) {
+      if (P == 1L && Q == 0L) {
          for (iter in miniter:maxiter) {
             # E-step
             Post <- GetUDPost(y, delta, gamma, rho, Ng, G, W, C, M, R)
@@ -143,9 +143,9 @@ glca_em <- function(
                            max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose) {
-               if (iter %% 100 == 0)
+               if (iter %% 100L == 0L)
                   cat(".")
-               if (iter %% 1000 == 0)
+               if (iter %% 1000L == 0L)
                   cat("", iter, "iteration \n")
             }
 
@@ -167,25 +167,25 @@ glca_em <- function(
       } else {
          for (iter in miniter:maxiter) {
             # E-step
-            if (Q > 0)
+            if (Q > 0L)
                beta2 <- matrix(
-                  beta[(W * (C - 1) * P + 1):(W * (C - 1) * P + Q * (C - 1))],
-                  Q, C - 1)
+                  beta[(W * (C - 1L) * P + 1L):(W * (C - 1L) * P + Q * (C - 1L))],
+                  Q, C - 1L)
             else
                beta2 <- NULL
 
-            gamma <- lapply(1:G, function(g) lapply(1:W, function(w)
+            gamma <- lapply(1L:G, function(g) lapply(1L:W, function(w)
             {
                beta1 <- matrix(
-                  beta[((w - 1) * (C - 1) * P + 1):(w * (C - 1) * P)],
-                  P, C - 1)
+                  beta[((w - 1L) * (C - 1L) * P + 1L):(w * (C - 1L) * P)],
+                  P, C - 1L)
                xb <- x[[g]] %*% beta1
-               if (Q > 0)
+               if (Q > 0L)
                   zb <- z[[g]] %*% beta2
                else
-                  zb <- 0
+                  zb <- 0L
                exzb <- exp(xb + zb)
-               return(cbind(exzb, 1) / (rowSums(exzb) + 1))
+               return(cbind(exzb, 1L) / (rowSums(exzb) + 1L))
             }
             ))
 
@@ -196,16 +196,16 @@ glca_em <- function(
             n_delta <- UpDelta(Post$PostW / rowSums(Post$PostW))
 
             if (coeff.inv) {
-               if (P > 1)
-                  A1 = cbind(diag(W * (C - 1)) %x% c(1, numeric(P - 1)),
-                             rep(1, W) %x% diag(C - 1) %x% rbind(0, diag(P - 1)))
+               if (P > 1L)
+                  A1 = cbind(diag(W * (C - 1L)) %x% c(1L, numeric(P - 1L)),
+                             rep(1L, W) %x% diag(C - 1L) %x% rbind(0L, diag(P - 1L)))
                else
-                  A1 = diag(W * (C - 1))
-               A2 = diag((C - 1) * Q)
+                  A1 = diag(W * (C - 1L))
+               A2 = diag((C - 1L) * Q)
                d1 = dim(A1); d2 = dim(A2)
-               Amat = array(0, dim = rev(d1 + d2))
-               Amat[1:d1[2], 1:d1[1]] = t(A1)
-               Amat[-(1:d1[2]), -(1:d1[1])] = A2
+               Amat = array(0L, dim = rev(d1 + d2))
+               Amat[1L:d1[2L], 1L:d1[1L]] = t(A1)
+               Amat[-(1L:d1[2L]), -(1L:d1[1L])] = A2
 
                hess <- Amat %*% Post$hess %*% t(Amat)
                grad <- Amat %*% Post$grad
@@ -214,7 +214,7 @@ glca_em <- function(
                n_beta  <- try(beta - MASS::ginv(Post$hess) %*% Post$grad, TRUE)
 
             if (inherits(n_beta, "try-error")) {
-               iter <- 1
+               iter <- 1L
                if (verbose)
                   cat("Fail to get Hessian inverse, restarted with new initial value.\n")
                init <- glca_init(model)
@@ -231,9 +231,9 @@ glca_em <- function(
                            max(abs(unlist(n_rho) - unlist(rho))))
 
             if (verbose) {
-               if (iter %% 100 == 0)
+               if (iter %% 100L == 0L)
                   cat(".")
-               if (iter %% 1000 == 0)
+               if (iter %% 1000L == 0L)
                   cat("", iter, "iteration \n")
             }
 

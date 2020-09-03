@@ -9,7 +9,7 @@ glca_init_test <- function(
    pars = names(init.random)
 
    if (is.matrix(init.param$gamma) && is.null(init.param$delta))
-      init.param$gamma = lapply(1:nrow(init.param$gamma), function(g)
+      init.param$gamma = lapply(1L:nrow(init.param$gamma), function(g)
          matrix(init.param$gamma[g, ], nrow(init.random$gamma[[g]]),
                 ncol(init.param$gamma), byrow = TRUE))
 
