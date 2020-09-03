@@ -3,6 +3,7 @@
 #' Extracts regression coefficients of \code{glca} model if the model includes covariates.
 #'
 #' @param object an object of "\code{glca}"
+#' @param intercept a logical value for whether to print intercept"
 #' @param digits number of significant digits to use when printing
 #' @param show.signif.stars logical. If TRUE, ‘significance stars’ are printed for each coefficient
 #' @param ... further arguments passed to or from other methods
