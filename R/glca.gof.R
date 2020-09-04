@@ -28,41 +28,39 @@
 #'
 #' @author Youngsun Kim
 #'
-#' @seealso \code{\link{glca}} \code{\link{gss12}}
+#' @seealso \code{\link{glca}} \code{\link{gss08}} \code{\link{nyts18}}
 #'
 #' @examples
 #' ## Example 1.
 #' ## Model selection between two LCA models with different number of latent classes.
-#' data(gss12)
+#' data(gss08)
 #' class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'               data = gss12, nclass = 2)
+#'               data = gss08, nclass = 2)
 #' class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'               data = gss12, nclass = 3)
+#'               data = gss08, nclass = 3)
 #' class4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'               data = gss12, nclass = 4)
+#'               data = gss08, nclass = 4)
 #'
 #' glca.gof(class2, class3, class4)
-#' glca.gof(class2, class3, class4, test = "chisq")
 #' \dontrun{glca.gof(class2, class3, test = "boot")}
 #'
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
-#' cluster2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 2)
-#' cluster3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                 group = DEGREE, data = gss12, nclass = 3, ncluster = 3)
+#' cluster2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+#'                 group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
+#' cluster3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+#'                 group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3)
 #'
 #' glca.gof(cluster2, cluster3)
-#' glca.gof(cluster2, cluster3, test = "chisq")
 #' \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
 #'
 #' \donttest{
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = DEGREE, data = gss12, nclass = 3)
+#'                group = DEGREE, data = gss08, nclass = 3)
 #' measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'                group = DEGREE, data = gss12, nclass = 3, measure.inv = FALSE)
+#'                group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE)
 #'
 #' glca.gof(measInv, measVar)
 #' glca.gof(measInv, measVar, test = "chisq")

@@ -91,27 +91,27 @@ The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delt
 ##
 ## Example 1. GSS dataset
 ##
-data("gss12")
+data("gss08")
 # LCA
 lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-            data = gss12, nclass = 3)
+            data = gss08, nclass = 3)
 summary(lca)
 
 # LCA with covariate(s)
 lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
-           data = gss12, nclass = 3)
+           data = gss08, nclass = 3)
 summary(lcr)
 coef(lcr)
 
 # Multiple-group LCA (MGLCA)
 mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-             group = DEGREE, data = gss12, nclass = 3)
+             group = DEGREE, data = gss08, nclass = 3)
 summary(mglca)
 
 
 # Multiple-group LCA with covariate(s) (MGLCR)
 mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-             group = DEGREE, data = gss12, nclass = 3)
+             group = DEGREE, data = gss08, nclass = 3)
 summary(mglcr)
 coef(mglcr)
 
@@ -140,7 +140,7 @@ Vermunt, J.K. (2003) Multilevel latent class models. \emph{Sociological Methodol
 Collins, L.M. and Lanza, S.T. (2009) \emph{Latent Class and Latent Transition Analysis: With Applications in the Social, Behavioral, and Health Sciences}. John Wiley & Sons Inc.
 }
 \seealso{
-\code{\link{gss12}} \code{\link{nyts18}}
+\code{\link{gss08}} \code{\link{nyts18}}
 }
 \author{
 Youngsun Kim

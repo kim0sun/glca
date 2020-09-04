@@ -3,7 +3,8 @@
 \docType{data}
 \name{nyts18}
 \alias{nyts18}
-\title{National Youth Tobacco Survey (NYTS) 2018}
+\title{National Youth Tobacco Survey (NYTS) 2018
+This dataset includes 5 manifest items about abortion and several covariates. From the original 2018 National Youth Tobacco Survey data, the Non Hispanic, white students are selected and schools with 30-50 students were selected. Thus, the dataset has 1743 respondents. The covariates include the sex of the respondents and the school ID to which the respondnets belong, and the level of the corresponding school.}
 \format{
 A data frame with 1743 observations on the following 8 variables.
 \describe{
@@ -22,6 +23,7 @@ A data frame with 1743 observations on the following 8 variables.
 \url{https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/index.htm}
 }
 \description{
+National Youth Tobacco Survey (NYTS) 2018
 This dataset includes 5 manifest items about abortion and several covariates. From the original 2018 National Youth Tobacco Survey data, the Non Hispanic, white students are selected and schools with 30-50 students were selected. Thus, the dataset has 1743 respondents. The covariates include the sex of the respondents and the school ID to which the respondnets belong, and the level of the corresponding school.
 }
 \examples{

@@ -8,29 +8,29 @@
 #'
 #' @return This function plots estimated parameters of model.
 #'
-#' @seealso \code{\link{glca}} \code{\link{gss12}}
+#' @seealso \code{\link{glca}} \code{\link{gss08}} \code{\link{nyts18}}
 #'
 #' @examples
 #' \dontrun{
 #' # LCA
 #' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'             data = gss12, nclass = 3, na.rm = TRUE)
+#'             data = gss08, nclass = 3, na.rm = TRUE)
 #' plot(lca)
 #'
 #' # Multitple Group LCA (MGLCA)
 #' mglca1 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = DEGREE, data = gss12, nclass = 3)
+#'              group = DEGREE, data = gss08, nclass = 3)
 #' plot(mglca1)
 #'
 #' # Multitple Group LCA (MGLCA) (measure.inv = FALSE)
 #' mglca2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = DEGREE, data = gss12, nclass = 3, measure.inv = FALSE)
+#'              group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE)
 #' plot(mglca2)
 #' plot(mglca2, "all")
 #'
 #' # Multilvel LCA (MLCA)
-#' mlca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = REGION, data = gss12, nclass = 3, ncluster = 2)
+#' mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
+#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3)
 #' plot(mlca)
 #' }
 #'

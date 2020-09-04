@@ -1,11 +1,11 @@
-#' General Social Study (GSS) 2012
+#' General Social Study (GSS) 2008
 #'
-#' This dataset includes 6 manifest items about abortion and several covariates from 672 respondents to the 2012 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, race, region, and degree of respondents.
+#' This dataset includes 6 manifest items about abortion and several covariates from 355 respondents to the 2008 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, race, region, and degree of respondents.
 #'
-#' @name gss12
+#' @name gss08
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 672 observations on 11 variables.
+#' @format A data frame with 355 observations on 11 variables.
 #' \describe{
 #' \item{\code{DEFECT}}{If there is a strong chance of serious defect in the baby?}
 #' \item{\code{HLTH}}{If the womans own health is seriously endangered by the pregnancy?}
@@ -21,39 +21,33 @@
 #' }
 #' @source \url{http://gss.norc.org}
 #' @references
-#' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2012/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
+#' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2008/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
 #' @examples
 #' data("gss")
 #' # Model 1: LCA
 #' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'            data = gss12, nclass = 3)
+#'            data = gss08, nclass = 3)
 #' summary(lca)
 #'
 #' # Model 2: LCA with a covariate
 #' lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-#'            data = gss12, nclass = 3)
+#'            data = gss08, nclass = 3)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #' # Model 3: MGLCA
 #' mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = REGION, data = gss12, nclass = 3)
+#'              group = REGION, data = gss08, nclass = 3)
 #'
 #' # Model 4: MGLCA with covariates
 #' summary(mglca)
 #' mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
-#'              group = SEX, data = gss12, nclass = 3)
+#'              group = SEX, data = gss08, nclass = 3)
 #' summary(mglcr)
 #' coef(mglcr)
-#'
-#' # Model 5: MLCA
-#' mlca =  glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = REGION, data = gss12, nclass = 3, ncluster = 2)
-#' summary(mlca)
 NULL
 
 #' National Youth Tobacco Survey (NYTS) 2018
-#'
 #' This dataset includes 5 manifest items about abortion and several covariates. From the original 2018 National Youth Tobacco Survey data, the Non Hispanic, white students are selected and schools with 30-50 students were selected. Thus, the dataset has 1743 respondents. The covariates include the sex of the respondents and the school ID to which the respondnets belong, and the level of the corresponding school.
 #'
 #' @name nyts18
