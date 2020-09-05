@@ -1,7 +1,7 @@
 Package: glca
 Type: Package
 Title: Latent Class Analysis with Group Variable
-Date: 2020-09-03
+Date: 2020-09-05
 Version: 1.0.0
 Authors@R: 
    c(person("Youngsun", "Kim", email = "kim0sun@korea.ac.kr", role = c("aut", "cre")),
