@@ -82,7 +82,7 @@ The \code{glca} is the function for implementing LCA consist of two-type latent 
 
 The formula should consist of an \code{~} operator between two sides. Manifest items should be indicated in LHS of formula using \code{item} function and covariates should be specified in RHS of formula. For example, \cr
 \code{item(y1, y2, y3) ~ 1}\cr
-\code{item(y1, y2, y3) ~ x1 + x2}
+\code{item(y1, y2, y3) ~ x1 + x2}\cr
 where the first fomula indicates LCA with three manifest variables (\code{y1}, \code{y2}, and \code{y3}) and no covariate, and the second formula includes two covariates (\code{x1} and \code{x2}). Two types of covariates (i.e., level-1 and level-2 covariates) will be automatically detected by \code{glca}.
 
 The estimated parameters in \code{glca} are \code{rho}, \code{gamma}, \code{delta}, and \code{beta}. The set of item response probabilities for each level-1 class is \code{rho}. The sets of prevalences for level-1 and level-2 class are \code{gamma} and \code{delta}, respectively. The prevalence for level-1 class (i.e., \code{gamma}) can be modeled as logistic regression using level-1 and/or level-2 covariates. The set of logistic regression coefficients is \code{beta} in \code{glca} output.
