@@ -9,8 +9,8 @@ glca.gof(
   ...,
   test = NULL,
   nboot = 50,
-  criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
   random.seed = NULL,
+  criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
   maxiter = 500,
   eps = 1e-04,
   verbose = FALSE
@@ -25,9 +25,9 @@ glca.gof(
 
 \item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}}
 
-\item{criteria}{a}
-
 \item{random.seed}{random seed to have the equivalent solution for every bootstrap trials}
+
+\item{criteria}{a character vector indicating criteria to be printed.}
 
 \item{maxiter}{an integer for maximum number of iteration for bootstrap sample}
 
@@ -36,9 +36,11 @@ glca.gof(
 \item{verbose}{an logical value for whether or not to print the result of a function's execution}
 }
 \value{
-\item{criteria}{a table with model fit criteria}
-\item{dev.table}{a table with deviance statistic and bootstrap p-value}
+\item{gtable}{a matrix with model goodneess-of-fit criteria}
+\item{dtable}{a matrix with deviance statistic and bootstrap p-value}
 \item{boot}{a list of LRT statistics from each bootstrap sample}
+
+\code{gtable}, which is always included in output of this function, includes goodness-of-fit criteria which are indicated \code{criteria} arguments for the \code{object}(s). \code{dtable} are contained when the \code{object}s are competing models. (when used items of the models are identical) \code{dtable} prints deviance and p-value. (bootstrap or chi-square) Lastly, when the boostrap sample is used, the \code{G^2}-statistics for each bootstrap samples will be included in return object..
 }
 \description{
 Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.

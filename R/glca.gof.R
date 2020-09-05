@@ -6,16 +6,18 @@
 #' @param ... an optional object of "\code{glca}" to be compared with \code{object}
 #' @param test a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})
 #' @param nboot number of bootstrap samples, only used when \code{test = "boot"}
-#' @param criteria a
 #' @param random.seed random seed to have the equivalent solution for every bootstrap trials
+#' @param criteria a character vector indicating criteria to be printed.
 #' @param maxiter an integer for maximum number of iteration for bootstrap sample
 #' @param eps positive convergence tolerance for bootstrap sample
 #' @param verbose an logical value for whether or not to print the result of a function's execution
 #'
 #' @return
-#' \item{criteria}{a table with model fit criteria}
-#' \item{dev.table}{a table with deviance statistic and bootstrap p-value}
+#' \item{gtable}{a matrix with model goodneess-of-fit criteria}
+#' \item{dtable}{a matrix with deviance statistic and bootstrap p-value}
 #' \item{boot}{a list of LRT statistics from each bootstrap sample}
+#'
+#' \code{gtable}, which is always included in output of this function, includes goodness-of-fit criteria which are indicated \code{criteria} arguments for the \code{object}(s). \code{dtable} are contained when the \code{object}s are competing models. (when used items of the models are identical) \code{dtable} prints deviance and p-value. (bootstrap or chi-square) Lastly, when the boostrap sample is used, the \code{G^2}-statistics for each bootstrap samples will be included in return object..
 #'
 #' @references
 #' Akaike, H. (1974) A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, \bold{19}, 716–723. \doi{10.1109/tac.1974.1100705}
@@ -68,9 +70,9 @@
 #' @export
 
 glca.gof <- function(
-   object, ..., test = NULL, nboot = 50,
+   object, ..., test = NULL, nboot = 50, random.seed = NULL,
    criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
-   random.seed = NULL, maxiter = 500, eps = 1e-4, verbose = FALSE
+   maxiter = 500, eps = 1e-4, verbose = FALSE
 )
 {
    # Check_class
