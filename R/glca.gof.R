@@ -49,9 +49,9 @@
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
 #' cluster2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
-#'                 group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
+#'                 group = SCH_ID, data = nyts18, nclass = 2, ncluster = 2)
 #' cluster3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
-#'                 group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3)
+#'                 group = SCH_ID, data = nyts18, nclass = 2, ncluster = 3)
 #'
 #' glca.gof(cluster2, cluster3)
 #' \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
