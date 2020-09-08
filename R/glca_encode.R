@@ -75,7 +75,8 @@ glca_encode <- function(
       cvs <- stats::get_all_vars(stats::reformulate(lbs), mf)
       Zind <- apply(cvs, 2L, function(x)
          all(by(x, grp, function(y) length(unique(y)) == 1L)))
-      X <- stats::model.matrix(stats::reformulate(lbs[!Zind]), mf)
+      if (sum(!Zind) == 0) X <- stats::model.matrix(~ 1, mf)
+      else X <- stats::model.matrix(stats::reformulate(lbs[!Zind]), mf)
       if (any(Zind))
          Z <- stats::model.matrix(stats::reformulate(lbs[ Zind]), mf)[, -1L, drop = FALSE]
       else if (W > 1) Z <- mf[FALSE]
