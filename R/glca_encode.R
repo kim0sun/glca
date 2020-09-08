@@ -178,7 +178,7 @@ glca_encode <- function(
             npar <- npar + G * C * sum(R - 1L)
       }
    } else {
-      if (P == 1L) {
+      if (P == 1L && Q == 0) {
          type <- "Multilevel LCA"
          npar <- W - 1L + W * (C - 1L) + C * sum(R - 1L)
       } else {
