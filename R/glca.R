@@ -96,7 +96,6 @@
 #' # (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
 #' mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
 #'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
-#' summary(mlcr)
 #' coef(mlcr)
 #' }
 #'
