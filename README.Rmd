@@ -15,9 +15,8 @@ knitr::opts_chunk$set(
 
 # glca
 <!-- badges: start -->
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/glca)](http://cran.r-project.org/web/packages/glca)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue)](https://r-pkg.org/pkg/glca)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/glca?color=orange)](https://r-pkg.org/pkg/glca)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-day/glca?color=red)](https://r-pkg.org/pkg/glca)
 
 <!-- badges: end -->
 
@@ -43,22 +42,22 @@ devtools::install_github("kim0sun/glca")
 
 ```{r example}
 library(glca)
-data("gss12")
+data("gss08")
 # LCA
 lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-            data = gss12, nclass = 3, verbose = FALSE)
+            data = gss08, nclass = 3, verbose = FALSE)
 summary(lca)
 plot(lca)
 
 # Multiple-group LCA (MGLCA)
 mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-             group = DEGREE, data = gss12, nclass = 3, verbose = FALSE)
+             group = DEGREE, data = gss08, nclass = 3, verbose = FALSE)
 summary(mglca)
 plot(mglca)
 
 # Multiple-group LCA with covariate(s) (MGLCR)
 mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-             group = DEGREE, data = gss12, nclass = 3, verbose = FALSE)
+             group = DEGREE, data = gss08, nclass = 3, verbose = FALSE)
 summary(mglcr)
 coef(mglcr)
 
@@ -70,8 +69,8 @@ summary(mlca)
 plot(mlca)
 
 # MLCA with covariate(s) (MLCR)
-# (HOME: level-1 covariate, School_lev: level-2 covariate)
-mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SCH_LEV, group = SCH_ID,
+# (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
+mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV, group = SCH_ID,
             data = nyts18, nclass = 3, ncluster = 2, verbose = FALSE)
 summary(mlcr)
 coef(mlcr)
