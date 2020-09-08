@@ -117,7 +117,7 @@ coef(mglcr)
 
 \donttest{
 ##
-## Example 2. NYTS data
+## Example 2. NYTS dataset
 ##
 data("nyts18")
 # Multilevel LCA (MLCA)
@@ -126,10 +126,9 @@ mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
 summary(mlca)
 
 # MLCA with covariate(s) (MLCR)
-# (HOME: level-1 covariate, School_lev: level-2 covariate)
+# (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
 mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
-summary(mlcr)
 coef(mlcr)
 }
 
