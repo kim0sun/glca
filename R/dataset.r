@@ -53,7 +53,7 @@ NULL
 #' @name nyts18
 #' @docType data
 #' @keywords datasets
-#' @format A data frame with 1743 observations on the following 8 variables.
+#' @format A data frame with 1734 observations on the following 8 variables.
 #' \describe{
 #' \item{\code{ECIGT}}{Whether to have tried cigarette smoking, even one or two puffs}
 #' \item{\code{ECIGAR}}{Whether to have ever tried cigar smoking, even one or two puffs}
