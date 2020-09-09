@@ -1,0 +1,25 @@
+title: glca
+url: http://kim0sun.github.io/glca
+template:
+  params:
+    bootswatch:
+    ganalytics:
+
+reference:
+  - title: Exported Functions
+    desc:
+    contents:
+      - '`glca`'
+      - '`glca.gof`'
+      - '`item`'
+  - title: Generic Functions
+    desc:
+    contents:
+      - '`summary.glca`'
+      - '`coef.glca`'
+      - '`plot.glca`'
+  - title: Example dataset
+    desc:
+    contents:
+      - '`gss08`'
+      - '`nyts18`'
