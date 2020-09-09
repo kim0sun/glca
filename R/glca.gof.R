@@ -119,6 +119,7 @@ glca.gof <- function(
    cls  <- sapply(obj, function(x) c(x$model$C, x$model$W))
 
    rel <- all(resp == resp[1L], datn == datn[1L], length(obj) > 1L)
+   if (!rel) warning("Since responses are different, deviance table does not printed.")
    nested <- all(apply(cls, 1L, function(x) x == x[1L]), rel)
 
    ord <- order(sapply(obj, function(x) x$model$npar))
