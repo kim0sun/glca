@@ -2,7 +2,7 @@ title: glca
 url: http://kim0sun.github.io/glca
 template:
   params:
-    bootswatch: cerulean
+    bootswatch: spacelab
     ganalytics:
 
 reference:
