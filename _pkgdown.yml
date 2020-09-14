@@ -6,6 +6,7 @@ template:
     ganalytics:
 
 reference:
+  - '`glca-package`'
   - title: Exported Functions
     desc:
     contents:
