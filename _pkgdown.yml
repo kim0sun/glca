@@ -2,26 +2,26 @@ title: glca
 url: http://kim0sun.github.io/glca
 template:
   params:
-    bootswatch: spacelab
+    bootswatch:
     ganalytics:
 
 reference:
-  - title: Exported Functions
-    desc: Exported functions for fitting glca model and conduct goodness-of-fit test.
+  - title: "Exported Functions"
+    desc: "Exported functions for fitting \\code{glca} model and conduct goodness-of-fit test."
     contents:
       - '`glca`'
       - '`glca.gof`'
       - '`item`'
-  - title: Generic Functions
-    desc: Several generic functions for glca class.
+  - title: "Generic Functions"
+    desc: "Several generic functions for \\code{glca} class."
     contents:
       - '`summary.glca`'
       - '`coef.glca`'
       - '`plot.glca`'
-  - title: Example dataset
+  - title: "Example dataset"
     contents:
       - '`gss08`'
       - '`nyts18`'
-  - title: Package description
+  - title: "Package description"
     contents:
       - '`glca-package`'
