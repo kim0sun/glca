@@ -8,12 +8,12 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/glca)](https://CRAN.R-project.org/package=glca)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue)](https://r-pkg.org/pkg/glca)
-[![Travis build
-status](https://travis-ci.com/kim0sun/glca.svg?branch=master)](https://travis-ci.com/kim0sun/glca)
 [![Codecov test
 coverage](https://codecov.io/gh/kim0sun/glca/branch/master/graph/badge.svg)](https://codecov.io/gh/kim0sun/glca?branch=master)
 [![R build
 status](https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg)](https://github.com/kim0sun/glca/actions)
+[![Travis build
+status](https://travis-ci.com/kim0sun/glca.svg?branch=master)](https://travis-ci.com/kim0sun/glca)
 <!-- badges: end -->
 
 Fits latent class analysis (LCA) including group variable and
