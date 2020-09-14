@@ -2,24 +2,23 @@ title: glca
 url: http://kim0sun.github.io/glca
 template:
   params:
-    bootswatch:
+    bootswatch: cerulean
     ganalytics:
 
 reference:
   - title: Exported Functions
-    desc:
+    desc: Exported functions for fitting glca model and conduct goodness-of-fit test.
     contents:
       - '`glca`'
       - '`glca.gof`'
       - '`item`'
   - title: Generic Functions
-    desc:
+    desc: Several generic functions for glca class.
     contents:
       - '`summary.glca`'
       - '`coef.glca`'
       - '`plot.glca`'
   - title: Example dataset
-    desc:
     contents:
       - '`gss08`'
       - '`nyts18`'
