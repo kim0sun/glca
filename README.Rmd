@@ -41,7 +41,9 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("kim0sun/glca")
 ```
 ## Example
-
+```{r, include = FALSE}
+set.seed(1)
+```
 ```{r example}
 library(glca)
 data("gss08")
@@ -59,7 +61,6 @@ plot(mglca)
 # Multiple-group LCA with covariate(s) (MGLCR)
 mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
              group = DEGREE, data = gss08, nclass = 3, verbose = FALSE)
-summary(mglcr)
 coef(mglcr)
 
 data("nyts18")
@@ -73,7 +74,6 @@ plot(mlca)
 # (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
 mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV, group = SCH_ID,
             data = nyts18, nclass = 3, ncluster = 2, verbose = FALSE)
-summary(mlcr)
 coef(mlcr)
 ```
 
