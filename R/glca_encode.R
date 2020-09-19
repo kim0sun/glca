@@ -201,7 +201,7 @@ glca_encode <- function(
                         C = C, W = W, M = M, R = R,
                         P = P, Q = Q,
                         npar = npar,
-                        df = min(N, fulldf - 1L) - npar),
+                        df = min(N - 1L, fulldf - 1L) - npar),
            vname = list(y.names = y.names,
                         g.names = g.names,
                         r.names = r.names,
