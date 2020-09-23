@@ -1,6 +1,6 @@
 Package: glca
 Type: Package
-Title: Latent Class Analysis with Group Variable
+Title: An R Package for Estimating a Group-Effect in Latent Class Analysis
 Date: 2020-09-08
 Version: 1.0.2
 Authors@R: 
