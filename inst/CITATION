@@ -11,7 +11,11 @@ citEntry(
   textVersion = paste(
     "Youngsun Kim, Hwan Chung (2020).",
     "glca: An R Package for Estimating a Group-Effect in Latent Class Analysis.",
+<<<<<<< HEAD
     "R package version", paste0(packageVersion("glca"), ","),
     "http://CRAN.R-project.org/package=glca"
+=======
+    "R package version", packageVersion("glca")
+>>>>>>> 6d87308d227e5b389533d9032784274ff0d47de5
   )
 )
