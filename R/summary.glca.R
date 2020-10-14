@@ -40,21 +40,21 @@ summary.glca <- function(
    if (model$W > 1L){
       cat("Number of latent classes :", model$C, "\n")
       cat("Number of latent clusters :", model$W, "\n")
-      cat("\nMean Prevalence for latent clusters:\n")
+      cat("\nMean prevalence for latent clusters:\n")
       print(round(colMeans(posterior$cluster), 5L))
-      cat("\nMean Prevalence for latent classes:\n")
+      cat("\nMean prevalence for latent classes:\n")
       print(round(posterior$wclass, 5L))
       cat("\n")
    } else {
       cat("Number of latent classes :", model$C, "\n")
       if (model$G < 10L) {
-         cat("\nMean Prevalence for latent classes for each group:\n")
+         cat("\nMean prevalence for latent classes:\n")
          prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
          dimnames(prev) = list(var.names$g.names,
                                paste0("Class ", 1L:model$C))
          print(round(prev, 5L))
       } else {
-         cat("\nMean Prevalence for latent classes:\n")
+         cat("\nMean prevalence for latent classes:\n")
          print(round(colMeans(do.call(rbind, posterior)), 5))
       }
    }
@@ -197,7 +197,7 @@ summary.glca <- function(
                   cat("\n")
                }
             } else {
-               cat("Rho (Most likely response) :\n")
+               cat("Rho (most likely response) :\n")
                for (g in 1L:model$G) {
                   cat("Group :", var.names$g.names[[g]], "\n")
                   print(sapply(param$rho[[g]], function(m)

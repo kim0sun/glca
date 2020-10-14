@@ -23,14 +23,14 @@ print.glca = function(x, ...)
    if (model$W > 1L){
       cat("Number of latent classes :", model$C, "\n")
       cat("Number of latent clusters :", model$W, "\n")
-      cat("\nMean Prevalence for latent clusters:\n")
+      cat("\nMean prevalence for latent clusters:\n")
       print(round(colMeans(posterior$cluster), 5L))
-      cat("\nMean Prevalence for latent classes:\n")
+      cat("\nMean prevalence for latent classes:\n")
       print(round(posterior$wclass, 5L))
       cat("\n")
    } else {
       cat("Number of latent classes :", model$C, "\n")
-      cat("\nMean Prevalence for latent classes:\n")
+      cat("\nMean prevalence for latent classes:\n")
       prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
       dimnames(prev) = list(var.names$g.names,
                             paste0("Class ", 1L:model$C))
