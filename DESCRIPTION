@@ -13,7 +13,7 @@ Description: Fits latent class analysis (LCA) including group variable and covar
    The group variable can be handled either by multilevel LCA described in Vermunt (2003) <DOI:10.1111/j.0081-1750.2003.t01-1-00131.x> or standard LCA at each level of group variable.
    The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al. (1997) <DOI:10.1080/01621459.1997.10473658>).
 License: GPL-3
-BugReports: https://github.com/kim0sun/glca/issues
+BugReports: https://github.com/kim0sun/glca/issues/
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
@@ -23,7 +23,7 @@ Imports:
     Rcpp
 LinkingTo: 
     Rcpp
-URL: https://kim0sun.github.io/glca
+URL: https://kim0sun.github.io/glca/
 Suggests: 
     covr,
     testthat
