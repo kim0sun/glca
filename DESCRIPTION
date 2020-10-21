@@ -24,3 +24,6 @@ Imports:
 LinkingTo: 
     Rcpp
 URL: https://kim0sun.github.io/glca/
+Suggests: 
+    covr,
+    testthat
