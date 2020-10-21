@@ -9,9 +9,9 @@ item(..., starts.with = NULL, ends.with = NULL)
 \arguments{
 \item{\dots}{vectors of manifest items. These can be given as named arguments which is colnames of \code{data.frame}.}
 
-\item{starts.with}{a string}
+\item{starts.with}{a string for prefix of variable names to be selected.}
 
-\item{ends.with}{a string}
+\item{ends.with}{a string for suffix of variable names to be selected.}
 }
 \value{
 a \code{matrix} of specified variables, which contains names and levels of manifest items.

@@ -2,9 +2,9 @@
 #'
 #' \code{plot} method for class "\code{glca}".
 #'
-#' @param x an object of "\code{glca}", usually, a result of a call to \code{glca}
-#' @param ask a logical value whether to be asked before each plot, see \code{\link{par}(ask=.)}.
-#' @param ... further arguments passed to or from other methods
+#' @param x an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param ask a logical value whether to be asked before printing each plot.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @return This function plots estimated parameters of model.
 #'

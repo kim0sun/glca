@@ -3,8 +3,8 @@
 #' Specifying manifest items in formula of \code{glca} function.
 #'
 #' @param \dots vectors of manifest items. These can be given as named arguments which is colnames of \code{data.frame}.
-#' @param starts.with a string
-#' @param ends.with a string
+#' @param starts.with a string for prefix of variable names to be selected.
+#' @param ends.with a string for suffix of variable names to be selected.
 #'
 #' @return
 #' a \code{matrix} of specified variables, which contains names and levels of manifest items.

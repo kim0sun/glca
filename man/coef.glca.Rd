@@ -13,15 +13,15 @@
 )
 }
 \arguments{
-\item{object}{an object of "\code{glca}"}
+\item{object}{an object of "\code{glca}".}
 
-\item{intercept}{a logical value for whether to print intercept"}
+\item{intercept}{a logical value for whether to print intercept".}
 
-\item{digits}{number of significant digits to use when printing}
+\item{digits}{number of significant digits to use when printing.}
 
-\item{show.signif.stars}{logical. If TRUE, ‘significance stars’ are printed for each coefficient}
+\item{show.signif.stars}{logical. If TRUE, ‘significance stars’ are printed for each coefficient.}
 
-\item{...}{further arguments passed to or from other methods}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 Coefficient matrix from the \code{glca} model

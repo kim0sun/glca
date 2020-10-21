@@ -7,11 +7,11 @@
 \method{plot}{glca}(x, ask = TRUE, ...)
 }
 \arguments{
-\item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
+\item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
 
-\item{ask}{a logical value whether to be asked before each plot, see \code{\link{par}(ask=.)}.}
+\item{ask}{a logical value whether to be asked before printing each plot.}
 
-\item{...}{further arguments passed to or from other methods}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 This function plots estimated parameters of model.

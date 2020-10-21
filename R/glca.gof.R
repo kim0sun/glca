@@ -2,15 +2,15 @@
 #'
 #' Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 #'
-#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}
-#' @param ... an optional object of "\code{glca}" to be compared with \code{object}
-#' @param test a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})
-#' @param nboot number of bootstrap samples, only used when \code{test = "boot"}
-#' @param random.seed random seed to have the equivalent solution for every bootstrap trials
+#' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param ... an optional object of "\code{glca}" to be compared with \code{object}.
+#' @param test a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"}).
+#' @param nboot number of bootstrap samples, only used when \code{test = "boot"}.
+#' @param random.seed random seed to have the equivalent solution for every bootstrap trials.
 #' @param criteria a character vector indicating criteria to be printed.
-#' @param maxiter an integer for maximum number of iteration for bootstrap sample
-#' @param eps positive convergence tolerance for bootstrap sample
-#' @param verbose an logical value for whether or not to print the result of a function's execution
+#' @param maxiter an integer for maximum number of iteration for bootstrap sample.
+#' @param eps positive convergence tolerance for bootstrap sample.
+#' @param verbose an logical value for whether or not to print the result of a function's execution.
 #'
 #' @return
 #' \item{gtable}{a matrix with model goodneess-of-fit criteria}

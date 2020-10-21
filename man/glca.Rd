@@ -24,37 +24,37 @@ glca(
 )
 }
 \arguments{
-\item{formula}{a formula for specifying manifest items and covariates using the "\code{item}" function}
+\item{formula}{a formula for specifying manifest items and covariates using the "\code{item}" function.}
 
 \item{group}{an optional vector specifying a group of observations. Given group variable, group covariates can be incorporated.}
 
-\item{data}{a data frame containing the manifest item, covariates and group variable}
+\item{data}{a data frame containing the manifest item, covariates and group variable.}
 
-\item{nclass}{number of level-1 (individual-level) latent classes}
+\item{nclass}{number of level-1 (individual-level) latent classes.}
 
 \item{ncluster}{number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted.}
 
-\item{std.err}{a logical value for whether calculating standard errors for estimates}
+\item{std.err}{a logical value for whether calculating standard errors for estimates.}
 
-\item{measure.inv}{a logical value of the measurement invariance assumption across groups}
+\item{measure.inv}{a logical value of the measurement invariance assumption across groups.}
 
-\item{coeff.inv}{a logical value of the coefficient invariance assumption across groups (random intercept model)}
+\item{coeff.inv}{a logical value of the coefficient invariance assumption across groups (random intercept model).}
 
-\item{init.param}{a list which contains user-defined initial parameter}
+\item{init.param}{A set of model parameters to be used as the user-defined initial values for the EM algorithm. It should be \code{list} with the named parameters and have same structure of \code{param} of the \code{glca} output. In default, initial parameters are randomly generated.}
 
-\item{n.init}{number of random initial parameter sets}
+\item{n.init}{number of randomly generated initial parameter sets to be used for avoiding the problem of local maxima.}
 
-\item{testiter}{an integer for maximum number of test set iteration}
+\item{testiter}{number of iterations in the EM algorithm for each initial parameter set. The initial parameter set that provides the largest log-likelihood will be selected for estimating the model.}
 
-\item{maxiter}{an integer for maximum number of iteration}
+\item{maxiter}{maximum number of iterations for the EM algorithm.}
 
-\item{eps}{positive convergence tolerance}
+\item{eps}{a convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than \code{eps}, the algorithm will stop updating and consider the convergence to be reached.}
 
-\item{na.rm}{a logical value for whether or not to remove observations who has at least 1 item missing}
+\item{na.rm}{a logical value for deleting the lines that have at least one missing manifest item. If \code{na.rm = FALSE}, MAR procedure will be conducted.}
 
-\item{random.seed}{random seed to have the equivalent solution for every trials}
+\item{random.seed}{In default, the set of initial parameters is drawn randomly. As the same value for \code{random.seed} guarantees the same initial parameters to be drawn, this argument can be used to generate an identical solution.}
 
-\item{verbose}{a logical value for whether or not to print the result of a function's execution}
+\item{verbose}{a logical value indicating whether \code{glca} should print the estimation procedure onto the screen.}
 }
 \value{
 \code{glca} returns an object of class "\code{glca}".
@@ -63,16 +63,17 @@ The function \code{summary} prints estimates for parameters and \code{glca.gof} 
 
 An object of class "\code{glca}" is a list containing the following components:
 
-\item{call}{the matched call}
-\item{call}{the \code{\link{terms}} object used.}
-\item{model}{a list of model description}
-\item{datalist}{a list of data used for fitting}
-\item{param}{a list of parameter estimates}
-\item{std.err}{a list of standard errors for estimates}
-\item{coefficient}{a list of logistic regression coefficients for prevalence of level-1 class}
-\item{posterior}{a data frame of posterior probablities of each individaul for latent classes and each group for latent clusters}
-\item{gof}{a list of goodness of fit measures}
-\item{convergence}{a list containing information about convergence}
+\item{call}{the matched call.}
+\item{terms}{the \code{\link{terms}} object used.}
+\item{model}{a \code{list} of model description.}
+\item{var.names}{a \code{list} of names of data.}
+\item{datalist}{a \code{list} of data used for fitting.}
+\item{param}{a \code{list} of parameter estimates.}
+\item{std.err}{a \code{list} of standard errors for estimates.}
+\item{coefficient}{a \code{list} of logistic regression coefficients for prevalence of level-1 class.}
+\item{posterior}{a \code{data.frame} or a \code{list} of posterior probablities of each individaul for latent classes and each group for latent clusters.}
+\item{gof}{a \code{list} of goodness of fit measures.}
+\item{convergence}{a \code{list} containing information about convergence.}
 }
 \description{
 Function for fitting latent class models with multiple groups, which may or may not include latent class structure for group variable.

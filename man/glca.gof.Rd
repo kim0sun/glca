@@ -17,23 +17,23 @@ glca.gof(
 )
 }
 \arguments{
-\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}}
+\item{object}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
 
-\item{...}{an optional object of "\code{glca}" to be compared with \code{object}}
+\item{...}{an optional object of "\code{glca}" to be compared with \code{object}.}
 
-\item{test}{a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"})}
+\item{test}{a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"}).}
 
-\item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}}
+\item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}.}
 
-\item{random.seed}{random seed to have the equivalent solution for every bootstrap trials}
+\item{random.seed}{random seed to have the equivalent solution for every bootstrap trials.}
 
 \item{criteria}{a character vector indicating criteria to be printed.}
 
-\item{maxiter}{an integer for maximum number of iteration for bootstrap sample}
+\item{maxiter}{an integer for maximum number of iteration for bootstrap sample.}
 
-\item{eps}{positive convergence tolerance for bootstrap sample}
+\item{eps}{positive convergence tolerance for bootstrap sample.}
 
-\item{verbose}{an logical value for whether or not to print the result of a function's execution}
+\item{verbose}{an logical value for whether or not to print the result of a function's execution.}
 }
 \value{
 \item{gtable}{a matrix with model goodneess-of-fit criteria}

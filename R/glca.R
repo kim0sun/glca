@@ -2,22 +2,22 @@
 #'
 #' Function for fitting latent class models with multiple groups, which may or may not include latent class structure for group variable.
 #'
-#' @param formula a formula for specifying manifest items and covariates using the "\code{item}" function
+#' @param formula a formula for specifying manifest items and covariates using the "\code{item}" function.
 #' @param group an optional vector specifying a group of observations. Given group variable, group covariates can be incorporated.
-#' @param data a data frame containing the manifest item, covariates and group variable
-#' @param nclass number of level-1 (individual-level) latent classes
+#' @param data a data frame containing the manifest item, covariates and group variable.
+#' @param nclass number of level-1 (individual-level) latent classes.
 #' @param ncluster number of level-2 (group-level) latent classes. When \code{group} and \code{ncluster} (>1) are given the multilevel latent class models will be fitted.
-#' @param std.err a logical value for whether calculating standard errors for estimates
-#' @param measure.inv a logical value of the measurement invariance assumption across groups
-#' @param coeff.inv a logical value of the coefficient invariance assumption across groups (random intercept model)
-#' @param init.param a list which contains user-defined initial parameter
-#' @param n.init number of random initial parameter sets
-#' @param testiter an integer for maximum number of test set iteration
-#' @param maxiter an integer for maximum number of iteration
-#' @param eps positive convergence tolerance
-#' @param na.rm a logical value for whether or not to remove observations who has at least 1 item missing
-#' @param random.seed random seed to have the equivalent solution for every trials
-#' @param verbose a logical value for whether or not to print the result of a function's execution
+#' @param std.err a logical value for whether calculating standard errors for estimates.
+#' @param measure.inv a logical value of the measurement invariance assumption across groups.
+#' @param coeff.inv a logical value of the coefficient invariance assumption across groups (random intercept model).
+#' @param init.param A set of model parameters to be used as the user-defined initial values for the EM algorithm. It should be \code{list} with the named parameters and have same structure of \code{param} of the \code{glca} output. In default, initial parameters are randomly generated.
+#' @param n.init number of randomly generated initial parameter sets to be used for avoiding the problem of local maxima.
+#' @param testiter number of iterations in the EM algorithm for each initial parameter set. The initial parameter set that provides the largest log-likelihood will be selected for estimating the model.
+#' @param maxiter maximum number of iterations for the EM algorithm.
+#' @param eps a convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than \code{eps}, the algorithm will stop updating and consider the convergence to be reached.
+#' @param na.rm a logical value for deleting the lines that have at least one missing manifest item. If \code{na.rm = FALSE}, MAR procedure will be conducted.
+#' @param random.seed  In default, the set of initial parameters is drawn randomly. As the same value for \code{random.seed} guarantees the same initial parameters to be drawn, this argument can be used to generate an identical solution.
+#' @param verbose a logical value indicating whether \code{glca} should print the estimation procedure onto the screen.
 #'
 #' @author Youngsun Kim
 #'
@@ -36,16 +36,17 @@
 #'
 #' An object of class "\code{glca}" is a list containing the following components:
 #'
-#' \item{call}{the matched call}
-#' \item{call}{the \code{\link{terms}} object used.}
-#' \item{model}{a list of model description}
-#' \item{datalist}{a list of data used for fitting}
-#' \item{param}{a list of parameter estimates}
-#' \item{std.err}{a list of standard errors for estimates}
-#' \item{coefficient}{a list of logistic regression coefficients for prevalence of level-1 class}
-#' \item{posterior}{a data frame of posterior probablities of each individaul for latent classes and each group for latent clusters}
-#' \item{gof}{a list of goodness of fit measures}
-#' \item{convergence}{a list containing information about convergence}
+#' \item{call}{the matched call.}
+#' \item{terms}{the \code{\link{terms}} object used.}
+#' \item{model}{a \code{list} of model description.}
+#' \item{var.names}{a \code{list} of names of data.}
+#' \item{datalist}{a \code{list} of data used for fitting.}
+#' \item{param}{a \code{list} of parameter estimates.}
+#' \item{std.err}{a \code{list} of standard errors for estimates.}
+#' \item{coefficient}{a \code{list} of logistic regression coefficients for prevalence of level-1 class.}
+#' \item{posterior}{a \code{data.frame} or a \code{list} of posterior probablities of each individaul for latent classes and each group for latent clusters.}
+#' \item{gof}{a \code{list} of goodness of fit measures.}
+#' \item{convergence}{a \code{list} containing information about convergence.}
 #'
 #' @seealso \code{\link{gss08}} \code{\link{nyts18}}
 #'
