@@ -64,7 +64,7 @@ plot.glca <- function(x, ask = TRUE, ...)
       # gamma
       if (model$G == 1) {
          grDevices::dev.hold()
-         graphics::barplot(param$gamma[1,], main = "Class Prevalence",
+         graphics::barplot(colMeans(post[[1]]), main = "Class Prevalence",
                            ylab = "Class Prevalence", las = 1,
                            col = grDevices::gray.colors(model$C))
       } else {
