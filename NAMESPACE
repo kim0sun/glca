@@ -11,7 +11,12 @@ export(gofglca)
 export(item)
 import(MASS)
 import(Rcpp)
+<<<<<<< HEAD
 import(grDevices)
 import(graphics)
+=======
+import(graphics)
+import(grDevices)
+>>>>>>> a15ccf3cac7e9cfa1af5ef6deba7432f15cb0e18
 importFrom(Rcpp,evalCpp)
 useDynLib(glca, .registration = TRUE)
