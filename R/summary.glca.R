@@ -79,7 +79,7 @@ summary.glca <- function(
    if (model$W > 1L) {
       if (model$P > 1L | model$Q > 0L) {
          cat("Beta (level 1) :\n")
-         for (w in 1:W) {
+         for (w in 1:model$W) {
             cat("Cluster", w, "\n")
             print(lapply(param$beta[[1L]][[w]], round, digits))
          }
