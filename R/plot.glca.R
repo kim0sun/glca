@@ -35,6 +35,7 @@
 #' }
 #'
 #' @method plot glca
+#' @import graphics grDevices
 #' @export
 
 plot.glca <- function(x, ask = TRUE, ...)
