@@ -36,57 +36,57 @@ summary.glca <- function(
       if (model$P > 1L) cat("Covariates (Level 1) : \n", var.names$X.names, "\n")
    } else if (model$P > 1L) cat("Covariates : \n", var.names$X.names, "\n")
 
+   cat("\nResponse numbering:\n")
+   print(var.names$resp.name)
+
    cat("\nModel :", model$type, "\n")
    if (model$W > 1L){
       cat("Number of latent classes :", model$C, "\n")
       cat("Number of latent clusters :", model$W, "\n")
-      cat("\nMean prevalence for latent clusters:\n")
-      print(round(colMeans(posterior$cluster), 5L))
-      cat("\nMean prevalence for latent classes:\n")
-      print(round(posterior$wclass, 5L))
-      cat("\n")
    } else {
       cat("Number of latent classes :", model$C, "\n")
-      if (model$G < 10L) {
-         cat("\nMean prevalence for latent classes:\n")
-         prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
-         dimnames(prev) = list(var.names$g.names,
-                               paste0("Class ", 1L:model$C))
-         print(round(prev, 5L))
-      } else {
-         cat("\nMean prevalence for latent classes:\n")
-         print(round(colMeans(do.call(rbind, posterior)), 5))
-      }
    }
-   cat("\nNumber of parameters :", model$npar, "\n")
    if (model$G > 1)
       cat("Number of groups :", model$G, "\n")
+   cat("Number of parameters :", model$npar, "\n")
 
    cat("\nlog-likelihood :", gof$loglik,
        "\n     G-squared :", gof$Gsq,
        "\n           AIC :", gof$aic,
        "\n           BIC :", gof$bic)
 
-   cat("\n\nResponse numbering:\n")
-   print(var.names$resp.name)
+   if (model$W > 1L){
+      cat("\nMarginal prevalence for latent classes :\n")
+      print(round(colMeans(do.call(rbind, posterior$class)), 5L))
+      cat("\nMarginal prevalence for latent clusters :\n")
+      print(round(colMeans(posterior$cluster), 5L))
+      cat("\nClass prevalences by group :\n")
+      print(round(posterior$wclass, 5L))
+   } else {
+      cat("\nMarginal prevalence for latent classes :\n")
+      print(round(colMeans(do.call(rbind, posterior)), 5L))
+      if (model$G < 10L) {
+         cat("\nClass prevalences by group :\n")
+         prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
+         dimnames(prev) = list(var.names$g.names,
+                               paste0("Class ", 1L:model$C))
+         print(round(prev, 5L))
+      } else {
+         cat("\nToo many groups:\n")
+      }
+   }
 
-   cat("\nEstimated model parameters :\n")
    if (model$W > 1L) {
-      cat("Delta :\n")
-      print(round(param$delta, digits))
-      cat("\n")
-
       if (model$P > 1L | model$Q > 0L) {
          cat("Beta (level 1) :\n")
-         print(lapply(param$beta[[1L]], round, digits))
+         for (w in 1:W) {
+            cat("Cluster", w, "\n")
+            print(lapply(param$beta[[1L]][[w]], round, digits))
+         }
          if (model$Q > 0L) {
             cat("Beta (level 2) :\n")
             print(round(param$beta[[2L]], digits))
          }
-         cat("\n")
-      } else {
-         cat("Gamma :\n")
-         print(round(param$gamma, digits))
          cat("\n")
       }
 
@@ -108,7 +108,6 @@ summary.glca <- function(
             print(round(param$rho[[m]], digits))
          }
       }
-
       cat("\n")
    } else {
       if (model$P > 1L) {
@@ -144,7 +143,7 @@ summary.glca <- function(
                round(param$rho[[1L]][[m]][,1L], digits))
             colnames(Rhomat) <- var.names$y.names
             print(Rhomat)
-            cat ("Rho (Y = 2) :\n")
+            cat ("\nRho (Y = 2) :\n")
             Rhomat <- sapply(1L:model$M, function(m)
                round(param$rho[[1L]][[m]][,2L], digits))
             colnames(Rhomat) <- var.names$y.names
@@ -164,7 +163,7 @@ summary.glca <- function(
                   round(param$rho[[1L]][[m]][,1L], digits))
                colnames(Rhomat) <- var.names$y.names
                print(Rhomat)
-               cat ("Rho (Y = 2) :\n")
+               cat ("\nRho (Y = 2) :\n")
                Rhomat <- sapply(1L:model$M, function(m)
                   round(param$rho[[1L]][[m]][,2L], digits))
                colnames(Rhomat) <- var.names$y.names
@@ -187,7 +186,7 @@ summary.glca <- function(
                   print(Rhomat)
                   cat("\n")
                }
-               cat ("Rho (Y = 2) :\n")
+               cat ("\nRho (Y = 2) :\n")
                for (g in 1L:model$G) {
                   cat("Group :", var.names$g.names[[g]], "\n")
                   Rhomat <- sapply(1L:model$M, function(m)
