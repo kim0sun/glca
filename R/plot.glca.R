@@ -39,8 +39,8 @@
 
 plot.glca <- function(x, ask = TRUE, ...)
 {
-   oldpar <- graphics::par(no.readonly = TRUE)
-   on.exit(graphics::par(oldpar))
+   oldpar <- par(no.readonly = TRUE)
+   on.exit(par(oldpar))
 
    if (ask) grDevices::devAskNewPage(TRUE)
 
@@ -48,34 +48,7 @@ plot.glca <- function(x, ask = TRUE, ...)
    param <- x$param
    post <- x$posterior
 
-   graphics::par(mar = c(5.1, 4.1, 4.1, 4.5), mfrow = c(1, 1))
-
-   if (model$W > 1L) {
-      # delta, gamma
-      prev <- apply(post$wclass, 1L, rev)
-      colnames(prev) = paste0(colnames(prev), "\n(", round(param$delta, 2L), ")")
-
-      grDevices::dev.hold()
-      xpos <- graphics::barplot(prev, main = "Class Prevalence by Group",
-                                ylab = "Class Prevalence", las = 1)
-      graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = rev(rownames(prev)),
-                       fill = rev(grDevices::gray.colors(nrow(prev))), xpd = TRUE, bg = "white")
-   } else {
-      # gamma
-      if (model$G == 1) {
-         grDevices::dev.hold()
-         graphics::barplot(colMeans(post[[1]]), main = "Class Prevalence",
-                           ylab = "Class Prevalence", las = 1,
-                           col = grDevices::gray.colors(model$C))
-      } else {
-         prev <- t(apply(sapply(post, colMeans), 2, rev))
-
-         grDevices::dev.hold()
-         xpos <- graphics::barplot(t(prev), main = "Class Prevalence by Group", las = 1)
-         graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = rev(colnames(prev)),
-                          fill = rev(grDevices::gray.colors(ncol(prev))), xpd = TRUE, bg = "white")
-      }
-   }
+   par(mar = c(5.1, 4.1, 4.1, 5.1), mfrow = c(1, 1))
 
    # rho
    if (all(model$R == 2L)) { # binary plot
@@ -84,64 +57,113 @@ plot.glca <- function(x, ask = TRUE, ...)
          else rho <- param$rho[[1]]
          irp <- sapply(rho, function(i) i[,1L])
          grDevices::dev.hold()
-         graphics::plot(x = 1L:model$M, y = c(0L, rep(1L, model$M - 1L)),
+         plot(x = 1L:model$M, y = c(0L, rep(1L, model$M - 1L)),
               xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
-              xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
-              type = "n", xaxt = "n", yaxt = "n")
-         graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
-         graphics::axis(side=2, at = (0:5)/5, las = "1")
+              xlab = "Manifest Items", type = "n", xaxt = "n", yaxt = "n")
+         axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
+         axis(side=2, at = (0:5)/5, las = "1")
          for (c in 1:model$C) {
-            graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
+            lines(1:model$M, irp[c,], type = "b", pch = c)
          }
-         graphics::legend(x = model$M + 0.2, y = 1, pch = 1:model$C,
+         legend("topleft", pch = 1:model$C, inset = c(1,0),
                           legend = rownames(irp), xpd = TRUE, bg = "white")
-         graphics::title("Item Response Probabilities by Class")
+         title("Item Response Probabilities by Class")
+         grDevices::dev.flush()
       } else {
          for (g in 1:model$G) {
             irp <- sapply(param$rho[[g]], function(i) i[,1])
             grDevices::dev.hold()
-            graphics::plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
+            plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
                  xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
-                 xlab = "Manifest Items", ylab = "Item Repsponse Probabilities",
-                 type = "n", xaxt = "n", yaxt = "n")
-            graphics::axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
-            graphics::axis(side=2, at = (0:5)/5, las = 1)
+                 xlab = "Manifest Items", type = "n", xaxt = "n", yaxt = "n")
+            axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
+            axis(side=2, at = (0:5)/5, las = 1)
             for (c in 1:model$C) {
-               graphics::lines(1:model$M, irp[c,], type = "b", pch = c)
+               lines(1:model$M, irp[c,], type = "b", pch = c)
             }
-            graphics::legend(x = model$M + 0.2, y = 1, pch = 1:model$C,
-                             legend = rownames(irp), xpd = TRUE, bg = "white")
-            graphics::title(paste0("Item Response Probabilities by Class", "\n(Group : ",
+            legend(x = model$M + 0.2, y = 1, pch = 1:model$C,
+                   legend = rownames(irp), xpd = TRUE, bg = "white")
+            title(paste0("Item Response Probabilities by Class", "\n(Group : ",
                          x$var.names$g.names[g],")"))
+            grDevices::dev.flush()
          }
       }
    } else { # polytomous plot
-      graphics::par(mar = c(2.5, 4.1, 4.1, 4.5))
+      par(mar = c(2.5, 4.1, 4.1, 4.5))
       if (model$measure.inv | model$G == 1) {
          if (model$W > 1) rho <- param$rho
          else rho <- param$rho[[1]]
          for (m in 1:model$M) {
             grDevices::dev.hold()
-            xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
-            graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
-                             fill = grDevices::gray.colors(ncol(rho[[m]])),
-                             xpd = TRUE, bg = "white")
-            graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
+            xpos <- barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
+            legend("topleft", inset = c(1, 0), legend = colnames(rho[[m]]),
+                   fill = grDevices::gray.colors(ncol(rho[[m]])),
+                   xpd = TRUE, bg = "white")
+            title(paste0("Item Response Probabilities by Class", "\n(Item : ",
                          names(rho)[m],")"))
+            grDevices::dev.flush()
          }
       } else {
          for (g in 1:model$G) {
             rho <- param$rho[[g]]
             for (m in 1:model$M) {
                grDevices::dev.hold()
-               xpos <- graphics::barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
-               graphics::legend(x = max(xpos), xjust = 0, y = 1, legend = colnames(rho[[m]]),
-                                fill = grDevices::gray.colors(ncol(rho[[m]])),
-                                xpd = TRUE, bg = "white")
-               graphics::title(paste0("Item Response Probabilities by Class", "\n(Item : ",
-                                      names(rho)[m]," / Group : ", x$var.names$g.names[g], ")"))
+               xpos <- barplot(t(rho[[m]]), beside = TRUE, ylim = c(0, 1))
+               legend("topleft", inset = c(1, 0), legend = colnames(rho[[m]]),
+                      fill = grDevices::gray.colors(ncol(rho[[m]])),
+                      xpd = TRUE, bg = "white")
+               title(paste0("Item Response Probabilities by Class", "\n(Item : ",
+                            names(rho)[m]," / Group : ", x$var.names$g.names[g], ")"))
+               grDevices::dev.flush()
             }
          }
+      }
+   }
+
+   if (model$W > 1L) {
+      # delta, gamma
+      grDevices::dev.hold()
+      par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+      barplot(colMeans(do.call(rbind, post$class)),
+              main = "Marginal Class Prevalences", las = 1,
+              col = grDevices::gray.colors(model$C))
+      grDevices::dev.flush()
+
+      prev <- apply(post$wclass, 1L, rev)
+      colnames(prev) = paste0(colnames(prev), "\n(", round(param$delta, 2L), ")")
+
+      grDevices::dev.hold()
+      par(mar = c(5.1, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+      xpos <- barplot(prev, main = "Class Prevalences by Cluster", las = 1)
+      legend("topleft", inset = c(1, 0), legend = rev(rownames(prev)),
+             fill = rev(grDevices::gray.colors(nrow(prev))), xpd = TRUE, bg = "white")
+      grDevices::dev.flush()
+   } else {
+      # gamma
+      if (model$G == 1) {
+         grDevices::dev.hold()
+         par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+         barplot(colMeans(post[[1]]),
+                 main = "Class Prevalences", las = 1,
+                 col = grDevices::gray.colors(model$C))
+         grDevices::dev.flush()
+      } else {
+         grDevices::dev.hold()
+         par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+         barplot(colMeans(do.call(rbind, post)),
+                 main = "Marginal Class Prevalences", las = 1,
+                 col = grDevices::gray.colors(model$C))
+         grDevices::dev.flush()
+
+         prev <- t(apply(sapply(post, colMeans), 2, rev))
+         rownames(prev) = paste0(rownames(prev), "\n(n=", model$Ng, ")")
+         grDevices::dev.hold()
+         par(mar = c(5.1, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+         xpos <- barplot(t(prev), main = "Class Prevalences by Group", las = 1)
+         legend("topleft", inset = c(1, 0), legend = rev(colnames(prev)),
+                fill = rev(grDevices::gray.colors(ncol(prev))),
+                xpd = TRUE, bg = "white")
+         grDevices::dev.flush()
       }
    }
 
