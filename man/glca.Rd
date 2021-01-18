@@ -19,7 +19,6 @@ glca(
   maxiter = 1000,
   eps = 1e-06,
   na.rm = FALSE,
-  random.seed = NULL,
   verbose = TRUE
 )
 }
@@ -51,8 +50,6 @@ glca(
 \item{eps}{a convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than \code{eps}, the algorithm will stop updating and consider the convergence to be reached.}
 
 \item{na.rm}{a logical value for deleting the lines that have at least one missing manifest item. If \code{na.rm = FALSE}, MAR procedure will be conducted.}
-
-\item{random.seed}{In default, the set of initial parameters is drawn randomly. As the same value for \code{random.seed} guarantees the same initial parameters to be drawn, this argument can be used to generate an identical solution.}
 
 \item{verbose}{a logical value indicating whether \code{glca} should print the estimation procedure onto the screen.}
 }

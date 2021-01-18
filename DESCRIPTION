@@ -20,7 +20,9 @@ Depends: R (>= 3.5.0)
 RoxygenNote: 7.1.1
 Imports: 
     MASS,
-    Rcpp
+    Rcpp,
+    graphics,
+    grDevices
 LinkingTo: 
     Rcpp
 URL: https://kim0sun.github.io/glca/

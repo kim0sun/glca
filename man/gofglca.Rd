@@ -9,7 +9,6 @@ gofglca(
   ...,
   test = NULL,
   nboot = 50,
-  random.seed = NULL,
   criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
   maxiter = 500,
   eps = 1e-04,
@@ -24,8 +23,6 @@ gofglca(
 \item{test}{a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"}).}
 
 \item{nboot}{number of bootstrap samples, only used when \code{test = "boot"}.}
-
-\item{random.seed}{random seed to have the equivalent solution for every bootstrap trials.}
 
 \item{criteria}{a character vector indicating criteria to be printed.}
 
