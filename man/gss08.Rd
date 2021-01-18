@@ -27,7 +27,7 @@ A data frame with 355 observations on 11 variables.
 This dataset includes 6 manifest items about abortion and several covariates from 355 respondents to the 2008 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, race, region, and degree of respondents.
 }
 \examples{
-data("gss")
+data("gss08")
 # Model 1: LCA
 lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
            data = gss08, nclass = 3)
