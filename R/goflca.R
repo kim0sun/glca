@@ -6,7 +6,6 @@
 #' @param ... an optional object of "\code{glca}" to be compared with \code{object}.
 #' @param test a character string indicating type of test (chi-square test or bootstrap) to obtain the p-value for goodness of fit test (\code{"chisq"} or \code{"boot"}).
 #' @param nboot number of bootstrap samples, only used when \code{test = "boot"}.
-#' @param random.seed random seed to have the equivalent solution for every bootstrap trials.
 #' @param criteria a character vector indicating criteria to be printed.
 #' @param maxiter an integer for maximum number of iteration for bootstrap sample.
 #' @param eps positive convergence tolerance for bootstrap sample.
@@ -43,8 +42,8 @@
 #' class4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'               data = gss08, nclass = 4)
 #'
-#' glca.gof(class2, class3, class4)
-#' \dontrun{glca.gof(class2, class3, class4, test = "boot")}
+#' gofglca(class2, class3, class4)
+#' \dontrun{gofglca(class2, class3, class4, test = "boot")}
 #'
 #' ## Example 2.
 #' ## Model selection between two MLCA models with different number of latent clusters.
@@ -53,8 +52,8 @@
 #' cluster3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
 #'                 group = SCH_ID, data = nyts18, nclass = 2, ncluster = 3)
 #'
-#' glca.gof(cluster2, cluster3)
-#' \dontrun{glca.gof(cluster2, cluster3, test = "boot")}
+#' gofglca(cluster2, cluster3)
+#' \dontrun{gofglca(cluster2, cluster3, test = "boot")}
 #'
 #' \donttest{
 #' ## Example 3.
@@ -64,13 +63,14 @@
 #' measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'                group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE)
 #'
-#' glca.gof(measInv, measVar)
-#' glca.gof(measInv, measVar, test = "chisq")
+#' gofglca(measInv, measVar)
+#' gofglca(measInv, measVar, test = "chisq")
 #' }
+#'
 #' @export
 
-glca.gof <- function(
-   object, ..., test = NULL, nboot = 50, random.seed = NULL,
+gofglca <- function(
+   object, ..., test = NULL, nboot = 50,
    criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
    maxiter = 500, eps = 1e-4, verbose = FALSE
 )
@@ -78,10 +78,6 @@ glca.gof <- function(
    # Check_class
    if (!all(sapply(list(object, ...), inherits, "glca")))
       stop("All objects should inherit glca class.")
-
-   # Random seed
-   if (is.numeric(random.seed))
-      set.seed(random.seed)
 
    # Test
    if (!is.null(test)) {
@@ -93,7 +89,7 @@ glca.gof <- function(
    obj <- list(object, ...)
    nmodels <- length(obj)
    notes <- sapply(obj, function(x) {
-      note <- deparse(stats::formula(x))
+      note <- paste(deparse(stats::formula(x)), collapse = "\n")
       if (x$model$G > 1L) {
          note <- paste0(note, "\n", strrep(" ", 8 + nchar(nmodels)),
                         "Group: ", x$call$group, ", nclass: ", x$model$C)
@@ -119,7 +115,7 @@ glca.gof <- function(
    cls  <- sapply(obj, function(x) c(x$model$C, x$model$W))
 
    rel <- all(resp == resp[1L], datn == datn[1L], length(obj) > 1L)
-   if (!rel) warning("Since responses are different, deviance table does not printed.")
+   if (length(obj) > 1L & !rel) warning("Since responses are different, deviance table does not printed.")
    nested <- all(apply(cls, 1L, function(x) x == x[1L]), rel)
 
    ord <- order(sapply(obj, function(x) x$model$npar))
@@ -209,6 +205,6 @@ glca.gof <- function(
       }
    }
    attr(ret, "notes") <- notes
-   class(ret) <- "glca.gof"
+   class(ret) <- "gofglca"
    return(ret)
 }

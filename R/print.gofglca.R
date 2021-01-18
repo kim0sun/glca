@@ -1,7 +1,7 @@
-#' @method print glca.gof
+#' @method print gofglca
 #' @export
 
-print.glca.gof <- function(
+print.gofglca <- function(
    x, nsmall = max(2, getOption("digits") - 2), ...
 )
 {
