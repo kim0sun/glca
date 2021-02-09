@@ -16,7 +16,7 @@ glca(
   init.param = NULL,
   n.init = 10,
   testiter = 50,
-  maxiter = 1000,
+  maxiter = 5000,
   eps = 1e-06,
   na.rm = FALSE,
   verbose = TRUE
