@@ -60,7 +60,8 @@ plot.glca <- function(x, ask = TRUE, ...)
          grDevices::dev.hold()
          plot(x = 1L:model$M, y = c(0L, rep(1L, model$M - 1L)),
               xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
-              xlab = "Manifest Items", type = "n", xaxt = "n", yaxt = "n")
+              xlab = "Manifest Items", ylab = "",
+              type = "n", xaxt = "n", yaxt = "n")
          axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
          axis(side=2, at = (0:5)/5, las = "1")
          for (c in 1:model$C) {
@@ -76,7 +77,8 @@ plot.glca <- function(x, ask = TRUE, ...)
             grDevices::dev.hold()
             plot(x = 1:model$M, y = c(0, rep(1, model$M - 1)),
                  xlim = c(0.8, model$M + 0.2), ylim = c(-0.1, 1.1),
-                 xlab = "Manifest Items", type = "n", xaxt = "n", yaxt = "n")
+                 xlab = "Manifest Items", ylab = "",
+                 type = "n", xaxt = "n", yaxt = "n")
             axis(side=1, at = 1:model$M, labels = x$var.names$y.name)
             axis(side=2, at = (0:5)/5, las = 1)
             for (c in 1:model$C) {
@@ -90,7 +92,7 @@ plot.glca <- function(x, ask = TRUE, ...)
          }
       }
    } else { # polytomous plot
-      par(mar = c(2.5, 4.1, 4.1, 4.5))
+      par(mar = c(3.5, 4.1, 4.1, 4.5))
       if (model$measure.inv | model$G == 1) {
          if (model$W > 1) rho <- param$rho
          else rho <- param$rho[[1]]
@@ -124,45 +126,49 @@ plot.glca <- function(x, ask = TRUE, ...)
    if (model$W > 1L) {
       # delta, gamma
       grDevices::dev.hold()
-      par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+      par(mar = c(3.5, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+
       barplot(colMeans(do.call(rbind, post$class)),
               main = "Marginal Class Prevalences", las = 1,
               col = grDevices::gray.colors(model$C))
       grDevices::dev.flush()
 
-      prev <- apply(post$wclass, 1L, rev)
+      prev <- t(post$wclass)
       colnames(prev) = paste0(colnames(prev), "\n(", round(param$delta, 2L), ")")
 
       grDevices::dev.hold()
-      par(mar = c(5.1, 4.1, 4.1, 6.1), mfrow = c(1, 1))
-      xpos <- barplot(prev, main = "Class Prevalences by Cluster", las = 1)
-      legend("topleft", inset = c(1, 0), legend = rev(rownames(prev)),
-             fill = rev(grDevices::gray.colors(nrow(prev))), xpd = TRUE, bg = "white")
+      par(mar = c(3.5, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+      xpos <- barplot(prev, main = "Class Prevalences by Cluster",
+                      col = grDevices::gray.colors(nrow(prev)),
+                      las = 1)
+      legend("topleft", inset = c(1, 0), legend = rownames(prev),
+             fill = grDevices::gray.colors(nrow(prev)),
+             xpd = TRUE, bg = "white")
       grDevices::dev.flush()
    } else {
       # gamma
+      grDevices::dev.hold()
+      par(mar = c(3.5, 4.1, 4.1, 2.1), mfrow = c(1, 1))
       if (model$G == 1) {
-         grDevices::dev.hold()
-         par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
          barplot(colMeans(post[[1]]),
                  main = "Class Prevalences", las = 1,
                  col = grDevices::gray.colors(model$C))
          grDevices::dev.flush()
       } else {
-         grDevices::dev.hold()
-         par(mar = c(5.1, 4.1, 4.1, 2.1), mfrow = c(1, 1))
          barplot(colMeans(do.call(rbind, post)),
                  main = "Marginal Class Prevalences", las = 1,
                  col = grDevices::gray.colors(model$C))
          grDevices::dev.flush()
 
-         prev <- t(apply(sapply(post, colMeans), 2, rev))
-         rownames(prev) = paste0(rownames(prev), "\n(n=", model$Ng, ")")
+         prev <- sapply(post, colMeans)
+         colnames(prev) = paste0(colnames(prev), "\n(n=", model$Ng, ")")
          grDevices::dev.hold()
-         par(mar = c(5.1, 4.1, 4.1, 6.1), mfrow = c(1, 1))
-         xpos <- barplot(t(prev), main = "Class Prevalences by Group", las = 1)
-         legend("topleft", inset = c(1, 0), legend = rev(colnames(prev)),
-                fill = rev(grDevices::gray.colors(ncol(prev))),
+         par(mar = c(3.5, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+         xpos <- barplot(prev, main = "Class Prevalences by Group",
+                         col = grDevices::gray.colors(nrow(prev)),
+                         las = 1)
+         legend("topleft", inset = c(1, 0), legend = rownames(prev),
+                fill = grDevices::gray.colors(ncol(prev)),
                 xpd = TRUE, bg = "white")
          grDevices::dev.flush()
       }
