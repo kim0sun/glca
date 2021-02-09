@@ -108,10 +108,8 @@ glca_encode <- function(
    if (verbose) {
       cat("Manifest items :\n", y.names, "\n")
       if (!is.null(call$group)) cat("Grouping variable :", call$group, "\n")
-      if (W > 1L) {
-         if (Q > 0L) cat("Covariates (Level 2) : \n", Z.names, "\n")
-         if (P > 1L) cat("Covariates (Level 1) : \n", X.names, "\n")
-      } else if (P > 1L) cat("Covariates : \n", X.names, "\n")
+      if (Q > 0L) cat("Covariates (Level 2) : \n", Z.names, "\n")
+      if (P > 1L) cat("Covariates (Level 1) : \n", X.names, "\n")
 
       cat("\nDeleted observation(s) : \n")
       if (na.rm)
@@ -143,7 +141,7 @@ glca_encode <- function(
       h0 <- hind[rowSums(Y == 0L) == 0L]
       loglikh <- numeric(H)
       for (h in seq_len(H)) {
-         Yh <- Y0[hind == h, , drop = FALSE]
+         Yh <- Y0[h0 == h, , drop = FALSE]
          Y.sorted <- Yh[do.call(order, data.frame(Yh)[M:1]), , drop = FALSE]
          pattern <- as.matrix(unique(Y.sorted))
          obsvd <- ObsCell2(as.matrix(Y.sorted), pattern,
@@ -154,20 +152,17 @@ glca_encode <- function(
    }
 
    if (W == 0L) {
+      if (G == 1L)
+         type <- "Standard latent class analysis"
+      else
+         type <- "Multiple-group latent class analysis"
+
       if (P == 1L) {
-         if (G == 1L)
-            type <- "Standard LCA"
-         else
-            type <- "Multigroup LCA"
          if (measure.inv)
             npar <- G * (C - 1L) + C * sum(R - 1L)
          else
             npar <- G * (C - 1L) + G * C * sum(R - 1L)
       } else {
-         if (G == 1L)
-            type <- "Standard LCA with Covariates"
-         else
-            type <- "Multigroup LCA with Covariates"
          if (coeff.inv)
             npar <- G * (C - 1L) + (C - 1L) * (P - 1L)
          else
@@ -178,11 +173,10 @@ glca_encode <- function(
             npar <- npar + G * C * sum(R - 1L)
       }
    } else {
-      if (P == 1L && Q == 0) {
-         type <- "Multilevel LCA"
+      type <- "Nonparametric multilevel latent class analysis"
+      if (P == 1L && Q == 0)
          npar <- W - 1L + W * (C - 1L) + C * sum(R - 1L)
-      } else {
-         type <- "Multilevel LCA with Covariates"
+      else {
          if (coeff.inv)
             npar <- W - 1L + W * (C - 1L) + (P - 1L + Q) * (C - 1L) +
                C * sum(R - 1L)
