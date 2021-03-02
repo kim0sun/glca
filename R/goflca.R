@@ -72,7 +72,7 @@
 gofglca <- function(
    object, ..., test = NULL, nboot = 50,
    criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
-   maxiter = 500, eps = 1e-4, verbose = FALSE
+   maxiter = 500, eps = 1e-4, seed = 0, verbose = FALSE
 )
 {
    # Check_class
@@ -125,6 +125,9 @@ gofglca <- function(
    gtable <- as.matrix(do.call(rbind, lapply(gof[ord], unlist)))
    colnames(gtable) <- c(criteria, "Res.Df", "Gsq")
    rownames(gtable) <- ord
+
+   # seed
+   if (seed >= 0) set.seed(seed)
 
    if (!is.null(test)) {
       # Bootstrap
