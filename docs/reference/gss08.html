@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">glca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -147,8 +147,8 @@
     <p>Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2008/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gss"</span>)
-</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘gss’ not found</span></div><div class='input'><span class='co'># Model 1: LCA</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"gss08"</span>)
+<span class='co'># Model 1: LCA</span>
 <span class='kw'>lca</span> <span class='op'>=</span> <span class='fu'><a href='glca.html'>glca</a></span>(<span class='fu'><a href='item.html'>item</a></span>(<span class='kw'>DEFECT</span>, <span class='kw'>HLTH</span>, <span class='kw'>RAPE</span>, <span class='kw'>POOR</span>, <span class='kw'>SINGLE</span>, <span class='kw'>NOMORE</span>) <span class='op'>~</span> <span class='fl'>1</span>,
            data = <span class='kw'>gss08</span>, nclass = <span class='fl'>3</span>)
 </div><div class='output co'>#&gt; Manifest items :
@@ -158,47 +158,32 @@
 #&gt; 3 observation(s) for missing all manifest items
 #&gt; 0 observation(s) for missing at least 1 covariates
 #&gt; 
-#&gt; SET : 1  .....loglik : -687.4486 
-#&gt; SET : 2  .....loglik : -687.4488 
-#&gt; SET : 3  .....loglik : -693.8564 
-#&gt; SET : 4  .....loglik : -687.4486 
-#&gt; SET : 5  .....loglik : -687.5667 
+#&gt; SET : 1  .....loglik : -687.4633 
+#&gt; SET : 2  .....loglik : -687.4486 
+#&gt; SET : 3  .....loglik : -687.4486 
+#&gt; SET : 4  .....loglik : -700.4141 
+#&gt; SET : 5  .....loglik : -687.449 
 #&gt; SET : 6  .....loglik : -687.4486 
-#&gt; SET : 7  .....loglik : -687.4488 
+#&gt; SET : 7  .....loglik : -687.4492 
 #&gt; SET : 8  .....loglik : -687.4486 
-#&gt; SET : 9  .....loglik : -687.449 
-#&gt; SET : 10 .....loglik : -687.4532 
+#&gt; SET : 9  .....loglik : -687.5527 
+#&gt; SET : 10 .....loglik : -687.4491 
 #&gt; 
-#&gt; Start with SET 8 (-687.4486)
+#&gt; Start with SET 6 (-687.4486)
 #&gt; 
-#&gt; Standard LCA Fitting...
+#&gt; Standard latent class analysis Fitting...
 #&gt; 
-#&gt;  63 iteration 
+#&gt;  53 iteration 
 #&gt; 
-#&gt; Converged at 63 iteration (loglik :-687.4486)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>lca</span>)
+#&gt; Converged at 53 iteration (loglik :-687.4486)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>lca</span>)
 </div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; glca(formula = item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 
 #&gt;     1, data = gss08, nclass = 3)
 #&gt; 
-#&gt; Manifest items :
-#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE 
+#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE 
 #&gt; 
-#&gt; Model : Standard LCA 
-#&gt; Number of latent classes : 3 
-#&gt; 
-#&gt; Mean Prevalence for latent classes for each group:
-#&gt;     Class 1 Class 2 Class 3
-#&gt; ALL 0.46396 0.34467 0.19137
-#&gt; 
-#&gt; Number of parameters : 20 
-#&gt; 
-#&gt; log-likelihood : -687.4486 
-#&gt;      G-squared : 29.82695 
-#&gt;            AIC : 1414.897 
-#&gt;            BIC : 1492.17
-#&gt; 
-#&gt; Response numbering:
+#&gt; Categories for manifest items :
 #&gt;        Y = 1 Y = 2
 #&gt; DEFECT   YES    NO
 #&gt; HLTH     YES    NO
@@ -207,76 +192,75 @@
 #&gt; SINGLE   YES    NO
 #&gt; NOMORE   YES    NO
 #&gt; 
-#&gt; Estimated model parameters :
-#&gt; Gamma :
+#&gt; Model : Standard latent class analysis 
+#&gt; 
+#&gt; Number of latent classes : 3 
+#&gt; Number of observations : 352 
+#&gt; Number of parameters : 20 
+#&gt; 
+#&gt; log-likelihood : -687.4486 
+#&gt;      G-squared : 29.82695 
+#&gt;            AIC : 1414.897 
+#&gt;            BIC : 1492.17 
+#&gt; 
+#&gt; Marginal prevalences for latent classes :
+#&gt; Class 1 Class 2 Class 3 
+#&gt; 0.46396 0.34467 0.19137 
+#&gt; 
+#&gt; Class prevalences by group :
 #&gt;     Class 1 Class 2 Class 3
-#&gt; ALL   0.464  0.3447  0.1914
+#&gt; ALL 0.46396 0.34467 0.19137
 #&gt; 
 #&gt; Rho (Y = 1) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
 #&gt; Class 1 1.0000 1.0000 1.0000 0.9813 0.9284 0.9657
 #&gt; Class 2 0.8275 0.9453 0.7959 0.0638 0.0390 0.1344
-#&gt; Class 3 0.0466 0.3684 0.0949 0.0000 0.0000 0.0000
+#&gt; Class 3 0.0466 0.3683 0.0949 0.0000 0.0000 0.0000
+#&gt; 
 #&gt; Rho (Y = 2) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
 #&gt; Class 1 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343
 #&gt; Class 2 0.1725 0.0547 0.2041 0.9362 0.9610 0.8656
-#&gt; Class 3 0.9534 0.6316 0.9051 1.0000 1.0000 1.0000</div><div class='input'>
+#&gt; Class 3 0.9534 0.6317 0.9051 1.0000 1.0000 1.0000</div><div class='input'>
 <span class='co'># Model 2: LCA with a covariate</span>
 <span class='kw'>lcr</span> <span class='op'>=</span> <span class='fu'><a href='glca.html'>glca</a></span>(<span class='fu'><a href='item.html'>item</a></span>(<span class='kw'>DEFECT</span>, <span class='kw'>HLTH</span>, <span class='kw'>RAPE</span>, <span class='kw'>POOR</span>, <span class='kw'>SINGLE</span>, <span class='kw'>NOMORE</span>) <span class='op'>~</span> <span class='kw'>SEX</span>,
            data = <span class='kw'>gss08</span>, nclass = <span class='fl'>3</span>)
 </div><div class='output co'>#&gt; Manifest items :
 #&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE 
-#&gt; Covariates : 
+#&gt; Covariates (Level 1) : 
 #&gt;  SEX 
 #&gt; 
 #&gt; Deleted observation(s) : 
 #&gt; 3 observation(s) for missing all manifest items
 #&gt; 0 observation(s) for missing at least 1 covariates
 #&gt; 
-#&gt; SET : 1  .....loglik : -680.7823 
-#&gt; SET : 2  .....loglik : -680.7823 
-#&gt; SET : 3  .....loglik : -680.7841 
+#&gt; SET : 1  .....loglik : -680.7826 
+#&gt; SET : 2  .....loglik : -681.3418 
+#&gt; SET : 3  .....loglik : -680.7919 
 #&gt; SET : 4  .....loglik : -680.7824 
 #&gt; SET : 5  .....loglik : -680.7823 
-#&gt; SET : 6  .....loglik : -680.7824 
-#&gt; SET : 7  .....loglik : -680.7874 
+#&gt; SET : 6  .....loglik : -680.7823 
+#&gt; SET : 7  .....loglik : -680.7823 
 #&gt; SET : 8  .....loglik : -680.7823 
-#&gt; SET : 9  .....loglik : -680.7859 
+#&gt; SET : 9  .....loglik : -680.7823 
 #&gt; SET : 10 .....loglik : -680.7823 
 #&gt; 
-#&gt; Start with SET 2 (-680.7823)
+#&gt; Start with SET 9 (-680.7823)
 #&gt; 
-#&gt; Standard LCA with Covariates Fitting...
+#&gt; Standard latent class analysis Fitting...
 #&gt; 
-#&gt;  70 iteration 
+#&gt;  65 iteration 
 #&gt; 
-#&gt; Converged at 70 iteration (loglik :-680.7823)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>lcr</span>)
+#&gt; Converged at 65 iteration (loglik :-680.7823)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>lcr</span>)
 </div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; glca(formula = item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 
 #&gt;     SEX, data = gss08, nclass = 3)
 #&gt; 
-#&gt; Manifest items :
-#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE 
-#&gt; Covariates : 
-#&gt;  SEX 
+#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE 
+#&gt; Covariates (Level 1) : SEX 
 #&gt; 
-#&gt; Model : Standard LCA with Covariates 
-#&gt; Number of latent classes : 3 
-#&gt; 
-#&gt; Mean Prevalence for latent classes for each group:
-#&gt;     Class 1 Class 2 Class 3
-#&gt; ALL 0.19485 0.46421 0.34093
-#&gt; 
-#&gt; Number of parameters : 22 
-#&gt; 
-#&gt; log-likelihood : -680.7823 
-#&gt;      G-squared : 57.97919 
-#&gt;            AIC : 1405.565 
-#&gt;            BIC : 1490.564
-#&gt; 
-#&gt; Response numbering:
+#&gt; Categories for manifest items :
 #&gt;        Y = 1 Y = 2
 #&gt; DEFECT   YES    NO
 #&gt; HLTH     YES    NO
@@ -285,33 +269,51 @@
 #&gt; SINGLE   YES    NO
 #&gt; NOMORE   YES    NO
 #&gt; 
-#&gt; Estimated model parameters :
+#&gt; Model : Standard latent class analysis 
+#&gt; 
+#&gt; Number of latent classes : 3 
+#&gt; Number of observations : 352 
+#&gt; Number of parameters : 22 
+#&gt; 
+#&gt; log-likelihood : -680.7823 
+#&gt;      G-squared : 57.97919 
+#&gt;            AIC : 1405.565 
+#&gt;            BIC : 1490.564 
+#&gt; 
+#&gt; Marginal prevalences for latent classes :
+#&gt; Class 1 Class 2 Class 3 
+#&gt; 0.46421 0.34093 0.19486 
+#&gt; 
+#&gt; Class prevalences by group :
+#&gt;     Class 1 Class 2 Class 3
+#&gt; ALL 0.46421 0.34093 0.19486
+#&gt; 
 #&gt; Beta :
 #&gt;             Class 1/3 Class 2/3
-#&gt; (Intercept)   -1.2067    0.3958
-#&gt; SEXFEMALE      1.0176   -0.1766
-#&gt; 
+#&gt; (Intercept)    1.6024    1.2066
+#&gt; SEXFEMALE     -1.1942   -1.0176
 #&gt; Rho (Y = 1) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#&gt; Class 1 0.0581 0.3756 0.0922 0.0000 0.0000 0.0000
-#&gt; Class 2 1.0000 1.0000 1.0000 0.9812 0.9281 0.9656
-#&gt; Class 3 0.8286 0.9464 0.8030 0.0640 0.0393 0.1356
+#&gt; Class 1 1.0000 1.0000 1.0000 0.9812 0.9281 0.9656
+#&gt; Class 2 0.8286 0.9464 0.8030 0.0640 0.0393 0.1356
+#&gt; Class 3 0.0581 0.3756 0.0922 0.0000 0.0000 0.0000
+#&gt; 
 #&gt; Rho (Y = 2) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#&gt; Class 1 0.9419 0.6244 0.9078 1.0000 1.0000 1.0000
-#&gt; Class 2 0.0000 0.0000 0.0000 0.0188 0.0719 0.0344
-#&gt; Class 3 0.1714 0.0536 0.1970 0.9360 0.9607 0.8644</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>lcr</span>)
+#&gt; Class 1 0.0000 0.0000 0.0000 0.0188 0.0719 0.0344
+#&gt; Class 2 0.1714 0.0536 0.1970 0.9360 0.9607 0.8644
+#&gt; Class 3 0.9419 0.6244 0.9078 1.0000 1.0000 1.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>lcr</span>)
 </div><div class='output co'>#&gt; Class 1 / 3 :
 #&gt;             Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    
-#&gt; (Intercept)     0.2992     -1.2067      0.3354   -3.597  0.000492 ***
-#&gt; SEXFEMALE       2.7666      1.0176      0.3944    2.580  0.011262 *  
+#&gt; (Intercept)     4.9649      1.6024      0.3076    5.209  9.53e-07 ***
+#&gt; SEXFEMALE       0.3029     -1.1942      0.3512   -3.400  0.000953 ***
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
 #&gt; Class 2 / 3 :
-#&gt;             Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)  
-#&gt; (Intercept)     1.4855      0.3958      0.1822    2.172    0.0321 *
-#&gt; SEXFEMALE       0.8381     -0.1766      0.2611   -0.676    0.5003  
+#&gt;             Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    
+#&gt; (Intercept)     3.3423      1.2066      0.3354    3.597  0.000492 ***
+#&gt; SEXFEMALE       0.3614     -1.0176      0.3944   -2.580  0.011262 *  
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; </div><div class='input'>
@@ -326,24 +328,24 @@
 #&gt; 3 observation(s) for missing all manifest items
 #&gt; 0 observation(s) for missing at least 1 covariates
 #&gt; 
-#&gt; SET : 1  .....loglik : -680.8858 
-#&gt; SET : 2  .....loglik : -667.0649 
-#&gt; SET : 3  .....loglik : -667.0649 
-#&gt; SET : 4  .....loglik : -667.0649 
-#&gt; SET : 5  .....loglik : -668.2611 
-#&gt; SET : 6  .....loglik : -667.0653 
-#&gt; SET : 7  .....loglik : -667.0649 
-#&gt; SET : 8  .....loglik : -667.0649 
+#&gt; SET : 1  .....loglik : -667.0666 
+#&gt; SET : 2  .....loglik : -667.065 
+#&gt; SET : 3  .....loglik : -667.065 
+#&gt; SET : 4  .....loglik : -667.065 
+#&gt; SET : 5  .....loglik : -667.0649 
+#&gt; SET : 6  .....loglik : -667.065 
+#&gt; SET : 7  .....loglik : -667.065 
+#&gt; SET : 8  .....loglik : -667.065 
 #&gt; SET : 9  .....loglik : -667.065 
 #&gt; SET : 10 .....loglik : -667.0649 
 #&gt; 
-#&gt; Start with SET 10 (-667.0649)
+#&gt; Start with SET 5 (-667.0649)
 #&gt; 
-#&gt; Multigroup LCA Fitting...
+#&gt; Multiple-group latent class analysis Fitting...
 #&gt; 
-#&gt;  65 iteration 
+#&gt;  68 iteration 
 #&gt; 
-#&gt; Converged at 65 iteration (loglik :-667.0649)</div><div class='input'>
+#&gt; Converged at 68 iteration (loglik :-667.0649)</div><div class='input'>
 <span class='co'># Model 4: MGLCA with covariates</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>mglca</span>)
 </div><div class='output co'>#&gt; 
@@ -351,34 +353,10 @@
 #&gt; glca(formula = item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 
 #&gt;     1, group = REGION, data = gss08, nclass = 3)
 #&gt; 
-#&gt; Manifest items :
-#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE 
+#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE 
 #&gt; Grouping variable : REGION 
 #&gt; 
-#&gt; Model : Multigroup LCA 
-#&gt; Number of latent classes : 3 
-#&gt; 
-#&gt; Mean Prevalence for latent classes for each group:
-#&gt;                 Class 1 Class 2 Class 3
-#&gt; NEW ENGLAND     0.00000 0.71336 0.28664
-#&gt; MIDDLE ATLANTIC 0.15987 0.13706 0.70307
-#&gt; E. NOR. CENTRAL 0.10906 0.42665 0.46428
-#&gt; W. NOR. CENTRAL 0.21327 0.26556 0.52117
-#&gt; SOUTH ATLANTIC  0.30461 0.27324 0.42216
-#&gt; E. SOU. CENTRAL 0.35920 0.50597 0.13484
-#&gt; W. SOU. CENTRAL 0.25716 0.50605 0.23679
-#&gt; MOUNTAIN        0.14423 0.43191 0.42386
-#&gt; PACIFIC         0.12720 0.33324 0.53956
-#&gt; 
-#&gt; Number of parameters : 36 
-#&gt; Number of groups : 9 
-#&gt; 
-#&gt; log-likelihood : -667.0649 
-#&gt;      G-squared : 149.4701 
-#&gt;            AIC : 1406.13 
-#&gt;            BIC : 1545.221
-#&gt; 
-#&gt; Response numbering:
+#&gt; Categories for manifest items :
 #&gt;        Y = 1 Y = 2
 #&gt; DEFECT   YES    NO
 #&gt; HLTH     YES    NO
@@ -387,33 +365,49 @@
 #&gt; SINGLE   YES    NO
 #&gt; NOMORE   YES    NO
 #&gt; 
-#&gt; Estimated model parameters :
-#&gt; Gamma :
+#&gt; Model : Multiple-group latent class analysis 
+#&gt; 
+#&gt; Number of latent classes : 3 
+#&gt; Number of groups : 9 
+#&gt; Number of observations : 352 
+#&gt; Number of parameters : 36 
+#&gt; 
+#&gt; log-likelihood : -667.0649 
+#&gt;      G-squared : 149.4701 
+#&gt;            AIC : 1406.13 
+#&gt;            BIC : 1545.221 
+#&gt; 
+#&gt; Marginal prevalences for latent classes :
+#&gt; Class 1 Class 2 Class 3 
+#&gt; 0.34554 0.46524 0.18922 
+#&gt; 
+#&gt; Class prevalences by group :
 #&gt;                 Class 1 Class 2 Class 3
-#&gt; NEW ENGLAND      0.0000  0.7134  0.2866
-#&gt; MIDDLE ATLANTIC  0.1599  0.1371  0.7031
-#&gt; E. NOR. CENTRAL  0.1091  0.4267  0.4643
-#&gt; W. NOR. CENTRAL  0.2133  0.2656  0.5212
-#&gt; SOUTH ATLANTIC   0.3046  0.2732  0.4222
-#&gt; E. SOU. CENTRAL  0.3592  0.5060  0.1348
-#&gt; W. SOU. CENTRAL  0.2572  0.5061  0.2368
-#&gt; MOUNTAIN         0.1442  0.4319  0.4239
-#&gt; PACIFIC          0.1272  0.3332  0.5396
+#&gt; NEW ENGLAND     0.71336 0.28664 0.00000
+#&gt; MIDDLE ATLANTIC 0.13706 0.70307 0.15987
+#&gt; E. NOR. CENTRAL 0.42665 0.46428 0.10906
+#&gt; W. NOR. CENTRAL 0.26556 0.52117 0.21327
+#&gt; SOUTH ATLANTIC  0.27324 0.42216 0.30461
+#&gt; E. SOU. CENTRAL 0.50596 0.13484 0.35920
+#&gt; W. SOU. CENTRAL 0.50605 0.23679 0.25716
+#&gt; MOUNTAIN        0.43191 0.42386 0.14423
+#&gt; PACIFIC         0.33324 0.53956 0.12720
 #&gt; 
 #&gt; Rho (Y = 1) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#&gt; Class 1 0.0513 0.3649 0.0737 0.0000 0.0000 0.0000
-#&gt; Class 2 0.8156 0.9441 0.7982 0.0624 0.0384 0.1321
-#&gt; Class 3 1.0000 1.0000 1.0000 0.9806 0.9270 0.9656
+#&gt; Class 1 0.8156 0.9441 0.7982 0.0624 0.0384 0.1321
+#&gt; Class 2 1.0000 1.0000 1.0000 0.9806 0.9270 0.9656
+#&gt; Class 3 0.0513 0.3649 0.0737 0.0000 0.0000 0.0000
+#&gt; 
 #&gt; Rho (Y = 2) :
 #&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE
-#&gt; Class 1 0.9487 0.6351 0.9263 1.0000 1.0000 1.0000
-#&gt; Class 2 0.1844 0.0559 0.2018 0.9376 0.9616 0.8679
-#&gt; Class 3 0.0000 0.0000 0.0000 0.0194 0.0730 0.0344</div><div class='input'><span class='kw'>mglcr</span> <span class='op'>=</span> <span class='fu'><a href='glca.html'>glca</a></span>(<span class='fu'><a href='item.html'>item</a></span>(<span class='kw'>DEFECT</span>, <span class='kw'>HLTH</span>, <span class='kw'>RAPE</span>, <span class='kw'>POOR</span>, <span class='kw'>SINGLE</span>, <span class='kw'>NOMORE</span>) <span class='op'>~</span> <span class='kw'>AGE</span>,
+#&gt; Class 1 0.1844 0.0559 0.2018 0.9376 0.9616 0.8679
+#&gt; Class 2 0.0000 0.0000 0.0000 0.0194 0.0730 0.0344
+#&gt; Class 3 0.9487 0.6351 0.9263 1.0000 1.0000 1.0000</div><div class='input'><span class='kw'>mglcr</span> <span class='op'>=</span> <span class='fu'><a href='glca.html'>glca</a></span>(<span class='fu'><a href='item.html'>item</a></span>(<span class='kw'>DEFECT</span>, <span class='kw'>HLTH</span>, <span class='kw'>RAPE</span>, <span class='kw'>POOR</span>, <span class='kw'>SINGLE</span>, <span class='kw'>NOMORE</span>) <span class='op'>~</span> <span class='kw'>AGE</span>,
              group = <span class='kw'>SEX</span>, data = <span class='kw'>gss08</span>, nclass = <span class='fl'>3</span>)
 </div><div class='output co'>#&gt; <span class='error'>Error: `levels.haven_labelled()` not supported.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>mglcr</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in summary(mglcr): object 'mglcr' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>mglcr</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in coef(mglcr): object 'mglcr' not found</span></div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in summary(mglcr): 객체 'mglcr'를 찾을 수 없습니다</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='kw'>mglcr</span>)
+</div><div class='output co'>#&gt; <span class='error'>Error in coef(mglcr): 객체 'mglcr'를 찾을 수 없습니다</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

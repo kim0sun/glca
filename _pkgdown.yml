@@ -10,7 +10,7 @@ reference:
     desc: "Exported functions for fitting \\code{glca} model and conduct goodness-of-fit test."
     contents:
       - '`glca`'
-      - '`glca.gof`'
+      - '`gofglca`'
       - '`item`'
   - title: "Generic Functions"
     desc: "Several generic functions for \\code{glca} class."
