@@ -12,6 +12,7 @@ gofglca(
   criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
   maxiter = 500,
   eps = 1e-04,
+  seed = NULL,
   verbose = FALSE
 )
 }
@@ -29,6 +30,8 @@ gofglca(
 \item{maxiter}{an integer for maximum number of iteration for bootstrap sample.}
 
 \item{eps}{positive convergence tolerance for bootstrap sample.}
+
+\item{seed}{As the same value for seed guarantees the same datasets to be generated, this argument can be used for reproducibility of bootstrap results.}
 
 \item{verbose}{an logical value for whether or not to print the result of a function's execution.}
 }

@@ -9,6 +9,7 @@
 #' @param criteria a character vector indicating criteria to be printed.
 #' @param maxiter an integer for maximum number of iteration for bootstrap sample.
 #' @param eps positive convergence tolerance for bootstrap sample.
+#' @param seed As the same value for seed guarantees the same datasets to be generated, this argument can be used for reproducibility of bootstrap results.
 #' @param verbose an logical value for whether or not to print the result of a function's execution.
 #'
 #' @return
@@ -72,7 +73,7 @@
 gofglca <- function(
    object, ..., test = NULL, nboot = 50,
    criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
-   maxiter = 500, eps = 1e-4, seed = 0, verbose = FALSE
+   maxiter = 500, eps = 1e-4, seed = NULL, verbose = FALSE
 )
 {
    # Check_class
@@ -126,8 +127,9 @@ gofglca <- function(
    colnames(gtable) <- c(criteria, "Res.Df", "Gsq")
    rownames(gtable) <- ord
 
-   # seed
-   if (seed >= 0) set.seed(seed)
+   # random seed
+   if (is.null(seed)) set.seed(runif(1, 0, .Machine$integer.max))
+   else set.seed(seed)
 
    if (!is.null(test)) {
       # Bootstrap
