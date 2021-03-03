@@ -128,7 +128,7 @@ gofglca <- function(
    rownames(gtable) <- ord
 
    # random seed
-   if (is.null(seed)) set.seed(runif(1, 0, .Machine$integer.max))
+   if (is.null(seed)) set.seed(stats::runif(1, 0, .Machine$integer.max))
    else set.seed(seed)
 
    if (!is.null(test)) {

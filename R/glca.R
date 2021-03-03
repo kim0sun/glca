@@ -117,7 +117,7 @@ glca <- function(
    terms <- attr(mf, "terms")
 
    # random seed
-   if (is.null(seed)) set.seed(runif(1, 0, .Machine$integer.max))
+   if (is.null(seed)) set.seed(stats::runif(1, 0, .Machine$integer.max))
    else set.seed(seed)
 
    # Ecoding arguments (model, datalist, vname)
