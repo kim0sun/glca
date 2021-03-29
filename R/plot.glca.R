@@ -168,7 +168,7 @@ plot.glca <- function(x, ask = TRUE, ...)
                          col = grDevices::gray.colors(nrow(prev)),
                          las = 1)
          legend("topleft", inset = c(1, 0), legend = rownames(prev),
-                fill = grDevices::gray.colors(ncol(prev)),
+                fill = grDevices::gray.colors(nrow(prev)),
                 xpd = TRUE, bg = "white")
          grDevices::dev.flush()
       }
