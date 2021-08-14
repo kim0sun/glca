@@ -321,7 +321,7 @@ List GetUDPostX(List y,
                         if (c1 == c2) ind = 1.0;
                         else ind = 0.0;
                         double value = postw * gamma_w(i, c1) *
-                           (gamma_w(i, c2) - ind) * x_g(i, p1) * z_g(i, q1);
+                           (gamma_w(i, c2) - ind) * z_g(i, p1) * z_g(i, q1);
                         hess(w * (C - 1) * P + c2 * P + p1,
                              W * (C - 1) * P + c1 * Q + q1) += value;
                         hess(W * (C - 1) * P + c1 * Q + q1,
