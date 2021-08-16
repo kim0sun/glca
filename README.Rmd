@@ -20,18 +20,19 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg)](https://github.com/kim0sun/glca/actions)
 <!-- badges: end -->
 
-Fits latent class analysis (LCA) including group variable and covariates. The group variable can be handled either by multilevel LCA described in Vermunt (2003) <DOI:10.1111/j.0081-1750.2003.t01-1-00131.x> or standard LCA at each level of group variable. The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al. (1997) <DOI:10.1080/01621459.1997.10473658>).
+Latent class analysis (LCA) is one of the most popular discrete mixture models for classifying individuals based on their responses to multiple manifest items. When there are existing subgroups in the data representing different populations, researchers are often interested in comparing certain aspects of latent class structure across these groups in LCA approach. In multiple-group LCA models, individuals are dependent owing to multilevel data structure, where observation units (i.e., individuals) are nested within a higher-level unit (i.e., group). This paper describes the implementation of multiple-group LCA in the R package *glca* for exploring differences in latent class structure between populations, taking multilevel data structure into account. The package *glca* deals with the fixed effect LCA and the random effect LCA; the former can be applied in the situation where populations are segmented by the observed group variable itself, whereas the latter can be used when there are too many levels in the group variable to make a meaningful group comparisons. After a brief introduction in these two-types of multiple-group LCA models, we provide the statistical framework, estimation methods, and statistical test procedures implemented in the package *glca* A description of the available functions is followed by two practical examples in order to provide R users with utilities for multiple-group LCA.
+
 
 ## Installation
 You can install the released version of glca from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
+``` {r, eval = FALSE}
 install.packages("glca")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
-``` r
+``` {r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("kim0sun/glca")
 ```
