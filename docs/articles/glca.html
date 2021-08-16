@@ -81,7 +81,8 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/">glca</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/">glca</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div id="example-1---attitude-toward-abortion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-1---attitude-toward-abortion" class="anchor"></a>Example (1) - Attitude toward abortion</h2>
@@ -102,9 +103,8 @@
 <span class="co">#&gt;  $ DEGREE: Factor w/ 4 levels "&lt;= HS","HIGH SCHOOL",..: 2 2 1 4 3 2 3 3 2 3 ...</span>
 <span class="co">#&gt;  $ REGION: Factor w/ 9 levels "NEW ENGLAND",..: 2 2 2 2 2 2 2 2 2 2 ...</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">lca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
-           data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">lca2</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
+            data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
 <span class="co">#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
 <span class="co">#&gt; </span>
@@ -112,25 +112,100 @@
 <span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
 <span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; SET : 1  .....loglik : -687.4507 </span>
-<span class="co">#&gt; SET : 2  .....loglik : -687.4486 </span>
-<span class="co">#&gt; SET : 3  .....loglik : -687.4487 </span>
-<span class="co">#&gt; SET : 4  .....loglik : -687.4695 </span>
-<span class="co">#&gt; SET : 5  .....loglik : -698.2119 </span>
+<span class="co">#&gt; SET : 1  ..loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 2  ....loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 3  ....loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 4  ..loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 5  ...loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -740.6852 </span>
+<span class="co">#&gt; SET : 7  ....loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 8  .loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 9  ...loglik : -740.1018 </span>
+<span class="co">#&gt; SET : 10 ..loglik : -740.1018 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 1 (-740.1018)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Standard latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  27 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 27 iteration (loglik :-740.1018)</span>
+<span class="va">lca3</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
+            data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -687.4486 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -687.4514 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -687.4723 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -687.4486 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -687.4486 </span>
 <span class="co">#&gt; SET : 6  .....loglik : -687.4486 </span>
 <span class="co">#&gt; SET : 7  .....loglik : -687.4486 </span>
-<span class="co">#&gt; SET : 8  .....loglik : -687.4486 </span>
-<span class="co">#&gt; SET : 9  .....loglik : -690.3767 </span>
+<span class="co">#&gt; SET : 8  ...loglik : -687.4486 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -687.4486 </span>
 <span class="co">#&gt; SET : 10 .....loglik : -687.4486 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Start with SET 8 (-687.4486)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Standard latent class analysis Fitting...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  62 iteration </span>
+<span class="co">#&gt;  36 iteration </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Converged at 62 iteration (loglik :-687.4486)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lca</span><span class="op">)</span>
+<span class="co">#&gt; Converged at 36 iteration (loglik :-687.4486)</span>
+<span class="va">lca4</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
+            data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -685.6 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -685.379 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -687.1817 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -687.023 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -687.4026 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -685.0221 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -685.4564 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -684.2362 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -684.3008 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -687.1667 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 8 (-684.2362)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Standard latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; .. 250 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 250 iteration (loglik :-684.1895)</span>
+
+<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca2</span>, <span class="va">lca3</span>, <span class="va">lca4</span>, test <span class="op">=</span> <span class="st">"boot"</span><span class="op">)</span>
+<span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
+<span class="co">#&gt;          nclass: 2</span>
+<span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
+<span class="co">#&gt;          nclass: 3</span>
+<span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
+<span class="co">#&gt;          nclass: 4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Goodness of Fit Table :</span>
+<span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span>
+<span class="co">#&gt; 1 -740.10 1506.20 1569.43 1556.43    0.95     50 135.13         0.00</span>
+<span class="co">#&gt; 2 -687.45 1414.90 1512.17 1492.17    0.88     43  29.83         0.54</span>
+<span class="co">#&gt; 3 -684.19 1422.38 1553.70 1526.70    0.79     36  23.31         0.46</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Analysis of Deviance Table :</span>
+<span class="co">#&gt;   npar  logLik Df Deviance Boot p-value</span>
+<span class="co">#&gt; 1   13 -740.10                         </span>
+<span class="co">#&gt; 2   20 -687.45  7   105.31          0.0</span>
+<span class="co">#&gt; 3   27 -684.19  7     6.52          0.3</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; glca(formula = item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ </span>
@@ -160,26 +235,26 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Marginal prevalences for latent classes :</span>
 <span class="co">#&gt; Class 1 Class 2 Class 3 </span>
-<span class="co">#&gt; 0.19138 0.34467 0.46396 </span>
+<span class="co">#&gt; 0.19138 0.46396 0.34467 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Class prevalences by group :</span>
 <span class="co">#&gt;     Class 1 Class 2 Class 3</span>
-<span class="co">#&gt; ALL 0.19138 0.34467 0.46396</span>
+<span class="co">#&gt; ALL 0.19138 0.46396 0.34467</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Rho (Y = 1) :</span>
 <span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
 <span class="co">#&gt; Class 1 0.0466 0.3684 0.0949 0.0000 0.0000 0.0000</span>
-<span class="co">#&gt; Class 2 0.8275 0.9453 0.7960 0.0638 0.0390 0.1344</span>
-<span class="co">#&gt; Class 3 1.0000 1.0000 1.0000 0.9813 0.9284 0.9657</span>
+<span class="co">#&gt; Class 2 1.0000 1.0000 1.0000 0.9813 0.9284 0.9657</span>
+<span class="co">#&gt; Class 3 0.8275 0.9453 0.7960 0.0638 0.0390 0.1344</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Rho (Y = 2) :</span>
 <span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
 <span class="co">#&gt; Class 1 0.9534 0.6316 0.9051 1.0000 1.0000 1.0000</span>
-<span class="co">#&gt; Class 2 0.1725 0.0547 0.2040 0.9362 0.9610 0.8656</span>
-<span class="co">#&gt; Class 3 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">lca</span><span class="op">)</span></code></pre></div>
-<p><img src="glca_files/figure-html/lca-1.png" width="700"><img src="glca_files/figure-html/lca-2.png" width="700"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<span class="co">#&gt; Class 2 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343</span>
+<span class="co">#&gt; Class 3 0.1725 0.0547 0.2040 0.9362 0.9610 0.8656</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span></code></pre></div>
+<p><img src="glca_files/figure-html/lca3-1.png" width="700"><img src="glca_files/figure-html/lca3-2.png" width="700"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Multiple-group LCA (MGLCA)</span>
 <span class="va">mglca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
              group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
@@ -191,29 +266,29 @@
 <span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
 <span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; SET : 1  .....loglik : -681.3094 </span>
-<span class="co">#&gt; SET : 2  .....loglik : -676.4049 </span>
-<span class="co">#&gt; SET : 3  .....loglik : -672.4141 </span>
-<span class="co">#&gt; SET : 4  .....loglik : -672.4141 </span>
-<span class="co">#&gt; SET : 5  .....loglik : -672.4144 </span>
-<span class="co">#&gt; SET : 6  .....loglik : -672.414 </span>
-<span class="co">#&gt; SET : 7  .....loglik : -681.3629 </span>
-<span class="co">#&gt; SET : 8  .....loglik : -672.4139 </span>
-<span class="co">#&gt; SET : 9  .....loglik : -681.2515 </span>
-<span class="co">#&gt; SET : 10 .....loglik : -672.4139 </span>
+<span class="co">#&gt; SET : 1  .....loglik : -672.4138 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -672.4139 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -672.4369 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -672.4188 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -672.4434 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -680.9979 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -676.3935 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -672.4368 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -672.4141 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -672.4157 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Start with SET 8 (-672.4139)</span>
+<span class="co">#&gt; Start with SET 1 (-672.4138)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Multiple-group latent class analysis Fitting...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  77 iteration </span>
+<span class="co">#&gt;  67 iteration </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Converged at 77 iteration (loglik :-672.4138)</span>
+<span class="co">#&gt; Converged at 67 iteration (loglik :-672.4138)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mglca</span><span class="op">)</span></code></pre></div>
 <p><img src="glca_files/figure-html/mglca-1.png" width="700"><img src="glca_files/figure-html/mglca-2.png" width="700"><img src="glca_files/figure-html/mglca-3.png" width="700"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Multiple-group LCA with covariate(s) (MGLCR)</span>
-<span class="va">mglcr</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>,
+<span class="va">mglcr1</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>,
              group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
 <span class="co">#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
@@ -225,31 +300,93 @@
 <span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
 <span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; SET : 1  .....loglik : -666.71 </span>
-<span class="co">#&gt; SET : 2  .....loglik : -666.7097 </span>
-<span class="co">#&gt; SET : 3  .....loglik : -666.7118 </span>
-<span class="co">#&gt; SET : 4  .....loglik : -666.71 </span>
-<span class="co">#&gt; SET : 5  .....loglik : -666.7099 </span>
-<span class="co">#&gt; SET : 6  .....loglik : -666.7106 </span>
-<span class="co">#&gt; SET : 7  .....loglik : -666.7106 </span>
+<span class="co">#&gt; SET : 1  .....loglik : -666.7128 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -669.7899 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -666.7104 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -677.664 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -666.7097 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -666.7102 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -666.7104 </span>
 <span class="co">#&gt; SET : 8  .....loglik : -666.7097 </span>
-<span class="co">#&gt; SET : 9  .....loglik : -666.7098 </span>
-<span class="co">#&gt; SET : 10 .....loglik : -666.7102 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -666.7097 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -666.7099 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Start with SET 8 (-666.7097)</span>
+<span class="co">#&gt; Start with SET 9 (-666.7097)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Multiple-group latent class analysis Fitting...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  85 iteration </span>
+<span class="co">#&gt;  72 iteration </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Converged at 85 iteration (loglik :-666.7097)</span>
-<span class="co">#coef(mglcr)</span></code></pre></div>
+<span class="co">#&gt; Converged at 72 iteration (loglik :-666.7097)</span>
+<span class="va">mglcr2</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>,
+             group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, coeff.inv <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
+<span class="co">#&gt; Grouping variable : DEGREE </span>
+<span class="co">#&gt; Covariates (Level 1) : </span>
+<span class="co">#&gt;  SEX </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 3 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -662.0445 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -662.0445 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -662.0445 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -673.1904 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -662.0444 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -665.461 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -662.0446 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -662.0707 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -662.0444 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -662.4523 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 5 (-662.0444)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Multiple-group latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  65 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 65 iteration (loglik :-662.0444)</span>
+<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">mglca</span>, <span class="va">mglcr1</span>, <span class="va">mglcr2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span>
+<span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
+<span class="co">#&gt;          Group: DEGREE, nclass: 3, Meas.inv: TRUE</span>
+<span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span>
+<span class="co">#&gt;          Group: DEGREE, nclass: 3, Meas.inv: TRUE, Coef.inv: TRUE</span>
+<span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span>
+<span class="co">#&gt;          Group: DEGREE, nclass: 3, Meas.inv: TRUE, Coef.inv: FALSE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Goodness of Fit Table :</span>
+<span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq</span>
+<span class="co">#&gt; 1 -672.41 1396.83 1523.28 1497.28    0.88    229  87.85</span>
+<span class="co">#&gt; 2 -666.71 1389.42 1525.60 1497.60    0.88    323 149.97</span>
+<span class="co">#&gt; 3 -662.04 1392.09 1557.45 1523.45    0.88    317 140.64</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Analysis of Deviance Table :</span>
+<span class="co">#&gt;   npar  logLik Df Deviance Pr(&gt;Chi)</span>
+<span class="co">#&gt; 1   26 -672.41                     </span>
+<span class="co">#&gt; 2   28 -666.71  2    11.41     0.00</span>
+<span class="co">#&gt; 3   34 -662.04  6     9.33     0.16</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">mglcr1</span><span class="op">)</span>
+<span class="co">#&gt; Coefficients :</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Class 1 / 3 :</span>
+<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span>
+<span class="co">#&gt; SEXFEMALE    0.32824    -1.11400     0.09062   -12.29    &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Class 2 / 3 :</span>
+<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span>
+<span class="co">#&gt; SEXFEMALE    0.35678    -1.03064     0.09971   -10.34    &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
 </div>
 <div id="example-2---tobacco-smoking-behavior" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-2---tobacco-smoking-behavior" class="anchor"></a>Example (2) - Tobacco smoking behavior</h2>
 <p>The dataset <em>nyts18</em> comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (ECIGT), cigars (ECIGAR), chewing tobacco/snuff/or dip (ESLT), electronic cigarettes (EELCIGT), and hookah or water pipe (EHOOKAH) taken from the National Youth Tobacco Survey 2018 (NYTS 2018, <a href="https://www.cdc.gov/tobacco/data_statistics/surveys/nyts" class="uri">https://www.cdc.gov/tobacco/data_statistics/surveys/nyts</a>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by SCH_ID and each school is classified as either middle or high school (SCH_LEV).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nyts18"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">)</span>
 <span class="co">#&gt; 'data.frame':    1734 obs. of  8 variables:</span>
@@ -261,10 +398,10 @@
 <span class="co">#&gt;  $ SEX    : Factor w/ 2 levels "Male","Female": 2 1 1 1 1 2 1 2 1 2 ...</span>
 <span class="co">#&gt;  $ SCH_ID : Factor w/ 45 levels "d3c3dc","12d5ad",..: 11 11 11 11 11 11 11 11 11 11 ...</span>
 <span class="co">#&gt;  $ SCH_LEV: Factor w/ 2 levels "High School",..: 1 1 1 1 1 1 1 1 1 1 ...</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Multilevel LCA (MLCA)</span>
-<span class="va">mlca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
-            data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="va">mlca2</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
+             data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
 <span class="co">#&gt;  ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
 <span class="co">#&gt; Grouping variable : SCH_ID </span>
@@ -273,29 +410,105 @@
 <span class="co">#&gt; 0 observation(s) for missing all manifest items</span>
 <span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; SET : 1  .....loglik : -1964.907 </span>
-<span class="co">#&gt; SET : 2  .....loglik : -1955.492 </span>
-<span class="co">#&gt; SET : 3  .....loglik : -1957.489 </span>
-<span class="co">#&gt; SET : 4  .....loglik : -1955.489 </span>
-<span class="co">#&gt; SET : 5  .....loglik : -1982.427 </span>
-<span class="co">#&gt; SET : 6  .....loglik : -1955.503 </span>
-<span class="co">#&gt; SET : 7  .....loglik : -1961.439 </span>
-<span class="co">#&gt; SET : 8  .....loglik : -1956.669 </span>
-<span class="co">#&gt; SET : 9  .....loglik : -1957.428 </span>
-<span class="co">#&gt; SET : 10 .....loglik : -1955.495 </span>
+<span class="co">#&gt; SET : 1  .....loglik : -1956.444 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -1955.49 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -1958.1 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -1968.764 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -1975.406 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -1955.488 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -1961.303 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -1980.761 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -1955.503 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -1960.374 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Start with SET 4 (-1955.489)</span>
+<span class="co">#&gt; Start with SET 6 (-1955.488)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Nonparametric multilevel latent class analysis Fitting...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; . 120 iteration </span>
+<span class="co">#&gt; . 102 iteration </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Converged at 120 iteration (loglik :-1955.487)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlca</span><span class="op">)</span>
+<span class="co">#&gt; Converged at 102 iteration (loglik :-1955.487)</span>
+<span class="va">mlca3</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
+             data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
+<span class="co">#&gt; Grouping variable : SCH_ID </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 0 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -1953.371 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -1939.774 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -1938.774 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -1947.684 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -1973.727 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -1938.773 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -1938.773 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -1940.134 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -1938.784 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -1938.796 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 6 (-1938.773)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Nonparametric multilevel latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; . 133 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 133 iteration (loglik :-1938.731)</span>
+<span class="va">mlca4</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
+             data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
+<span class="co">#&gt; Grouping variable : SCH_ID </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 0 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -1939.399 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -1944.082 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -1962.635 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -1941.152 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -1940.113 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -1960.983 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -1938.776 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -1938.81 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -1938.419 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -1938.737 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 9 (-1938.419)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Nonparametric multilevel latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ... 371 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 371 iteration (loglik :-1938.298)</span>
+<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">mlca2</span>, <span class="va">mlca3</span>, <span class="va">mlca4</span>, test <span class="op">=</span> <span class="st">"boot"</span><span class="op">)</span>
+<span class="co">#&gt; Model 1: item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1</span>
+<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2</span>
+<span class="co">#&gt; Model 2: item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1</span>
+<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 3</span>
+<span class="co">#&gt; Model 3: item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1</span>
+<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Goodness of Fit Table :</span>
+<span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span>
+<span class="co">#&gt; 1 -1955.49 3950.97 4080.14 4060.14    0.84   1419 768.50         0.06</span>
+<span class="co">#&gt; 2 -1938.73 3923.46 4072.00 4049.00    0.84   1416 734.99         0.24</span>
+<span class="co">#&gt; 3 -1938.30 3928.60 4096.51 4070.51    0.84   1413 734.13         0.14</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Analysis of Deviance Table :</span>
+<span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span>
+<span class="co">#&gt; 1   20 -1955.49                         </span>
+<span class="co">#&gt; 2   23 -1938.73  3    33.51         0.00</span>
+<span class="co">#&gt; 3   26 -1938.30  3     0.87         0.58</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlca3</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; glca(formula = item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ </span>
-<span class="co">#&gt;     1, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)</span>
+<span class="co">#&gt;     1, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Manifest items : ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
 <span class="co">#&gt; Grouping variable : SCH_ID </span>
@@ -311,45 +524,46 @@
 <span class="co">#&gt; Model : Nonparametric multilevel latent class analysis </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of latent classes : 3 </span>
-<span class="co">#&gt; Number of latent clusters : 2 </span>
+<span class="co">#&gt; Number of latent clusters : 3 </span>
 <span class="co">#&gt; Number of groups : 45 </span>
 <span class="co">#&gt; Number of observations : 1734 </span>
-<span class="co">#&gt; Number of parameters : 20 </span>
+<span class="co">#&gt; Number of parameters : 23 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; log-likelihood : -1955.487 </span>
-<span class="co">#&gt;      G-squared : 768.5035 </span>
-<span class="co">#&gt;            AIC : 3950.973 </span>
-<span class="co">#&gt;            BIC : 4060.137 </span>
+<span class="co">#&gt; log-likelihood : -1938.731 </span>
+<span class="co">#&gt;      G-squared : 734.9932 </span>
+<span class="co">#&gt;            AIC : 3923.463 </span>
+<span class="co">#&gt;            BIC : 4049.001 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Marginal prevalences for latent classes :</span>
 <span class="co">#&gt; Class 1 Class 2 Class 3 </span>
-<span class="co">#&gt; 0.05961 0.17079 0.76960 </span>
+<span class="co">#&gt; 0.17747 0.06001 0.76252 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Marginal prevalences for latent clusters :</span>
-<span class="co">#&gt; Cluster 1 Cluster 2 </span>
-<span class="co">#&gt;    0.3793    0.6207 </span>
+<span class="co">#&gt; Cluster 1 Cluster 2 Cluster 3 </span>
+<span class="co">#&gt;   0.30084   0.46231   0.23685 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Class prevalences by cluster :</span>
 <span class="co">#&gt;           Class 1 Class 2 Class 3</span>
-<span class="co">#&gt; Cluster 1 0.14137 0.34687 0.51176</span>
-<span class="co">#&gt; Cluster 2 0.00876 0.06130 0.92994</span>
+<span class="co">#&gt; Cluster 1 0.21070 0.05396 0.73534</span>
+<span class="co">#&gt; Cluster 2 0.03700 0.00114 0.96186</span>
+<span class="co">#&gt; Cluster 3 0.40873 0.18007 0.41120</span>
 <span class="co">#&gt; Rho (Y = 1) :</span>
 <span class="co">#&gt;          ECIGT ECIGAR   ESLT EELCIGT EHOOKAH</span>
-<span class="co">#&gt; Class 1 0.9112 0.9750 0.5651  0.9778  0.5363</span>
-<span class="co">#&gt; Class 2 0.3488 0.2006 0.1236  0.7783  0.0443</span>
-<span class="co">#&gt; Class 3 0.0062 0.0043 0.0088  0.0413  0.0057</span>
+<span class="co">#&gt; Class 1 0.3451 0.1901 0.1282  0.7489  0.0450</span>
+<span class="co">#&gt; Class 2 0.9058 0.9898 0.5542  0.9780  0.5266</span>
+<span class="co">#&gt; Class 3 0.0040 0.0034 0.0073  0.0414  0.0057</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Rho (Y = 2) :</span>
 <span class="co">#&gt;          ECIGT ECIGAR   ESLT EELCIGT EHOOKAH</span>
-<span class="co">#&gt; Class 1 0.0888 0.0250 0.4349  0.0222  0.4637</span>
-<span class="co">#&gt; Class 2 0.6512 0.7994 0.8764  0.2217  0.9557</span>
-<span class="co">#&gt; Class 3 0.9938 0.9957 0.9912  0.9587  0.9943</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mlca</span><span class="op">)</span></code></pre></div>
-<p><img src="glca_files/figure-html/mlca-1.png" width="700"><img src="glca_files/figure-html/mlca-2.png" width="700"><img src="glca_files/figure-html/mlca-3.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<span class="co">#&gt; Class 1 0.6549 0.8099 0.8718  0.2511  0.9550</span>
+<span class="co">#&gt; Class 2 0.0942 0.0102 0.4458  0.0220  0.4734</span>
+<span class="co">#&gt; Class 3 0.9960 0.9966 0.9927  0.9586  0.9943</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mlca3</span><span class="op">)</span></code></pre></div>
+<p><img src="glca_files/figure-html/mlca2-1.png" width="700"><img src="glca_files/figure-html/mlca2-2.png" width="700"><img src="glca_files/figure-html/mlca2-3.png" width="700"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## MLCA with covariate(s) (MLCR)</span>
 <span class="co"># (SEX: level-1 covariate, SCH_LEV: level-2 covariate)</span>
-<span class="va">mlcr</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>,
+<span class="va">mlcr2</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>,
             group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
 <span class="co">#&gt;  ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
@@ -363,25 +577,73 @@
 <span class="co">#&gt; 0 observation(s) for missing all manifest items</span>
 <span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; SET : 1  .....loglik : -1921.221 </span>
-<span class="co">#&gt; SET : 2  .....loglik : -1920.369 </span>
-<span class="co">#&gt; SET : 3  .....loglik : -1921.918 </span>
-<span class="co">#&gt; SET : 4  .....loglik : -1942.599 </span>
-<span class="co">#&gt; SET : 5  .....loglik : -1921.036 </span>
-<span class="co">#&gt; SET : 6  .....loglik : -1919.944 </span>
-<span class="co">#&gt; SET : 7  .....loglik : -1920.016 </span>
-<span class="co">#&gt; SET : 8  .....loglik : -1919.938 </span>
-<span class="co">#&gt; SET : 9  .....loglik : -1945.632 </span>
-<span class="co">#&gt; SET : 10 .....loglik : -1920.162 </span>
+<span class="co">#&gt; SET : 1  .....loglik : -1919.948 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -1926.664 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -1919.94 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -1946.363 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -1919.943 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -1920.86 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -1921.759 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -1919.943 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -1921.369 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -1919.939 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Start with SET 8 (-1919.938)</span>
+<span class="co">#&gt; Start with SET 10 (-1919.939)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Nonparametric multilevel latent class analysis Fitting...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; . 178 iteration </span>
+<span class="co">#&gt; . 185 iteration </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Converged at 178 iteration (loglik :-1919.937)</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">mlcr</span><span class="op">)</span>
+<span class="co">#&gt; Converged at 185 iteration (loglik :-1919.937)</span>
+<span class="va">mlcr3</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>,
+            group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; Manifest items :</span>
+<span class="co">#&gt;  ECIGT ECIGAR ESLT EELCIGT EHOOKAH </span>
+<span class="co">#&gt; Grouping variable : SCH_ID </span>
+<span class="co">#&gt; Covariates (Level 2) : </span>
+<span class="co">#&gt;  SCH_LEV </span>
+<span class="co">#&gt; Covariates (Level 1) : </span>
+<span class="co">#&gt;  SEX </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deleted observation(s) : </span>
+<span class="co">#&gt; 0 observation(s) for missing all manifest items</span>
+<span class="co">#&gt; 0 observation(s) for missing at least 1 covariates</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SET : 1  .....loglik : -1926.891 </span>
+<span class="co">#&gt; SET : 2  .....loglik : -1920.832 </span>
+<span class="co">#&gt; SET : 3  .....loglik : -1935.194 </span>
+<span class="co">#&gt; SET : 4  .....loglik : -1919.947 </span>
+<span class="co">#&gt; SET : 5  .....loglik : -1939.573 </span>
+<span class="co">#&gt; SET : 6  .....loglik : -1928.783 </span>
+<span class="co">#&gt; SET : 7  .....loglik : -1923.666 </span>
+<span class="co">#&gt; SET : 8  .....loglik : -1921.21 </span>
+<span class="co">#&gt; SET : 9  .....loglik : -1924.05 </span>
+<span class="co">#&gt; SET : 10 .....loglik : -1921.427 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Start with SET 4 (-1919.947)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Nonparametric multilevel latent class analysis Fitting...</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; .. 212 iteration </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Converged at 212 iteration (loglik :-1919.937)</span>
+<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">mlcr2</span>, <span class="va">mlcr3</span>, test <span class="op">=</span> <span class="st">"boot"</span><span class="op">)</span>
+<span class="co">#&gt; Model 1: item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV</span>
+<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2, Coef.inv: TRUE</span>
+<span class="co">#&gt; Model 2: item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV</span>
+<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2, Coef.inv: TRUE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Goodness of Fit Table :</span>
+<span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df     Gsq Boot p-value</span>
+<span class="co">#&gt; 1 -1919.94 3887.87 4042.87 4018.87    0.83   1709 1052.54         0.14</span>
+<span class="co">#&gt; 2 -1919.94 3887.87 4042.87 4018.87    0.83   1709 1052.54         0.16</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Analysis of Deviance Table :</span>
+<span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span>
+<span class="co">#&gt; 1   24 -1919.94                         </span>
+<span class="co">#&gt; 2   24 -1919.94  0        0         0.42</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">mlcr2</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Level 1 Coefficients :</span>
 <span class="co">#&gt; </span>
@@ -400,13 +662,15 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Class 1 / 3 :</span>
 <span class="co">#&gt;                      Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span>
-<span class="co">#&gt; SCH_LEVMiddle School     7.0439      1.9522      0.4185    4.665  3.33e-06 ***</span>
+<span class="co">#&gt; SCH_LEVMiddle School     7.0438      1.9522      0.4185    4.665  3.33e-06 ***</span>
 <span class="co">#&gt; ---</span>
 <span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Class 2 / 3 :</span>
 <span class="co">#&gt;                      Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)</span>
-<span class="co">#&gt; SCH_LEVMiddle School     0.5415     -0.6134      0.6587   -0.931     0.352</span></code></pre></div>
+<span class="co">#&gt; SCH_LEVMiddle School     0.5415     -0.6134      0.6587   -0.931     0.352</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mlcr2</span><span class="op">)</span></code></pre></div>
+<p><img src="glca_files/figure-html/mlcr2-1.png" width="700"><img src="glca_files/figure-html/mlcr2-2.png" width="700"><img src="glca_files/figure-html/mlcr2-3.png" width="700"></p>
 </div>
   </div>
 
