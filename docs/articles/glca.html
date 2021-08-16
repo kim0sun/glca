@@ -85,12 +85,27 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/">glca</a></span><span class="op">)</span></code></pre></div>
-<div id="example" class="section level2">
+<div id="example-1---attitude-toward-abortion" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#example-1---attitude-toward-abortion" class="anchor"></a>Example (1) - Attitude toward abortion</h2>
+<p>The dataset <em>gss08</em> taken from the 2008 General Social Survey (Smith et al., 2010) includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (DEFECT), pregnancy is seriously endangering the woman’s health (HLTH), pregnancy as a result of rape (RAPE), due to low income, the family cannot afford any more children (POOR), woman is unmarried and has no plans to marry the man (SINGLE), and woman is married but does not want more children (NOMORE). Each item has two possible levels of response (i.e., “YES” or “NO”). <em>gss08</em> also include five covariates: AGE, GENDER, RACE, DEGREE and REGION of respondents.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gss08"</span><span class="op">)</span>
-<span class="co">## LCA</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">gss08</span><span class="op">)</span>
+<span class="co">#&gt; 'data.frame':    355 obs. of  11 variables:</span>
+<span class="co">#&gt;  $ DEFECT: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
+<span class="co">#&gt;  $ HLTH  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
+<span class="co">#&gt;  $ RAPE  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
+<span class="co">#&gt;  $ POOR  : Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 1 1 ...</span>
+<span class="co">#&gt;  $ SINGLE: Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 NA 1 ...</span>
+<span class="co">#&gt;  $ NOMORE: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 NA 1 1 ...</span>
+<span class="co">#&gt;  $ AGE   : num  32 21 56 40 62 71 58 36 52 78 ...</span>
+<span class="co">#&gt;  $ SEX   : Factor w/ 2 levels "MALE","FEMALE": 1 2 2 1 2 1 2 1 1 2 ...</span>
+<span class="co">#&gt;  $ RACE  : Factor w/ 3 levels "WHITE","BLACK",..: 2 2 2 2 1 2 2 1 1 1 ...</span>
+<span class="co">#&gt;  $ DEGREE: Factor w/ 4 levels "&lt;= HS","HIGH SCHOOL",..: 2 2 1 4 3 2 3 3 2 3 ...</span>
+<span class="co">#&gt;  $ REGION: Factor w/ 9 levels "NEW ENGLAND",..: 2 2 2 2 2 2 2 2 2 2 ...</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="va">lca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
            data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
@@ -167,7 +182,7 @@
 <span class="co">#&gt; Class 3 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">lca</span><span class="op">)</span></code></pre></div>
 <p><img src="glca_files/figure-html/lca-1.png" width="700"><img src="glca_files/figure-html/lca-2.png" width="700"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Multiple-group LCA (MGLCA)</span>
 <span class="va">mglca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
              group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
@@ -199,7 +214,7 @@
 <span class="co">#&gt; Converged at 77 iteration (loglik :-672.4138)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mglca</span><span class="op">)</span></code></pre></div>
 <p><img src="glca_files/figure-html/mglca-1.png" width="700"><img src="glca_files/figure-html/mglca-2.png" width="700"><img src="glca_files/figure-html/mglca-3.png" width="700"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Multiple-group LCA with covariate(s) (MGLCR)</span>
 <span class="va">mglcr</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>,
              group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
@@ -232,9 +247,25 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Converged at 85 iteration (loglik :-666.7097)</span>
 <span class="co">#coef(mglcr)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+</div>
+<div id="example-2---tobacco-smoking-behavior" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-2---tobacco-smoking-behavior" class="anchor"></a>Example (2) - Tobacco smoking behavior</h2>
+<p>The dataset <em>nyts18</em> comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (ECIGT), cigars (ECIGAR), chewing tobacco/snuff/or dip (ESLT), electronic cigarettes (EELCIGT), and hookah or water pipe (EHOOKAH) taken from the National Youth Tobacco Survey 2018 (NYTS 2018, &lt;<a href="https://www.cdc.gov/tobacco/" class="uri">https://www.cdc.gov/tobacco/</a> data_statistics/surveys/nyts&gt;). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by SCH_ID and each school is classified as either middle or high school (SCH_LEV).</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nyts18"</span><span class="op">)</span>
-<span class="co">## Multilevel LCA (MLCA)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">)</span>
+<span class="co">#&gt; 'data.frame':    1734 obs. of  8 variables:</span>
+<span class="co">#&gt;  $ ECIGT  : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
+<span class="co">#&gt;  $ ECIGAR : Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span>
+<span class="co">#&gt;  $ ESLT   : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
+<span class="co">#&gt;  $ EELCIGT: Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span>
+<span class="co">#&gt;  $ EHOOKAH: Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
+<span class="co">#&gt;  $ SEX    : Factor w/ 2 levels "Male","Female": 2 1 1 1 1 2 1 2 1 2 ...</span>
+<span class="co">#&gt;  $ SCH_ID : Factor w/ 45 levels "d3c3dc","12d5ad",..: 11 11 11 11 11 11 11 11 11 11 ...</span>
+<span class="co">#&gt;  $ SCH_LEV: Factor w/ 2 levels "High School",..: 1 1 1 1 1 1 1 1 1 1 ...</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Multilevel LCA (MLCA)</span>
 <span class="va">mlca</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
             data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; Manifest items :</span>
@@ -318,7 +349,7 @@
 <span class="co">#&gt; Class 3 0.9938 0.9957 0.9912  0.9587  0.9943</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mlca</span><span class="op">)</span></code></pre></div>
 <p><img src="glca_files/figure-html/mlca-1.png" width="700"><img src="glca_files/figure-html/mlca-2.png" width="700"><img src="glca_files/figure-html/mlca-3.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## MLCA with covariate(s) (MLCR)</span>
 <span class="co"># (SEX: level-1 covariate, SCH_LEV: level-2 covariate)</span>
 <span class="va">mlcr</span> <span class="op">=</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>,
