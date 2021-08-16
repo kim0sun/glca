@@ -8,8 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/glca)](https://CRAN.R-project.org/package=glca)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue)](https://r-pkg.org/pkg/glca)
-[![R build
-status](https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg)](https://github.com/kim0sun/glca/actions)
+[![R-CMD-check](https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg)](https://github.com/kim0sun/glca/actions)
 <!-- badges: end -->
 
 Latent class analysis (LCA) is one of the most popular discrete mixture
