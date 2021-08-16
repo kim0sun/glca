@@ -202,9 +202,9 @@ glca_em_test <- function(
                if (inherits(n_beta, "try-error")) {
                   iter <- 0L
                   init <- glca_init(model)
-                  delta <- init$delta
-                  beta  <- init$beta
-                  rho   <- init$rho
+                  n_delta <- init$delta
+                  n_beta  <- init$beta
+                  n_rho   <- init$rho
                }
 
                n_rho   <- UpRhoML(y, Post$PostC, rho, Ng, G, C, M, R)
@@ -223,7 +223,7 @@ glca_em_test <- function(
             llik[rep] <- GetUDlikX(y, delta, gamma, rho, Ng, G, W, C, M, R)
             init_list[[rep]] <- list(
                delta = delta, beta = beta, rho = rho
-               )
+            )
          }
       }
 

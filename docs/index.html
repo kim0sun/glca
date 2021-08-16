@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">glca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -79,8 +79,7 @@
 <a href="#glca" class="anchor"></a>glca</h1></div>
 <!-- badges: start -->
 
-<p>Fits latent class analysis (LCA) including group variable and covariates. The group variable can be handled either by multilevel LCA described in Vermunt (2003) <a href="DOI:10.1111/j.0081-1750.2003.t01-1-00131.x" class="uri">DOI:10.1111/j.0081-1750.2003.t01-1-00131.x</a> or standard LCA at each level of group variable. The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al.</p>
-<p>(1997) <a href="DOI:10.1080/01621459.1997.10473658" class="uri">DOI:10.1080/01621459.1997.10473658</a>).</p>
+<p>Fits latent class analysis (LCA) including group variable and covariates. The group variable can be handled either by multilevel LCA described in Vermunt (2003) <a href="DOI:10.1111/j.0081-1750.2003.t01-1-00131.x" class="uri">DOI:10.1111/j.0081-1750.2003.t01-1-00131.x</a> or standard LCA at each level of group variable. The covariates can be incorporated in the form of logistic regression (Bandeen-Roche et al. (1997) <a href="DOI:10.1080/01621459.1997.10473658" class="uri">DOI:10.1080/01621459.1997.10473658</a>).</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -91,47 +90,6 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"kim0sun/glca"</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/">glca</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gss08"</span><span class="op">)</span>
-<span class="co">## LCA</span>
-<span class="va">lca</span> <span class="op">=</span> <span class="fu"><a href="reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
-            data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#summary(lca)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">lca</span><span class="op">)</span></code></pre></div>
-<p><img src="figures/README-example-1.png" width="49%"><img src="figures/README-example-2.png" width="49%"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">## Multiple-group LCA (MGLCA)</span>
-<span class="va">mglca</span> <span class="op">=</span> <span class="fu"><a href="reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,
-             group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mglca</span><span class="op">)</span></code></pre></div>
-<p><img src="figures/README-example-3.png" width="49%"><img src="figures/README-example-4.png" width="49%"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">## Multiple-group LCA with covariate(s) (MGLCR)</span>
-<span class="va">mglcr</span> <span class="op">=</span> <span class="fu"><a href="reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>,
-             group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#coef(mglcr)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nyts18"</span><span class="op">)</span>
-<span class="co">## Multilevel LCA (MLCA)</span>
-<span class="va">mlca</span> <span class="op">=</span> <span class="fu"><a href="reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, 
-            data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#summary(mlca)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">mlca</span><span class="op">)</span></code></pre></div>
-<p><img src="figures/README-example-5.png" width="49%"><img src="figures/README-example-6.png" width="49%"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">## MLCA with covariate(s) (MLCR)</span>
-<span class="co"># (SEX: level-1 covariate, SCH_LEV: level-2 covariate)</span>
-<span class="va">mlcr</span> <span class="op">=</span> <span class="fu"><a href="reference/glca.html">glca</a></span><span class="op">(</span><span class="fu"><a href="reference/item.html">item</a></span><span class="op">(</span><span class="va">ECIGT</span>, <span class="va">ECIGAR</span>, <span class="va">ESLT</span>, <span class="va">EELCIGT</span>, <span class="va">EHOOKAH</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>,
-            data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#coef(mlcr)</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -174,9 +132,7 @@
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=glca"><img src="https://www.r-pkg.org/badges/version/glca" alt="CRAN status"></a></li>
 <li><a href="https://r-pkg.org/pkg/glca"><img src="https://cranlogs.r-pkg.org/badges/grand-total/glca?color=blue" alt="Downloads"></a></li>
-<li><a href="https://codecov.io/gh/kim0sun/glca?branch=master"><img src="https://codecov.io/gh/kim0sun/glca/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://github.com/kim0sun/glca/actions"><img src="https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://travis-ci.com/kim0sun/glca"><img src="https://travis-ci.com/kim0sun/glca.svg?branch=master" alt="Travis build status"></a></li>
 </ul>
 </div>
 </div>
