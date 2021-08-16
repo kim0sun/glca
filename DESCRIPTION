@@ -1,7 +1,7 @@
 Package: glca
 Type: Package
-Title: Estimating a Group-Effect in Latent Class Analysis
-Date: 2021-03-29
+Title: An R Package for Multiple-Group Latent Class Analysis
+Date: 2021-08-16
 Version: 1.3.0
 Authors@R: 
    c(person("Youngsun", "Kim", email = "kim0sun@korea.ac.kr", role = c("aut", "cre")),

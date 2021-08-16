@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message = FALSE, warning = FALSE}
 library(glca)
+set.seed(1)
 ```
 
 ## Example (1) - Attitude toward abortion
@@ -27,12 +28,20 @@ data("gss08")
 str(gss08)
 ```
 
-```{r lca}
-set.seed(1)
-lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-           data = gss08, nclass = 3)
-summary(lca)
-plot(lca)
+```{r lca, cache = TRUE}
+lca2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss08, nclass = 2)
+lca3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss08, nclass = 3)
+lca4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+            data = gss08, nclass = 4)
+
+gofglca(lca2, lca3, lca4, test = "boot")
+```
+
+```{r lca3}
+summary(lca3)
+plot(lca3)
 ```
 
 ```{r mglca}
@@ -41,32 +50,49 @@ mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
              group = DEGREE, data = gss08, nclass = 3)
 plot(mglca)
 ## Multiple-group LCA with covariate(s) (MGLCR)
-mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
+mglcr1 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
              group = DEGREE, data = gss08, nclass = 3)
-#coef(mglcr)
+mglcr2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
+             group = DEGREE, data = gss08, nclass = 3, coeff.inv = FALSE)
+gofglca(mglca, mglcr1, mglcr2, test = "chisq")
+coef(mglcr1)
 ```
 
 ## Example (2) - Tobacco smoking behavior
 
-The dataset *nyts18* comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (ECIGT), cigars (ECIGAR), chewing tobacco/snuff/or dip (ESLT), electronic cigarettes (EELCIGT), and hookah or water pipe (EHOOKAH) taken from the National Youth Tobacco Survey 2018 (NYTS 2018, <https://www.cdc.gov/tobacco/ data_statistics/surveys/nyts>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by SCH_ID and each school is classified as either middle or high school (SCH_LEV).
+The dataset *nyts18* comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (ECIGT), cigars (ECIGAR), chewing tobacco/snuff/or dip (ESLT), electronic cigarettes (EELCIGT), and hookah or water pipe (EHOOKAH) taken from the National Youth Tobacco Survey 2018 (NYTS 2018, <https://www.cdc.gov/tobacco/data_statistics/surveys/nyts>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by SCH_ID and each school is classified as either middle or high school (SCH_LEV).
 
 ```{r data2}
 data("nyts18")
 str(nyts18)
 ```
 
-```{r mlca}
+```{r mlca, cache = FALSE}
 ## Multilevel LCA (MLCA)
-mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
-            data = nyts18, nclass = 3, ncluster = 2)
-summary(mlca)
-plot(mlca)
+mlca2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
+             data = nyts18, nclass = 3, ncluster = 2)
+mlca3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
+             data = nyts18, nclass = 3, ncluster = 3)
+mlca4 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
+             data = nyts18, nclass = 3, ncluster = 4)
+gofglca(mlca2, mlca3, mlca4, test = "boot")
+```
+```{r mlca2}
+summary(mlca3)
+plot(mlca3)
 ```
 
-```{r mlcr}
+```{r mlcr, cache = FALSE} 
 ## MLCA with covariate(s) (MLCR)
 # (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
-mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
+mlcr2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
-coef(mlcr)
+mlcr3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
+            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
+gofglca(mlcr2, mlcr3, test = "boot")
+```
+
+```{r mlcr2}
+coef(mlcr2)
+plot(mlcr2)
 ```
