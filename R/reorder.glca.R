@@ -128,9 +128,10 @@ reorder.glca <- function(x, class.order = NULL, cluster.order = NULL, decreasing
          }
       }
 
-      x$param$gamma[] = x$param$gamma[, norder]
-      x$std.err$gamma[] = x$std.err$gamma[, norder]
+      if (x$model$P < 2) {
+         x$param$gamma[] = x$param$gamma[, norder]
+         x$std.err$gamma[] = x$std.err$gamma[, norder]
+      }
    }
-
    x
 }
