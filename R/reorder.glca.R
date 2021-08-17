@@ -1,9 +1,54 @@
-reorder.glca <- function(x, decreasing = TRUE, ...)
+#' Reorders the estimated parameters of glca model
+#'
+#' Function for reordering the estimated parameters for \code{glca} model.
+#'
+#' @param x an object of "\code{glca}", usually, a result of a call to \code{glca}.
+#' @param class.order a integer vector of length equal to number of latent classes of the glca model, assigning the desired order of the latent classes
+#' @param cluster.order a integer vector of length equal to number of latent clusters of the glca model, assigning the desired order of the latent clusters
+#' @param decreasing logical, when the \code{class.order} or \code{cluster.order} are not given, whether to reordering the estimates by decreasing order of responding first-category probability for first manifest item.
+#'
+#' @author Youngsun Kim
+#'
+#' @details  Since the latent classes or clusters can be switched, the order of estimated parameters can be arbitrary according to the initial value of EM algorithm.
+#'
+#' @examples
+#' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
+#'             data = gss08, nclass = 3, na.rm = TRUE)
+#' plot(lca)
+#'
+#' # Given ordering number
+#' lca321 = reorder(lca, 3:1)
+#' plot(lca321)
+#'
+#' # Descending order
+#' dec_lca = reorder(lca, decreasing = TRUE)
+#' plot(dec_lca)
+#'
+#' # Ascending order
+#' inc_lca = reorder(lca, decreasing = FALSE)
+#' plot(inc_lca)
+#'
+#' @method reorder glca
+#' @export
+
+reorder.glca <- function(x, class.order = NULL, cluster.order = NULL, decreasing = TRUE, ...)
 {
+   if (!is.null(class.order)) {
+      if (!setequal(as.numeric(class.order), 1:x$model$C))
+         stop("class.order is not appropriate.")
+      norder = as.numeric(class.order)
+   }
    decreasing <- as.logical(decreasing)
 
    if (x$model$W > 0) {
-      norder = order(x$param$rho[[1]][,1], decreasing = decreasing)
+      if (!is.null(cluster.order)) {
+         if (!setequal(as.numeric(cluster.order), x$model$W))
+            stop("cluster.order is not appropriate.")
+         gorder = as.numeric(cluster.order)
+      }
+
+      if (is.null(class.order))
+         norder = order(x$param$rho[[1]][,1], decreasing = decreasing)
 
       for (m in 1:x$model$M) {
          x$param$rho[[m]][] = x$param$rho[[m]][norder,]
@@ -12,7 +57,8 @@ reorder.glca <- function(x, decreasing = TRUE, ...)
 
       x$posterior$wclass[] = x$posterior$wclass[, norder]
 
-      gorder = order(x$posterior$wclass[,1], decreasing = decreasing)
+      if (is.null(cluster.order))
+         gorder = order(x$posterior$wclass[,1], decreasing = decreasing)
 
       x$param$delta[] = x$param$delta[gorder]
       x$std.err$delta[] = x$std.err$delta[gorder]
@@ -63,7 +109,8 @@ reorder.glca <- function(x, decreasing = TRUE, ...)
       }
    } else {
       for (g in 1:x$model$G) {
-         norder = order(x$param$rho[[g]][[1]][,1], decreasing = decreasing)
+         if (is.null(class.order))
+            norder = order(x$param$rho[[g]][[1]][,1], decreasing = decreasing)
 
          for (m in 1:x$model$M) {
             x$param$rho[[g]][[m]][] = x$param$rho[[g]][[m]][norder,]

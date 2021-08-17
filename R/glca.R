@@ -12,6 +12,7 @@
 #' @param coeff.inv a logical value of the coefficient invariance assumption across groups (random intercept model).
 #' @param init.param A set of model parameters to be used as the user-defined initial values for the EM algorithm. It should be \code{list} with the named parameters and have same structure of \code{param} of the \code{glca} output. In default, initial parameters are randomly generated.
 #' @param n.init number of randomly generated initial parameter sets to be used for avoiding the problem of local maxima.
+#' @param decreasing a logical value for whether reordering the parameters by descending order responding probability for first-category of first manifest item.
 #' @param testiter number of iterations in the EM algorithm for each initial parameter set. The initial parameter set that provides the largest log-likelihood will be selected for estimating the model.
 #' @param maxiter maximum number of iterations for the EM algorithm.
 #' @param eps a convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than \code{eps}, the algorithm will stop updating and consider the convergence to be reached.
@@ -104,8 +105,8 @@
 
 glca <- function(
    formula, group = NULL, data = NULL, nclass = 3, ncluster = NULL, std.err = TRUE,
-   measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 10, testiter = 50,
-   maxiter = 5000, eps = 1e-6, na.rm = FALSE, seed = NULL, verbose = TRUE
+   measure.inv = TRUE, coeff.inv = TRUE, init.param = NULL, n.init = 10, decreasing = TRUE,
+   testiter = 50, maxiter = 5000, eps = 1e-6, na.rm = FALSE, seed = NULL, verbose = TRUE
 )
 {
    # Function call
@@ -164,6 +165,7 @@ glca <- function(
    # (model, x, y, group, z, param, posterior, gof, iter)
    ret = glca_output(call, terms, model, datalist, vname, EM, scores)
    class(ret) = "glca"
+   if (decreasing) ret = reorder(ret, decreasing = TRUE)
 
    return(ret)
 }
