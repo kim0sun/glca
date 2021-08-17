@@ -25,3 +25,7 @@ reference:
   - title: "Package description"
     contents:
       - '`glca-package`'
+
+navbar:
+  components:
+    home: ~
