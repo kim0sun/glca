@@ -1,5 +1,5 @@
 ---
-title: "Introduction to glca"
+title: "Introduction to `glca`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{glca}
@@ -21,7 +21,7 @@ set.seed(1)
 
 ## Example (1) - Attitude toward abortion
 
-The dataset *gss08* taken from the 2008 General Social Survey (Smith et al., 2010) includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (DEFECT), pregnancy is seriously endangering the woman’s health (HLTH), pregnancy as a result of rape (RAPE), due to low income, the family cannot afford any more children (POOR), woman is unmarried and has no plans to marry the man (SINGLE), and woman is married but does not want more children (NOMORE). Each item has two possible levels of response (i.e., "YES" or "NO"). *gss08* also include five covariates: AGE, GENDER, RACE, DEGREE and REGION of respondents.
+The dataset `gss08` taken from the 2008 General Social Survey (Smith et al., 2010) includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (`DEFECT`), pregnancy is seriously endangering the woman’s health (`HLTH`), pregnancy as a result of rape (`RAPE`), due to low income, the family cannot afford any more children (`POOR`), woman is unmarried and has no plans to marry the man (`SINGLE`), and woman is married but does not want more children (`NOMORE`). Each item has two possible levels of response (i.e., "YES" or "NO"). `gss08` also include five covariates: `AGE`, `GENDER`, `RACE`, `DEGREE` and `REGION` of respondents.
 
 ```{r data1}
 data("gss08")
@@ -67,7 +67,7 @@ data("nyts18")
 str(nyts18)
 ```
 
-```{r mlca, cache = FALSE}
+```{r mlca, cache = TRUE}
 ## Multilevel LCA (MLCA)
 mlca2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
              data = nyts18, nclass = 3, ncluster = 2)
@@ -82,7 +82,7 @@ summary(mlca3)
 plot(mlca3)
 ```
 
-```{r mlcr, cache = FALSE} 
+```{r mlcr, cache = TRUE} 
 ## MLCA with covariate(s) (MLCR)
 # (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
 mlcr2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,

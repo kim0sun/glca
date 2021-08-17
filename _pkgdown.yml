@@ -7,17 +7,18 @@ template:
 
 reference:
   - title: "Exported Functions"
-    desc: "Exported functions for fitting \\code{glca} model and conduct goodness-of-fit test."
+    desc: "Exported functions for fitting `glca` model and conduct goodness-of-fit test."
     contents:
       - '`glca`'
       - '`gofglca`'
       - '`item`'
   - title: "Generic Functions"
-    desc: "Several generic functions for \\code{glca} class."
+    desc: "Several generic functions for `glca` class."
     contents:
       - '`summary.glca`'
       - '`coef.glca`'
       - '`plot.glca`'
+      - '`reorder.glca`'
   - title: "Example dataset"
     contents:
       - '`gss08`'
@@ -27,5 +28,25 @@ reference:
       - '`glca-package`'
 
 navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
   components:
-    home: ~
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    intro:
+      text: Get started
+      href: articles/glca.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/kim0sun/glca/

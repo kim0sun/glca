@@ -15,6 +15,7 @@ glca(
   coeff.inv = TRUE,
   init.param = NULL,
   n.init = 10,
+  decreasing = TRUE,
   testiter = 50,
   maxiter = 5000,
   eps = 1e-06,
@@ -43,6 +44,8 @@ glca(
 \item{init.param}{A set of model parameters to be used as the user-defined initial values for the EM algorithm. It should be \code{list} with the named parameters and have same structure of \code{param} of the \code{glca} output. In default, initial parameters are randomly generated.}
 
 \item{n.init}{number of randomly generated initial parameter sets to be used for avoiding the problem of local maxima.}
+
+\item{decreasing}{a logical value for whether reordering the parameters by descending order responding probability for first-category of first manifest item.}
 
 \item{testiter}{number of iterations in the EM algorithm for each initial parameter set. The initial parameter set that provides the largest log-likelihood will be selected for estimating the model.}
 
