@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# glca
+# *glca*: An R Package for Multiple-Group Latent Class Analysis <img src="figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 

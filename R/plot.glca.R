@@ -40,8 +40,8 @@
 
 plot.glca <- function(x, ask = TRUE, ...)
 {
-   oldpar <- par(no.readonly = TRUE)
-   on.exit(par(oldpar))
+   oldmar <- par()$mar
+   on.exit(par(mar = oldmar))
 
    if (ask) grDevices::devAskNewPage(TRUE)
 
@@ -49,7 +49,7 @@ plot.glca <- function(x, ask = TRUE, ...)
    param <- x$param
    post <- x$posterior
 
-   par(mar = c(5.1, 4.1, 4.1, 5.1), mfrow = c(1, 1))
+   par(mar = c(5.1, 4.1, 4.1, 5.1))
 
    # rho
    if (all(model$R == 2L)) { # binary plot
@@ -126,7 +126,7 @@ plot.glca <- function(x, ask = TRUE, ...)
    if (model$W > 1L) {
       # delta, gamma
       grDevices::dev.hold()
-      par(mar = c(3.5, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+      par(mar = c(3.5, 4.1, 4.1, 2.1))
 
       barplot(colMeans(do.call(rbind, post$class)),
               main = "Marginal Class Prevalences", las = 1,
@@ -137,7 +137,7 @@ plot.glca <- function(x, ask = TRUE, ...)
       colnames(prev) = paste0(colnames(prev), "\n(", round(param$delta, 2L), ")")
 
       grDevices::dev.hold()
-      par(mar = c(3.5, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+      par(mar = c(3.5, 4.1, 4.1, 6.1))
       xpos <- barplot(prev, main = "Class Prevalences by Cluster",
                       col = grDevices::gray.colors(nrow(prev)),
                       las = 1)
@@ -148,7 +148,7 @@ plot.glca <- function(x, ask = TRUE, ...)
    } else {
       # gamma
       grDevices::dev.hold()
-      par(mar = c(3.5, 4.1, 4.1, 2.1), mfrow = c(1, 1))
+      par(mar = c(3.5, 4.1, 4.1, 2.1))
       if (model$G == 1) {
          barplot(colMeans(post[[1]]),
                  main = "Class Prevalences", las = 1,
@@ -163,7 +163,7 @@ plot.glca <- function(x, ask = TRUE, ...)
          prev <- sapply(post, colMeans)
          colnames(prev) = paste0(colnames(prev), "\n(n=", model$Ng, ")")
          grDevices::dev.hold()
-         par(mar = c(3.5, 4.1, 4.1, 6.1), mfrow = c(1, 1))
+         par(mar = c(3.5, 4.1, 4.1, 6.1))
          xpos <- barplot(prev, main = "Class Prevalences by Group",
                          col = grDevices::gray.colors(nrow(prev)),
                          las = 1)
@@ -175,5 +175,6 @@ plot.glca <- function(x, ask = TRUE, ...)
    }
 
    if (ask) grDevices::devAskNewPage(FALSE)
+   invisible()
 }
 
