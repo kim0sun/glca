@@ -16,83 +16,231 @@ knitr::opts_chunk$set(
 
 ```{r setup, message = FALSE, warning = FALSE}
 library(glca)
-set.seed(1)
+```
+## Usage for `glca()`
+The main function of this package, called `glca()`, fits a wide range of multiple-group latent class models including fixed-effect and random-effect LCA in order to examine whether the latent structure is identical across groups. The `glca()` function can be called with
+
+```{r, eval = FALSE}
+glca(formula, group, data, nclass, ncluster, std.err, measure.inv, coeff.inv, 
+     init.param, n.init, decreasing, testiter, maxiter, eps, 
+     na.rm, seed, verbose)
 ```
 
-## Example (1) - Attitude toward abortion
+The function `glca()` uses the formula expression in order to specify a multiple-group latent class model. For example, suppose there are four manifest items, `Y1`, `Y2`, `Y3`, and `Y4` in the dataset. These items must be combined as `item(Y1, Y2, Y3, Y4)` and located on the left hand side of the formula. Without any covariate, the formula definition takes the form:
 
-The dataset `gss08` taken from the 2008 General Social Survey (Smith et al., 2010) includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (`DEFECT`), pregnancy is seriously endangering the woman’s health (`HLTH`), pregnancy as a result of rape (`RAPE`), due to low income, the family cannot afford any more children (`POOR`), woman is unmarried and has no plans to marry the man (`SINGLE`), and woman is married but does not want more children (`NOMORE`). Each item has two possible levels of response (i.e., "YES" or "NO"). `gss08` also include five covariates: `AGE`, `GENDER`, `RACE`, `DEGREE` and `REGION` of respondents.
+```{r eval = FALSE}
+formula <- item(Y1, Y2, Y3, Y4) ~ 1
+```
+
+The item can be specified by the prefix or suffix of the manifest items as follows: 
+
+```{r eval = FALSE}
+formula <- item(starts.with = "Y") ~ 1
+```
+
+Any covariate can be incorporated by replacing  `~ 1` with the desired function of covariates. For example, the npLCR with one level-1 covariate (`X1`) and one level-2 covariate (`Z1`) can be fitted using the following formula:
+
+```{r eval = FALSE}
+formula <- item(starts.with = "Y") ~ X1 + Z1
+```
+
+It should be noted that `glca()` identifies the type of covariates automatically. The function has following arguments:
+
+| argument    | description                                    |
+|:------------|------------------------------------------------|
+|`data`       | The input data, `data.frame` or `matrix`, with individuals in rows and group variable, level-1 and level-2 covariates, and individuals’ responses to manifest items in the columns. The data could con- tain multichotomous responses to manifest items. |
+|`group`      | Argument that indicates group variable which has the same length as manifest items on the formula. If `group = NULL` (default), standard LCA or LCR is fitted.|
+|`nclass`     | Integer scalar specifying the number of latent classes. In the default setting, `nclass = 3`.|
+|`ncluster`   | Integer scalar specifying the number of latent clusters (default `ncluster = 0`).|
+|`std.err`    | Logical value for whether calculating standard errors for estimates (default `std.err = TRUE`).|
+|`measure.inv`| Logical value for whether measurement invariance across groups is assumed (default `measure.inv = TRUE`).|
+|`coeff.inv`  | Logical value for whether coefficients for level-1 covariates are identical across groups or latent clusters (default `coeff.inv = TRUE`).|
+|`init.param` | A set of model parameters to be used as a user-specified initial values for EM algorithm. It should be list with the named parameters and have same structure of param of the `glca()` output. In default, initial parameters are randomly generated (i.e., default `init.param = NULL`).|
+|`n.init`     | Integer scalar specifying the number of randomly generated parameter sets to be used as initial values for EM algorithm in order to avoid local maxima problem (default `n.init = 10`).|
+|`testiter`   | Integer scalar specifying the number of iterations in EM algorithm for each initial parameter set in order to select the best initial parameter set. The initial parameter set that provides the largest log-likelihood is selected for main iteration to estimate model parameters (default `testiter = 50`).|
+|`maxiter`    | Integer scalar specifying the maximum number of iterations for EM algorithm (default `maxiter = 5000`).|
+|`eps`        | A convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than eps, EM algorithm will stop updating and consider the convergence to be reached (default `eps = 1e-06`).|
+|`na.rm`      | Logical value for whether the routine deletes the rows that have at least one missing manifest item. If `na.rm = FALSE` (default), FIML approach will be conducted under MAR condition.|
+|`seed`       | In default, the set of initial parameters is drawn randomly. As the same value for seed guarantees the same initial parameters to be drawn, this argument can be used for reproducibility of estimation results.|
+|`verbose`    | Logical value indicating whether `glca()` should print the estimation procedure onto the screen (default `verbose = TRUE`).|
+
+The output of `glca()` is `list` or `data.frame` that contains information for model specification and results of the data analysis using the specified model. The function `glca()` returns following
+
+| output      | description                                    |
+|:------------|------------------------------------------------|
+|`model`      | A `list` containing information on the specified multiple-group latent class models.|
+|`var.names`  | A `list` containing names of data.|
+|`datalist`   | A `list` of data used for fitting.|
+|`param`      | A `list` of parameter estimates.|
+|`std.err`    | A `list` of standard errors for param.|
+|`coefficient`| A `list` of logistic regression coefficients for latent class prevalences. 
+|`gof`        | A `list` of goodness-of-fit measures.|
+|`convergence`| A `list` containing information on convergence.|
+|`posterior`  | For mgLCR, posterior is a `data.frame` of posterior probabilities belonging to specific latent class for each individual. For npLCR, posterior is a `list` containing three type of posterior probabilities; probabilities of belonging to latent cluster for each group, belonging to latent cluster for each latent class, and belonging to latent class for each individual.|
+
+For objects from the `glca()`, generic functions for `print()`, `summary()`, `coef()`, `logLik()`, `reorder()` and `plot()` are available. The generic function `print()` can be accessed with `print(x)` where `x` is an object from the function `glca()`. This function is used to print information from the object x to console. The function calls together with the names of variable, model specification, the number of observations, and the number of parameters used in the analysis.
+
+The function `summary()` is a generic function that is summarizing results from the `glca()`. The func- tion can be called via `summary(x)`. The output of the `summary(x)` has two main components; the first component contains information on model specification, and the second component contains parameter estimates.
+
+Generic functions `coef()` and `logLik()` can also be used. The estimates of regression coefficients and their standard errors of the object `x` from the function `glca()` will be extracted via `coef(x)`. Odds ratios, $t$-values, and their respective $p$-values for the estimated coefficient will also be extracted. The function `logLik()` extracts log-likelihood and degree of freedom for the model which enables to use other statistical R function such as `AIC()` and `BIC()`.
+
+The function `reorder()` is a generic function for reordering estimated parameters. Since the latent classes or clusters can be switched according to the initial value of EM algorithm, the order of estimated parameters can be arbitrary. For convenient interpretation of estimated parameters, researchers desire to rearrange the order of latent variables. The ordering can be designated by users (`class.order`, `cluster.order`) and can be determined by the magnitude of the probability of responding the first manifest item with the first option.
+
+A generic function for plotting parameter estimates of the specified model is also available to the user. The user can plot parameters of the object `x` with `plot(x)`. This function returns three types of plots: item-response probabilities, marginal class prevalences, and class prevalences by group or cluster. The plot for item-response probabilities has M manifest items on the `x`-axis, the probability of responding to the $k$th category for the $m$th item on the`y`-axis for $k = 1, \dots , r_m$. If there is a group variable with the argument measure.inv = FALSE in the `glca()` function, separate plot for each group is returned. The plot for marginal class prevalences has latent classes on the `x`-axis, and the probability of belonging to the respective latent class on the y axis. If there is a group variable, additional plot is returned for displaying class prevalences for each group (when mgLCR is fitted) or latent cluster (when npLCR is fitted). This plot has levels of group or latent cluster variable on the `x`-axis, and the conditional probability of belonging to latent classes for each group or latent cluster on the `y`-axis.
+
+
+## Usage for `gofglca()`
+
+In multiple-group LCA, the first and fundamental step is to select the appropriate number of latent classes and latent clusters. Once the number of latent components are determined, the next step is to assess relative model fit for exploring various group differences in latent structure across groups or latent clusters. The assessment of model fit described in Sections - is implemented into a function named `gofglca()`. The function syntax is
+
+```{r eval = FALSE}
+gofglca(x, ..., criteria, test, nboot, maxiter, eps, seed, verbose)
+```
+
+and uses following arguments.
+
+| argument    | description                                    |
+|:------------|------------------------------------------------|
+|`x`          | An output of the `glca()` function. Absolute model fit test will be conducted for the model specified in `x`.|
+|`...`        | An optional argument, one or more output objects of the function `glca()`, which enables users to test for relative model fit. Each of these optional objects will be compared to one of other objects, which are specified in this argument.|
+|`criteria`   | A character vector specifying which type of information criteria should be returned by the function. Default is to return all types of criteria via `c("logLik", "AIC", "CAIC", "BIC", "entropy")`.|
+|`test`       | String that controls which distribution to be used for calculating p-value in hypothesis test. Available options are `"NULL"` (default), `"chisq"` (chi-square distribution), and `"boot"` (bootstrap empirical distribution).
+|`nboot`      | The number of bootstrap samples to be generated when `test = "boot"` (default `nboot = 50`).|
+|`maxiter`    | Integer scalar specifying the maximum number of EM iterations for each of bootstrap samples (default `maxiter = 500`).|
+|`eps`        | A convergence tolerance value used in EM algorithm for each of bootstrap samples (default `eps = 1e-04`).|
+|`seed`       | As the same value for seed guarantees the same datasets to be generated, this argument can be used for reproducibility of bootstrap results (default `seed = NULL`).|
+|`verbose`    | Logical value indicating whether `gofglca()` should print the assessment procedure onto the screen (default `verbose = TRUE`).|
+
+The function `gofglca()` provides the table for analysis of goodness-of-fit containing information criteria, residual degrees of freedom, $G^2$-statistic, and bootstrap $p$-value for absolute model fit for the designated objects when `test = "boot"`. With optional objects from the function `glca()`, `gofglca()` also provides the table for analysis of deviance given that these objects share the same manifest items. The table for analysis of deviance describes relative model fit using the deviance statistic between two competing models and its $p$-value using distribution specified in test argument.
+
+## Applications
+### Attitude toward abortion
+
+The dataset `gss08` taken from the *2008 General Social Survey (Smith et al., 2010)* includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (`DEFECT`), pregnancy is seriously endangering the woman’s health (`HLTH`), pregnancy as a result of rape (`RAPE`), due to low income, the family cannot afford any more children (`POOR`), woman is unmarried and has no plans to marry the man (`SINGLE`), and woman is married but does not want more children (`NOMORE`). Each item has two possible levels of response (i.e., `"YES"` or `"NO"`). `gss08` also include five covariates: `AGE`, `GENDER`, `RACE`, `DEGREE` and `REGION` of respondents. (`?gss08`)
 
 ```{r data1}
 data("gss08")
 str(gss08)
 ```
 
-```{r lca, cache = TRUE}
-lca2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-            data = gss08, nclass = 2)
-lca3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-            data = gss08, nclass = 3)
-lca4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-            data = gss08, nclass = 4)
+**Selecting the number of latent classes: **    
+In the first step of the analysis, we conduct a series of standard latent class models to select a number of latent classes. The number of class in the `glca()` function is set to 2, 3, or 4 as following commands. It should be noted that we use 10 sets of randomly generated initial parameters to avoid the problem of local maxima (i.e., `n.init = 10`), and the argument is set as `seed = 1` in the `glca()` function to ensure reproductibility of results unless otherwise noted.
 
-gofglca(lca2, lca3, lca4, test = "boot")
+```{r lca, cache = TRUE}
+f <- item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1
+lca2 <- glca(f, data = gss08, nclass = 2, seed = 1)
+lca3 <- glca(f, data = gss08, nclass = 3, seed = 1)
+lca4 <- glca(f, data = gss08, nclass = 4, seed = 1)
 ```
+
+```{r lcagof, cache = TRUE}
+gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
+```
+```{r lcagof2, cache = TRUE, include = FALSE}
+gof1 <- gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
+```
+
+The output from the function `gofglca()` comprises of two tables; goodness-of-fit table and analysis-of- deviance table. The former shows model fit criteria such as AIC, CAIC, BIC, and entropy, $G^2$ statistic, and its bootstrap $p$-value for absolute model fit. In this example, the bootstrap $p$-values indicate that the two-class model (Model 1) fits data poorly ($p$-value = `r format(gof1$gtable[1, "Boot p-value"], nsmall = 2)`), but the three-class and the four-class models (Model 2 and Model 3) fit data adequately ($p$-value = `r format(gof1$gtable[2, "Boot p-value"], nsmall = 2)` and `r format(gof1$gtable[3, "Boot p-value"], nsmall = 2)`, respectively). The latter table displays deviance statistic comparing two competing models and its bootstrap $p$-value for the relative model fit. The null hypothesis in the test for comparing Model 1 and Model 2 (i.e., the fit of the two-class model is not significantly poorer than the fit of the three-class model) should be rejected ($p$-value = `r format(gof1$dtable[2, "Boot p-value"], nsmall = 2)`). In the test for comparing Model 2 and Model 3, however, the bootstrap $p$-value (= `r format(gof1$dtable[3, "Boot p-value"], nsmall = 2)`) indicates that the fit of the four-class model has not been improved significantly compared to the fit of the three-class model. In addition, the three-class model has the smallest value among these three models in the model fit criteria. Therefore, we can conclude that the three-class model is an appropriate for the `gss08` data.
 
 ```{r lca3}
 summary(lca3)
 plot(lca3)
 ```
 
+**Considering group variable and testing the measurement invariance**    
+As the group information provided in the data, we can consider the multilevel data structure and compare the latent class structure between higher-level units (i.e., groups). The `glca()` function can incorporate group variable by setting group argument as the name of group variable in the data. For example, in order to investigate whether attitudes toward legalizing abortions vary by the final degree of respondents, we may set `DEGREE` as group variable by typing `group = DEGREE` in the `glca()` function . `DEGREE` is coded into four categories (i.e., `"<= HS"`, `"HIGH SCHOOL"`, `"COLLEGE"`, and `"GRADUATE"`) indicating from under high school diploma to graduate degree. Moreover, we can implement the test for measurement invariance across groups using the `glca()` function. The measurement invariance assumption can be adjusted through `measure.inv` argument in `glca()`. The default is `measure.inv = TRUE`, constraining item-response probabilities to be equal across groups. The following commands implement two different tests for group variable: (1) test whether class prevalence is significantly influenced by group variable under the measurement-invariant model; and (2) test whether the measurement models differ across groups.
+
 ```{r mglca}
-## Multiple-group LCA (MGLCA)
-mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-             group = DEGREE, data = gss08, nclass = 3)
-plot(mglca)
-## Multiple-group LCA with covariate(s) (MGLCR)
-mglcr1 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-             group = DEGREE, data = gss08, nclass = 3)
-mglcr2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-             group = DEGREE, data = gss08, nclass = 3, coeff.inv = FALSE)
-gofglca(mglca, mglcr1, mglcr2, test = "chisq")
-coef(mglcr1)
+mglca1 = glca(f, group = DEGREE, data = gss08, nclass = 3, seed = 1)
+mglca2 = glca(f, group = DEGREE, data = gss08, nclass = 3, 
+              measure.inv = FALSE, seed = 1,)
+gofglca(lca3, mglca1, mglca2, test = "chisq")
+```
+```{r mglca2, include = FALSE}
+gof2 <- gofglca(lca3, mglca1, mglca2, test = "chisq")
+```
+Since the model specified in the object `lca3` (Model 1 in the output from the `goflca()` function) is constructed with six binary items, the number of parameters for the saturated models is $26 − 1 = 63$. Therefore, degree of freedom for Model 1 is $63 − 20 = 43$. The models specified in mglca1 and mglca2 (Model 2 and Model 3) are involved with group variable with four categories, and the number of parameters for the saturated models is $26 \times 4 − 1 = 255$. Therefore, degrees of freedom for Model 2 and Model 3 are $255 − 26 = 229$ and $255 − 80 = 175$, respectively. It should be noted that model comparison has been conducted through chi-squares by setting `test = "chisq"` because Model 1 is nested in Model 2, and Model 2 is nested in Model 3. The analysis-of-deviance table provided by the `gofglca()` function shows that the chi-square $p$-value for comparing Model 1 and Model 2 is `r format(round(gof2$dtable[2, "Pr(>Chi)"], 3), nsmall = 2)`, while the $p$-value for comparing Model 2 and Model 3 is `r round(gof2$dtable[3, "Pr(>Chi)"], 2)`. Hence, we can deduce that the measurement invariance assumption can be assumed, but class prevalences vary across levels of `DEGREE`.
+
+**Testing the equality of coefficients across groups:**    
+We can further consider the subject-specific covariates which may influence the probability of the individual belonging to a specific class. Covariates such as `AGE`, `RACE`, and `SEX` in the `gss08` dataset can be incorporated into the model specified in `mglca1`. `AGE` is respondent’s age and considered as a numeric variable in the `glca()` function. The respondent’s race, `RACE` has three levels (i.e., `"WHITE"`, `"BLACK"`, and `"OTHER"`), and the respondent’s gender, `SEX` is coded as two categories (i.e., `"MALE"` and `"FEMALE"`). We can easily implement the test for exploring group differences using the `gofglca()` function. For example, the following commands implement two different tests for `SEX`: (1) test whether the class prevalence is significantly influenced by `SEX` under the model where the coefficients are constrained to be identical across groups; and (2) test for assessing group difference in the effect of `SEX` on class prevalence by specifying the model where coefficients are allowed to vary across groups and comparing it to the model where coefficients are constrained to be identical across groups. Since the iteration is initiated with random parameters, the order of class labels can be switched under the identical ML solution. Therefore, the random seed is set as `seed = 3` in the `glca()` function for the model specified in `mglcr1` below to ensure identical class order as provided in Figure 1.
+
+```{r mglcr}
+fx <- item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX
+mglcr1 = glca(fx, group = DEGREE, data = gss08, nclass = 3, seed = 3)
+mglcr2 = glca(fx, group = DEGREE, data = gss08, nclass = 3, 
+              coeff.inv = FALSE, seed = 1)
+gofglca(mglca1, mglcr1, mglcr2, test = "chisq")
 ```
 
-## Example (2) - Tobacco smoking behavior
+The models specified in `mglcr1` and `mglcr2` (Model 2 and Model 3 in the output from the `goflca()` function) are involved with an additional covariate, SEX, and the number of possible cases is $26 \times 4 \times 2 − 1 = 511$. However, as only 352 observations are used for the analysis, the number of parameters for the saturated model becomes $352 − 1 = 351$. Therefore, degrees of freedom for Model  2 and Model 3 are $351 − 28 = 323$ and $351 − 34 = 317$, respectively. The analysis-of-deviance table provided by the `gofglca()` function shows that SEX has a significant impact on the class prevalence ($p$-value = 0.00) when we compare Model 1 with Model 2. However, the model without any constraint on coefficients (Model 3) is not significantly superior to Model 2 ($p$-value = 0.16), indicating that the impact of `SEX` is not group specific. Note that Model 2 is mathematically equivalent to the standard LCR with covariates `DEGREE` and `SEX` without the interaction terms, but Model 2 is more intuitive and useful configuration when comparison of latent structures by group is a major concern.
 
-The dataset *nyts18* comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (ECIGT), cigars (ECIGAR), chewing tobacco/snuff/or dip (ESLT), electronic cigarettes (EELCIGT), and hookah or water pipe (EHOOKAH) taken from the National Youth Tobacco Survey 2018 (NYTS 2018, <https://www.cdc.gov/tobacco/data_statistics/surveys/nyts>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by SCH_ID and each school is classified as either middle or high school (SCH_LEV).
+**Summarizing the results from the selected model:**    
+Based on the previous analysis, we can conclude that measurement models are equivalent across groups (i.e., measurement invariance assumption is satisfied) in the three-class latent class model. In addition, there is a significant effect of SEX on the class prevalence, but there is no group difference in the amount of effect.
+
+Figure 1 displays the estimated parameters from the selected model specified in `mglcr1` using the command `plot(mglcr1)`. The line graph in Figure 1 displays the estimated item-response probabilities. We can see that the identified three classes are clearly distinguished by item-response probabilities. Class 1 represents individuals who are in favor of all the six reasons for abortion, while Class 3 represents those who consistently oppose all the six reasons. Individuals in Class 2 seem to distinguish between favoring the first three reasons (i.e., `DEFECT`, `HLTH`, and `RAPE`) and opposing the last three reasons (i.e., `POOR`, `SINGLE`, and `NOMORE`) for abortion. The first bar graph in Figure 1 describes the estimated marginal class prevalences, and the second bar graph displays the estimated class prevalences for each category of group variable. The values in parentheses printed in the `x`-axis are the group prevalences. Figure 1 displays that the class prevalence varies across groups, and the respondents with higher degrees are more advocate for legalizing abortion than those with lower degrees. The covariate effect can be confirmed through the Wald test for each of estimated odds ratios and coefficient by the command `coef(mglcr1)`.
+
+The `SEX` coefficient results the same, while the intercept determining the class prevalence differs across groups in the selected model. To avoid redundancy and save space, only the results of the `SEX` coefficient are displayed as follows, but the entire output of the object can be displayed by the command `summary(mglcr1)` in the R console.
+
+```{r}
+coef(mglcr1)
+summary(mglcr1)
+```
+
+The estimated coefficients for `SEX` and their odds ratios show that females are less advocate for legalizing abortion compared to their male counterparts.
+
+### Tobacco smoking behavior
+
+The dataset `nyts18` comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (`ECIGT`), cigars (`ECIGAR`), chewing tobacco/snuff/or dip (`ESLT`), electronic cigarettes (`EELCIGT`), and hookah or water pipe (`EHOOKAH`) taken from the *National Youth Tobacco Survey 2018* (*NYTS 2018*, <https://www.cdc.gov/tobacco/data_statistics/surveys/nyts>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by `SCH_ID` and each school is classified as either middle or high school (`SCH_LEV`). (`?nyts18`)
+
+According to socioecological models, patterns of adolescent tobacco smoking are best understood as embedded within social contexts. These social contexts can be either proximal in terms of individuals and peer groups or more distal in terms of schools and community. Socioecological models suggest that stu- dents within the same school often share common socio-economic status (SES) and cultural characteristics that may cause different tobacco smoking patterns compared to students attending other schools. However, reflecting school (group) effect in an mgLCR is less likely to provide a meaningful summary because there are too many groups, that is, 45 schools in the `nyts18` dataset. In this case, npLCR would be more appropriate model to investigate group difference in terms of a small number of latent clusters of schools.
 
 ```{r data2}
 data("nyts18")
 str(nyts18)
 ```
 
+Selecting the number of latent classes: Prior to conducting npLCR, it is necessary to determine the number of level-1 latent classes. Similar to the previous example, the two-, three-, and four-class standard LCA models can be fitted and compared by the `gofglca()` function as follow:
+
+```{r lcas, cache = TRUE}
+f <- item(starts.with = "E") ~ 1
+lca2 <- glca(f, data = nyts18, nclass = 2, seed = 1)
+lca3 <- glca(f, data = nyts18, nclass = 3, seed = 1)
+lca4 <- glca(f, data = nyts18, nclass = 4, seed = 1)
+
+gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
+```
+
+The output of the `gofglca()` function indicates that the three-class and the four-class models are adequate in terms of absolute model fit ($p$-value = 0.28 and 0.78, respectively), but the three-class LCA provides the lowest values in information criteria. For the relative model fit, the two-class LCA is rejected ($p$-value = 0.00) on comparison with the three-class LCA using the bootstrap. However, the three-class is not rejected ($p$-value = 0.10) on comparison with the four-class model. Thus, it seems to be reasonable to select the three-class LCA model for the `nyts18` dataset.
+
+**Selecting the number of latent clusters**:    
+Now, an npLCR can be implemented by adding SCH_ID as group variable and specifying the number of latent clusters (i.e., level-2 latent classes) using the `ncluster` argument in the `glca()` function. The two-, three-, and four-cluster npLCR with three latent classes are fitted and compared using the following commands:
+
 ```{r mlca, cache = TRUE}
-## Multilevel LCA (MLCA)
-mlca2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
-             data = nyts18, nclass = 3, ncluster = 2)
-mlca3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
-             data = nyts18, nclass = 3, ncluster = 3)
-mlca4 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1, group = SCH_ID, 
-             data = nyts18, nclass = 3, ncluster = 4)
-gofglca(mlca2, mlca3, mlca4, test = "boot")
+nplca2 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, seed = 1)
+nplca3 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3, seed = 1)
+nplca4 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 4, seed = 1)
+
+gofglca(lca3, nplca2, nplca3, nplca4, test = "boot", seed = 1)
 ```
-```{r mlca2}
-summary(mlca3)
-plot(mlca3)
-```
+
+The goodness-of-fit table shows that the three-cluster model (Model 3) has the smallest values in information criteria among others, and the bootstrap $p$-value (= 0.22) indicates that this model is appropriate for the data. The analysis-of-deviance table shows that group effect is significant as Model 1 has better fit than Model 2 ($p$-value = 0.0). In addition, the three-cluster model (Model 3) has better fit than the two-cluster model (Model 2, $p$-value = 0.00), but there is insignificant difference between the three- and four-cluster models (Model 3 and Model 4) in the model fit ($p$-value = 0.42). Therefore, we can conclude that the three-cluster model is most appropriate among others.
+
+**Testing the equality of coefficients for level-1 covariates across groups:**    
+Covariates can be incorporated into npLCR using the `glca()` function; not only the subject-specific (i.e., level-1) covariates (e.g., `SEX`) but also the group-specific (i.e., level-2) covariates (e.g., `SCH_LEV`). As shown in the previous example, subject-specific covariates are constrained to be equal across latent clusters by default (i.e., `coeff.inv = TRUE`). The chi-square LRT test for checking the equality of coefficients for level-1 covariate, SEX can be conducted using the `gofglca()` function as follows:
 
 ```{r mlcr, cache = TRUE} 
-## MLCA with covariate(s) (MLCR)
-# (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
-mlcr2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
-            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
-mlcr3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
-            group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
-gofglca(mlcr2, mlcr3, test = "boot")
+fx <- item(starts.with = "E") ~ SEX
+nplcr1 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2,
+               seed = 1)
+nplcr2 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2,
+               seed = 1, coeff.inv = FALSE)
+nplcr.gof <- gofglca(nplca3, nplcr1, nplcr2, test = "chisq")
+nplcr.gof$dtable
 ```
 
+Note that typing `nplca.gof$dtable` into the R console will return the analysis-of-deviance table. Considering the $p$-values given in the table above, the equality of SEX effect can be assumed. Therefore, we conclude that the model specified in `nplcr1` should be selected for the `nyts18` dataset.
+
 ```{r mlcr2}
-coef(mlcr2)
-plot(mlcr2)
+coef(nplcr1)
+plot(nplcr1)
 ```
