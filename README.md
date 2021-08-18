@@ -11,6 +11,15 @@ status](https://www.r-pkg.org/badges/version/glca)](https://CRAN.R-project.org/p
 [![R-CMD-check](https://github.com/kim0sun/glca/workflows/R-CMD-check/badge.svg)](https://github.com/kim0sun/glca/actions)
 <!-- badges: end -->
 
+Fits latent class analysis (LCA) including group variable and
+covariates. The group variable can be handled either by multilevel LCA
+described in Vermunt (2003) <doi:10.1111/j.0081-1750.2003.t01-1-00131.x>
+or standard LCA at each level of group variable. The covariates can be
+incorporated in the form of logistic regression (Bandeen-Roche et
+al. (1997) <doi:10.1080/01621459.1997.10473658>).
+
+## Introduction
+
 Latent class analysis (LCA) is one of the most popular discrete mixture
 models for classifying individuals based on their responses to multiple
 manifest items. When there are existing subgroups in the data
