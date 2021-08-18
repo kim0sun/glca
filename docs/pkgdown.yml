@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   glca: glca.html
-last_built: 2021-08-17T07:36Z
+last_built: 2021-08-18T06:21Z
 urls:
   reference: http://kim0sun.github.io/glca/reference
   article: http://kim0sun.github.io/glca/articles

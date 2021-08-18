@@ -4,22 +4,24 @@
 \alias{reorder.glca}
 \title{Reorders the estimated parameters of glca model}
 \usage{
-\method{reorder}{glca}(x, class.order = NULL, cluster.order = NULL, decreasing = TRUE, ...)
+\method{reorder}{glca}(x, ..., class.order = NULL, cluster.order = NULL, decreasing = TRUE)
 }
 \arguments{
 \item{x}{an object of "\code{glca}", usually, a result of a call to \code{glca}.}
+
+\item{...}{further arguments passed to or from other methods.}
 
 \item{class.order}{a integer vector of length equal to number of latent classes of the glca model, assigning the desired order of the latent classes}
 
 \item{cluster.order}{a integer vector of length equal to number of latent clusters of the glca model, assigning the desired order of the latent clusters}
 
-\item{decreasing}{logical, when the \code{class.order} or \code{cluster.order} are not given, whether to reordering the estimates by decreasing order of responding first-category probability for first manifest item.}
+\item{decreasing}{logical, when the \code{class.order} or \code{cluster.order} are not given, whether to rearrange the latent classes (clusters) by decreasing order of the magnitude of the probability of responding the first-category to the first manifest item (prevalence for the first latent class).}
 }
 \description{
 Function for reordering the estimated parameters for \code{glca} model.
 }
 \details{
-Since the latent classes or clusters can be switched, the order of estimated parameters can be arbitrary according to the initial value of EM algorithm.
+Since the latent classes or clusters can be switched according to the initial value of EM algorithm, the order of estimated parameters can be arbitrary.
 }
 \examples{
 lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,

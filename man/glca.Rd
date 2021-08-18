@@ -15,7 +15,7 @@ glca(
   coeff.inv = TRUE,
   init.param = NULL,
   n.init = 10,
-  decreasing = TRUE,
+  decreasing = FALSE,
   testiter = 50,
   maxiter = 5000,
   eps = 1e-06,

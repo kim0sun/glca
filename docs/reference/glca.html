@@ -139,6 +139,7 @@
   coeff.inv <span class='op'>=</span> <span class='cn'>TRUE</span>,
   init.param <span class='op'>=</span> <span class='cn'>NULL</span>,
   n.init <span class='op'>=</span> <span class='fl'>10</span>,
+  decreasing <span class='op'>=</span> <span class='cn'>FALSE</span>,
   testiter <span class='op'>=</span> <span class='fl'>50</span>,
   maxiter <span class='op'>=</span> <span class='fl'>5000</span>,
   eps <span class='op'>=</span> <span class='fl'>1e-06</span>,
@@ -189,6 +190,10 @@
     <tr>
       <th>n.init</th>
       <td><p>number of randomly generated initial parameter sets to be used for avoiding the problem of local maxima.</p></td>
+    </tr>
+    <tr>
+      <th>decreasing</th>
+      <td><p>a logical value for whether reordering the parameters by descending order responding probability for first-category of first manifest item.</p></td>
     </tr>
     <tr>
       <th>testiter</th>
