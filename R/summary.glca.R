@@ -92,18 +92,18 @@ summary.glca <- function(
       }
 
       if (all(model$R == 2L)) {
-         cat ("Rho (Y = 1) :\n")
+         cat ("Item-response probabilities (Y = 1) :\n")
          Rhomat <- sapply(1L:model$M, function(m)
             round(param$rho[[m]][,1L], digits))
          colnames(Rhomat) <- var.names$y.names
          print(Rhomat)
-         cat ("\nRho (Y = 2) :\n")
+         cat ("\nItem-response probabilities (Y = 2) :\n")
          Rhomat <- sapply(1L:model$M, function(m)
             round(param$rho[[m]][,2L], digits))
          colnames(Rhomat) <- var.names$y.names
          print(Rhomat)
       } else {
-         cat("Rho :\n")
+         cat("Item-response probabilities :\n")
          for (m in 1L:model$M) {
             cat(var.names$y.names[m], "\n")
             print(round(param$rho[[m]], digits))
@@ -126,18 +126,18 @@ summary.glca <- function(
 
       if (model$G == 1L) {
          if (all(model$R == 2L)) {
-            cat ("Rho (Y = 1) :\n")
+            cat ("Item-response probabilities (Y = 1) :\n")
             Rhomat <- sapply(1L:model$M, function(m)
                round(param$rho[[1L]][[m]][,1L], digits))
             colnames(Rhomat) <- var.names$y.names
             print(Rhomat)
-            cat ("\nRho (Y = 2) :\n")
+            cat ("\nItem-response probabilities (Y = 2) :\n")
             Rhomat <- sapply(1L:model$M, function(m)
                round(param$rho[[1L]][[m]][,2L], digits))
             colnames(Rhomat) <- var.names$y.names
             print(Rhomat)
          } else {
-            cat ("Rho :\n")
+            cat ("Item-response probabilities :\n")
             for (m in 1L:model$M) {
                cat(var.names$y.names[m], "\n")
                print(round(param$rho[[1L]][[m]], digits))
@@ -146,18 +146,18 @@ summary.glca <- function(
       } else {
          if (model$measure.inv) {
             if (all(model$R == 2)) {
-               cat ("Rho (Y = 1) :\n")
+               cat ("Item-response probabilities (Y = 1) :\n")
                Rhomat <- sapply(1L:model$M, function(m)
                   round(param$rho[[1L]][[m]][,1L], digits))
                colnames(Rhomat) <- var.names$y.names
                print(Rhomat)
-               cat ("\nRho (Y = 2) :\n")
+               cat ("\nItem-response probabilities (Y = 2) :\n")
                Rhomat <- sapply(1L:model$M, function(m)
                   round(param$rho[[1L]][[m]][,2L], digits))
                colnames(Rhomat) <- var.names$y.names
                print(Rhomat)
             } else {
-               cat("Rho (invariant across groups) :\n")
+               cat("Item-response probabilities (invariant across groups) :\n")
                for (m in 1L:model$M) {
                   cat(var.names$y.names[m], "\n")
                   print(round(param$rho[[1L]][[m]], digits))
@@ -165,7 +165,7 @@ summary.glca <- function(
             }
          } else {
             if (all(model$R == 2)) {
-               cat ("Rho (Y = 1) :\n")
+               cat ("Item-response probabilities (Y = 1) :\n")
                for (g in 1L:model$G) {
                   cat("Group :", var.names$g.names[[g]], "\n")
                   Rhomat <- sapply(1L:model$M, function(m)
@@ -174,7 +174,7 @@ summary.glca <- function(
                   print(Rhomat)
                   cat("\n")
                }
-               cat ("\nRho (Y = 2) :\n")
+               cat ("\nItem-response probabilities (Y = 2) :\n")
                for (g in 1L:model$G) {
                   cat("Group :", var.names$g.names[[g]], "\n")
                   Rhomat <- sapply(1L:model$M, function(m)
@@ -184,7 +184,7 @@ summary.glca <- function(
                   cat("\n")
                }
             } else {
-               cat("Rho (most likely response) :\n")
+               cat("Item-response probabilities (most likely response) :\n")
                for (g in 1L:model$G) {
                   cat("Group :", var.names$g.names[[g]], "\n")
                   print(sapply(param$rho[[g]], function(m)
