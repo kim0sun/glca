@@ -78,14 +78,14 @@ summary.glca <- function(
 
    if (model$W > 1L) {
       if (model$P > 1L | model$Q > 0L) {
-         cat("\nBeta (level 1) :\n")
+         cat("\nLogistic regression coefficients (level 1) :\n")
          for (w in 1:model$W) {
             cat("Cluster", w, "\n")
             print(round(param$beta[[1L]][[w]], digits))
             cat("\n")
          }
          if (model$Q > 0L) {
-            cat("Beta (level 2) :\n")
+            cat("Logistic regression coefficients (level 2) :\n")
             print(round(param$beta[[2L]], digits))
          }
          cat("\n")
@@ -112,7 +112,7 @@ summary.glca <- function(
       cat("\n")
    } else {
       if (model$P > 1L) {
-         cat("Beta :\n")
+         cat("Logistic regression coefficients :\n")
          if (model$G > 1L) {
             for (g in 1L:model$G) {
                cat("Group :", var.names$g.names[g], "\n")

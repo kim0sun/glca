@@ -48,14 +48,18 @@ glca_encode <- function(
       W <- ncluster
       if (W < 2L) {
          if (verbose)
-            cat("Number of latent clusters should be less than number of groups.\nmgLCA will be fitted.\n\n")
+            cat("Number of latent clusters should be greater than 1.\n",
+                "\"ncluster = ", ncluster, "\" has been ignored.\n\n")
          W <- 0L
       } else if (G <= ncluster) {
          if (verbose)
-            cat("Number of latent clusters should be less than number of groups.\nmgLCA will be fitted.\n\n")
+            cat("Number of latent clusters should be less than number of groups.\n",
+                "\"ncluster = ", ncluster, "\" has been ignored.\n\n")
          W <- 0L
       } else {
          W <- floor(ncluster)
+         if (measure.inv == FALSE && verbose)
+            cat("For nonparametric multilevel latent class analysis, always \"Meas.inv = TRUE\"")
          measure.inv <- TRUE
       }
    } else W <- 0L
@@ -153,7 +157,7 @@ glca_encode <- function(
 
    if (W == 0L) {
       if (G == 1L)
-         type <- "Standard latent class analysis"
+         type <- "Latent class analysis"
       else
          type <- "Multiple-group latent class analysis"
 
