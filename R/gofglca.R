@@ -78,7 +78,7 @@ gofglca <- function(
 {
    # Check_class
    if (!all(sapply(list(object, ...), inherits, "glca")))
-      stop("All objects should inherit glca class.")
+      stop("All objects should be glca outputs.")
 
    # Test
    if (!is.null(test)) {
@@ -97,9 +97,9 @@ gofglca <- function(
          if (x$model$W > 1L)
             note <- paste0(note, ", ncluster: ", x$model$W)
          else
-            note <- paste0(note, ", Meas.inv: ", x$model$measure.inv)
+            note <- paste0(note, ", measure.inv: ", x$model$measure.inv)
          if (x$model$P > 1L)
-            note <- paste0(note, ", Coef.inv: ", x$model$coeff.inv)
+            note <- paste0(note, ", coeff.inv: ", x$model$coeff.inv)
       }
       else note <- paste0(note, "\n", strrep(" ", 8L + nchar(nmodels)),
                           "nclass: ", x$model$C)
