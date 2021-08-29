@@ -80,7 +80,7 @@ The output of `glca()` is `list` or `data.frame` that contains information for m
 
 For objects from the `glca()`, generic functions for `print()`, `summary()`, `coef()`, `logLik()`, `reorder()` and `plot()` are available. The generic function `print()` can be accessed with `print(x)` where `x` is an object from the function `glca()`. This function is used to print information from the object x to console. The function calls together with the names of variable, model specification, the number of observations, and the number of parameters used in the analysis.
 
-The function `summary()` is a generic function that is summarizing results from the `glca()`. The func- tion can be called via `summary(x)`. The output of the `summary(x)` has two main components; the first component contains information on model specification, and the second component contains parameter estimates.
+The function `summary()` is a generic function that is summarizing results from the `glca()`. The function can be called via `summary(x)`. The output of the `summary(x)` has two main components; the first component contains information on model specification, and the second component contains parameter estimates.
 
 Generic functions `coef()` and `logLik()` can also be used. The estimates of regression coefficients and their standard errors of the object `x` from the function `glca()` will be extracted via `coef(x)`. Odds ratios, $t$-values, and their respective $p$-values for the estimated coefficient will also be extracted. The function `logLik()` extracts log-likelihood and degree of freedom for the model which enables to use other statistical R function such as `AIC()` and `BIC()`.
 
@@ -126,21 +126,21 @@ str(gss08)
 **Selecting the number of latent classes: **    
 In the first step of the analysis, we conduct a series of standard latent class models to select a number of latent classes. The number of class in the `glca()` function is set to 2, 3, or 4 as following commands. It should be noted that we use 10 sets of randomly generated initial parameters to avoid the problem of local maxima (i.e., `n.init = 10`), and the argument is set as `seed = 1` in the `glca()` function to ensure reproductibility of results unless otherwise noted.
 
-```{r lca, cache = TRUE}
+```{r lca}
 f <- item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1
 lca2 <- glca(f, data = gss08, nclass = 2, seed = 1)
 lca3 <- glca(f, data = gss08, nclass = 3, seed = 1)
 lca4 <- glca(f, data = gss08, nclass = 4, seed = 1)
 ```
 
-```{r lcagof, cache = TRUE}
+```{r lcagof}
 gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
 ```
-```{r lcagof2, cache = TRUE, include = FALSE}
+```{r lcagof2, include = FALSE}
 gof1 <- gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
 ```
 
-The output from the function `gofglca()` comprises of two tables; goodness-of-fit table and analysis-of- deviance table. The former shows model fit criteria such as AIC, CAIC, BIC, and entropy, $G^2$ statistic, and its bootstrap $p$-value for absolute model fit. In this example, the bootstrap $p$-values indicate that the two-class model (Model 1) fits data poorly ($p$-value = `r format(gof1$gtable[1, "Boot p-value"], nsmall = 2)`), but the three-class and the four-class models (Model 2 and Model 3) fit data adequately ($p$-value = `r format(gof1$gtable[2, "Boot p-value"], nsmall = 2)` and `r format(gof1$gtable[3, "Boot p-value"], nsmall = 2)`, respectively). The latter table displays deviance statistic comparing two competing models and its bootstrap $p$-value for the relative model fit. The null hypothesis in the test for comparing Model 1 and Model 2 (i.e., the fit of the two-class model is not significantly poorer than the fit of the three-class model) should be rejected ($p$-value = `r format(gof1$dtable[2, "Boot p-value"], nsmall = 2)`). In the test for comparing Model 2 and Model 3, however, the bootstrap $p$-value (= `r format(gof1$dtable[3, "Boot p-value"], nsmall = 2)`) indicates that the fit of the four-class model has not been improved significantly compared to the fit of the three-class model. In addition, the three-class model has the smallest value among these three models in the model fit criteria. Therefore, we can conclude that the three-class model is an appropriate for the `gss08` data.
+The output from the function `gofglca()` comprises of two tables; goodness-of-fit table and analysis-of-deviance table. The former shows model fit criteria such as AIC, CAIC, BIC, and entropy, $G^2$ statistic, and its bootstrap $p$-value for absolute model fit. In this example, the bootstrap $p$-values indicate that the two-class model (Model 1) fits data poorly ($p$-value = `r format(gof1$gtable[1, "Boot p-value"], nsmall = 2)`), but the three-class and the four-class models (Model 2 and Model 3) fit data adequately ($p$-value = `r format(gof1$gtable[2, "Boot p-value"], nsmall = 2)` and `r format(gof1$gtable[3, "Boot p-value"], nsmall = 2)`, respectively). The latter table displays deviance statistic comparing two competing models and its bootstrap $p$-value for the relative model fit. The null hypothesis in the test for comparing Model 1 and Model 2 (i.e., the fit of the two-class model is not significantly poorer than the fit of the three-class model) should be rejected ($p$-value = `r format(gof1$dtable[2, "Boot p-value"], nsmall = 2)`). In the test for comparing Model 2 and Model 3, however, the bootstrap $p$-value (= `r format(gof1$dtable[3, "Boot p-value"], nsmall = 2)`) indicates that the fit of the four-class model has not been improved significantly compared to the fit of the three-class model. In addition, the three-class model has the smallest value among these three models in the model fit criteria. Therefore, we can conclude that the three-class model is an appropriate for the `gss08` data.
 
 ```{r lca3}
 summary(lca3)
@@ -151,14 +151,14 @@ plot(lca3)
 As the group information provided in the data, we can consider the multilevel data structure and compare the latent class structure between higher-level units (i.e., groups). The `glca()` function can incorporate group variable by setting group argument as the name of group variable in the data. For example, in order to investigate whether attitudes toward legalizing abortions vary by the final degree of respondents, we may set `DEGREE` as group variable by typing `group = DEGREE` in the `glca()` function . `DEGREE` is coded into four categories (i.e., `"<= HS"`, `"HIGH SCHOOL"`, `"COLLEGE"`, and `"GRADUATE"`) indicating from under high school diploma to graduate degree. Moreover, we can implement the test for measurement invariance across groups using the `glca()` function. The measurement invariance assumption can be adjusted through `measure.inv` argument in `glca()`. The default is `measure.inv = TRUE`, constraining item-response probabilities to be equal across groups. The following commands implement two different tests for group variable: (1) test whether class prevalence is significantly influenced by group variable under the measurement-invariant model; and (2) test whether the measurement models differ across groups.
 
 ```{r mglca}
-mglca1 = glca(f, group = DEGREE, data = gss08, nclass = 3, seed = 1)
-mglca2 = glca(f, group = DEGREE, data = gss08, nclass = 3, 
-              measure.inv = FALSE, seed = 1,)
+mglca1 <- glca(f, group = DEGREE, data = gss08, nclass = 3, seed = 1)
+mglca2 <- glca(f, group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE, seed = 1)
 gofglca(lca3, mglca1, mglca2, test = "chisq")
 ```
 ```{r mglca2, include = FALSE}
 gof2 <- gofglca(lca3, mglca1, mglca2, test = "chisq")
 ```
+
 Since the model specified in the object `lca3` (Model 1 in the output from the `goflca()` function) is constructed with six binary items, the number of parameters for the saturated models is $26 − 1 = 63$. Therefore, degree of freedom for Model 1 is $63 − 20 = 43$. The models specified in mglca1 and mglca2 (Model 2 and Model 3) are involved with group variable with four categories, and the number of parameters for the saturated models is $26 \times 4 − 1 = 255$. Therefore, degrees of freedom for Model 2 and Model 3 are $255 − 26 = 229$ and $255 − 80 = 175$, respectively. It should be noted that model comparison has been conducted through chi-squares by setting `test = "chisq"` because Model 1 is nested in Model 2, and Model 2 is nested in Model 3. The analysis-of-deviance table provided by the `gofglca()` function shows that the chi-square $p$-value for comparing Model 1 and Model 2 is `r format(round(gof2$dtable[2, "Pr(>Chi)"], 3), nsmall = 2)`, while the $p$-value for comparing Model 2 and Model 3 is `r round(gof2$dtable[3, "Pr(>Chi)"], 2)`. Hence, we can deduce that the measurement invariance assumption can be assumed, but class prevalences vary across levels of `DEGREE`.
 
 **Testing the equality of coefficients across groups:**    
@@ -166,13 +166,16 @@ We can further consider the subject-specific covariates which may influence the 
 
 ```{r mglcr}
 fx <- item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX
-mglcr1 = glca(fx, group = DEGREE, data = gss08, nclass = 3, seed = 3)
-mglcr2 = glca(fx, group = DEGREE, data = gss08, nclass = 3, 
+mglcr1 <- glca(fx, group = DEGREE, data = gss08, nclass = 3, seed = 3)
+mglcr2 <- glca(fx, group = DEGREE, data = gss08, nclass = 3, 
               coeff.inv = FALSE, seed = 1)
 gofglca(mglca1, mglcr1, mglcr2, test = "chisq")
 ```
+```{r mglca4f, include = FALSE}
+gof3 <- gofglca(mglca1, mglcr1, mglcr2, test = "chisq")
+```
 
-The models specified in `mglcr1` and `mglcr2` (Model 2 and Model 3 in the output from the `goflca()` function) are involved with an additional covariate, SEX, and the number of possible cases is $26 \times 4 \times 2 − 1 = 511$. However, as only 352 observations are used for the analysis, the number of parameters for the saturated model becomes $352 − 1 = 351$. Therefore, degrees of freedom for Model  2 and Model 3 are $351 − 28 = 323$ and $351 − 34 = 317$, respectively. The analysis-of-deviance table provided by the `gofglca()` function shows that SEX has a significant impact on the class prevalence ($p$-value = 0.00) when we compare Model 1 with Model 2. However, the model without any constraint on coefficients (Model 3) is not significantly superior to Model 2 ($p$-value = 0.16), indicating that the impact of `SEX` is not group specific. Note that Model 2 is mathematically equivalent to the standard LCR with covariates `DEGREE` and `SEX` without the interaction terms, but Model 2 is more intuitive and useful configuration when comparison of latent structures by group is a major concern.
+The models specified in `mglcr1` and `mglcr2` (Model 2 and Model 3 in the output from the `goflca()` function) are involved with an additional covariate, SEX, and the number of possible cases is $26 \times 4 \times 2 − 1 = 511$. However, as only 352 observations are used for the analysis, the number of parameters for the saturated model becomes $352 − 1 = 351$. Therefore, degrees of freedom for Model  2 and Model 3 are $351 − 28 = 323$ and $351 − 34 = 317$, respectively. The analysis-of-deviance table provided by the `gofglca()` function shows that SEX has a significant impact on the class prevalence ($p$-value = `r format(round(gof3$dtable[2, "Pr(>Chi)"], 2), nsmall = 2)`) when we compare Model 1 with Model 2. However, the model without any constraint on coefficients (Model 3) is not significantly superior to Model 2 ($p$-value = `r format(round(gof3$dtable[3, "Pr(>Chi)"], 2), nsmall = 2)`), indicating that the impact of `SEX` is not group specific. Note that Model 2 is mathematically equivalent to the standard LCR with covariates `DEGREE` and `SEX` without the interaction terms, but Model 2 is more intuitive and useful configuration when comparison of latent structures by group is a major concern.
 
 **Summarizing the results from the selected model:**    
 Based on the previous analysis, we can conclude that measurement models are equivalent across groups (i.e., measurement invariance assumption is satisfied) in the three-class latent class model. In addition, there is a significant effect of SEX on the class prevalence, but there is no group difference in the amount of effect.
@@ -192,16 +195,17 @@ The estimated coefficients for `SEX` and their odds ratios show that females are
 
 The dataset `nyts18` comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (`ECIGT`), cigars (`ECIGAR`), chewing tobacco/snuff/or dip (`ESLT`), electronic cigarettes (`EELCIGT`), and hookah or water pipe (`EHOOKAH`) taken from the *National Youth Tobacco Survey 2018* (*NYTS 2018*, <https://www.cdc.gov/tobacco/data_statistics/surveys/nyts>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by `SCH_ID` and each school is classified as either middle or high school (`SCH_LEV`). (`?nyts18`)
 
-According to socioecological models, patterns of adolescent tobacco smoking are best understood as embedded within social contexts. These social contexts can be either proximal in terms of individuals and peer groups or more distal in terms of schools and community. Socioecological models suggest that stu- dents within the same school often share common socio-economic status (SES) and cultural characteristics that may cause different tobacco smoking patterns compared to students attending other schools. However, reflecting school (group) effect in an mgLCR is less likely to provide a meaningful summary because there are too many groups, that is, 45 schools in the `nyts18` dataset. In this case, npLCR would be more appropriate model to investigate group difference in terms of a small number of latent clusters of schools.
+According to socioecological models, patterns of adolescent tobacco smoking are best understood as embedded within social contexts. These social contexts can be either proximal in terms of individuals and peer groups or more distal in terms of schools and community. Socioecological models suggest that students within the same school often share common socio-economic status (SES) and cultural characteristics that may cause different tobacco smoking patterns compared to students attending other schools. However, reflecting school (group) effect in an mgLCR is less likely to provide a meaningful summary because there are too many groups, that is, 45 schools in the `nyts18` dataset. In this case, npLCR would be more appropriate model to investigate group difference in terms of a small number of latent clusters of schools.
 
 ```{r data2}
 data("nyts18")
 str(nyts18)
 ```
 
-Selecting the number of latent classes: Prior to conducting npLCR, it is necessary to determine the number of level-1 latent classes. Similar to the previous example, the two-, three-, and four-class standard LCA models can be fitted and compared by the `gofglca()` function as follow:
+**Selecting the number of latent classes**: 
+Prior to conducting npLCR, it is necessary to determine the number of level-1 latent classes. Similar to the previous example, the two-, three-, and four-class standard LCA models can be fitted and compared by the `gofglca()` function as follow:
 
-```{r lcas, cache = TRUE}
+```{r lcas}
 f <- item(starts.with = "E") ~ 1
 lca2 <- glca(f, data = nyts18, nclass = 2, seed = 1)
 lca3 <- glca(f, data = nyts18, nclass = 3, seed = 1)
@@ -209,31 +213,35 @@ lca4 <- glca(f, data = nyts18, nclass = 4, seed = 1)
 
 gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
 ```
+```{r lcas2, include = FALSE}
+gof1 <- gofglca(lca2, lca3, lca4, test = "boot", seed = 1)
+```
 
-The output of the `gofglca()` function indicates that the three-class and the four-class models are adequate in terms of absolute model fit ($p$-value = 0.28 and 0.78, respectively), but the three-class LCA provides the lowest values in information criteria. For the relative model fit, the two-class LCA is rejected ($p$-value = 0.00) on comparison with the three-class LCA using the bootstrap. However, the three-class is not rejected ($p$-value = 0.10) on comparison with the four-class model. Thus, it seems to be reasonable to select the three-class LCA model for the `nyts18` dataset.
+The output of the `gofglca()` function indicates that the three-class and the four-class models are adequate in terms of absolute model fit ($p$-value = `r format(round(gof1$gtable[2, "Boot p-value"], 2), nsmall = 2)` and `r format(round(gof1$gtable[3, "Boot p-value"], 2), nsmall = 2)`, respectively), but the three-class LCA provides the lowest values in information criteria. For the relative model fit, the two-class LCA is rejected ($p$-value = `r format(round(gof1$dtable[2, "Boot p-value"], 2), nsmall = 2)`) on comparison with the three-class LCA using the bootstrap. However, the three-class is not rejected ($p$-value = `r format(round(gof1$dtable[3, "Boot p-value"], 2), nsmall = 2)`) on comparison with the four-class model. Thus, it seems to be reasonable to select the three-class LCA model for the `nyts18` dataset.
 
 **Selecting the number of latent clusters**:    
 Now, an npLCR can be implemented by adding SCH_ID as group variable and specifying the number of latent clusters (i.e., level-2 latent classes) using the `ncluster` argument in the `glca()` function. The two-, three-, and four-cluster npLCR with three latent classes are fitted and compared using the following commands:
 
-```{r mlca, cache = TRUE}
+```{r mlca}
 nplca2 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, seed = 1)
 nplca3 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3, seed = 1)
 nplca4 <- glca(f, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 4, seed = 1)
 
 gofglca(lca3, nplca2, nplca3, nplca4, test = "boot", seed = 1)
 ```
+```{r mlca2, include = FALSE}
+gof2 <- gofglca(lca3, nplca2, nplca3, nplca4, test = "boot", seed = 1)
+```
 
-The goodness-of-fit table shows that the three-cluster model (Model 3) has the smallest values in information criteria among others, and the bootstrap $p$-value (= 0.22) indicates that this model is appropriate for the data. The analysis-of-deviance table shows that group effect is significant as Model 1 has better fit than Model 2 ($p$-value = 0.0). In addition, the three-cluster model (Model 3) has better fit than the two-cluster model (Model 2, $p$-value = 0.00), but there is insignificant difference between the three- and four-cluster models (Model 3 and Model 4) in the model fit ($p$-value = 0.42). Therefore, we can conclude that the three-cluster model is most appropriate among others.
+The goodness-of-fit table shows that the three-cluster model (Model 3) has the smallest values in information criteria among others, and the bootstrap $p$-value (= `r format(round(gof2$gtable[3, "Boot p-value"], 2), nsmall = 2)`) indicates that this model is appropriate for the data. The analysis-of-deviance table shows that group effect is significant as Model 1 has better fit than Model 2 ($p$-value = `r format(round(gof2$dtable[2, "Boot p-value"], 2), nsmall = 2)`). In addition, the three-cluster model (Model 3) has better fit than the two-cluster model (Model 2, $p$-value = `r format(round(gof2$dtable[3, "Boot p-value"], 2), nsmall = 2)`), but there is insignificant difference between the three- and four-cluster models (Model 3 and Model 4) in the model fit ($p$-value = `r format(round(gof2$dtable[4, "Boot p-value"], 2), nsmall = 2)`). Therefore, we can conclude that the three-cluster model is most appropriate among others.
 
 **Testing the equality of coefficients for level-1 covariates across groups:**    
-Covariates can be incorporated into npLCR using the `glca()` function; not only the subject-specific (i.e., level-1) covariates (e.g., `SEX`) but also the group-specific (i.e., level-2) covariates (e.g., `SCH_LEV`). As shown in the previous example, subject-specific covariates are constrained to be equal across latent clusters by default (i.e., `coeff.inv = TRUE`). The chi-square LRT test for checking the equality of coefficients for level-1 covariate, SEX can be conducted using the `gofglca()` function as follows:
+Covariates can be incorporated into npLCR using the `glca()` function; not only the subject-specific (i.e., level-1) covariates (e.g., `SEX`) but also the group-specific (i.e., level-2) covariates (e.g., `SCH_LEV`). As shown in the previous example, subject-specific covariates are constrained to be equal across latent clusters by default (i.e., `coeff.inv = TRUE`). The chi-square LRT test for checking the equality of coefficients for level-1 covariate, `SEX` can be conducted using the `gofglca()` function as follows:
 
-```{r mlcr, cache = TRUE} 
+```{r mlcr} 
 fx <- item(starts.with = "E") ~ SEX
-nplcr1 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2,
-               seed = 1)
-nplcr2 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2,
-               seed = 1, coeff.inv = FALSE)
+nplcr1 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, seed = 1)
+nplcr2 <- glca(fx, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, seed = 1, coeff.inv = FALSE)
 nplcr.gof <- gofglca(nplca3, nplcr1, nplcr2, test = "chisq")
 nplcr.gof$dtable
 ```
@@ -243,4 +251,47 @@ Note that typing `nplca.gof$dtable` into the R console will return the analysis-
 ```{r mlcr2}
 coef(nplcr1)
 plot(nplcr1)
+```
+
+
+**Incorporating the level-2 covariates**: 
+In npLCR, the meaning of the latent cluster (i.e., level-2 class) is interpreted by the prevalence of latent class (i.e., level-1 class) for each of cluster membership. When level-2 covariates are incorporated into the model, this prevalence is designed to be affected by level-2 covariates as shown (5). In other words, as level-2 covariates significantly influence the prevalence of level-1 class, the meaning of latent cluster may change as the level of level-2 covariate changes. Therefore, the number of clusters could be reduced when level-2 covariates are included compared to the number of clusters of npLCR without any level-2 covariate. As we selected the three-cluster model without any level-2 covariate for the `nyts18` dataset, the fit of the three-cluster model should be compared with the fit of the two-cluster model when SCH_LEV is incorporated as a level-2 covariate. Note that different seed values (`seed = 3` and `seed = 6`) are used in the `glca()` function below in order to produce the class order displayed in Figure 2.
+
+```{r mlca3}
+f.2 <- item(starts.with = "E") ~ SEX + SCH_LEV
+nplcr3 <- glca(f.2, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, seed = 3)
+nplcr4 <- glca(f.2, group = SCH_ID, data = nyts18, nclass = 3, ncluster = 3, seed = 6)
+gofglca(nplcr3, nplcr4, test = "boot", seed = 1)
+```
+```{r mlca_f, include = FALSE}
+gof3 <- gofglca(nplcr3, nplcr4, test = "boot", seed = 1)
+```
+
+The analysis-of-deviance table from the gofglca() function shows that three clusters are required even when a level-2 covariate SCH_LEV is incorporated ($p$-value = `r format(round(gof3$dtable[2, "Boot p-value"], 2), nsmall = 2)`). However, information criteria and $p$-values for absolute model fit may let us reach a different conclusion: the two-cluster model provides smaller values in some information criteria and the $p$-value (= `r format(round(gof3$gtable[1, "Boot p-value"], 2), nsmall = 2)`) indicates that the model is appropriate for the dataset. Without strong prior beliefs, the number of latent clusters should be chosen to strike a balance between parsimony, fit, and interpretability. Two bar graphs in Figure 2 display the estimated class prevalences for each cluster membership from the models specified in `nplcr3` and `nplcr4` using the `plot()` function, respectively. The values in parentheses printed in the x-axis are the estimated cluster prevalence. The bar graph in the right, which is generated from the object `nplcr4`, shows that there is not much difference in class prevalence among these three clusters, compared to the bar graph in the left generated from the two-cluster model specified in `nplcr3`. In other words, the three-cluster model is not substantively meaningful, and therefore, we may conclude that the two-cluster model specified in `nplcr3` is more adequate to describe cluster (group) variation in the latent class distribution.
+
+**Summarizing the results from the selected model**: 
+The estimated parameters from the three-class and two-cluster npLCR model specified in `nplcr3` are shown in Figure 3 using the `plot()` function. Based on the line graph in Figure 3, we deduce that Class 1 represents the poly-user group; Class 2 is the electronic cigarette user group; and Class 3 is the non-smoking group. We already argued that the two latent clusters were clearly distinguished by their class prevalence using the left bar graph in Figure 2. According to this stacked bar graph, the probability of engagement in a certain latent class is significantly different between these two school clusters. About 12% and 29% of students in Cluster 2 belong to Class 1 (poly-user group) and Class 2 (electronic cigarette user group), whereas only 2% and 9% of them belong to Class 1 and Class 2, respectively. The difference in class prevalences by cluster indicates that students who attend a school classified as Cluster 2 are more likely to be smokers relative to a similar student attending a school classified as Cluster 1. The full output of the `glca()` function for the selected model can be displayed by the `summary()` function as follows:
+
+```{r mlca4}
+summary(nplcr3)
+```
+
+As shown in the previous example, the result of Wald test for each of estimated odds ratios and coefficients can be obtained by typing `coef(nplcr3)` into the R console (results not shown here). The Wald test shows that females are more likely to belong to Class 1 than Class 3, indicating that females are at a higher risk than their male counterparts. For level-2 covariate `SCH_LEV`, middle schools are less likely to belong to Class 1 or 2 than Class 3, that is, middle-school students tend to smoke less than high-school students.
+
+**Imputing the cluster membership**: 
+Researchers often want to explore the effects of level-2 covariates on the imputed latent cluster membership. Note that we selected the two-cluster model specified in `nplcr3`. We can easily impute the latent cluster membership for 45 schools using the posterior probabilities from the model specified in `nplcr3` and fit the standard logistic regression with `SCH_LEV` as a covariate. The posterior probabilities for latent cluster can be accessed by `nplcr3$posterior$cluster`. The following codes generate the imputed latent cluster membership for each school and save the cluster membership in `ndata` with level-2 covariate `SCH_LEV`.
+
+```{r impute}
+tmp1 <- unique(nyts18[c("SCH_ID", "SCH_LEV")])
+tmp2 <- nplcr3$posterior$cluster
+tmp3 <- data.frame(SCH_ID = rownames(tmp2), Cluster = factor(apply(tmp2, 1, which.max)))
+ndata <- merge(tmp1, tmp3)
+head(ndata)
+```
+
+Using the logistic regression, the effect of level-2 covariate `SCH_LEV` on the latent cluster membership can be estimated as following:
+
+```{r impute2}
+fit <- glm(Cluster ~ SCH_LEV, family = binomial, data = ndata)
+summary(fit)
 ```
