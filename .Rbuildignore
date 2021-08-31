@@ -14,3 +14,5 @@ README.md
 ^\.github$
 ^\.travis\.yml$
 ^codecov\.yml$
+^vignettes/glca\.Rmd\.orig$
+^vignettes/knit\_vignette\.R$
