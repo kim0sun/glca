@@ -3,7 +3,7 @@ title: "Introduction to glca package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{glca}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
   %\VignetteEncoding{UTF-8}
 ---
 
