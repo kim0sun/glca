@@ -327,6 +327,7 @@ for $k = 1,\ldots, r_m$ and $k' = 1,\ldots, r_m-1$.\\
 
 
 **Random-effect latent class analysis:**
+
 The prevalences for latent clusters, $\boldsymbol{\delta} = (\delta_1, \ldots, \delta_W)^\top$ are re-parametrized by the baseline logit function $\zeta_w = \ln\left(\delta_w / \delta_W\right)$ for $w=1,\ldots,W-1$. Let $\mathbf{s}(\mathbf{Y}_{g}; \boldsymbol{\zeta})$ denote score function of $\boldsymbol{\zeta}=(\zeta_1, \ldots, \zeta_{W-1})^\top$ for the $g$th group. Then, the $w$th element of $\mathbf{s}(\mathbf{Y}_{g}; \boldsymbol{\zeta})$ is obtained as 
 <!--------------->
 \begin{eqnarray*}
