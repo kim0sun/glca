@@ -1,0 +1,257 @@
+---
+title: "Model description for glca"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Model description for glca}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Suppose that there are $G$ groups, and the $g$th group consists of $n_g$ observations for $g=1,\ldots,G$, and there are $M$ categorical manifest items, where the $m$th item has $r_m$ categories for $m=1,\ldots,M$. Let $\mathbf{Y}_{ig}=(Y_{ig1}, \dots, Y_{igM})^\top$ and ${\bf y}_{ig} = (y_{ig1}, \ldots, y_{igM})^\top$ denote a set of item variables and their responses given by the $i$th individual within the $g$th group, respectively. The number of possible response patterns of $\mathbf{Y}_{ig}$ is $\prod_{m = 1}^{M}r_m$, and it is likely that most of these response patterns are sparse. The multiple-group LCA assumes that associations among manifest items can be explained by the latent classifier $L_{ig}$, where $L_{ig}$ is the latent class variable having $C$ categories for the $i$th individual within the $g$th group. To reflect multiple-group data structures, we discuss two different LCA approaches, namely fixed-effect and random-effect LCA.
+
+## Fixed-effect latent class analysis
+
+The fixed-effect LCA can reflect group differences in latent structure by specifying an LCR model for a given subgroup. We extend the simultaneous LCA \cite{mglca} by incorporating logistic regression in the class prevalence and refer it to _multiple-group latent class regression_ (mgLCR).
+Let ${\bf x}_{ig}=(x_{ig1}, \ldots, x_{igp})^\top$ be a subject-specific $p\times 1$ vector of covariates for the $i$th individual within the $g$th group, either discrete or continuous. Then, the observed-data likelihood of mgLCR for the $i$th individual within the $g$th group can be specified as
+
+\begin{eqnarray}
+\label{eq:likeli}
+\mathcal{L}_{ig} &=& \sum_{c=1}^C P(\mathbf{Y}_{ig} = \mathbf{y}_{ig}, L_{ig} = c \mid {\bf x}_{ig}) \nonumber \\
+&=& \sum_{c=1}^C \left[ P(L_{ig} = c \mid {\bf x}_{ig}) \prod_{m = 1}^{M} P(y_{igm} = k \mid L_{ig} = c) \right] \nonumber  \\ 
+&=& \sum_{c=1}^C \left[ \gamma_{c \mid g}({\bf x}_{ig}) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m} \rho_{mk \mid cg}^{I(y_{igm} = k)} \right], 
+\end{eqnarray}
+
+where $I(y_{igm}=k)$ is an indicator function that is equal to 1 when the response to the $m$th item from the $i$th individual within the $g$th group is $k$ and is otherwise equal to 0. The likelihood given in \eqref{eq:likeli} contains two types of parameters:
+
+\begin{enumerate}
+\item $\rho_{mk \mid cg} = P(Y_{igm} = k \mid L_{ig} = c)$ 
+\item $\rho_{mk \mid cg}$ represents the probability of an individual within the $g$th group responding $k$ to the $m$th item given his or her latent class as $c$.\item $\gamma_{c \mid g}({\bf x}_{ig}) =  P(L_{ig} = c \mid {\bf x}_{ig})$ 
+\item $\gamma_{c \mid g}({\bf x}_{ig})$ is the probability of the $i$th individual belonging to the latent class $c$ within the $g$th group, which could be influenced by the subject-specific covariates ${\bf x}_{ig}$.
+\end{enumerate}
+
+The $\rho$-parameter is the measurement parameter in mgLCR (i.e., item-response probability), describing a tendency of individuals in a latent class $c$ to respond to the $m$th item for $m = 1,\ldots,M$. Comparison of estimated item-response probabilities across groups is a valuable strategy for quantifying measurement invariance because they solely determine the meaning of the latent class. By comparing the model fit with the parameter held constant across groups (i.e., $\rho_{mk \mid c} = \rho_{mk \mid c1} = \dots = \rho_{mk \mid cG}$ for $k=1,\ldots,r_m$, $m=1,\ldots,M$, and $c=1,\ldots,C$) against an alternative model with freely varying parameters, we obtain evidence on whether measurement invariance across groups can be assumed. As given in \eqref{eq:likeli}, the subject-specific covariates ${\bf x}_{ig}$ may influence the probability of the individual belonging to a specific class in the form of logistic regression as
+
+\begin{eqnarray}
+\label{mgLCA_reg}
+\gamma_{c \mid g}(\mathbf{x}_{ig}) = P(L_{ig} = c \mid {\bf x}_{ig}) = \frac{\exp(\alpha_{c \mid g}+{\bf x}_{ig}^\top \boldsymbol{\beta}_{c \mid g})}{\sum_{c'=1}^C\exp(\alpha_{c' \mid g}+{\bf x}_{ig}^\top \boldsymbol{\beta}_{c' \mid g})}, 
+\end{eqnarray}
+
+where the coefficient vector $\boldsymbol{\beta}_{c \mid g} = (\beta_{1c \mid g}, \ldots, \beta_{pc \mid g})^\top$ can be interpreted as the expected change in the log odds of belonging to a class $c$ versus belonging to the referent class $C$ (i.e., $\alpha_{C \mid g}=0$ and $\boldsymbol{\beta}_{C \mid g} = {\bf 0}$ for $g=1, \ldots, G$). 
+Then, the observed log-likelihood function for the mgLCR model can be specified as
+
+\begin{eqnarray}
+\label{loglik_mgLCA}
+\ell_{mgLCR} = \sum_{g = 1}^{G}\sum_{i = 1}^{n_{g}} \log \mathcal{L}_{ig}.
+\end{eqnarray}
+
+It should be noted that, similar to item-response probabilities, coefficients of logistic regression can be constrained to be equal across subgroups (i.e., $\boldsymbol{\beta}_{c} = \boldsymbol{\beta}_{c \mid 1}= \cdots = \boldsymbol{\beta}_{c \mid G}$ for $c=1, \ldots,C$) to test whether the effects of covariates are identical across groups.
+
+## Random-effect latent class analysis
+
+As in Section~\ref{intro}, there are parametric and nonparametric approaches for random-effect LCA. 
+The random-effect LCA considers the group variation in the latent class prevalence for each group using random coefficients, for example, 
+For example, the prevalence of latent class for each group can be modeled using random coefficients $\boldsymbol{\lambda}=(\lambda_1, \ldots, \lambda_G)^\top$ as 
+
+$$
+P(L_{ig} = c) = 
+\frac{\exp(\alpha_{c} + \sigma_{c} \lambda_{g})}{\sum_{c' = 1}^{C}\exp(\alpha_{c'} + \sigma_{c'} \lambda_{g})},
+$$ 
+
+where $\boldsymbol{\lambda}=(\lambda_1, \ldots, \lambda_G)^\top$ represents group variation in the class prevalence. 
+For random-effect LCA, there are parametric and nonparametric approaches to random coefficients \cite{vermunt2003}. 
+In the parametric random-effect LCA, the random coefficients are assumed to be derived from parametric distributions such as standard normal distribution. However, the nonparametric approach assumes no specific distribution; rather, it only assumes that random coefficients follow a specific probability mass function with some mass points. In other words, the nonparametric approach employs categorical level-2 latent variable (i.e., latent cluster) $U_{g}$ whose probability mass function is $P(U_g=w) = \delta_w$ for $w=1,\ldots,W$. Using the classification mechanics of LCA, the latent cluster membership of level-2 units can be identified by the small number of representative patterns of class prevalences in multiple groups. Therefore, the meaning of the $w$th level of latent cluster variable is determined by the prevalence of latent classes $P(L_{ig} = c \mid U_{g} = w)$ for $c=1,\ldots,C$. Considering latent cluster variable as a group variable, the nonparametric approach provides more meaningful interpretations in group comparison than parametric approach; we can examine whether the latent class structure differs across latent cluster memberships. Therefore, we focus on the nonparametric random-effect LCA, hereafter referred to as {\it{nonparametric latent class regression}} (npLCR). 
+
+In npLCR, the latent cluster variable is used to specify the prevalence of latent class as 
+
+\gamma_{ig(c\mid w)} = 
+$$
+P(L_{ig} = c \mid U_{g} = w) = 
+\frac{\exp(\alpha_{c \mid w})}{\sum_{c' = 1}^{C}\exp(\alpha_{c' \mid w})},
+$$
+\end{eqnarray} 
+
+where the probability mass function for the random coefficient $\alpha_{c \mid w}$ is $P(U_g=w) = \delta_w$ for $w=1,\ldots,W$, which can be interpreted as latent cluster prevalence. 
+
+The observed-data likelihood of npLCR for the $g$th group can be expressed by
+
+\begin{eqnarray}
+\mathcal{L}_{g} &=&
+\sum_{w = 1}^{W} P(U_g = w) \prod_{i=1}^{n_g} \left\{\sum_{c = 1}^{C} P(Y_{ig}=y_{ig}, L_{ig} = c \mid U_{g} = w, \mathbf{x}_{ig}, \mathbf{z}_{g})\label{grouploglik_mLCA}\right\} \nonumber \\
+&=& \sum_{w = 1}^{W} P(U_g = w) \prod_{i=1}^{n_g} \left\{\sum_{c = 1}^{C} P(L_{ig} = c \mid U_{g} = w, \mathbf{x}_{ig}, \mathbf{z}_{g}) \prod_{m=1}^M P(Y_{igm}=k \mid L_{ig} = c )  \right\} \nonumber \\
+&=& \sum_{w = 1}^{W} \delta_{w} \prod_{i=1}^{n_g}  \left\{ \sum_{c = 1}^{C} \gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_{g}) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c}^{I(y_{igm} = k)}\right\},
+\end{eqnarray} 
+
+where ${\bf x}_{ig} = (x_{ig1}, \ldots, x_{igp})^\top$ and ${\bf z}_g=(z_{g1}, \ldots, z_{gq})^\top$ denote vectors of subject-specific (i.e., level-1) and group-specific (i.e., level-2)  covariates for $i=1, \ldots, n_g$ and $g=1,\ldots,G$, respectively.
+where $I(y_{igm}=k)$ is an indicator function that is equal to 1 when the response to the $m$th item from the $i$th individual within the $g$th group is $k$ and is otherwise equal to 0. 
+The likelihood given in~\eqref{grouploglik_mLCA} contains three types of parameters:
+
+\begin{enumerate}
+\item $\rho_{mk \mid c}$ represents the probability of an individual responding $k$ to the $m$th item given his or her latent class as $c$.
+\item $\gamma_{c \mid w}({\bf x}_{ig}, {\bf z}_g)$ is the probability of the $i$th individual within the $g$th group belonging to the latent class $c$ given the latent cluster $w$, which could be influenced by the subject-specific covariates ${\bf x}_{ig}$ and the group-specific covariates ${\bf z}_g$.
+\item $\delta_w$ represents the latent cluster prevalence for $w=1,\ldots,W$.
+\end{enumerate}
+
+In npLCR we can incorporate level-1 and/or level-2 covariates to predict latent class membership. 
+The class prevalence can be modeled using the logistic regression as 
+
+\begin{eqnarray}
+\label{MLCA_reg}
+\gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_{g}) = P(L_{ig} = c \mid U_{g} = w, \mathbf{x}_{ig}, \mathbf{z}_{g}) = 
+\frac{\exp(\alpha_{c \mid w} + \mathbf{x}^{\top}_{ig}\boldsymbol{\beta}_{1c \mid w} + \mathbf{z}^{\top}_{g}\boldsymbol{\beta}_{2c})}
+{\sum_{c' = 1}^{C} \exp(\alpha_{c' \mid w} + \mathbf{x}^{\top}_{ig}\boldsymbol{\beta}_{1c' \mid w} + \mathbf{z}^{\top}_{g}\boldsymbol{\beta}_{2c'})},
+\end{eqnarray} 
+
+where vectors $\boldsymbol{\beta}_{1c \mid w} = (\beta_{11c \mid w}, \ldots, \beta_{1pc \mid w})^\top$ and $\boldsymbol{\beta}_{2c} = (\beta_{21c}, \ldots, \beta_{2qc})^\top$ are logistic regression coefficients for level-1 and level-2 covariates, respectively. 
+Then, the observed log-likelihood of npLCR is specified as
+
+\begin{eqnarray}
+\label{loglik_mLCA}
+\ell_{npLCR} = \sum_{g = 1}^{G} \log \mathcal{L}_{g}.
+\end{eqnarray}
+
+
+Note that coefficients for level-1 covariates depend on both latent classes and clusters, while coefficients for level-2 covariates depend only on latent class membership. We may refer the model (\ref{MLCA_reg}) to the random slope model as coefficients for level-1 covariates are different across latent clusters. The coefficients for level-1 covariates can be constrained to be equal across clusters (i.e., $\boldsymbol{\beta}_{1c} = \boldsymbol{\beta}_{1c \mid 1} = \cdots = \boldsymbol{\beta}_{1c \mid W}$ for $c=1, \ldots,C$) to test whether the effects of level-1 covariates are identical across all latent cluster memberships. 
+It should also be noted that the measurement invariance is assumed across latent cluster memberships in npLCR (i.e., $\rho_{mk \mid c} = \rho_{mk \mid c1} = \dots = \rho_{mk \mid cW}$ for $k=1,\ldots,r_m$, $m=1,\ldots,M$, and $c=1,\ldots,C$). If not, the item response probability may vary across latent cluster memberships, suggesting that the latent class structure itself is different between latent clusters. Thus, it no longer makes sense to use latent class prevalences as identifiers for the latent cluster membership.
+It should also be noted that we should assume measurement invariance across latent cluster memberships (i.e., $\rho_{mk \mid c} = \rho_{mk \mid c1} = \dots = \rho_{mk \mid cW}$ for $k=1,\ldots,r_m$, $m=1,\ldots,M$, and $c=1,\ldots,C$) in npLCR because latent cluster membership is identified by latent class prevalences of each group. If item response probabilities vary across latent clusters, the meaning of latent classes varies from cluster to cluster. Then, it no longer makes sense to use latent class prevalences as identifiers for latent clusters.
+
+## Estimation for fixed-effect latent class analysis
+
+The package \texttt{glca} finds the maximum-likelihood (ML) estimates for mgLCR and npLCR using expectation-maximization (EM) algorithm \cite{Dempster77}. The EM algorithm iterates two steps: expectation step (E-step) and maximization step (M-step) in order to find the solution maximizing the log-likelihood functions given in $\eqref{loglik_mgLCA}$ and $\eqref{loglik_mLCA}$. 
+
+For mgLCR, E-step computes the posterior probabilities 
+
+\begin{eqnarray*}
+\label{post}
+  \theta_{ig(c)} = P(L_{ig} = c \mid \mathbf{Y}_{ig} = \mathbf{y}_{ig}, \mathbf{x}_{ig})
+  = \frac{\gamma_{c \mid g}(\mathbf{x}_{ig}) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m} \rho_{mk \mid cg}^{I(y_{igm} = k)}}{\sum_{c' = 1}^{C} \gamma_{c' \mid g}(\mathbf{x}_{ig}) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m} \rho_{mk \mid c'g}^{I(y_{igm} = k)}}\\
+\end{eqnarray*} 
+
+with current estimates for $i=1, \ldots, n_g$, $g=1,\ldots,G$, and $c=1,\ldots,C$. M-step maximizes the complete-data likelihood (i.e., the likelihood for the cross-classification by $L_{ig}$ and $\mathbf{y}_{ig}$) with respect to $\beta$- and $\rho$-parameters. In particular, when all values of $\theta_{ig(c)}$ are known, updated estimates for $\beta$-parameters can be calculated by the standard Newton-Raphson algorithm for multinomial logistic regression given in \eqref{mgLCA_reg}, provided that the computational routine allows fractional responses rather than integer counts~\cite{bandeen}. Therefore, the package \texttt{glca} conducts one-cycle of Newton-Raphson algorithm to update $\beta$-parameters at every iteration in M-step. If there is no covariate in the model, the class prevalence can be updated directly without estimating $\beta$-parameters as $\hat{\gamma}_{c \mid g} = P(L_{ig}=c) = \sum_{i=1}^{n_g} \theta_{ig(c)}/n_g$ for $c=1,\ldots,C$ and $g=1,\ldots,G$. The item-response probabilities, $\rho_{mk \mid cg}$ can be interpreted as parameters in a multinomial distribution when $\theta_{ig(c)}$ is known, so we have 
+
+$$
+\hat{\rho}_{mk \mid cg} = \frac{\sum_{i=1}^{n_g} \theta_{ig(c)}I(y_{igm} = k)}{\sum_{i=1}^{n_g}  \theta_{ig(c)}}
+$$ 
+
+for $k=1, \ldots, r_m$, $m=1,\ldots,M$, $c=1,\ldots,C$, and $g=1,\ldots,G$. Under the measurement invariance assumption (i.e., $\rho_{mk \mid c} = \rho_{mk \mid c1} = \dots = \rho_{mk \mid cG}$), the $\rho$-parameter will be updated as
+
+$$
+\hat{\rho}_{mk \mid c} = \frac{\sum_{g = 1}^{G} \sum_{i = 1}^{n_g} \theta_{ig(c)}I(y_{igm} = k)}{\sum_{g = 1}^{G} \sum_{i = 1}^{n_g} \theta_{ig(c)}}
+$$ 
+
+for $k=1, \ldots, r_m$, $m=1,\ldots,M$, and $c=1,\ldots,C$.
+
+## Estimation for random-effect latent class analysis
+
+For npLCR, E-step involves the joint posterior probability
+
+\begin{eqnarray}
+\label{full_post}
+\theta_{g(w, c_1, \ldots, c_{n_g})} =  P(U_g = w, L_{1g}=c_{1},  \ldots, L_{n_gg}=c_{n_g} \mid \mathbf{Y}_g = \mathbf{y}_g, \mathbf{x}_g, \mathbf{z}_g),
+\end{eqnarray} 
+
+where $\mathbf{y}_g = (\mathbf{y}_{1g}^\top, \ldots, \mathbf{y}_{n_gg}^\top)^\top$ and $\mathbf{x}_g = (\mathbf{x}_{1g}^\top, \ldots, \mathbf{x}_{n_gg}^\top)^\top$ are all observations for $M$ manifest items and $p$ subject-specific covariates from the $g$th group, respectively. 
+As shown in~\eqref{full_post}, computational complexity increases exponentially as the number of individuals per group $n_g$ increases in E-step for npLCR;
+\textcolor{orange}{The E-step in npLCR poses a problem of computational complexity as the number of individuals per group $n_g$.} 
+when the model has $W$ latent clusters and $C$ latent classes, the standard implementation of the E-step would yield dimensional complexity proportional to $W \times C^{n_g}$ for each group. It is not computationally feasible even with a moderate number of individuals per group. Besides, M-step for npLCR  requires only some marginal versions of posterior probabilities rather than the joint posterior probability given in~\eqref{full_post}. Therefore, the E-step can be modified to alleviate the computational complexity by accommodating the hierarchical structure of npLCR. \citeNP{vermunt2003} proposed the upward-downward (UD) algorithm for calculating the marginal posterior probability directly in the E-step. The UD algorithm is similar to the forward-backward (FB) algorithm for handling hidden Markov models \cite{baum1970,juang1991}. In the UD algorithm, marginal posterior probabilities $\theta_{ig(w,c)}$ can be calculated as
+
+\begin{eqnarray}
+\label{UD} 
+\theta_{ig(w,c)} &=& P(U_g = w, L_{ig} = c \mid \mathbf{Y}_g=\mathbf{y}_g, \mathbf{x}_g, \mathbf{z}_g) \nonumber \\
+&=& P(U_g = w \mid \mathbf{Y}_g=\mathbf{y}_g, \mathbf{x}_g, \mathbf{z}_g) P(L_{ig} = c \mid U_g = w, \mathbf{Y}_{ig}=\mathbf{y}_{ig}, \mathbf{x}_{ig}, \mathbf{z}_g) \nonumber \\
+&=& \theta_{g(w)} \theta_{ig(c \mid w)} 
+\end{eqnarray}
+
+for $i=1, \ldots, n_g$, $g=1,\ldots,G$, $c=1,\ldots,C$, and $w=1,\ldots,W$. The marginal posterior probability, $\theta_{ig(w,c)}$ is the product of {\em upward probability}, $\theta_{g(w)}$ and {\em downward probability}, $\theta_{ig(c \mid w)}$. In~\eqref{UD}, it should be noted that an individual's class membership is assumed to depend only on his/her observations, which can be presented as $P(L_{ig} = c \mid U_g = w, \mathbf{Y}_{g}=\mathbf{y}_{g}, \mathbf{x}_g, \mathbf{z}_g) = P(L_{ig} = c \mid U_g = w, \mathbf{Y}_{ig}=\mathbf{y}_{ig}, \mathbf{x}_{ig}, \mathbf{z}_g)$ for $i=1,\ldots,n_g$. Then, the upward and downward probabilities are easily calculated as
+
+\begin{eqnarray*}
+\theta_{g(w)} 
+&=& \frac{\delta_{w} \prod_{i = 1}^{n_g} \left\{ \sum_{c = 1}^{C} \gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c}^{I(y_{igm} = k)}\right\}  }
+{\sum_{w = 1}^{W} \delta_{w} \prod_{i = 1}^{n_g} \left\{ \sum_{c = 1}^{C} \gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c}^{I(y_{igm} = k)}\right\}}\;\; \mbox{and} \\
+\theta_{ig(c \mid w)}
+  &=& \frac{\gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c}^{I(y_{igm} = k)}}
+  {\sum_{c' = 1}^C\gamma_{c' \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c'}^{I(y_{igm} = k)}}
+\end{eqnarray*} 
+
+with current estimates, respectively. 
+The downward probability can be obtained as
+
+\begin{eqnarray*}
+\theta_{iwg(c)} &=&
+  \frac{P(L_{ig} = c, \mathbf{Y}_{ig} = \mathbf{y}_{ig} \mid U_g = w, \mathbf{x}_{ig}, \mathbf{z}_g)}
+  {\sum_{c' = 1}^{C}P(L_{ig} = c', \mathbf{Y}_{ig} = \mathbf{y}_{ig} \mid U_g = w, \mathbf{x}_{ig}, \mathbf{z}_g)}\nonumber \\
+  &=& \frac{\gamma_{c \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c}^{I(y_{igm} = k)}}
+  {\sum_{c' = 1}^{K}\gamma_{c' \mid w}(\mathbf{x}_{ig}, \mathbf{z}_g) \prod_{m = 1}^{M}\prod_{k = 1}^{r_m}\rho_{mk \mid c'}^{I(y_{igm} = k)}}
+\end{eqnarray*} 
+
+with current estimates. 
+M-step maximizes the complete-data likelihood (i.e., the likelihood for the cross-classification by $U_g$, $L_{ig}$ and $\mathbf{y}_{ig}$) with respect to $\boldsymbol{\beta}_{1c \mid w}$, $\boldsymbol{\beta}_{2c}$, and $\rho_{mk \mid c}$. In particular, when $\theta_{ig(w,c)}$ is known, updated estimates for $\beta$-parameters can be calculated by standard Newton-Raphson algorithm for multinomial logistic regression given in \eqref{MLCA_reg}, provided that the computational routine allows fractional responses rather than integer counts~\cite{bandeen}. Therefore, the package \texttt{glca} conducts one-cycle of Newton-Raphson algorithm to update $\beta$-parameters at every iteration in M-step. If there is no covariate in the model, the class prevalence can be updated directly without estimating $\beta$-parameters as $\hat{\gamma}_{c \mid w} = P(L_{ig}=c \mid U_g =w) = \sum_{g=1}^G \sum_{i=1}^{n_g} \theta_{ig(w,c)}/\sum_{g=1}^G \theta_{g(w)}$ for $c=1,\ldots,C$ and $w=1,\ldots, W$. 
+The cluster prevalence $\delta_w$ and the item-response probabilities $\rho_{mk \mid c}$ can be interpreted as parameters in multinomial distributions, so we have
+
+\begin{eqnarray}
+\hat{\delta}_{w} = \frac{\sum_{g = 1}^{G} \theta_{g(w)}}{G}
+\;\; \text{and}
+\;\; \hat{\rho}_{mk \mid c} = \frac{\sum_{g = 1}^{G} \sum_{i = 1}^{n_g} \theta_{ig(c)}I(y_{igm} = k)}{\sum_{g = 1}^{G} \sum_{i = 1}^{n_g} \theta_{ig(c)}} \label{m-nplcr}
+\end{eqnarray}
+
+for $w=1,\ldots,W$, $c=1,\ldots,C$, $k=1,\ldots,r_m$, and $m=1,\ldots,M$. The marginal posterior probability used in~\eqref{m-nplcr} are easily obtained by $\theta_{ig(c)} = \sum_{w = 1}^{W} \theta_{ig(w,c)}$.
+
+## Handling missing data
+\label{missing}
+
+Missing data occur in nearly all empirical data, despite the vigorous efforts of researchers to prevent it. Missing data cause two general problems. First, if subjects with any missing data on the variables are removed from the dataset, the sample can be very small especially when the number of missing values is large. This can lead to a great loss of information and poor statistical power. Second, frequently the subjects who provide incomplete data are different from those who provide complete data. If adjustments are not made for these differences, results may be biased. 
+
+In the case of random missing-data mechanisms (i.e., ignorable missing data) such as missing completely at random (MCAR) and missing at random (MAR) \cite{Little19}, two methods for dealing with missing data are typically available: full-information maximum likelihood (FIML) and multiple imputation (MI, \citeNP{schafer97}). In MI plausible values are imputed multiple times in place of missing values to create multiple complete datasets. The use of MI for multiple-group LCA has an advantage in that missing data on covariates and group variable can be handled. However, the disadvantage is that LCA must be fitted separately for each imputed complete dataset, and the results must be combined to obtain the final estimates. An important advantage of using MI for multiple-group LCA is that missing data on covariates and grouping variable can be handled. However, the disadvantage is that LCA must be fitted within each imputed complete dataset, and the results must be combined to obtain final estimates. 
+FIML is a model-based missing data procedure where model estimates are adjusted on the basis of all of the information provided by subjects with complete data and partially complete data. Most software packages for LCA employ a FIML approach because it requires no additional input from the user other than specifying that what code is used to denote missing data. However, this approach cannot handle missing data when missingness occurs in group variable or covariates in multiple-group LCA. 
+
+The package \texttt{glca} estimates model parameters using a FIML approach when some responses are found missing on manifest items: in E-step the missing responses are excluded from computing the posterior probability; and in M-step the indicator $I(y_{igm} = k)$ for the missing response is replaced with the updated $\rho$-parameter from previous iteration. In short, the package \texttt{glca} can handle any ignorable missing data on manifest items, but individuals with missing data on group variable or any covariate are deleted from the analysis. 
+\textcolor{orange}{The package \texttt{glca} handles the nonresponses on manifest items in a FIML approach; the missing responses are excluded from computing the posterior probability (in E-step), then the indicator $I(y_{igm} = k)$ for the missing response is replaced with the updated $\rho$-parameter from previous iteration(in M-step). In this way,} the package \texttt{glca} can handle any ignorable missing data on manifest items, but individuals with missing data on group variable or any covariate are deleted from the analysis. 
+However, missing values on group variable and covariates can be treated using multiple multivariate imputation by chained equations (MICE, \citeNP{Buuren06}), which is implemented in the R package \href{https://cran.r-project.org/web/packages/mice/index.html}{\texttt{mice}}~\cite{Buuren11}. MICE imputation could be used to create multiple sets of complete group variable and covariates for multiple-group LCA. Each complete dataset can be analyzed using the package \texttt{glca} and combining results across imputed datasets are easily obtained.
+
+## Finding global maximum
+\label{localmax}
+
+Since the log-likelihood of LCA may have several local-maxima problem, the estimated parameters from EM algorithm can be deviated from the globally optimal solution. To cope with this problem, we recommend starting the algorithm using several different initial sets of random values and ascertaining whether they consistently converge to the same solution. If they converge, the solution can be considered as the ML estimates. If not, we recommend examining the distribution of the likelihood values and selecting the largest likelihood value, which usually corresponds to the ML solution. 
+The package \texttt{glca} allows investigators to try different starting values either by using random starting values or providing their own starting values. An investigator can select the number of initial sets of random values (default is 10) in the package \texttt{glca}, and then the package iterates EM algorithm a small number of times (default is 50) for each set of random values. Among the initial sets of model parameters, those producing the largest value of likelihood will be chosen for the main iteration. 
+
+## Standard error calculation
+\label{secalc}
+
+The standard error of the estimated parameters can be calculated using the observed empirical information matrix \cite[p.~114]{Mclachlan07},
+
+$$
+\boldsymbol{I}_{e}(\hat{\boldsymbol{\Psi}};\mathbf{Y}) = 
+\sum_{g = 1}^{G}\mathbf{s}(\mathbf{Y}_{g}; \hat{\boldsymbol{\Psi}})\mathbf{s}^\top(\mathbf{Y}_{g}; \hat{\boldsymbol{\Psi}}),
+$$
+
+where $\mathbf{s}(\mathbf{Y}_{g}; \hat{\boldsymbol{\Psi}})$ is the score function of the parameter vector $\boldsymbol{\Psi}$ for the $g$th group, evaluated at their MLE $\hat{\boldsymbol{\Psi}}$. In the parameter vector $\boldsymbol{\Psi}$, all probability parameters such as $\delta$ and $\rho$-parameters are transformed into free parameters using baseline logit function. The variance of $\hat{\boldsymbol{\Psi}}$ can be obtained by the inverse of $\boldsymbol{I}_{e}(\hat{\boldsymbol{\Psi}};\mathbf{Y})$. However, as our target parameters are a re-parameterized version of $\boldsymbol{\Psi}$, we should apply delta method to the variance of $\hat{\boldsymbol{\Psi}}$. Let $q(\boldsymbol{\Psi})$ denote the original parameters of multiple-group latent class models. Then, the variance-covariance matrix of the estimates is
+
+$$
+\textsf{Var}\left(q(\hat{\boldsymbol{\Psi}})\right) =
+J_q(\hat{\boldsymbol{\Psi}})\textsf{Var}(\hat{\boldsymbol{\Psi}})J_q(\hat{\boldsymbol{\Psi}})^\top,
+$$
+
+where $J_q(\hat{\boldsymbol{\Psi}})$ is the Jacobian matrix of the function $q()$ evaluated at the MLE of $\boldsymbol{\Psi}$. Details of the score functions and the Jacobian matrices are provided in Appendix.
+  
+## Assessing absolute model fit for measuring goodness-of-fit
+\label{gofdesc}
+
+Absolute model fit refers to whether a specified multiple-group latent class model provides an adequate representation of the data. Typically, the analyst assesses absolute model fit by fitting a particular model to the observed data and testing the null hypothesis that the observed data has been produced by the fitted model. Thus, one usually hopes to find a model for which the null hypothesis is not rejected. This hypothesis test for LCA is based on a contingency table; the expected cell counts are estimated according to the specified model and its estimated parameters, then compared to the observed cell counts. The likelihood-ratio statistic, $G^2$~\cite{Agresti13} is used to assess absolute model fit in the package \texttt{glca}. The $G^2$ test statistic is derived from the difference in the log-likelihood values between the fitted model and the saturated model (i.e., expected and observed cell counts, respectively), where the residual degree of freedom is calculated by subtracting the number of parameters in the fitted model from those in the saturated model. The number of parameters for the saturated model is the lesser of number of possible combinations of categorical variables and number of cases in the model.
+
+It should be noted that the contingency table for the LCA type of model is commonly sparse. When there are many cells containing very few observations in the cross-classification table, the large-sample approximation to the chi-square distribution for the $G^2$ statistic is not appropriate. In such case, the package \texttt{glca} allows us to conduct goodness-of-fit test using the bootstrap likelihood-ratio test (BLRT) statistic~\cite{boot}. This approach generates random datasets multiple times using the estimated parameters and calculates the $G^2$ statistic for each generated dataset. In BLRT the resulting distribution of the $G^2$ statistic across the random datasets is used as the reference distribution.  The relative position of the $G^2$ statistic obtained from the original dataset within the reference distribution can be used as a measure of absolute model fit. In fact, the right tail probability of the observed $G^2$ value is regarded as a bootstrap $p$-value. For example, if the observed $G^2$ value falls in the uppermost tail of the reference distribution, we may conclude that this test statistic is unlikely observed under the model corresponding to the null hypothesis. Such finding would provide evidence to reject the null hypothesis. 
+
+## Assessing relative model fit for exploring group differences
+\label{group_difference}
+
+When comparing two or more groups in multiple-group latent class model, it should be checked if the latent features are identical or not across groups. The relative model fit refers to deciding which of two or more models represents a better fit to a particular dataset. The measurement invariance in multiple-group LCA can be tested by comparing the model fits of constrained versus unconstrained model; the unconstrained (full) model allows all parameters to vary across groups, while the constrained (reduced) model allows only the class prevalences to vary but item-response probabilities to be equal across groups. The package \texttt{glca} conducts the chi-square likelihood-ratio test (LRT) to assess relative model fit by comparing two competing models for testing measurement invariance.
+
+Similar to the item-response probabilities, the coefficients for the level-1 covariates can also be tested for equality across groups using chi-square LRT in the package \texttt{glca}. By comparing the fit of reduced model with the coefficients held constant across groups (i.e., $\boldsymbol{\beta}_{c} = \boldsymbol{\beta}_{c \mid 1}= \cdots = \boldsymbol{\beta}_{c \mid G}$ in mgLCR and $\boldsymbol{\beta}_{1c} = \boldsymbol{\beta}_{1c \mid 1} = \cdots = \boldsymbol{\beta}_{1c \mid W}$ in npLCR for $c=1,\ldots,C$) against full model with freely varying coefficients, we obtain evidence on whether the effects of level-1 covariates on latent class prevalences can be assumed to be identical across groups. To make the group comparison for coefficients valid, the assumption of measurement invariance must be met to ensure consistent meaning of latent classes across groups.
+
+The deviance statistic, a test statistic of LRT for relative model fit, is obtained by twice the difference in the log-likelihood values of two competing models. The degree of freedom for deviance statistic is the difference in the number of free parameters of the two multiple-group latent class models. For example, the validity of the measurement invariance assumption can be tested by calculating the log-likelihood from the model where item-response probabilities are constrained to be equal across subgroups and comparing it with the log-likelihood from the freely estimated model.
+
+## Choosing the numbers of latent classes and latent clusters
+\label{number_class}
+
+The chi-square LRT cannot be used to compare latent class models with a different number of latent classes or clusters because these two models are not nested. Thus, the package \texttt{glca} provides several information criteria commonly used in LCA such as Akaike's information criterion (AIC), Bozdogan's criterion (CAIC), and Schwartz's Bayesian information criterion (BIC) \cite{aic,caic,bic} to compare the fit of non-nested competing models; the model with a smaller AIC (or BIC) value is preferred. Another model fit index provided by the package is entropy, which is widely used in research practices although it can be a poor measure for model selection as it often depends on the number of classes \cite{collins2009latent}. The model with relatively higher entropy value is preferred.
+
+The package \texttt{glca} also generates the empirical distribution of the deviance statistic to help select a better model between two non-nested competing models with a different number of latent classes or clusters using BLRT \cite{boot}. The null hypothesis is the simpler model is adequate. Thus, the bootstrap sample will be drawn from the simpler model. Using a generated bootstrap sample, both competing models are estimated and the deviance between these two models is calculated. By repeating this procedure multiple times, we can construct the reference distribution of the deviance. Similar to the bootstrap $p$-value for the $G^2$ statistic, the relative position of observed deviance within the reference distribution presents bootstrap $p$-value; the null model with a bootstrap $p$-value > 0.05 is preferred with a significance level of $\alpha = 0.05$. An important advantage of using BLRT is that this method can be applied to the test for comparing two nested latent class models even when the condition for large-sample approximation is not satisfied. It should be noted that the optimal model should be selected by comprehensively considering both conceptual and analytical implications, and the quantitative goodness-of-fit statistics.
+
