@@ -36,12 +36,7 @@ package `glca` deals with the fixed effect LCA and the random effect
 LCA; the former can be applied in the situation where populations are
 segmented by the observed group variable itself, whereas the latter can
 be used when there are too many levels in the group variable to make a
-meaningful group comparisons. After a brief introduction in these
-two-types of multiple-group LCA models, we provide the statistical
-framework, estimation methods, and statistical test procedures
-implemented in the package `glca` A description of the available
-functions is followed by two practical examples in order to provide
-**R** users with utilities for multiple-group LCA.
+meaningful group comparisons.
 
 ## Installation
 
