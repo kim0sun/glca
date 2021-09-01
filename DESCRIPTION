@@ -28,5 +28,6 @@ LinkingTo:
 URL: https://kim0sun.github.io/glca/
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    bookdown
 VignetteBuilder: knitr
