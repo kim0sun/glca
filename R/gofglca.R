@@ -56,7 +56,6 @@
 #' gofglca(cluster2, cluster3)
 #' \dontrun{gofglca(cluster2, cluster3, test = "boot")}
 #'
-#' \donttest{
 #' ## Example 3.
 #' ## MGLCA model selection under the measurement (invariance) assumption across groups.
 #' measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
@@ -65,8 +64,7 @@
 #'                group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE)
 #'
 #' gofglca(measInv, measVar)
-#' gofglca(measInv, measVar, test = "chisq")
-#' }
+#'
 #'
 #' @export
 

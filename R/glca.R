@@ -72,11 +72,11 @@
 #' summary(lcr)
 #' coef(lcr)
 #'
+#'
 #' # Multiple-group LCA (MGLCA)
 #' mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
 #'              group = DEGREE, data = gss08, nclass = 3)
 #' summary(mglca)
-#'
 #'
 #' # Multiple-group LCA with covariate(s) (MGLCR)
 #' mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
