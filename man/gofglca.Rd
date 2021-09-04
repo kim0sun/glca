@@ -50,11 +50,11 @@ Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit te
 ## Model selection between two LCA models with different number of latent classes.
 data(gss08)
 class2 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-              data = gss08, nclass = 2)
+              data = gss08, nclass = 2,  n.init = 1)
 class3 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-              data = gss08, nclass = 3)
+              data = gss08, nclass = 3,  n.init = 1)
 class4 = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-              data = gss08, nclass = 4)
+              data = gss08, nclass = 4,  n.init = 1)
 
 gofglca(class2, class3, class4)
 \dontrun{gofglca(class2, class3, class4, test = "boot")}
@@ -62,24 +62,22 @@ gofglca(class2, class3, class4)
 ## Example 2.
 ## Model selection between two MLCA models with different number of latent clusters.
 cluster2 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
-                group = SCH_ID, data = nyts18, nclass = 2, ncluster = 2)
+                group = SCH_ID, data = nyts18, nclass = 2, ncluster = 2, n.init = 1)
 cluster3 = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
-                group = SCH_ID, data = nyts18, nclass = 2, ncluster = 3)
+                group = SCH_ID, data = nyts18, nclass = 2, ncluster = 3, n.init = 1)
 
 gofglca(cluster2, cluster3)
 \dontrun{gofglca(cluster2, cluster3, test = "boot")}
 
-\donttest{
 ## Example 3.
 ## MGLCA model selection under the measurement (invariance) assumption across groups.
 measInv = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-               group = DEGREE, data = gss08, nclass = 3)
+               group = DEGREE, data = gss08, nclass = 3, n.init = 1)
 measVar = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-               group = DEGREE, data = gss08, nclass = 3, measure.inv = FALSE)
+               group = DEGREE, data = gss08, nclass = 3, n.init = 1, measure.inv = FALSE)
 
 gofglca(measInv, measVar)
-gofglca(measInv, measVar, test = "chisq")
-}
+
 
 }
 \references{

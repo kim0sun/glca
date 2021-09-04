@@ -63,24 +63,24 @@
 #' data("gss08")
 #' # LCA
 #' lca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'             data = gss08, nclass = 3)
+#'             data = gss08, nclass = 3, n.init = 1)
 #' summary(lca)
 #'
 #' # LCA with covariate(s)
 #' lcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ AGE,
-#'            data = gss08, nclass = 3)
+#'            data = gss08, nclass = 3, n.init = 1)
 #' summary(lcr)
 #' coef(lcr)
 #'
 #'
 #' # Multiple-group LCA (MGLCA)
 #' mglca = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1,
-#'              group = DEGREE, data = gss08, nclass = 3)
+#'              group = DEGREE, data = gss08, nclass = 3, n.init = 1)
 #' summary(mglca)
 #'
 #' # Multiple-group LCA with covariate(s) (MGLCR)
 #' mglcr = glca(item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX,
-#'              group = DEGREE, data = gss08, nclass = 3)
+#'              group = DEGREE, data = gss08, nclass = 3, n.init = 1)
 #' summary(mglcr)
 #' coef(mglcr)
 #'
@@ -91,13 +91,13 @@
 #' data("nyts18")
 #' # Multilevel LCA (MLCA)
 #' mlca = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ 1,
-#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
+#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, n.init = 1)
 #' summary(mlca)
 #'
 #' # MLCA with covariate(s) (MLCR)
 #' # (SEX: level-1 covariate, SCH_LEV: level-2 covariate)
 #' mlcr = glca(item(ECIGT, ECIGAR, ESLT, EELCIGT, EHOOKAH) ~ SEX + SCH_LEV,
-#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2)
+#'             group = SCH_ID, data = nyts18, nclass = 3, ncluster = 2, n.init = 1)
 #' coef(mlcr)
 #' }
 #'
