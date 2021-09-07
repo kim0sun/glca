@@ -2,14 +2,15 @@ citHeader("To cite glca in publications use:")
 
 citEntry(
   entry    = "Manual",
-  title    = "glca: Estimating a Group-Effect in Latent Class Analysis",
-  author   = personList(person("Youngsun", "Kim"),
-                        person("Hwan", "Chung")),
-  year     = "2020",
-  url      = "https://kim0sun.github.io/glca/",
+  title    = "{glca}: An {R} Package for Multiple-Group Latent Class Analysis",
+  author   = personList(person(given = "Youngsun", family = "Kim"),
+                        person(given = "Hwan", family = "Chung")),
+  year     = "2021",
+  note     = "{R}~package version~1.3.2",
+  url      = "https://kim0sun.github.io/glca",
   textVersion = paste(
-    "Youngsun Kim, Hwan Chung (2020).",
-    "glca: Estimating a Group-Effect in Latent Class Analysis.",
-    "https://CRAN.R-project.org/package=glca/."
+    "Kim, Youngsun and Chung, Hwan (2020).",
+    "glca: An R Package for Multiple-Group Latent Class Analysis.",
+    "https://kim0sun.github.io/glca."
   )
 )
