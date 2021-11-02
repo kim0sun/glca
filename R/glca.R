@@ -20,7 +20,6 @@
 #' @param seed In default, the set of initial parameters is drawn randomly. As the same value for seed guarantees the same initial parameters to be drawn, this argument can be used for reproducibility of estimation results.
 #' @param verbose a logical value indicating whether \code{glca} should print the estimation procedure onto the screen.
 #'
-#' @author Youngsun Kim
 #'
 #' @details The \code{glca} is the function for implementing LCA consist of two-type latent categorical variables (i.e., level-1 and level-2 latent class). The level-1 (individual-level) latent class is identified by the association among the individuals' responses to multiple manifest items, but level-2 (group-level) latent class is categorized by the prevalence of level-1 latent class for group variable. The function \code{glca} can handle two types of covariates: level-1 and level-2 covariates. If covariates vary across individuals, they are considered as level-1 covariates. When \code{group} and \code{ncluster} (>1) are given, covariates which are varying across groups are considered as level-2 covariates. Both types of covariates have effect on level-1 class prevalence.
 #'

@@ -145,6 +145,3 @@ Collins, L.M. and Lanza, S.T. (2009) \emph{Latent Class and Latent Transition An
 \seealso{
 \code{\link{gss08}} \code{\link{nyts18}}
 }
-\author{
-Youngsun Kim
-}

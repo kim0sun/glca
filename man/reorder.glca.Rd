@@ -41,6 +41,3 @@ inc_lca = reorder(lca, decreasing = FALSE)
 plot(inc_lca)
 
 }
-\author{
-Youngsun Kim
-}

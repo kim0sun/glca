@@ -8,7 +8,6 @@
 #' @param cluster.order a integer vector of length equal to number of latent clusters of the glca model, assigning the desired order of the latent clusters
 #' @param decreasing logical, when the \code{class.order} or \code{cluster.order} are not given, whether to rearrange the latent classes (clusters) by decreasing order of the magnitude of the probability of responding the first-category to the first manifest item (prevalence for the first latent class).
 #'
-#' @author Youngsun Kim
 #'
 #' @details  Since the latent classes or clusters can be switched according to the initial value of EM algorithm, the order of estimated parameters can be arbitrary.
 #'

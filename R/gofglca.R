@@ -28,7 +28,6 @@
 #'
 #' Ramaswamy, V., Desarbo, W., Reibstein, D., & Robinson, W. (1993). An Empirical Pooling Approach for Estimating Marketing Mix Elasticities with PIMS Data. Marketing Science, 12(1), 103-124. \doi{10.1287/mksc.12.1.103}
 #'
-#' @author Youngsun Kim
 #'
 #' @seealso \code{\link{glca}} \code{\link{gss08}} \code{\link{nyts18}}
 #'

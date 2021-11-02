@@ -92,6 +92,3 @@ Ramaswamy, V., Desarbo, W., Reibstein, D., & Robinson, W. (1993). An Empirical P
 \seealso{
 \code{\link{glca}} \code{\link{gss08}} \code{\link{nyts18}}
 }
-\author{
-Youngsun Kim
-}
