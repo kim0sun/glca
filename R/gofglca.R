@@ -108,7 +108,7 @@ gofglca <- function(
    gof <- lapply(obj, function(x) x$gof[c(valid.ind, 6L:7L)])
 
    models <- sapply(obj, function(x) x$model)
-   resp <- as.character(sapply(obj, function(x) deparse(x$terms[[2L]])))
+   resp <- sapply(obj, function(x) paste0(x$var.names$y.names, collapse = ","))
    datn <- sapply(obj, function(x) x$model$N)
    cls  <- sapply(obj, function(x) c(x$model$C, x$model$W))
 

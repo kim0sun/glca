@@ -323,8 +323,7 @@ where $J_q(\boldsymbol{\alpha}, \boldsymbol{\beta})$ is an identity matrix of si
 I(g = g') I(c = c') I(m = m') \rho_{mk\mid cg} \left(I(k = k') - \rho_{m'k'\mid c'g'}\right)
 \end{eqnarray}
 <!--------------->
-for $k = 1,\ldots, r_m$ and $k' = 1,\ldots, r_m-1$.\\
-
+for $k = 1,\ldots, r_m$ and $k' = 1,\ldots, r_m-1$.
 
 **Random-effect latent class analysis:**
 
