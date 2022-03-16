@@ -153,6 +153,9 @@ glca <- function(
    # (delta, gamma, beta, rho)
    # (Post type differ)
    EM = glca_em(model, datalist, init, miniter, maxiter, eps, verbose)
+   if (is.null(EM)) {
+      stop("Algorithm failed. Try other initial values!")
+   }
 
    # Score & Std.error calculation (score, std.err)
    if (std.err)
