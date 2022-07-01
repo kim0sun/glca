@@ -79,9 +79,17 @@ List GetPost(List y,
       NumericVector mlike_g = rowSums(clike_g);
       NumericMatrix Post_g(Ng[g], C);
 
-      for (i = 0; i < Ng[g]; i ++)
-         for (c = 0; c < C; c ++)
-            Post_g(i, c) = clike_g(i, c) / mlike_g[i];
+      for (i = 0; i < Ng[g]; i ++) {
+         if (mlike_g[i] == 0) {
+            for (c = 0; c < C; c ++) {
+               Post_g(i, c) = 1 / C;
+            }
+         } else {
+            for (c = 0; c < C; c ++) {
+               Post_g(i, c) = clike_g(i, c) / mlike_g[i];
+            }
+         }
+      }
 
       Post[g] = Post_g;
    }
