@@ -1,8 +1,8 @@
 Package: glca
 Type: Package
 Title: An R Package for Multiple-Group Latent Class Analysis
-Date: 2021-11-02
-Version: 1.3.3
+Date: 2022-04-25
+Version: 1.4.0
 Authors@R: c(
     person(given = "Youngsun",
          family = "Kim", 
