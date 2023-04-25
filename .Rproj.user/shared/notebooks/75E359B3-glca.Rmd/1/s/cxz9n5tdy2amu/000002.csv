@@ -1,4 +1,0 @@
-"0","gof <- gofglca(lca2, lca3, lca4, test = ""boot"", seed = 1)
-"
-"2","Error in lapply(X = X, FUN = FUN, ...) : object 'lca3' not found
-"
