@@ -10,7 +10,7 @@ glca_encode <- function(
    Yattr <- attributes(Y)
    if (is.null(dim(Y)))
       dim(Y) <- c(length(Y), 1L)
-   if (class(Y) != "items")
+   if (!inherits(Y, "items"))
       stop("Manifest items should be indicated by item function.\n")
 
    grp <- stats::model.extract(mf, "group")
