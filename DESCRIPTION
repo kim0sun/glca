@@ -7,7 +7,7 @@ Authors@R: c(
     person(given = "Youngsun",
          family = "Kim", 
          role = c("aut", "cre"),
-         email = "kim0sun@korea.ac.kr"),
+         email = "yskstat@gmail.com"),
     person(given = "Hwan",
          family = "Chung", 
          role = c("aut"),
@@ -15,7 +15,7 @@ Authors@R: c(
     )
 Author: Youngsun Kim [aut, cre],
     Hwan Chung [aut]
-Maintainer: Youngsun Kim <kim0sun@korea.ac.kr>
+Maintainer: Youngsun Kim <yskstat@gmail.com>
 Description: Fits multiple-group latent class analysis (LCA) for exploring 
     differences between populations in the data with a multilevel structure. 
     There are two approaches to reflect group differences in glca: 
