@@ -1,0 +1,108 @@
+##LCA 
+
+library(psych)
+library(foreign)
+library(haven)
+
+data <- read_sav ("~/Downloads/data_lca.sav")
+
+#install.packages("devtools")
+#devtools::install_github("kim0sun/glca")
+
+library(glca)
+5^8
+f <- item(kl1,kl2,kl3,ind1,ind2,ind3,ind4,ind5) ~ 1
+sapply(data, table)
+
+lca2 <- glca(f, data = data, nclass = 2, seed = 3)
+summary(lca2)
+gofglca(lca2)
+
+
+lca3 <- glca(f, data = data, nclass = 3, seed = 3)
+summary(lca3)
+gofglca(lca3)
+
+lca4 <- glca(f, data = data, nclass = 4, seed = 3)
+summary(lca4)
+gofglca(lca4)
+
+
+gofglca(lca2,lca3,lca4) 
+
+# I deleted one case due to missing. Now the comparison of the 2 and 3-class-model 
+# does not work either. It worked before (see below)
+
+gofglca(lca2, lca3, lca4, test = "boot")
+gofglca(lca2, lca3, test = "boot", maxiter = 300, seed = 1) 
+gofglca(lca2,lca3,lca4, test = "boot", maxiter = 300, seed = 1)
+gofglca(lca2,lca3,lca4, test = "boot", maxiter = 300)
+
+
+out$curr
+model = out$model
+datalist = out$data
+G = model$G
+C = model$C
+Ng = model$Ng
+M = model$M
+R = model$R
+y = datalist$y
+gamma = out$prev[[1]]
+rho = out$prev[[2]]
+
+
+# E-step
+Post <- GetPost(y, gamma, rho, Ng, G, C, M, R)
+rowSums(Post[[1]])
+y[[1]][110:115,]
+Post[[1]][110:115,]
+aa = sapply(1:8, function(x) rho[[1]][[x]][,y[[1]][111,x]]) * .Machine$double.xmax
+apply(aa, 1, prod)
+
+
+# M-step
+n_gamma <- UpGamma(Post, Ng, G, C)
+if (measure.inv)
+   n_rho <- UpRhoR(y, Post, rho, Ng, G, C, M, R)
+else
+   n_rho <- UpRhoU(y, Post, rho, Ng, G, C, M, R)
+
+maxdiff <- max(max(abs(unlist(n_gamma) - unlist(gamma))),
+               max(abs(unlist(n_rho) - unlist(rho))))
+maxdiff
+gamma <- n_gamma
+rho <- n_rho
+
+
+
+## Before deleting the case (data1)
+
+data1 <- read_sav ("data1_lca.sav")
+
+
+lca2_1 <- glca(f, data = data1, nclass = 2, seed = 3)
+summary(lca2_1)
+gofglca(lca2_1)
+
+
+lca3_1 <- glca(f, data = data1, nclass = 3, seed = 3)
+summary(lca3_1)
+gofglca(lca3_1)
+
+lca4_1 <- glca(f, data = data1, nclass = 4, seed = 3)
+summary(lca4_1)
+gofglca(lca4_1)
+
+
+gofglca(lca2_1,lca3_1,lca4_1) 
+
+
+gofglca(lca2_1,lca3_1, test = "boot", seed = 3) # works
+
+#error
+gofglca(lca2_1,lca3_1,lca4_1, test = "boot", seed = 3)
+gofglca(lca2_1,lca3_1,lca4_1, test = "boot")
+gofglca(lca2_1,lca3_1,lca4_1, test = "boot", seed = 3)
+gofglca(lca2_1,lca3_1,lca4_1, test = "boot", maxiter = 300, seed = 1)
+

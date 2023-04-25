@@ -1,0 +1,1 @@
+{"frames":[{"func":"format(round(gof1$dtable[2, \"Pr(>Chi)\"], 2), nsmall = 2)","file":"","line_number":0,"end_line_number":0,"character_number":0,"end_character_number":0}],"message":"Error in gof1$dtable[2, \"Pr(>Chi)\"] : subscript out of bounds\n"}

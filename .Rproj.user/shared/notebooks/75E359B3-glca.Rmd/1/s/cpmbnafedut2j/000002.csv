@@ -1,0 +1,5 @@
+"0","gof1 <- gofglca(lca2, lca3, lca4, test = ""boot"", seed = 1)
+format(round(gof1$dtable[2, ""Pr(>Chi)""], 2), nsmall = 2)
+"
+"2","Error in gof1$dtable[2, ""Pr(>Chi)""] : subscript out of bounds
+"

@@ -1,0 +1,17 @@
+library(xlsx)
+library(glca)
+
+df <- read.xlsx2("~/downloads/skills_data.xlsx", 1, as.data.frame = T)
+str(df)
+names(df) = c("id", "Xa", "Xb", "Xc", "Xd", "Xe", "Xf", "Xg", "Xh", "Xi", "country")
+own <- item(Xa, Xb, Xc, Xd, Xe, Xf, Xg, Xh, Xi) ~ 1
+
+own_lca3 <- glca(own, data = df, nclass = 3, seed = 1, verbose = FALSE, na.rm = T)
+own_lca_measureinvT <- glca(own, data = df, nclass = 3, seed = 1, verbose = FALSE, na.rm = T, group = country, measure.inv = T)
+own_lca_measureinvF <- glca(own, data = df, nclass = 3, seed = 1, verbose = FALSE, na.rm = T, group = country, measure.inv = F)
+
+gofglca(own_lca3, own_lca_measureinvT, own_lca_measureinvF, test = "boot", seed = 1)
+gofglca(own_lca3, own_lca_measureinvT, own_lca_measureinvF, test = "chisq", seed = 1)
+devtools::install_github("kim0sun/glca")
+
+tm::

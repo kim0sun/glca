@@ -1,0 +1,242 @@
+[
+    {
+        "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+        "file_last_write": 1598596153.0,
+        "definitions": [
+            {
+                "usr": "c:@F@MeasProd#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "MeasProd(Rcpp::IntegerMatrix, Rcpp::List, int, int, int, Rcpp::IntegerVector, Rcpp::NumericMatrix)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 6,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@MeasProd1#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "MeasProd1(Rcpp::IntegerMatrix, Rcpp::List, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 31,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@GetPost#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetPost(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 58,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetUDPost#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#S3_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDPost(Rcpp::List, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 95,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetMLLike#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#S3_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetMLLike(Rcpp::List, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 173,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetUDPostX#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#I#I#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDPostX(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::NumericVector, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 209,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetScore#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetScore(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 360,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetScoreX#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#I#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetScoreX(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector, int, bool)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 426,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetUDScore#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#S3_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDScore(Rcpp::List, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 513,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@GetUDScoreX#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#I#I#S2_#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDScoreX(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::NumericVector, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, int, int, Rcpp::IntegerVector, bool)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 609,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@GetLik#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetLik(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 738,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@GetFitted#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetFitted(Rcpp::IntegerMatrix, Rcpp::NumericMatrix, Rcpp::List, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 771,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@GetUDlik#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#S3_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDlik(Rcpp::List, Rcpp::NumericVector, Rcpp::NumericMatrix, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 795,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@GetUDfit#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S1_#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDfit(Rcpp::IntegerMatrix, Rcpp::NumericVector, Rcpp::NumericVector, Rcpp::List, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 839,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@GetUDlikX#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#I#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetUDlikX(Rcpp::List, Rcpp::NumericVector, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 868,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@GetDeriv#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#I#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetDeriv(Rcpp::NumericMatrix, Rcpp::NumericMatrix, Rcpp::NumericMatrix, int, int, int)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 917,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@GetDeriv2#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GetDeriv2(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 961,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@UpDelta#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpDelta(Rcpp::NumericMatrix)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1032,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@UpGammaML#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpGammaML(Rcpp::NumericMatrix, int, int)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1039,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@UpGamma#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpGamma(Rcpp::List, Rcpp::IntegerVector, int, int)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1057,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@UpRhoU#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpRhoU(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1086,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@UpRhoR#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpRhoR(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1144,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@UpRhoML#$@N@Rcpp@S@Vector>#VI19#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#I#S1_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "UpRhoML(Rcpp::List, Rcpp::List, Rcpp::List, Rcpp::IntegerVector, int, int, int, Rcpp::IntegerVector)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1205,
+                "column": 6
+            },
+            {
+                "usr": "c:@F@ObsCell#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "ObsCell(Rcpp::IntegerMatrix, int, int, Rcpp::IntegerVector, int, double)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1256,
+                "column": 15
+            },
+            {
+                "usr": "c:@F@ObsLik#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#I#$@N@Rcpp@S@Vector>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#I#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "ObsLik(Rcpp::IntegerMatrix, int, int, Rcpp::IntegerVector, int, double)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1345,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@ObsCell2#$@N@Rcpp@S@Matrix>#VI13#@N@Rcpp@ST>1#T@PreserveStorage#S0_#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "ObsCell2(Rcpp::IntegerMatrix, Rcpp::IntegerMatrix, int, int)",
+                "file": "/Users/youngsunkim/Dropbox/Personal/Work/Package/glca/src/glca.cpp",
+                "line": 1437,
+                "column": 15
+            }
+        ]
+    }
+]
