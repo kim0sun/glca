@@ -74,7 +74,9 @@ gofglca <- function(
 )
 {
    # Check_class
-   if (!all(sapply(list(object, ...), inherits, "glca")))
+   if (inherits(object, "glca")) obj <- list(object, ...)
+   else obj <- c(object, ...)
+   if (!all(sapply(obj, inherits, "glca")))
       stop("All objects should be glca outputs.")
 
    # Test
@@ -84,7 +86,6 @@ gofglca <- function(
    }
 
    # Model
-   obj <- list(object, ...)
    nmodels <- length(obj)
    notes <- sapply(obj, function(x) {
       note <- paste(deparse(stats::formula(x)), collapse = "\n")
