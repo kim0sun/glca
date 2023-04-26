@@ -19,7 +19,7 @@
 #' \item{\code{REGION}}{Region of interview}
 #' \item{\code{DEGREE}}{Respondent's degree}
 #' }
-#' @source \url{http://gss.norc.org}
+#' @source \url{https://gss.norc.org/}
 #' @references
 #' Smith, Tom W, Peter Marsden, Michael Hout, and Jibum Kim. General Social Surveys, 2008/Principal Investigator, Tom W. Smith; Co-Principal Investigator, Peter V. Marsden; Co-Principal Investigator, Michael Hout; Sponsored by National Science Foundation. -NORC ed.- Chicago: NORC at the University of Chicago
 #' @examples

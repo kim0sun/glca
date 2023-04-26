@@ -1,20 +1,21 @@
-citHeader("To cite glca in publications use:")
-
-citEntry(
-  entry    = "Article",
-  title    = "glca: An R Package for Multiple-Group Latent Class Analysis",
-  author   = personList(person(given = "Youngsun", family = "Kim"),
-                        person(given = "Saebom", family = "Jeon"),
-			person(given = "Chi", family = "Chang"),
-			person(given = "Hwan", family = "Chung")),
-  journal  = "Applied Psychological Measurement",
-  year     = 2022,
-  doi	   = "10.1177/01466216221084197",
-  url      = "https://doi.org/10.1177/01466216221084197",
-  textVersion = paste(
-    "Kim, Y., Jeon, S., Chang, C., & Chung, H. (2022).",
-    "glca: An R Package for Multiple-Group Latent Class Analysis.",
-    "Applied Psychological Measurement.",
-    "https://doi.org/10.1177/01466216221084197"
-  )
+bibentry(
+   bibtype = "Article",
+   textVersion = paste(
+      "Kim, Y., Jeon, S., Chang, C., & Chung, H. (2022).",
+      "glca: An R Package for Multiple-Group Latent Class Analysis.",
+      "Applied Psychological Measurement, 46(5), 439–441.",
+      "https://doi.org/10.1177/01466216221084197"
+   ),
+   header = "To cite glca in publications, please use",
+   title = "glca: An R Package for Multiple-Group Latent Class Analysis",
+   author = c(person(given = "Youngsun", family = "Kim"),
+              person(given = "Saebom", family = "Jeon"),
+              person(given = "Chi", family = "Chang"),
+              person(given = "Hwan", family = "Chung")),
+   journal = "Applied Psychological Measurement",
+   volume = "46",
+   number = "5",
+   pages = "439-441",
+   year = "2022",
+   doi = "10.1177/01466216221084197"
 )
