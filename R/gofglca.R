@@ -1,6 +1,6 @@
 #' Goodness of Fit Tests for Fitted \code{glca} Model
 #'
-#' Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
+#' Provides AIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 #'
 #' @param object an object of "\code{glca}", usually, a result of a call to \code{glca}.
 #' @param ... an optional object of "\code{glca}" to be compared with \code{object}.
@@ -69,7 +69,7 @@
 
 gofglca <- function(
    object, ..., test = NULL, nboot = 50,
-   criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
+   criteria = c("AIC", "BIC", "entropy"),
    maxiter = 500, eps = 1e-4, seed = NULL, verbose = FALSE
 )
 {
@@ -105,8 +105,7 @@ gofglca <- function(
    })
 
    criteria <- match.arg(criteria, several.ok = TRUE)
-   valid.ind <- match(criteria, c("logLik", "AIC", "CAIC", "BIC", "entropy"), 0L)
-   gof <- lapply(obj, function(x) x$gof[c(valid.ind, 6L:7L)])
+   gof <- lapply(obj, function(x) x$gof[c("loglik", criteria, "df", "Gsq")])
 
    models <- sapply(obj, function(x) x$model)
    resp <- sapply(obj, function(x) paste0(x$var.names$y.names, collapse = ","))
@@ -122,7 +121,6 @@ gofglca <- function(
    gsqR <- 2L * diff(llik)
 
    gtable <- as.matrix(do.call(rbind, lapply(gof[ord], unlist)))
-   colnames(gtable) <- c(criteria, "Res.Df", "Gsq")
    rownames(gtable) <- ord
 
    # random seed
@@ -189,7 +187,7 @@ gofglca <- function(
       npar <- sapply(obj[ord], function(x) x$model$npar)
       Df  <- diff(npar)
       dtable <- cbind(npar, llik, c(NA, Df), c(NA, round(gsqR, 3L)))
-      colnames(dtable) <- c("npar", "logLik", "Df", "Deviance")
+      colnames(dtable) <- c("npar", "loglik", "Df", "Deviance")
       rownames(dtable) <- ord
 
       if (!is.null(test))

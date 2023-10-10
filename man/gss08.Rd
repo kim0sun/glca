@@ -21,7 +21,7 @@ A data frame with 355 observations on 11 variables.
 }
 }
 \source{
-\url{http://gss.norc.org}
+\url{https://gss.norc.org/}
 }
 \description{
 This dataset includes 6 manifest items about abortion and several covariates from 355 respondents to the 2008 General Social Survey. Respondents answer the questions whether or not think it should be possible for a pregnant woman to obtain a legal abortion. The covariates include age, sex, race, region, and degree of respondents.

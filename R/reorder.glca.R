@@ -32,7 +32,7 @@
 #' @import stats
 #' @export
 
-reorder.glca <- function(x, ..., class.order = NULL, cluster.order = NULL, decreasing = TRUE)
+reorder.glca <- function(x, class.order = NULL, cluster.order = NULL, decreasing = TRUE, ...)
 {
    if (!is.null(class.order)) {
       if (!setequal(as.numeric(class.order), 1:x$model$C))

@@ -51,8 +51,8 @@ summary.glca <- function(
 
    cat("\nlog-likelihood :", gof$loglik,
        "\n     G-squared :", gof$Gsq,
-       "\n           AIC :", gof$aic,
-       "\n           BIC :", gof$bic, "\n")
+       "\n           AIC :", gof$AIC,
+       "\n           BIC :", gof$BIC, "\n")
 
    if (model$W > 1L){
       cat("\nMarginal prevalences for latent classes :\n")
@@ -61,19 +61,22 @@ summary.glca <- function(
       print(round(colMeans(posterior$cluster), 5L))
       cat("\nClass prevalences by cluster :\n")
       print(round(posterior$wclass, 5L))
+      cat("\n")
    } else {
       cat("\nMarginal prevalences for latent classes :\n")
       print(round(colMeans(do.call(rbind, posterior)), 5L))
-      if (model$G < 15L) {
-         cat("\nClass prevalences by group :\n")
-         prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
-         dimnames(prev) = list(var.names$g.names,
-                               paste0("Class ", 1L:model$C))
-         print(round(prev, 5L))
-         cat("\n")
-      } else {
-         cat("\nToo many groups to be printed.\n")
-      }
+      if (model$G > 1) {
+         if (model$G < 15L) {
+            cat("\nClass prevalences by group :\n")
+            prev = as.matrix(do.call(rbind, lapply(posterior, colMeans)))
+            dimnames(prev) = list(var.names$g.names,
+                                  paste0("Class ", 1L:model$C))
+            print(round(prev, 5L))
+            cat("\n")
+         } else {
+            cat("\nToo many groups to be printed.\n")
+         }
+      } else cat("\n")
    }
 
    if (model$W > 1L) {
@@ -87,6 +90,7 @@ summary.glca <- function(
          if (model$Q > 0L) {
             cat("Logistic regression coefficients (level 2) :\n")
             print(round(param$beta[[2L]], digits))
+            cat("\n")
          }
          cat("\n")
       }
