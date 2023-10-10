@@ -281,9 +281,8 @@ glca_output <- function(
    P = do.call(rbind, pclass)
    gof <- list(
       loglik = EM$loglik,
-      aic = -2 * EM$loglik + 2 * npar,
-      caic = -2 * EM$loglik + (log(N) + 1L) * npar,
-      bic = -2 * EM$loglik + log(N) * npar,
+      AIC = -2 * EM$loglik + 2 * npar,
+      BIC = -2 * EM$loglik + log(N) * npar,
       entropy = 1 - sum(-P[P != 0] * log(P)[P != 0]) / (N * log(C)),
       df = df,
       Gsq = 2 * (datalist$loglik0 - EM$loglik)

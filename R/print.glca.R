@@ -31,6 +31,6 @@ print.glca = function(x, ...)
 
    cat("\nlog-likelihood :", gof$loglik,
        "\n     G-squared :", gof$Gsq,
-       "\n           AIC :", gof$aic,
-       "\n           BIC :", gof$bic, "\n")
+       "\n           AIC :", gof$AIC,
+       "\n           BIC :", gof$BIC, "\n")
 }
