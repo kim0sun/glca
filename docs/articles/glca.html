@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">glca</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.4.0</span>
       </span>
     </div>
 
@@ -57,7 +59,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -71,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kim0sun/glca/">
+  <a href="https://github.com/kim0sun/glca/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -86,13 +88,13 @@
 
       
 
-      </header><script src="glca_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to glca package</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/kim0sun/glca/blob/master/vignettes/glca.Rmd"><code>vignettes/glca.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/kim0sun/glca/blob/HEAD/vignettes/glca.Rmd" class="external-link"><code>vignettes/glca.Rmd</code></a></small>
       <div class="hidden name"><code>glca.Rmd</code></div>
 
     </div>
@@ -100,26 +102,40 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/">glca</a></span><span class="op">)</span></code></pre></div>
-<div id="usage-for-glca" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage-for-glca" class="anchor"></a>Usage for <code>glca()</code>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://kim0sun.github.io/glca/" class="external-link">glca</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="usage-for-glca">Usage for <code>glca()</code><a class="anchor" aria-label="anchor" href="#usage-for-glca"></a>
 </h2>
-<p>The main function of this package, called <code><a href="../reference/glca.html">glca()</a></code>, fits a wide range of multiple-group latent class models including fixed-effect and random-effect LCA in order to examine whether the latent structure is identical across groups. The <code><a href="../reference/glca.html">glca()</a></code> function can be called with</p>
+<p>The main function of this package, called <code><a href="../reference/glca.html">glca()</a></code>, fits a
+wide range of multiple-group latent class models including fixed-effect
+and random-effect LCA in order to examine whether the latent structure
+is identical across groups. The <code><a href="../reference/glca.html">glca()</a></code> function can be
+called with</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">group</span>, <span class="va">data</span>, <span class="va">nclass</span>, <span class="va">ncluster</span>, <span class="va">std.err</span>, <span class="va">measure.inv</span>, <span class="va">coeff.inv</span>,
-     <span class="va">init.param</span>, <span class="va">n.init</span>, <span class="va">decreasing</span>, <span class="va">testiter</span>, <span class="va">maxiter</span>, <span class="va">eps</span>,
-     <span class="va">na.rm</span>, <span class="va">seed</span>, <span class="va">verbose</span><span class="op">)</span></code></pre></div>
-<p>The function <code><a href="../reference/glca.html">glca()</a></code> uses the formula expression in order to specify a multiple-group latent class model. For example, suppose there are four manifest items, <code>Y1</code>, <code>Y2</code>, <code>Y3</code>, and <code>Y4</code> in the dataset. These items must be combined as <code><a href="../reference/item.html">item(Y1, Y2, Y3, Y4)</a></code> and located on the left hand side of the formula. Without any covariate, the formula definition takes the form:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">group</span>, <span class="va">data</span>, <span class="va">nclass</span>, <span class="va">ncluster</span>, <span class="va">std.err</span>, <span class="va">measure.inv</span>, <span class="va">coeff.inv</span>,</span>
+<span>     <span class="va">init.param</span>, <span class="va">n.init</span>, <span class="va">decreasing</span>, <span class="va">testiter</span>, <span class="va">maxiter</span>, <span class="va">eps</span>,</span>
+<span>     <span class="va">na.rm</span>, <span class="va">seed</span>, <span class="va">verbose</span><span class="op">)</span></span></code></pre></div>
+<p>The function <code><a href="../reference/glca.html">glca()</a></code> uses the formula expression in order
+to specify a multiple-group latent class model. For example, suppose
+there are four manifest items, <code>Y1</code>, <code>Y2</code>,
+<code>Y3</code>, and <code>Y4</code> in the dataset. These items must be
+combined as <code>item(Y1, Y2, Y3, Y4)</code> and located on the left
+hand side of the formula. Without any covariate, the formula definition
+takes the form:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">Y1</span>, <span class="va">Y2</span>, <span class="va">Y3</span>, <span class="va">Y4</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></code></pre></div>
-<p>The item can be specified by the prefix or suffix of the manifest items as follows:</p>
+<code class="sourceCode R"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">Y1</span>, <span class="va">Y2</span>, <span class="va">Y3</span>, <span class="va">Y4</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></span></code></pre></div>
+<p>The item can be specified by the prefix or suffix of the manifest
+items as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></code></pre></div>
-<p>Any covariate can be incorporated by replacing <code>~ 1</code> with the desired function of covariates. For example, the npLCR with one level-1 covariate (<code>X1</code>) and one level-2 covariate (<code>Z1</code>) can be fitted using the following formula:</p>
+<code class="sourceCode R"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></span></code></pre></div>
+<p>Any covariate can be incorporated by replacing <code>~ 1</code> with
+the desired function of covariates. For example, the npLCR with one
+level-1 covariate (<code>X1</code>) and one level-2 covariate
+(<code>Z1</code>) can be fitted using the following formula:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span> <span class="op">~</span> <span class="va">X1</span> <span class="op">+</span> <span class="va">Z1</span></code></pre></div>
-<p>It should be noted that <code><a href="../reference/glca.html">glca()</a></code> identifies the type of covariates automatically. The function has following arguments:</p>
+<code class="sourceCode R"><span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"Y"</span><span class="op">)</span> <span class="op">~</span> <span class="va">X1</span> <span class="op">+</span> <span class="va">Z1</span></span></code></pre></div>
+<p>It should be noted that <code><a href="../reference/glca.html">glca()</a></code> identifies the type of
+covariates automatically. The function has following arguments:</p>
 <table class="table">
 <colgroup>
 <col width="21%">
@@ -132,67 +148,102 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>data</code></td>
-<td>The input data, <code>data.frame</code> or <code>matrix</code>, with individuals in rows and group variable, level-1 and level-2 covariates, and individuals’ responses to manifest items in the columns. The data could con- tain multichotomous responses to manifest items.</td>
+<td>The input data, <code>data.frame</code> or <code>matrix</code>, with
+individuals in rows and group variable, level-1 and level-2 covariates,
+and individuals’ responses to manifest items in the columns. The data
+could con- tain multichotomous responses to manifest items.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>group</code></td>
-<td>Argument that indicates group variable which has the same length as manifest items on the formula. If <code>group = NULL</code> (default), standard LCA or LCR is fitted.</td>
+<td>Argument that indicates group variable which has the same length as
+manifest items on the formula. If <code>group = NULL</code> (default),
+standard LCA or LCR is fitted.</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>nclass</code></td>
-<td>Integer scalar specifying the number of latent classes. In the default setting, <code>nclass = 3</code>.</td>
+<td>Integer scalar specifying the number of latent classes. In the
+default setting, <code>nclass = 3</code>.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>ncluster</code></td>
-<td>Integer scalar specifying the number of latent clusters (default <code>ncluster = 0</code>).</td>
+<td>Integer scalar specifying the number of latent clusters (default
+<code>ncluster = 0</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>std.err</code></td>
-<td>Logical value for whether calculating standard errors for estimates (default <code>std.err = TRUE</code>).</td>
+<td>Logical value for whether calculating standard errors for estimates
+(default <code>std.err = TRUE</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>measure.inv</code></td>
-<td>Logical value for whether measurement invariance across groups is assumed (default <code>measure.inv = TRUE</code>).</td>
+<td>Logical value for whether measurement invariance across groups is
+assumed (default <code>measure.inv = TRUE</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>coeff.inv</code></td>
-<td>Logical value for whether coefficients for level-1 covariates are identical across groups or latent clusters (default <code>coeff.inv = TRUE</code>).</td>
+<td>Logical value for whether coefficients for level-1 covariates are
+identical across groups or latent clusters (default
+<code>coeff.inv = TRUE</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>init.param</code></td>
-<td>A set of model parameters to be used as a user-specified initial values for EM algorithm. It should be list with the named parameters and have same structure of param of the <code><a href="../reference/glca.html">glca()</a></code> output. In default, initial parameters are randomly generated (i.e., default <code>init.param = NULL</code>).</td>
+<td>A set of model parameters to be used as a user-specified initial
+values for EM algorithm. It should be list with the named parameters and
+have same structure of param of the <code><a href="../reference/glca.html">glca()</a></code> output. In
+default, initial parameters are randomly generated (i.e., default
+<code>init.param = NULL</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>n.init</code></td>
-<td>Integer scalar specifying the number of randomly generated parameter sets to be used as initial values for EM algorithm in order to avoid local maxima problem (default <code>n.init = 10</code>).</td>
+<td>Integer scalar specifying the number of randomly generated parameter
+sets to be used as initial values for EM algorithm in order to avoid
+local maxima problem (default <code>n.init = 10</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>testiter</code></td>
-<td>Integer scalar specifying the number of iterations in EM algorithm for each initial parameter set in order to select the best initial parameter set. The initial parameter set that provides the largest log-likelihood is selected for main iteration to estimate model parameters (default <code>testiter = 50</code>).</td>
+<td>Integer scalar specifying the number of iterations in EM algorithm
+for each initial parameter set in order to select the best initial
+parameter set. The initial parameter set that provides the largest
+log-likelihood is selected for main iteration to estimate model
+parameters (default <code>testiter = 50</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>maxiter</code></td>
-<td>Integer scalar specifying the maximum number of iterations for EM algorithm (default <code>maxiter = 5000</code>).</td>
+<td>Integer scalar specifying the maximum number of iterations for EM
+algorithm (default <code>maxiter = 5000</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>eps</code></td>
-<td>A convergence tolerance value. When the largest absolute difference between former estimates and current estimates is less than eps, EM algorithm will stop updating and consider the convergence to be reached (default <code>eps = 1e-06</code>).</td>
+<td>A convergence tolerance value. When the largest absolute difference
+between former estimates and current estimates is less than eps, EM
+algorithm will stop updating and consider the convergence to be reached
+(default <code>eps = 1e-06</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>na.rm</code></td>
-<td>Logical value for whether the routine deletes the rows that have at least one missing manifest item. If <code>na.rm = FALSE</code> (default), FIML approach will be conducted under MAR condition.</td>
+<td>Logical value for whether the routine deletes the rows that have at
+least one missing manifest item. If <code>na.rm = FALSE</code>
+(default), FIML approach will be conducted under MAR condition.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>seed</code></td>
-<td>In default, the set of initial parameters is drawn randomly. As the same value for seed guarantees the same initial parameters to be drawn, this argument can be used for reproducibility of estimation results.</td>
+<td>In default, the set of initial parameters is drawn randomly. As the
+same value for seed guarantees the same initial parameters to be drawn,
+this argument can be used for reproducibility of estimation
+results.</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>verbose</code></td>
-<td>Logical value indicating whether <code><a href="../reference/glca.html">glca()</a></code> should print the estimation procedure onto the screen (default <code>verbose = TRUE</code>).</td>
+<td>Logical value indicating whether <code><a href="../reference/glca.html">glca()</a></code> should print
+the estimation procedure onto the screen (default
+<code>verbose = TRUE</code>).</td>
 </tr>
 </tbody>
 </table>
-<p>The output of <code><a href="../reference/glca.html">glca()</a></code> is <code>list</code> or <code>data.frame</code> that contains information for model specification and results of the data analysis using the specified model. The function <code><a href="../reference/glca.html">glca()</a></code> returns following</p>
+<p>The output of <code><a href="../reference/glca.html">glca()</a></code> is <code>list</code> or
+<code>data.frame</code> that contains information for model
+specification and results of the data analysis using the specified
+model. The function <code><a href="../reference/glca.html">glca()</a></code> returns following</p>
 <table class="table">
 <colgroup>
 <col width="21%">
@@ -205,7 +256,8 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>model</code></td>
-<td>A <code>list</code> containing information on the specified multiple-group latent class models.</td>
+<td>A <code>list</code> containing information on the specified
+multiple-group latent class models.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>var.names</code></td>
@@ -225,7 +277,8 @@
 </tr>
 <tr class="even">
 <td align="left"><code>coefficient</code></td>
-<td>A <code>list</code> of logistic regression coefficients for latent class prevalences.</td>
+<td>A <code>list</code> of logistic regression coefficients for latent
+class prevalences.</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>gof</code></td>
@@ -237,23 +290,80 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>posterior</code></td>
-<td>For mgLCR, posterior is a <code>data.frame</code> of posterior probabilities belonging to specific latent class for each individual. For npLCR, posterior is a <code>list</code> containing three type of posterior probabilities; probabilities of belonging to latent cluster for each group, belonging to latent cluster for each latent class, and belonging to latent class for each individual.</td>
+<td>For mgLCR, posterior is a <code>data.frame</code> of posterior
+probabilities belonging to specific latent class for each individual.
+For npLCR, posterior is a <code>list</code> containing three type of
+posterior probabilities; probabilities of belonging to latent cluster
+for each group, belonging to latent cluster for each latent class, and
+belonging to latent class for each individual.</td>
 </tr>
 </tbody>
 </table>
-<p>For objects from the <code><a href="../reference/glca.html">glca()</a></code>, generic functions for <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code>, <code><a href="https://rdrr.io/r/stats/logLik.html">logLik()</a></code>, <code><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> are available. The generic function <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> can be accessed with <code><a href="https://rdrr.io/r/base/print.html">print(x)</a></code> where <code>x</code> is an object from the function <code><a href="../reference/glca.html">glca()</a></code>. This function is used to print information from the object x to console. The function calls together with the names of variable, model specification, the number of observations, and the number of parameters used in the analysis.</p>
-<p>The function <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> is a generic function that is summarizing results from the <code><a href="../reference/glca.html">glca()</a></code>. The function can be called via <code><a href="https://rdrr.io/r/base/summary.html">summary(x)</a></code>. The output of the <code><a href="https://rdrr.io/r/base/summary.html">summary(x)</a></code> has two main components; the first component contains information on model specification, and the second component contains parameter estimates.</p>
-<p>Generic functions <code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code> and <code><a href="https://rdrr.io/r/stats/logLik.html">logLik()</a></code> can also be used. The estimates of regression coefficients and their standard errors of the object <code>x</code> from the function <code><a href="../reference/glca.html">glca()</a></code> will be extracted via <code><a href="https://rdrr.io/r/stats/coef.html">coef(x)</a></code>. Odds ratios, <span class="math inline">\(t\)</span>-values, and their respective <span class="math inline">\(p\)</span>-values for the estimated coefficient will also be extracted. The function <code><a href="https://rdrr.io/r/stats/logLik.html">logLik()</a></code> extracts log-likelihood and degree of freedom for the model which enables to use other statistical R function such as <code><a href="https://rdrr.io/r/stats/AIC.html">AIC()</a></code> and <code><a href="https://rdrr.io/r/stats/AIC.html">BIC()</a></code>.</p>
-<p><code><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder()</a></code> function can be used for <code>glca</code> for reordering estimated parameters. Since the latent classes or clusters can be switched according to the initial value of EM algorithm, the order of estimated parameters can be arbitrary. For convenient interpretation of estimated parameters, researchers desire to rearrange the order of latent variables. The ordering can be designated by users (<code>class.order</code>, <code>cluster.order</code>) and can be determined by the magnitude of the probability of responding the first manifest item with the first option.</p>
-<p>A generic function for plotting parameter estimates of the specified model is also available to the user. The user can plot parameters of the object <code>x</code> with <code><a href="https://rdrr.io/r/graphics/plot.html">plot(x)</a></code>. This function returns three types of plots: item-response probabilities, marginal class prevalences, and class prevalences by group or cluster. The plot for item-response probabilities has M manifest items on the <code>x</code>-axis, the probability of responding to the <span class="math inline">\(k\)</span>th category for the <span class="math inline">\(m\)</span>th item on the<code>y</code>-axis for <span class="math inline">\(k = 1, \dots , r_m\)</span>. If there is a group variable with the argument measure.inv = FALSE in the <code><a href="../reference/glca.html">glca()</a></code> function, separate plot for each group is returned. The plot for marginal class prevalences has latent classes on the <code>x</code>-axis, and the probability of belonging to the respective latent class on the y axis. If there is a group variable, additional plot is returned for displaying class prevalences for each group (when mgLCR is fitted) or latent cluster (when npLCR is fitted). This plot has levels of group or latent cluster variable on the <code>x</code>-axis, and the conditional probability of belonging to latent classes for each group or latent cluster on the <code>y</code>-axis.</p>
+<p>For objects from the <code><a href="../reference/glca.html">glca()</a></code>, generic functions for
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code>,
+<code><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">logLik()</a></code>, <code><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
+are available. The generic function <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> can be accessed
+with <code>print(x)</code> where <code>x</code> is an object from the
+function <code><a href="../reference/glca.html">glca()</a></code>. This function is used to print information
+from the object x to console. The function calls together with the names
+of variable, model specification, the number of observations, and the
+number of parameters used in the analysis.</p>
+<p>The function <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> is a generic function that is
+summarizing results from the <code><a href="../reference/glca.html">glca()</a></code>. The function can be
+called via <code>summary(x)</code>. The output of the
+<code>summary(x)</code> has two main components; the first component
+contains information on model specification, and the second component
+contains parameter estimates.</p>
+<p>Generic functions <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> and <code><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">logLik()</a></code> can
+also be used. The estimates of regression coefficients and their
+standard errors of the object <code>x</code> from the function
+<code><a href="../reference/glca.html">glca()</a></code> will be extracted via <code>coef(x)</code>. Odds
+ratios, <span class="math inline">\(t\)</span>-values, and their
+respective <span class="math inline">\(p\)</span>-values for the
+estimated coefficient will also be extracted. The function
+<code><a href="https://rdrr.io/r/stats/logLik.html" class="external-link">logLik()</a></code> extracts log-likelihood and degree of freedom for
+the model which enables to use other statistical R function such as
+<code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC()</a></code> and <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">BIC()</a></code>.</p>
+<p><code><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder()</a></code> function can be used for <code>glca</code> for
+reordering estimated parameters. Since the latent classes or clusters
+can be switched according to the initial value of EM algorithm, the
+order of estimated parameters can be arbitrary. For convenient
+interpretation of estimated parameters, researchers desire to rearrange
+the order of latent variables. The ordering can be designated by users
+(<code>class.order</code>, <code>cluster.order</code>) and can be
+determined by the magnitude of the probability of responding the first
+manifest item with the first option.</p>
+<p>A generic function for plotting parameter estimates of the specified
+model is also available to the user. The user can plot parameters of the
+object <code>x</code> with <code>plot(x)</code>. This function returns
+three types of plots: item-response probabilities, marginal class
+prevalences, and class prevalences by group or cluster. The plot for
+item-response probabilities has M manifest items on the
+<code>x</code>-axis, the probability of responding to the <span class="math inline">\(k\)</span>th category for the <span class="math inline">\(m\)</span>th item on the<code>y</code>-axis for
+<span class="math inline">\(k = 1, \dots , r_m\)</span>. If there is a
+group variable with the argument measure.inv = FALSE in the
+<code><a href="../reference/glca.html">glca()</a></code> function, separate plot for each group is returned.
+The plot for marginal class prevalences has latent classes on the
+<code>x</code>-axis, and the probability of belonging to the respective
+latent class on the y axis. If there is a group variable, additional
+plot is returned for displaying class prevalences for each group (when
+mgLCR is fitted) or latent cluster (when npLCR is fitted). This plot has
+levels of group or latent cluster variable on the <code>x</code>-axis,
+and the conditional probability of belonging to latent classes for each
+group or latent cluster on the <code>y</code>-axis.</p>
 </div>
-<div id="usage-for-gofglca" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage-for-gofglca" class="anchor"></a>Usage for <code>gofglca()</code>
+<div class="section level2">
+<h2 id="usage-for-gofglca">Usage for <code>gofglca()</code><a class="anchor" aria-label="anchor" href="#usage-for-gofglca"></a>
 </h2>
-<p>In multiple-group LCA, the first and fundamental step is to select the appropriate number of latent classes and latent clusters. Once the number of latent components are determined, the next step is to assess relative model fit for exploring various group differences in latent structure across groups or latent clusters. The assessment of model fit described in Sections - is implemented into a function named <code><a href="../reference/gofglca.html">gofglca()</a></code>. The function syntax is</p>
+<p>In multiple-group LCA, the first and fundamental step is to select
+the appropriate number of latent classes and latent clusters. Once the
+number of latent components are determined, the next step is to assess
+relative model fit for exploring various group differences in latent
+structure across groups or latent clusters. The assessment of model fit
+described in Sections - is implemented into a function named
+<code><a href="../reference/gofglca.html">gofglca()</a></code>. The function syntax is</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">criteria</span>, <span class="va">test</span>, <span class="va">nboot</span>, <span class="va">maxiter</span>, <span class="va">eps</span>, <span class="va">seed</span>, <span class="va">verbose</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, <span class="va">criteria</span>, <span class="va">test</span>, <span class="va">nboot</span>, <span class="va">maxiter</span>, <span class="va">eps</span>, <span class="va">seed</span>, <span class="va">verbose</span><span class="op">)</span></span></code></pre></div>
 <p>and uses following arguments.</p>
 <table class="table">
 <colgroup>
@@ -267,522 +377,843 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>x</code></td>
-<td>An output of the <code><a href="../reference/glca.html">glca()</a></code> function. Absolute model fit test will be conducted for the model specified in <code>x</code>.</td>
+<td>An output of the <code><a href="../reference/glca.html">glca()</a></code> function. Absolute model fit
+test will be conducted for the model specified in <code>x</code>.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>...</code></td>
-<td>An optional argument, one or more output objects of the function <code><a href="../reference/glca.html">glca()</a></code>, which enables users to test for relative model fit. Each of these optional objects will be compared to one of other objects, which are specified in this argument.</td>
+<td>An optional argument, one or more output objects of the function
+<code><a href="../reference/glca.html">glca()</a></code>, which enables users to test for relative model fit.
+Each of these optional objects will be compared to one of other objects,
+which are specified in this argument.</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>criteria</code></td>
-<td>A character vector specifying which type of information criteria should be returned by the function. Default is to return all types of criteria via <code><a href="https://rdrr.io/r/base/c.html">c("logLik", "AIC", "CAIC", "BIC", "entropy")</a></code>.</td>
+<td>A character vector specifying which type of information criteria
+should be returned by the function. Default is to return all types of
+criteria via
+<code>c("logLik", "AIC", "CAIC", "BIC", "entropy")</code>.</td>
 </tr>
 <tr class="even">
 <td align="left"><code>test</code></td>
-<td>String that controls which distribution to be used for calculating p-value in hypothesis test. Available options are <code>"NULL"</code> (default), <code>"chisq"</code> (chi-square distribution), and <code>"boot"</code> (bootstrap empirical distribution).</td>
+<td>String that controls which distribution to be used for calculating
+p-value in hypothesis test. Available options are <code>"NULL"</code>
+(default), <code>"chisq"</code> (chi-square distribution), and
+<code>"boot"</code> (bootstrap empirical distribution).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>nboot</code></td>
-<td>The number of bootstrap samples to be generated when <code>test = "boot"</code> (default <code>nboot = 50</code>).</td>
+<td>The number of bootstrap samples to be generated when
+<code>test = "boot"</code> (default <code>nboot = 50</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>maxiter</code></td>
-<td>Integer scalar specifying the maximum number of EM iterations for each of bootstrap samples (default <code>maxiter = 500</code>).</td>
+<td>Integer scalar specifying the maximum number of EM iterations for
+each of bootstrap samples (default <code>maxiter = 500</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>eps</code></td>
-<td>A convergence tolerance value used in EM algorithm for each of bootstrap samples (default <code>eps = 1e-04</code>).</td>
+<td>A convergence tolerance value used in EM algorithm for each of
+bootstrap samples (default <code>eps = 1e-04</code>).</td>
 </tr>
 <tr class="even">
 <td align="left"><code>seed</code></td>
-<td>As the same value for seed guarantees the same datasets to be generated, this argument can be used for reproducibility of bootstrap results (default <code>seed = NULL</code>).</td>
+<td>As the same value for seed guarantees the same datasets to be
+generated, this argument can be used for reproducibility of bootstrap
+results (default <code>seed = NULL</code>).</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>verbose</code></td>
-<td>Logical value indicating whether <code><a href="../reference/gofglca.html">gofglca()</a></code> should print the assessment procedure onto the screen (default <code>verbose = TRUE</code>).</td>
+<td>Logical value indicating whether <code><a href="../reference/gofglca.html">gofglca()</a></code> should print
+the assessment procedure onto the screen (default
+<code>verbose = TRUE</code>).</td>
 </tr>
 </tbody>
 </table>
-<p>The function <code><a href="../reference/gofglca.html">gofglca()</a></code> provides the table for analysis of goodness-of-fit containing information criteria, residual degrees of freedom, <span class="math inline">\(G^2\)</span>-statistic, and bootstrap <span class="math inline">\(p\)</span>-value for absolute model fit for the designated objects when <code>test = "boot"</code>. With optional objects from the function <code><a href="../reference/glca.html">glca()</a></code>, <code><a href="../reference/gofglca.html">gofglca()</a></code> also provides the table for analysis of deviance given that these objects share the same manifest items. The table for analysis of deviance describes relative model fit using the deviance statistic between two competing models and its <span class="math inline">\(p\)</span>-value using distribution specified in test argument.</p>
+<p>The function <code><a href="../reference/gofglca.html">gofglca()</a></code> provides the table for analysis
+of goodness-of-fit containing information criteria, residual degrees of
+freedom, <span class="math inline">\(G^2\)</span>-statistic, and
+bootstrap <span class="math inline">\(p\)</span>-value for absolute
+model fit for the designated objects when <code>test = "boot"</code>.
+With optional objects from the function <code><a href="../reference/glca.html">glca()</a></code>,
+<code><a href="../reference/gofglca.html">gofglca()</a></code> also provides the table for analysis of deviance
+given that these objects share the same manifest items. The table for
+analysis of deviance describes relative model fit using the deviance
+statistic between two competing models and its <span class="math inline">\(p\)</span>-value using distribution specified in
+test argument.</p>
 </div>
-<div id="applications" class="section level2">
-<h2 class="hasAnchor">
-<a href="#applications" class="anchor"></a>Applications</h2>
-<div id="attitude-toward-abortion" class="section level3">
-<h3 class="hasAnchor">
-<a href="#attitude-toward-abortion" class="anchor"></a>Attitude toward abortion</h3>
-<p>The dataset <code>gss08</code> taken from the <em>2008 General Social Survey (Smith et al., 2010)</em> includes six binary manifest items measuring 355 respondents’ attitudes toward abortion following the strategy suggested by McCutcheon, 1987. For each item, respondents were asked whether abortion should be legalized under various circumstances: a strong chance of serious defect in the baby (<code>DEFECT</code>), pregnancy is seriously endangering the woman’s health (<code>HLTH</code>), pregnancy as a result of rape (<code>RAPE</code>), due to low income, the family cannot afford any more children (<code>POOR</code>), woman is unmarried and has no plans to marry the man (<code>SINGLE</code>), and woman is married but does not want more children (<code>NOMORE</code>). Each item has two possible levels of response (i.e., <code>"YES"</code> or <code>"NO"</code>). <code>gss08</code> also include five covariates: <code>AGE</code>, <code>GENDER</code>, <code>RACE</code>, <code>DEGREE</code> and <code>REGION</code> of respondents. (<code><a href="../reference/gss08.html">?gss08</a></code>)</p>
+<div class="section level2">
+<h2 id="applications">Applications<a class="anchor" aria-label="anchor" href="#applications"></a>
+</h2>
+<div class="section level3">
+<h3 id="attitude-toward-abortion">Attitude toward abortion<a class="anchor" aria-label="anchor" href="#attitude-toward-abortion"></a>
+</h3>
+<p>The dataset <code>gss08</code> taken from the <em>2008 General Social
+Survey (Smith et al., 2010)</em> includes six binary manifest items
+measuring 355 respondents’ attitudes toward abortion following the
+strategy suggested by McCutcheon, 1987. For each item, respondents were
+asked whether abortion should be legalized under various circumstances:
+a strong chance of serious defect in the baby (<code>DEFECT</code>),
+pregnancy is seriously endangering the woman’s health
+(<code>HLTH</code>), pregnancy as a result of rape (<code>RAPE</code>),
+due to low income, the family cannot afford any more children
+(<code>POOR</code>), woman is unmarried and has no plans to marry the
+man (<code>SINGLE</code>), and woman is married but does not want more
+children (<code>NOMORE</code>). Each item has two possible levels of
+response (i.e., <code>"YES"</code> or <code>"NO"</code>).
+<code>gss08</code> also include five covariates: <code>AGE</code>,
+<code>GENDER</code>, <code>RACE</code>, <code>DEGREE</code> and
+<code>REGION</code> of respondents. (<code><a href="../reference/gss08.html">?gss08</a></code>)</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"gss08"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">gss08</span><span class="op">)</span>
-<span class="co">#&gt; 'data.frame':    355 obs. of  11 variables:</span>
-<span class="co">#&gt;  $ DEFECT: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
-<span class="co">#&gt;  $ HLTH  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
-<span class="co">#&gt;  $ RAPE  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span>
-<span class="co">#&gt;  $ POOR  : Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 1 1 ...</span>
-<span class="co">#&gt;  $ SINGLE: Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 NA 1 ...</span>
-<span class="co">#&gt;  $ NOMORE: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 NA 1 1 ...</span>
-<span class="co">#&gt;  $ AGE   : num  32 21 56 40 62 71 58 36 52 78 ...</span>
-<span class="co">#&gt;  $ SEX   : Factor w/ 2 levels "MALE","FEMALE": 1 2 2 1 2 1 2 1 1 2 ...</span>
-<span class="co">#&gt;  $ RACE  : Factor w/ 3 levels "WHITE","BLACK",..: 2 2 2 2 1 2 2 1 1 1 ...</span>
-<span class="co">#&gt;  $ DEGREE: Factor w/ 4 levels "&lt;= HS","HIGH SCHOOL",..: 2 2 1 4 3 2 3 3 2 3 ...</span>
-<span class="co">#&gt;  $ REGION: Factor w/ 9 levels "NEW ENGLAND",..: 2 2 2 2 2 2 2 2 2 2 ...</span></code></pre></div>
-<p><strong>Selecting the number of latent classes: </strong> In the first step of the analysis, we conduct a series of standard latent class models to select a number of latent classes. The number of class in the <code><a href="../reference/glca.html">glca()</a></code> function is set to 2, 3, or 4 as following commands. It should be noted that we use 10 sets of randomly generated initial parameters to avoid the problem of local maxima (i.e., <code>n.init = 10</code>), and the argument is set as <code>seed = 1</code> in the <code><a href="../reference/glca.html">glca()</a></code> function to ensure reproductibility of results unless otherwise noted.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"gss08"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">gss08</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    355 obs. of  11 variables:</span></span>
+<span><span class="co">#&gt;  $ DEFECT: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ HLTH  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ RAPE  : Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ POOR  : Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ SINGLE: Factor w/ 2 levels "YES","NO": 2 2 2 1 1 1 1 1 NA 1 ...</span></span>
+<span><span class="co">#&gt;  $ NOMORE: Factor w/ 2 levels "YES","NO": 1 2 2 1 1 1 1 NA 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ AGE   : num  32 21 56 40 62 71 58 36 52 78 ...</span></span>
+<span><span class="co">#&gt;  $ SEX   : Factor w/ 2 levels "MALE","FEMALE": 1 2 2 1 2 1 2 1 1 2 ...</span></span>
+<span><span class="co">#&gt;  $ RACE  : Factor w/ 3 levels "WHITE","BLACK",..: 2 2 2 2 1 2 2 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ DEGREE: Factor w/ 4 levels "&lt;= HS","HIGH SCHOOL",..: 2 2 1 4 3 2 3 3 2 3 ...</span></span>
+<span><span class="co">#&gt;  $ REGION: Factor w/ 9 levels "NEW ENGLAND",..: 2 2 2 2 2 2 2 2 2 2 ...</span></span></code></pre></div>
+<p><strong>Selecting the number of latent classes: </strong> In the
+first step of the analysis, we conduct a series of standard latent class
+models to select a number of latent classes. The number of class in the
+<code><a href="../reference/glca.html">glca()</a></code> function is set to 2, 3, or 4 as following commands.
+It should be noted that we use 10 sets of randomly generated initial
+parameters to avoid the problem of local maxima (i.e.,
+<code>n.init = 10</code>), and the argument is set as
+<code>seed = 1</code> in the <code><a href="../reference/glca.html">glca()</a></code> function to ensure
+reproductibility of results unless otherwise noted.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>
-<span class="va">lca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">lca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">lca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></span>
+<span><span class="va">lca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">lca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">lca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca2</span>, <span class="va">lca3</span>, <span class="va">lca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          nclass: 2</span>
-<span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          nclass: 3</span>
-<span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          nclass: 4</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span>
-<span class="co">#&gt; 1 -740.10 1506.20 1569.43 1556.43    0.95     50 135.13         0.00</span>
-<span class="co">#&gt; 2 -687.45 1414.90 1512.17 1492.17    0.88     43  29.83         0.36</span>
-<span class="co">#&gt; 3 -684.19 1422.38 1553.70 1526.70    0.79     36  23.31         0.56</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar  logLik Df Deviance Boot p-value</span>
-<span class="co">#&gt; 1   13 -740.10                         </span>
-<span class="co">#&gt; 2   20 -687.45  7   105.31         0.00</span>
-<span class="co">#&gt; 3   27 -684.19  7     6.52         0.26</span></code></pre></div>
-<p>The output from the function <code><a href="../reference/gofglca.html">gofglca()</a></code> comprises of two tables; goodness-of-fit table and analysis-of-deviance table. The former shows model fit criteria such as AIC, CAIC, BIC, and entropy, <span class="math inline">\(G^2\)</span> statistic, and its bootstrap <span class="math inline">\(p\)</span>-value for absolute model fit. In this example, the bootstrap <span class="math inline">\(p\)</span>-values indicate that the two-class model (Model 1) fits data poorly (<span class="math inline">\(p\)</span>-value = 0.00), but the three-class and the four-class models (Model 2 and Model 3) fit data adequately (<span class="math inline">\(p\)</span>-value = 0.36 and 0.56, respectively). The latter table displays deviance statistic comparing two competing models and its bootstrap <span class="math inline">\(p\)</span>-value for the relative model fit. The null hypothesis in the test for comparing Model 1 and Model 2 (i.e., the fit of the two-class model is not significantly poorer than the fit of the three-class model) should be rejected (<span class="math inline">\(p\)</span>-value = 0.00). In the test for comparing Model 2 and Model 3, however, the bootstrap <span class="math inline">\(p\)</span>-value (= 0.26) indicates that the fit of the four-class model has not been improved significantly compared to the fit of the three-class model. In addition, the three-class model has the smallest value among these three models in the model fit criteria. Therefore, we can conclude that the three-class model is an appropriate for the <code>gss08</code> data.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca2</span>, <span class="va">lca3</span>, <span class="va">lca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 2</span></span>
+<span><span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 3</span></span>
+<span><span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span></span>
+<span><span class="co">#&gt; 1 -740.10 1506.20 1569.43 1556.43    0.95     50 135.13         0.00</span></span>
+<span><span class="co">#&gt; 2 -687.45 1414.90 1512.17 1492.17    0.88     43  29.83         0.36</span></span>
+<span><span class="co">#&gt; 3 -684.19 1422.38 1553.70 1526.70    0.79     36  23.31         0.56</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar  logLik Df Deviance Boot p-value</span></span>
+<span><span class="co">#&gt; 1   13 -740.10                         </span></span>
+<span><span class="co">#&gt; 2   20 -687.45  7   105.31         0.00</span></span>
+<span><span class="co">#&gt; 3   27 -684.19  7     6.52         0.26</span></span></code></pre></div>
+<p>The output from the function <code><a href="../reference/gofglca.html">gofglca()</a></code> comprises of two
+tables; goodness-of-fit table and analysis-of-deviance table. The former
+shows model fit criteria such as AIC, CAIC, BIC, and entropy, <span class="math inline">\(G^2\)</span> statistic, and its bootstrap <span class="math inline">\(p\)</span>-value for absolute model fit. In this
+example, the bootstrap <span class="math inline">\(p\)</span>-values
+indicate that the two-class model (Model 1) fits data poorly (<span class="math inline">\(p\)</span>-value = 0.00), but the three-class and
+the four-class models (Model 2 and Model 3) fit data adequately (<span class="math inline">\(p\)</span>-value = 0.36 and 0.56, respectively).
+The latter table displays deviance statistic comparing two competing
+models and its bootstrap <span class="math inline">\(p\)</span>-value
+for the relative model fit. The null hypothesis in the test for
+comparing Model 1 and Model 2 (i.e., the fit of the two-class model is
+not significantly poorer than the fit of the three-class model) should
+be rejected (<span class="math inline">\(p\)</span>-value = 0.00). In
+the test for comparing Model 2 and Model 3, however, the bootstrap <span class="math inline">\(p\)</span>-value (= 0.26) indicates that the fit
+of the four-class model has not been improved significantly compared to
+the fit of the three-class model. In addition, the three-class model has
+the smallest value among these three models in the model fit criteria.
+Therefore, we can conclude that the three-class model is an appropriate
+for the <code>gss08</code> data.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glca(formula = f, data = gss08, nclass = 3, seed = 1, verbose = FALSE)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Categories for manifest items :</span>
-<span class="co">#&gt;        Y = 1 Y = 2</span>
-<span class="co">#&gt; DEFECT   YES    NO</span>
-<span class="co">#&gt; HLTH     YES    NO</span>
-<span class="co">#&gt; RAPE     YES    NO</span>
-<span class="co">#&gt; POOR     YES    NO</span>
-<span class="co">#&gt; SINGLE   YES    NO</span>
-<span class="co">#&gt; NOMORE   YES    NO</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Model : Latent class analysis </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of latent classes : 3 </span>
-<span class="co">#&gt; Number of observations : 352 </span>
-<span class="co">#&gt; Number of parameters : 20 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; log-likelihood : -687.4486 </span>
-<span class="co">#&gt;      G-squared : 29.82695 </span>
-<span class="co">#&gt;            AIC : 1414.897 </span>
-<span class="co">#&gt;            BIC : 1492.17 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Marginal prevalences for latent classes :</span>
-<span class="co">#&gt; Class 1 Class 2 Class 3 </span>
-<span class="co">#&gt; 0.34467 0.46396 0.19138 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class prevalences by group :</span>
-<span class="co">#&gt;     Class 1 Class 2 Class 3</span>
-<span class="co">#&gt; ALL 0.34467 0.46396 0.19138</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 1) :</span>
-<span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
-<span class="co">#&gt; Class 1 0.8275 0.9453 0.7960 0.0638 0.0390 0.1344</span>
-<span class="co">#&gt; Class 2 1.0000 1.0000 1.0000 0.9813 0.9284 0.9657</span>
-<span class="co">#&gt; Class 3 0.0466 0.3684 0.0949 0.0000 0.0000 0.0000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 2) :</span>
-<span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
-<span class="co">#&gt; Class 1 0.1725 0.0547 0.2040 0.9362 0.9610 0.8656</span>
-<span class="co">#&gt; Class 2 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343</span>
-<span class="co">#&gt; Class 3 0.9534 0.6316 0.9051 1.0000 1.0000 1.0000</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glca(formula = f, data = gss08, nclass = 3, seed = 1, verbose = FALSE)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Categories for manifest items :</span></span>
+<span><span class="co">#&gt;        Y = 1 Y = 2</span></span>
+<span><span class="co">#&gt; DEFECT   YES    NO</span></span>
+<span><span class="co">#&gt; HLTH     YES    NO</span></span>
+<span><span class="co">#&gt; RAPE     YES    NO</span></span>
+<span><span class="co">#&gt; POOR     YES    NO</span></span>
+<span><span class="co">#&gt; SINGLE   YES    NO</span></span>
+<span><span class="co">#&gt; NOMORE   YES    NO</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model : Latent class analysis </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of latent classes : 3 </span></span>
+<span><span class="co">#&gt; Number of observations : 352 </span></span>
+<span><span class="co">#&gt; Number of parameters : 20 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; log-likelihood : -687.4486 </span></span>
+<span><span class="co">#&gt;      G-squared : 29.82695 </span></span>
+<span><span class="co">#&gt;            AIC : 1414.897 </span></span>
+<span><span class="co">#&gt;            BIC : 1492.17 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Marginal prevalences for latent classes :</span></span>
+<span><span class="co">#&gt; Class 1 Class 2 Class 3 </span></span>
+<span><span class="co">#&gt; 0.34467 0.46396 0.19138 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class prevalences by group :</span></span>
+<span><span class="co">#&gt;     Class 1 Class 2 Class 3</span></span>
+<span><span class="co">#&gt; ALL 0.34467 0.46396 0.19138</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 1) :</span></span>
+<span><span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span></span>
+<span><span class="co">#&gt; Class 1 0.8275 0.9453 0.7960 0.0638 0.0390 0.1344</span></span>
+<span><span class="co">#&gt; Class 2 1.0000 1.0000 1.0000 0.9813 0.9284 0.9657</span></span>
+<span><span class="co">#&gt; Class 3 0.0466 0.3684 0.0949 0.0000 0.0000 0.0000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 2) :</span></span>
+<span><span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span></span>
+<span><span class="co">#&gt; Class 1 0.1725 0.0547 0.2040 0.9362 0.9610 0.8656</span></span>
+<span><span class="co">#&gt; Class 2 0.0000 0.0000 0.0000 0.0187 0.0716 0.0343</span></span>
+<span><span class="co">#&gt; Class 3 0.9534 0.6316 0.9051 1.0000 1.0000 1.0000</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lca3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="glca-lca3-1.png" title="plot of chunk lca3" alt="plot of chunk lca3" width="100%" style="display: block; margin: auto;"><img src="glca-lca3-2.png" title="plot of chunk lca3" alt="plot of chunk lca3" width="100%" style="display: block; margin: auto;"></p>
-<p><strong>Considering group variable and testing the measurement invariance</strong> As the group information provided in the data, we can consider the multilevel data structure and compare the latent class structure between higher-level units (i.e., groups). The <code><a href="../reference/glca.html">glca()</a></code> function can incorporate group variable by setting group argument as the name of group variable in the data. For example, in order to investigate whether attitudes toward legalizing abortions vary by the final degree of respondents, we may set <code>DEGREE</code> as group variable by typing <code>group = DEGREE</code> in the <code><a href="../reference/glca.html">glca()</a></code> function . <code>DEGREE</code> is coded into four categories (i.e., <code>"&lt;= HS"</code>, <code>"HIGH SCHOOL"</code>, <code>"COLLEGE"</code>, and <code>"GRADUATE"</code>) indicating from under high school diploma to graduate degree. Moreover, we can implement the test for measurement invariance across groups using the <code><a href="../reference/glca.html">glca()</a></code> function. The measurement invariance assumption can be adjusted through <code>measure.inv</code> argument in <code><a href="../reference/glca.html">glca()</a></code>. The default is <code>measure.inv = TRUE</code>, constraining item-response probabilities to be equal across groups. The following commands implement two different tests for group variable: (1) test whether class prevalence is significantly influenced by group variable under the measurement-invariant model; and (2) test whether the measurement models differ across groups.</p>
+<p><strong>Considering group variable and testing the measurement
+invariance</strong> As the group information provided in the data, we
+can consider the multilevel data structure and compare the latent class
+structure between higher-level units (i.e., groups). The
+<code><a href="../reference/glca.html">glca()</a></code> function can incorporate group variable by setting
+group argument as the name of group variable in the data. For example,
+in order to investigate whether attitudes toward legalizing abortions
+vary by the final degree of respondents, we may set <code>DEGREE</code>
+as group variable by typing <code>group = DEGREE</code> in the
+<code><a href="../reference/glca.html">glca()</a></code> function . <code>DEGREE</code> is coded into four
+categories (i.e., <code>"&lt;= HS"</code>, <code>"HIGH SCHOOL"</code>,
+<code>"COLLEGE"</code>, and <code>"GRADUATE"</code>) indicating from
+under high school diploma to graduate degree. Moreover, we can implement
+the test for measurement invariance across groups using the
+<code><a href="../reference/glca.html">glca()</a></code> function. The measurement invariance assumption can
+be adjusted through <code>measure.inv</code> argument in
+<code><a href="../reference/glca.html">glca()</a></code>. The default is <code>measure.inv = TRUE</code>,
+constraining item-response probabilities to be equal across groups. The
+following commands implement two different tests for group variable: (1)
+test whether class prevalence is significantly influenced by group
+variable under the measurement-invariant model; and (2) test whether the
+measurement models differ across groups.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mglca1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">mglca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, measure.inv <span class="op">=</span> <span class="cn">FALSE</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca3</span>, <span class="va">mglca1</span>, <span class="va">mglca2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          nclass: 3</span>
-<span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE</span>
-<span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df   Gsq</span>
-<span class="co">#&gt; 1 -687.45 1414.90 1512.17 1492.17    0.88     43 29.83</span>
-<span class="co">#&gt; 2 -672.41 1396.83 1523.28 1497.28    0.88    229 87.85</span>
-<span class="co">#&gt; 3 -650.95 1461.89 1850.98 1770.98    0.89    175 44.91</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar  logLik Df Deviance Pr(&gt;Chi)</span>
-<span class="co">#&gt; 1   20 -687.45                     </span>
-<span class="co">#&gt; 2   26 -672.41  6    30.07     0.00</span>
-<span class="co">#&gt; 3   80 -650.95 54    42.94     0.86</span></code></pre></div>
-<p>Since the model specified in the object <code>lca3</code> (Model 1 in the output from the <code>goflca()</code> function) is constructed with six binary items, the number of parameters for the saturated models is <span class="math inline">\(26 − 1 = 63\)</span>. Therefore, degree of freedom for Model 1 is <span class="math inline">\(63 − 20 = 43\)</span>. The models specified in mglca1 and mglca2 (Model 2 and Model 3) are involved with group variable with four categories, and the number of parameters for the saturated models is <span class="math inline">\(26 \times 4 − 1 = 255\)</span>. Therefore, degrees of freedom for Model 2 and Model 3 are <span class="math inline">\(255 − 26 = 229\)</span> and <span class="math inline">\(255 − 80 = 175\)</span>, respectively. It should be noted that model comparison has been conducted through chi-squares by setting <code>test = "chisq"</code> because Model 1 is nested in Model 2, and Model 2 is nested in Model 3. The analysis-of-deviance table provided by the <code><a href="../reference/gofglca.html">gofglca()</a></code> function shows that the chi-square <span class="math inline">\(p\)</span>-value for comparing Model 1 and Model 2 is 0.00, while the <span class="math inline">\(p\)</span>-value for comparing Model 2 and Model 3 is 0.86. Hence, we can deduce that the measurement invariance assumption can be assumed, but class prevalences vary across levels of <code>DEGREE</code>.</p>
-<p><strong>Testing the equality of coefficients across groups:</strong> We can further consider the subject-specific covariates which may influence the probability of the individual belonging to a specific class. Covariates such as <code>AGE</code>, <code>RACE</code>, and <code>SEX</code> in the <code>gss08</code> dataset can be incorporated into the model specified in <code>mglca1</code>. <code>AGE</code> is respondent’s age and considered as a numeric variable in the <code><a href="../reference/glca.html">glca()</a></code> function. The respondent’s race, <code>RACE</code> has three levels (i.e., <code>"WHITE"</code>, <code>"BLACK"</code>, and <code>"OTHER"</code>), and the respondent’s gender, <code>SEX</code> is coded as two categories (i.e., <code>"MALE"</code> and <code>"FEMALE"</code>). We can easily implement the test for exploring group differences using the <code><a href="../reference/gofglca.html">gofglca()</a></code> function. For example, the following commands implement two different tests for <code>SEX</code>: (1) test whether the class prevalence is significantly influenced by <code>SEX</code> under the model where the coefficients are constrained to be identical across groups; and (2) test for assessing group difference in the effect of <code>SEX</code> on class prevalence by specifying the model where coefficients are allowed to vary across groups and comparing it to the model where coefficients are constrained to be identical across groups. Since the iteration is initiated with random parameters, the order of class labels can be switched under the identical ML solution. Therefore, the random seed is set as <code>seed = 3</code> in the <code><a href="../reference/glca.html">glca()</a></code> function for the model specified in <code>mglcr1</code> below to ensure identical class order as provided in Figure 1.</p>
+<code class="sourceCode R"><span><span class="va">mglca1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">mglca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, measure.inv <span class="op">=</span> <span class="cn">FALSE</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca3</span>, <span class="va">mglca1</span>, <span class="va">mglca2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 3</span></span>
+<span><span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE</span></span>
+<span><span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df   Gsq</span></span>
+<span><span class="co">#&gt; 1 -687.45 1414.90 1512.17 1492.17    0.88     43 29.83</span></span>
+<span><span class="co">#&gt; 2 -672.41 1396.83 1523.28 1497.28    0.88    229 87.85</span></span>
+<span><span class="co">#&gt; 3 -650.95 1461.89 1850.98 1770.98    0.89    175 44.91</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar  logLik Df Deviance Pr(&gt;Chi)</span></span>
+<span><span class="co">#&gt; 1   20 -687.45                     </span></span>
+<span><span class="co">#&gt; 2   26 -672.41  6    30.07     0.00</span></span>
+<span><span class="co">#&gt; 3   80 -650.95 54    42.94     0.86</span></span></code></pre></div>
+<p>Since the model specified in the object <code>lca3</code> (Model 1 in
+the output from the <code>goflca()</code> function) is constructed with
+six binary items, the number of parameters for the saturated models is
+<span class="math inline">\(26 − 1 = 63\)</span>. Therefore, degree of
+freedom for Model 1 is <span class="math inline">\(63 − 20 =
+43\)</span>. The models specified in mglca1 and mglca2 (Model 2 and
+Model 3) are involved with group variable with four categories, and the
+number of parameters for the saturated models is <span class="math inline">\(26 \times 4 − 1 = 255\)</span>. Therefore, degrees
+of freedom for Model 2 and Model 3 are <span class="math inline">\(255 −
+26 = 229\)</span> and <span class="math inline">\(255 − 80 =
+175\)</span>, respectively. It should be noted that model comparison has
+been conducted through chi-squares by setting
+<code>test = "chisq"</code> because Model 1 is nested in Model 2, and
+Model 2 is nested in Model 3. The analysis-of-deviance table provided by
+the <code><a href="../reference/gofglca.html">gofglca()</a></code> function shows that the chi-square <span class="math inline">\(p\)</span>-value for comparing Model 1 and Model 2
+is 0.00, while the <span class="math inline">\(p\)</span>-value for
+comparing Model 2 and Model 3 is 0.86. Hence, we can deduce that the
+measurement invariance assumption can be assumed, but class prevalences
+vary across levels of <code>DEGREE</code>.</p>
+<p><strong>Testing the equality of coefficients across groups:</strong>
+We can further consider the subject-specific covariates which may
+influence the probability of the individual belonging to a specific
+class. Covariates such as <code>AGE</code>, <code>RACE</code>, and
+<code>SEX</code> in the <code>gss08</code> dataset can be incorporated
+into the model specified in <code>mglca1</code>. <code>AGE</code> is
+respondent’s age and considered as a numeric variable in the
+<code><a href="../reference/glca.html">glca()</a></code> function. The respondent’s race, <code>RACE</code>
+has three levels (i.e., <code>"WHITE"</code>, <code>"BLACK"</code>, and
+<code>"OTHER"</code>), and the respondent’s gender, <code>SEX</code> is
+coded as two categories (i.e., <code>"MALE"</code> and
+<code>"FEMALE"</code>). We can easily implement the test for exploring
+group differences using the <code><a href="../reference/gofglca.html">gofglca()</a></code> function. For
+example, the following commands implement two different tests for
+<code>SEX</code>: (1) test whether the class prevalence is significantly
+influenced by <code>SEX</code> under the model where the coefficients
+are constrained to be identical across groups; and (2) test for
+assessing group difference in the effect of <code>SEX</code> on class
+prevalence by specifying the model where coefficients are allowed to
+vary across groups and comparing it to the model where coefficients are
+constrained to be identical across groups. Since the iteration is
+initiated with random parameters, the order of class labels can be
+switched under the identical ML solution. Therefore, the random seed is
+set as <code>seed = 3</code> in the <code><a href="../reference/glca.html">glca()</a></code> function for the
+model specified in <code>mglcr1</code> below to ensure identical class
+order as provided in Figure 1.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>
-<span class="va">mglcr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">mglcr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, coeff.inv <span class="op">=</span> <span class="cn">FALSE</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">mglca1</span>, <span class="va">mglcr1</span>, <span class="va">mglcr2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span>
-<span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE</span>
-<span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span>
-<span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE, coeff.inv: TRUE</span>
-<span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span>
-<span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE, coeff.inv: FALSE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq</span>
-<span class="co">#&gt; 1 -672.41 1396.83 1523.28 1497.28    0.88    229  87.85</span>
-<span class="co">#&gt; 2 -666.71 1389.42 1525.60 1497.60    0.88    323 149.97</span>
-<span class="co">#&gt; 3 -662.04 1392.09 1557.45 1523.45    0.88    317 140.64</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar  logLik Df Deviance Pr(&gt;Chi)</span>
-<span class="co">#&gt; 1   26 -672.41                     </span>
-<span class="co">#&gt; 2   28 -666.71  2    11.41     0.00</span>
-<span class="co">#&gt; 3   34 -662.04  6     9.33     0.16</span></code></pre></div>
-<p>The models specified in <code>mglcr1</code> and <code>mglcr2</code> (Model 2 and Model 3 in the output from the <code>goflca()</code> function) are involved with an additional covariate, SEX, and the number of possible cases is <span class="math inline">\(26 \times 4 \times 2 − 1 = 511\)</span>. However, as only 352 observations are used for the analysis, the number of parameters for the saturated model becomes <span class="math inline">\(352 − 1 = 351\)</span>. Therefore, degrees of freedom for Model 2 and Model 3 are <span class="math inline">\(351 − 28 = 323\)</span> and <span class="math inline">\(351 − 34 = 317\)</span>, respectively. The analysis-of-deviance table provided by the <code><a href="../reference/gofglca.html">gofglca()</a></code> function shows that SEX has a significant impact on the class prevalence (<span class="math inline">\(p\)</span>-value = 0.00) when we compare Model 1 with Model 2. However, the model without any constraint on coefficients (Model 3) is not significantly superior to Model 2 (<span class="math inline">\(p\)</span>-value = 0.16), indicating that the impact of <code>SEX</code> is not group specific. Note that Model 2 is mathematically equivalent to the standard LCR with covariates <code>DEGREE</code> and <code>SEX</code> without the interaction terms, but Model 2 is more intuitive and useful configuration when comparison of latent structures by group is a major concern.</p>
-<p><strong>Summarizing the results from the selected model:</strong> Based on the previous analysis, we can conclude that measurement models are equivalent across groups (i.e., measurement invariance assumption is satisfied) in the three-class latent class model. In addition, there is a significant effect of SEX on the class prevalence, but there is no group difference in the amount of effect.</p>
-<p>Figure 1 displays the estimated parameters from the selected model specified in <code>mglcr1</code> using the command <code><a href="https://rdrr.io/r/graphics/plot.html">plot(mglcr1)</a></code>. The line graph in Figure 1 displays the estimated item-response probabilities. We can see that the identified three classes are clearly distinguished by item-response probabilities. Class 1 represents individuals who are in favor of all the six reasons for abortion, while Class 3 represents those who consistently oppose all the six reasons. Individuals in Class 2 seem to distinguish between favoring the first three reasons (i.e., <code>DEFECT</code>, <code>HLTH</code>, and <code>RAPE</code>) and opposing the last three reasons (i.e., <code>POOR</code>, <code>SINGLE</code>, and <code>NOMORE</code>) for abortion. The first bar graph in Figure 1 describes the estimated marginal class prevalences, and the second bar graph displays the estimated class prevalences for each category of group variable. The values in parentheses printed in the <code>x</code>-axis are the group prevalences. Figure 1 displays that the class prevalence varies across groups, and the respondents with higher degrees are more advocate for legalizing abortion than those with lower degrees. The covariate effect can be confirmed through the Wald test for each of estimated odds ratios and coefficient by the command <code><a href="https://rdrr.io/r/stats/coef.html">coef(mglcr1)</a></code>.</p>
-<p>The <code>SEX</code> coefficient results the same, while the intercept determining the class prevalence differs across groups in the selected model. To avoid redundancy and save space, only the results of the <code>SEX</code> coefficient are displayed as follows, but the entire output of the object can be displayed by the command <code><a href="https://rdrr.io/r/base/summary.html">summary(mglcr1)</a></code> in the R console.</p>
+<code class="sourceCode R"><span><span class="va">fx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span><span class="va">DEFECT</span>, <span class="va">HLTH</span>, <span class="va">RAPE</span>, <span class="va">POOR</span>, <span class="va">SINGLE</span>, <span class="va">NOMORE</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span></span>
+<span><span class="va">mglcr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">mglcr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">DEGREE</span>, data <span class="op">=</span> <span class="va">gss08</span>, nclass <span class="op">=</span> <span class="fl">3</span>, coeff.inv <span class="op">=</span> <span class="cn">FALSE</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">mglca1</span>, <span class="va">mglcr1</span>, <span class="va">mglcr2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ 1</span></span>
+<span><span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE</span></span>
+<span><span class="co">#&gt; Model 2: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span></span>
+<span><span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE, coeff.inv: TRUE</span></span>
+<span><span class="co">#&gt; Model 3: item(DEFECT, HLTH, RAPE, POOR, SINGLE, NOMORE) ~ SEX</span></span>
+<span><span class="co">#&gt;          Group: DEGREE, nclass: 3, measure.inv: TRUE, coeff.inv: FALSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;    logLik     AIC    CAIC     BIC entropy Res.Df    Gsq</span></span>
+<span><span class="co">#&gt; 1 -672.41 1396.83 1523.28 1497.28    0.88    229  87.85</span></span>
+<span><span class="co">#&gt; 2 -666.71 1389.42 1525.60 1497.60    0.88    323 149.97</span></span>
+<span><span class="co">#&gt; 3 -662.04 1392.09 1557.45 1523.45    0.88    317 140.64</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar  logLik Df Deviance Pr(&gt;Chi)</span></span>
+<span><span class="co">#&gt; 1   26 -672.41                     </span></span>
+<span><span class="co">#&gt; 2   28 -666.71  2    11.41     0.00</span></span>
+<span><span class="co">#&gt; 3   34 -662.04  6     9.33     0.16</span></span></code></pre></div>
+<p>The models specified in <code>mglcr1</code> and <code>mglcr2</code>
+(Model 2 and Model 3 in the output from the <code>goflca()</code>
+function) are involved with an additional covariate, SEX, and the number
+of possible cases is <span class="math inline">\(26 \times 4 \times 2 −
+1 = 511\)</span>. However, as only 352 observations are used for the
+analysis, the number of parameters for the saturated model becomes <span class="math inline">\(352 − 1 = 351\)</span>. Therefore, degrees of
+freedom for Model 2 and Model 3 are <span class="math inline">\(351 − 28
+= 323\)</span> and <span class="math inline">\(351 − 34 = 317\)</span>,
+respectively. The analysis-of-deviance table provided by the
+<code><a href="../reference/gofglca.html">gofglca()</a></code> function shows that SEX has a significant impact
+on the class prevalence (<span class="math inline">\(p\)</span>-value =
+0.00) when we compare Model 1 with Model 2. However, the model without
+any constraint on coefficients (Model 3) is not significantly superior
+to Model 2 (<span class="math inline">\(p\)</span>-value = 0.16),
+indicating that the impact of <code>SEX</code> is not group specific.
+Note that Model 2 is mathematically equivalent to the standard LCR with
+covariates <code>DEGREE</code> and <code>SEX</code> without the
+interaction terms, but Model 2 is more intuitive and useful
+configuration when comparison of latent structures by group is a major
+concern.</p>
+<p><strong>Summarizing the results from the selected model:</strong>
+Based on the previous analysis, we can conclude that measurement models
+are equivalent across groups (i.e., measurement invariance assumption is
+satisfied) in the three-class latent class model. In addition, there is
+a significant effect of SEX on the class prevalence, but there is no
+group difference in the amount of effect.</p>
+<p>Figure 1 displays the estimated parameters from the selected model
+specified in <code>mglcr1</code> using the command
+<code>plot(mglcr1)</code>. The line graph in Figure 1 displays the
+estimated item-response probabilities. We can see that the identified
+three classes are clearly distinguished by item-response probabilities.
+Class 1 represents individuals who are in favor of all the six reasons
+for abortion, while Class 3 represents those who consistently oppose all
+the six reasons. Individuals in Class 2 seem to distinguish between
+favoring the first three reasons (i.e., <code>DEFECT</code>,
+<code>HLTH</code>, and <code>RAPE</code>) and opposing the last three
+reasons (i.e., <code>POOR</code>, <code>SINGLE</code>, and
+<code>NOMORE</code>) for abortion. The first bar graph in Figure 1
+describes the estimated marginal class prevalences, and the second bar
+graph displays the estimated class prevalences for each category of
+group variable. The values in parentheses printed in the
+<code>x</code>-axis are the group prevalences. Figure 1 displays that
+the class prevalence varies across groups, and the respondents with
+higher degrees are more advocate for legalizing abortion than those with
+lower degrees. The covariate effect can be confirmed through the Wald
+test for each of estimated odds ratios and coefficient by the command
+<code>coef(mglcr1)</code>.</p>
+<p>The <code>SEX</code> coefficient results the same, while the
+intercept determining the class prevalence differs across groups in the
+selected model. To avoid redundancy and save space, only the results of
+the <code>SEX</code> coefficient are displayed as follows, but the
+entire output of the object can be displayed by the command
+<code>summary(mglcr1)</code> in the R console.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">mglcr1</span><span class="op">)</span>
-<span class="co">#&gt; Coefficients :</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class 1 / 3 :</span>
-<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span>
-<span class="co">#&gt; SEXFEMALE    0.32824    -1.11400     0.09062   -12.29    &lt;2e-16 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class 2 / 3 :</span>
-<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span>
-<span class="co">#&gt; SEXFEMALE    0.35678    -1.03064     0.09971   -10.34    &lt;2e-16 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mglcr1</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glca(formula = fx, group = DEGREE, data = gss08, nclass = 3, </span>
-<span class="co">#&gt;     seed = 3, verbose = FALSE)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE </span>
-<span class="co">#&gt; Grouping variable : DEGREE </span>
-<span class="co">#&gt; Covariates (Level 1) : SEX </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Categories for manifest items :</span>
-<span class="co">#&gt;        Y = 1 Y = 2</span>
-<span class="co">#&gt; DEFECT   YES    NO</span>
-<span class="co">#&gt; HLTH     YES    NO</span>
-<span class="co">#&gt; RAPE     YES    NO</span>
-<span class="co">#&gt; POOR     YES    NO</span>
-<span class="co">#&gt; SINGLE   YES    NO</span>
-<span class="co">#&gt; NOMORE   YES    NO</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Model : Multiple-group latent class analysis </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of latent classes : 3 </span>
-<span class="co">#&gt; Number of groups : 4 </span>
-<span class="co">#&gt; Number of observations : 352 </span>
-<span class="co">#&gt; Number of parameters : 28 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; log-likelihood : -666.7097 </span>
-<span class="co">#&gt;      G-squared : 149.9656 </span>
-<span class="co">#&gt;            AIC : 1389.419 </span>
-<span class="co">#&gt;            BIC : 1497.601 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Marginal prevalences for latent classes :</span>
-<span class="co">#&gt; Class 1 Class 2 Class 3 </span>
-<span class="co">#&gt; 0.46144 0.33996 0.19860 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class prevalences by group :</span>
-<span class="co">#&gt;             Class 1 Class 2 Class 3</span>
-<span class="co">#&gt; &lt;= HS       0.16848 0.51010 0.32143</span>
-<span class="co">#&gt; HIGH SCHOOL 0.44386 0.34339 0.21275</span>
-<span class="co">#&gt; COLLEGE     0.55347 0.29616 0.15036</span>
-<span class="co">#&gt; GRADUATE    0.71183 0.20237 0.08580</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Logistic regression coefficients :</span>
-<span class="co">#&gt; Group : &lt;= HS </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)    0.0811    1.1445</span>
-<span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Group : HIGH SCHOOL </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)     1.424    1.1261</span>
-<span class="co">#&gt; SEXFEMALE      -1.114   -1.0306</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Group : COLLEGE </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)    2.0173    1.3487</span>
-<span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Group : GRADUATE </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)    2.6492    1.3620</span>
-<span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 1) :</span>
-<span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
-<span class="co">#&gt; Class 1 1.0000 1.0000 1.0000 0.9836 0.9309 0.9682</span>
-<span class="co">#&gt; Class 2 0.8342 0.9488 0.8086 0.0700 0.0440 0.1409</span>
-<span class="co">#&gt; Class 3 0.0649 0.3825 0.0989 0.0000 0.0000 0.0000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 2) :</span>
-<span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span>
-<span class="co">#&gt; Class 1 0.0000 0.0000 0.0000 0.0164 0.0691 0.0318</span>
-<span class="co">#&gt; Class 2 0.1658 0.0512 0.1914 0.9300 0.9560 0.8591</span>
-<span class="co">#&gt; Class 3 0.9351 0.6175 0.9011 1.0000 1.0000 1.0000</span></code></pre></div>
-<p>The estimated coefficients for <code>SEX</code> and their odds ratios show that females are less advocate for legalizing abortion compared to their male counterparts.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mglcr1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Coefficients :</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class 1 / 3 :</span></span>
+<span><span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; SEXFEMALE    0.32824    -1.11400     0.09062   -12.29    &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class 2 / 3 :</span></span>
+<span><span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; SEXFEMALE    0.35678    -1.03064     0.09971   -10.34    &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mglcr1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glca(formula = fx, group = DEGREE, data = gss08, nclass = 3, </span></span>
+<span><span class="co">#&gt;     seed = 3, verbose = FALSE)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Manifest items : DEFECT HLTH RAPE POOR SINGLE NOMORE </span></span>
+<span><span class="co">#&gt; Grouping variable : DEGREE </span></span>
+<span><span class="co">#&gt; Covariates (Level 1) : SEX </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Categories for manifest items :</span></span>
+<span><span class="co">#&gt;        Y = 1 Y = 2</span></span>
+<span><span class="co">#&gt; DEFECT   YES    NO</span></span>
+<span><span class="co">#&gt; HLTH     YES    NO</span></span>
+<span><span class="co">#&gt; RAPE     YES    NO</span></span>
+<span><span class="co">#&gt; POOR     YES    NO</span></span>
+<span><span class="co">#&gt; SINGLE   YES    NO</span></span>
+<span><span class="co">#&gt; NOMORE   YES    NO</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model : Multiple-group latent class analysis </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of latent classes : 3 </span></span>
+<span><span class="co">#&gt; Number of groups : 4 </span></span>
+<span><span class="co">#&gt; Number of observations : 352 </span></span>
+<span><span class="co">#&gt; Number of parameters : 28 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; log-likelihood : -666.7097 </span></span>
+<span><span class="co">#&gt;      G-squared : 149.9656 </span></span>
+<span><span class="co">#&gt;            AIC : 1389.419 </span></span>
+<span><span class="co">#&gt;            BIC : 1497.601 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Marginal prevalences for latent classes :</span></span>
+<span><span class="co">#&gt; Class 1 Class 2 Class 3 </span></span>
+<span><span class="co">#&gt; 0.46144 0.33996 0.19860 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class prevalences by group :</span></span>
+<span><span class="co">#&gt;             Class 1 Class 2 Class 3</span></span>
+<span><span class="co">#&gt; &lt;= HS       0.16848 0.51010 0.32143</span></span>
+<span><span class="co">#&gt; HIGH SCHOOL 0.44386 0.34339 0.21275</span></span>
+<span><span class="co">#&gt; COLLEGE     0.55347 0.29616 0.15036</span></span>
+<span><span class="co">#&gt; GRADUATE    0.71183 0.20237 0.08580</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Logistic regression coefficients :</span></span>
+<span><span class="co">#&gt; Group : &lt;= HS </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)    0.0811    1.1445</span></span>
+<span><span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Group : HIGH SCHOOL </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)     1.424    1.1261</span></span>
+<span><span class="co">#&gt; SEXFEMALE      -1.114   -1.0306</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Group : COLLEGE </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)    2.0173    1.3487</span></span>
+<span><span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Group : GRADUATE </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)    2.6492    1.3620</span></span>
+<span><span class="co">#&gt; SEXFEMALE     -1.1140   -1.0306</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 1) :</span></span>
+<span><span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span></span>
+<span><span class="co">#&gt; Class 1 1.0000 1.0000 1.0000 0.9836 0.9309 0.9682</span></span>
+<span><span class="co">#&gt; Class 2 0.8342 0.9488 0.8086 0.0700 0.0440 0.1409</span></span>
+<span><span class="co">#&gt; Class 3 0.0649 0.3825 0.0989 0.0000 0.0000 0.0000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 2) :</span></span>
+<span><span class="co">#&gt;         DEFECT   HLTH   RAPE   POOR SINGLE NOMORE</span></span>
+<span><span class="co">#&gt; Class 1 0.0000 0.0000 0.0000 0.0164 0.0691 0.0318</span></span>
+<span><span class="co">#&gt; Class 2 0.1658 0.0512 0.1914 0.9300 0.9560 0.8591</span></span>
+<span><span class="co">#&gt; Class 3 0.9351 0.6175 0.9011 1.0000 1.0000 1.0000</span></span></code></pre></div>
+<p>The estimated coefficients for <code>SEX</code> and their odds ratios
+show that females are less advocate for legalizing abortion compared to
+their male counterparts.</p>
 </div>
-<div id="tobacco-smoking-behavior" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tobacco-smoking-behavior" class="anchor"></a>Tobacco smoking behavior</h3>
-<p>The dataset <code>nyts18</code> comprises five dichotomized manifest items on the life-time experience of several types of tobacco including cigarettes (<code>ECIGT</code>), cigars (<code>ECIGAR</code>), chewing tobacco/snuff/or dip (<code>ESLT</code>), electronic cigarettes (<code>EELCIGT</code>), and hookah or water pipe (<code>EHOOKAH</code>) taken from the <em>National Youth Tobacco Survey 2018</em> (<em>NYTS 2018</em>, <a href="https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/" class="uri">https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/</a>). The sample considered in this study includes 1,743 non-Hispanic white students from 45 schools. The number of sampled students from each school is in the range of 30 to 50. The school membership can be identified by <code>SCH_ID</code> and each school is classified as either middle or high school (<code>SCH_LEV</code>). (<code><a href="../reference/nyts18.html">?nyts18</a></code>)</p>
-<p>According to socioecological models, patterns of adolescent tobacco smoking are best understood as embedded within social contexts. These social contexts can be either proximal in terms of individuals and peer groups or more distal in terms of schools and community. Socioecological models suggest that students within the same school often share common socio-economic status (SES) and cultural characteristics that may cause different tobacco smoking patterns compared to students attending other schools. However, reflecting school (group) effect in an mgLCR is less likely to provide a meaningful summary because there are too many groups, that is, 45 schools in the <code>nyts18</code> dataset. In this case, npLCR would be more appropriate model to investigate group difference in terms of a small number of latent clusters of schools.</p>
+<div class="section level3">
+<h3 id="tobacco-smoking-behavior">Tobacco smoking behavior<a class="anchor" aria-label="anchor" href="#tobacco-smoking-behavior"></a>
+</h3>
+<p>The dataset <code>nyts18</code> comprises five dichotomized manifest
+items on the life-time experience of several types of tobacco including
+cigarettes (<code>ECIGT</code>), cigars (<code>ECIGAR</code>), chewing
+tobacco/snuff/or dip (<code>ESLT</code>), electronic cigarettes
+(<code>EELCIGT</code>), and hookah or water pipe (<code>EHOOKAH</code>)
+taken from the <em>National Youth Tobacco Survey 2018</em> (<em>NYTS
+2018</em>, <a href="https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/" class="external-link uri">https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/</a>).
+The sample considered in this study includes 1,743 non-Hispanic white
+students from 45 schools. The number of sampled students from each
+school is in the range of 30 to 50. The school membership can be
+identified by <code>SCH_ID</code> and each school is classified as
+either middle or high school (<code>SCH_LEV</code>).
+(<code><a href="../reference/nyts18.html">?nyts18</a></code>)</p>
+<p>According to socioecological models, patterns of adolescent tobacco
+smoking are best understood as embedded within social contexts. These
+social contexts can be either proximal in terms of individuals and peer
+groups or more distal in terms of schools and community. Socioecological
+models suggest that students within the same school often share common
+socio-economic status (SES) and cultural characteristics that may cause
+different tobacco smoking patterns compared to students attending other
+schools. However, reflecting school (group) effect in an mgLCR is less
+likely to provide a meaningful summary because there are too many
+groups, that is, 45 schools in the <code>nyts18</code> dataset. In this
+case, npLCR would be more appropriate model to investigate group
+difference in terms of a small number of latent clusters of schools.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"nyts18"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">)</span>
-<span class="co">#&gt; 'data.frame':    1734 obs. of  8 variables:</span>
-<span class="co">#&gt;  $ ECIGT  : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
-<span class="co">#&gt;  $ ECIGAR : Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span>
-<span class="co">#&gt;  $ ESLT   : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
-<span class="co">#&gt;  $ EELCIGT: Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span>
-<span class="co">#&gt;  $ EHOOKAH: Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span>
-<span class="co">#&gt;  $ SEX    : Factor w/ 2 levels "Male","Female": 2 1 1 1 1 2 1 2 1 2 ...</span>
-<span class="co">#&gt;  $ SCH_ID : Factor w/ 45 levels "d3c3dc","12d5ad",..: 11 11 11 11 11 11 11 11 11 11 ...</span>
-<span class="co">#&gt;  $ SCH_LEV: Factor w/ 2 levels "High School",..: 1 1 1 1 1 1 1 1 1 1 ...</span></code></pre></div>
-<p><strong>Selecting the number of latent classes</strong>: Prior to conducting npLCR, it is necessary to determine the number of level-1 latent classes. Similar to the previous example, the two-, three-, and four-class standard LCA models can be fitted and compared by the <code><a href="../reference/gofglca.html">gofglca()</a></code> function as follow:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"nyts18"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    1734 obs. of  8 variables:</span></span>
+<span><span class="co">#&gt;  $ ECIGT  : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ ECIGAR : Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ ESLT   : Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ EELCIGT: Factor w/ 2 levels "Yes","No": 2 1 2 2 2 1 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ EHOOKAH: Factor w/ 2 levels "Yes","No": 2 2 2 2 2 2 2 2 2 2 ...</span></span>
+<span><span class="co">#&gt;  $ SEX    : Factor w/ 2 levels "Male","Female": 2 1 1 1 1 2 1 2 1 2 ...</span></span>
+<span><span class="co">#&gt;  $ SCH_ID : Factor w/ 45 levels "d3c3dc","12d5ad",..: 11 11 11 11 11 11 11 11 11 11 ...</span></span>
+<span><span class="co">#&gt;  $ SCH_LEV: Factor w/ 2 levels "High School",..: 1 1 1 1 1 1 1 1 1 1 ...</span></span></code></pre></div>
+<p><strong>Selecting the number of latent classes</strong>: Prior to
+conducting npLCR, it is necessary to determine the number of level-1
+latent classes. Similar to the previous example, the two-, three-, and
+four-class standard LCA models can be fitted and compared by the
+<code><a href="../reference/gofglca.html">gofglca()</a></code> function as follow:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>
-<span class="va">lca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">lca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">lca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca2</span>, <span class="va">lca3</span>, <span class="va">lca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          nclass: 2</span>
-<span class="co">#&gt; Model 2: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          nclass: 3</span>
-<span class="co">#&gt; Model 3: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          nclass: 4</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df   Gsq Boot p-value</span>
-<span class="co">#&gt; 1 -2119.91 4261.83 4332.87 4321.87    0.92     20 96.48         0.00</span>
-<span class="co">#&gt; 2 -2086.86 4207.71 4317.50 4300.50    0.87     14 30.37         0.28</span>
-<span class="co">#&gt; 3 -2082.87 4211.74 4360.28 4337.28    0.82      8 22.40         0.78</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span>
-<span class="co">#&gt; 1   11 -2119.91                         </span>
-<span class="co">#&gt; 2   17 -2086.86  6    66.11          0.0</span>
-<span class="co">#&gt; 3   23 -2082.87  6     7.97          0.1</span></code></pre></div>
-<p>The output of the <code><a href="../reference/gofglca.html">gofglca()</a></code> function indicates that the three-class and the four-class models are adequate in terms of absolute model fit (<span class="math inline">\(p\)</span>-value = 0.28 and 0.78, respectively), but the three-class LCA provides the lowest values in information criteria. For the relative model fit, the two-class LCA is rejected (<span class="math inline">\(p\)</span>-value = 0.00) on comparison with the three-class LCA using the bootstrap. However, the three-class is not rejected (<span class="math inline">\(p\)</span>-value = 0.10) on comparison with the four-class model. Thus, it seems to be reasonable to select the three-class LCA model for the <code>nyts18</code> dataset.</p>
-<p><strong>Selecting the number of latent clusters</strong>: Now, an npLCR can be implemented by adding SCH_ID as group variable and specifying the number of latent clusters (i.e., level-2 latent classes) using the <code>ncluster</code> argument in the <code><a href="../reference/glca.html">glca()</a></code> function. The two-, three-, and four-cluster npLCR with three latent classes are fitted and compared using the following commands:</p>
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span></span>
+<span><span class="va">lca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">lca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">lca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca2</span>, <span class="va">lca3</span>, <span class="va">lca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 2</span></span>
+<span><span class="co">#&gt; Model 2: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 3</span></span>
+<span><span class="co">#&gt; Model 3: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df   Gsq Boot p-value</span></span>
+<span><span class="co">#&gt; 1 -2119.91 4261.83 4332.87 4321.87    0.92     20 96.48         0.00</span></span>
+<span><span class="co">#&gt; 2 -2086.86 4207.71 4317.50 4300.50    0.87     14 30.37         0.28</span></span>
+<span><span class="co">#&gt; 3 -2082.87 4211.74 4360.28 4337.28    0.82      8 22.40         0.78</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span></span>
+<span><span class="co">#&gt; 1   11 -2119.91                         </span></span>
+<span><span class="co">#&gt; 2   17 -2086.86  6    66.11          0.0</span></span>
+<span><span class="co">#&gt; 3   23 -2082.87  6     7.97          0.1</span></span></code></pre></div>
+<p>The output of the <code><a href="../reference/gofglca.html">gofglca()</a></code> function indicates that the
+three-class and the four-class models are adequate in terms of absolute
+model fit (<span class="math inline">\(p\)</span>-value = 0.28 and 0.78,
+respectively), but the three-class LCA provides the lowest values in
+information criteria. For the relative model fit, the two-class LCA is
+rejected (<span class="math inline">\(p\)</span>-value = 0.00) on
+comparison with the three-class LCA using the bootstrap. However, the
+three-class is not rejected (<span class="math inline">\(p\)</span>-value = 0.10) on comparison with the
+four-class model. Thus, it seems to be reasonable to select the
+three-class LCA model for the <code>nyts18</code> dataset.</p>
+<p><strong>Selecting the number of latent clusters</strong>: Now, an
+npLCR can be implemented by adding SCH_ID as group variable and
+specifying the number of latent clusters (i.e., level-2 latent classes)
+using the <code>ncluster</code> argument in the <code><a href="../reference/glca.html">glca()</a></code>
+function. The two-, three-, and four-cluster npLCR with three latent
+classes are fitted and compared using the following commands:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nplca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">nplca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">nplca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca3</span>, <span class="va">nplca2</span>, <span class="va">nplca3</span>, <span class="va">nplca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          nclass: 3</span>
-<span class="co">#&gt; Model 2: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2</span>
-<span class="co">#&gt; Model 3: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 3</span>
-<span class="co">#&gt; Model 4: item(starts.with = "E") ~ 1</span>
-<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 4</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span>
-<span class="co">#&gt; 1 -2086.86 4207.71 4317.50 4300.50    0.87     14  30.37         0.20</span>
-<span class="co">#&gt; 2 -1955.49 3950.97 4080.14 4060.14    0.84   1419 765.73         0.08</span>
-<span class="co">#&gt; 3 -1938.73 3923.46 4072.00 4049.00    0.84   1416 732.22         0.22</span>
-<span class="co">#&gt; 4 -1938.30 3928.60 4096.51 4070.51    0.84   1413 731.35         0.24</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span>
-<span class="co">#&gt; 1   17 -2086.86                         </span>
-<span class="co">#&gt; 2   20 -1955.49  3   262.74         0.00</span>
-<span class="co">#&gt; 3   23 -1938.73  3    33.51         0.00</span>
-<span class="co">#&gt; 4   26 -1938.30  3     0.87         0.42</span></code></pre></div>
-<p>The goodness-of-fit table shows that the three-cluster model (Model 3) has the smallest values in information criteria among others, and the bootstrap <span class="math inline">\(p\)</span>-value (= 0.22) indicates that this model is appropriate for the data. The analysis-of-deviance table shows that group effect is significant as Model 1 has better fit than Model 2 (<span class="math inline">\(p\)</span>-value = 0.00). In addition, the three-cluster model (Model 3) has better fit than the two-cluster model (Model 2, <span class="math inline">\(p\)</span>-value = 0.00), but there is insignificant difference between the three- and four-cluster models (Model 3 and Model 4) in the model fit (<span class="math inline">\(p\)</span>-value = 0.42). Therefore, we can conclude that the three-cluster model is most appropriate among others.</p>
-<p><strong>Testing the equality of coefficients for level-1 covariates across groups:</strong> Covariates can be incorporated into npLCR using the <code><a href="../reference/glca.html">glca()</a></code> function; not only the subject-specific (i.e., level-1) covariates (e.g., <code>SEX</code>) but also the group-specific (i.e., level-2) covariates (e.g., <code>SCH_LEV</code>). As shown in the previous example, subject-specific covariates are constrained to be equal across latent clusters by default (i.e., <code>coeff.inv = TRUE</code>). The chi-square LRT test for checking the equality of coefficients for level-1 covariate, <code>SEX</code> can be conducted using the <code><a href="../reference/gofglca.html">gofglca()</a></code> function as follows:</p>
+<code class="sourceCode R"><span><span class="va">nplca2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">nplca3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">nplca4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">4</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">lca3</span>, <span class="va">nplca2</span>, <span class="va">nplca3</span>, <span class="va">nplca4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          nclass: 3</span></span>
+<span><span class="co">#&gt; Model 2: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2</span></span>
+<span><span class="co">#&gt; Model 3: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 3</span></span>
+<span><span class="co">#&gt; Model 4: item(starts.with = "E") ~ 1</span></span>
+<span><span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df    Gsq Boot p-value</span></span>
+<span><span class="co">#&gt; 1 -2086.86 4207.71 4317.50 4300.50    0.87     14  30.37         0.20</span></span>
+<span><span class="co">#&gt; 2 -1955.49 3950.97 4080.14 4060.14    0.84   1419 765.73         0.08</span></span>
+<span><span class="co">#&gt; 3 -1938.73 3923.46 4072.00 4049.00    0.84   1416 732.22         0.22</span></span>
+<span><span class="co">#&gt; 4 -1938.30 3928.60 4096.51 4070.51    0.84   1413 731.35         0.24</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span></span>
+<span><span class="co">#&gt; 1   17 -2086.86                         </span></span>
+<span><span class="co">#&gt; 2   20 -1955.49  3   262.74         0.00</span></span>
+<span><span class="co">#&gt; 3   23 -1938.73  3    33.51         0.00</span></span>
+<span><span class="co">#&gt; 4   26 -1938.30  3     0.87         0.42</span></span></code></pre></div>
+<p>The goodness-of-fit table shows that the three-cluster model (Model
+3) has the smallest values in information criteria among others, and the
+bootstrap <span class="math inline">\(p\)</span>-value (= 0.22)
+indicates that this model is appropriate for the data. The
+analysis-of-deviance table shows that group effect is significant as
+Model 1 has better fit than Model 2 (<span class="math inline">\(p\)</span>-value = 0.00). In addition, the
+three-cluster model (Model 3) has better fit than the two-cluster model
+(Model 2, <span class="math inline">\(p\)</span>-value = 0.00), but
+there is insignificant difference between the three- and four-cluster
+models (Model 3 and Model 4) in the model fit (<span class="math inline">\(p\)</span>-value = 0.42). Therefore, we can
+conclude that the three-cluster model is most appropriate among
+others.</p>
+<p><strong>Testing the equality of coefficients for level-1 covariates
+across groups:</strong> Covariates can be incorporated into npLCR using
+the <code><a href="../reference/glca.html">glca()</a></code> function; not only the subject-specific (i.e.,
+level-1) covariates (e.g., <code>SEX</code>) but also the group-specific
+(i.e., level-2) covariates (e.g., <code>SCH_LEV</code>). As shown in the
+previous example, subject-specific covariates are constrained to be
+equal across latent clusters by default (i.e.,
+<code>coeff.inv = TRUE</code>). The chi-square LRT test for checking the
+equality of coefficients for level-1 covariate, <code>SEX</code> can be
+conducted using the <code><a href="../reference/gofglca.html">gofglca()</a></code> function as follows:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span>
-<span class="va">nplcr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">nplcr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, coeff.inv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">nplcr.gof</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">nplca3</span>, <span class="va">nplcr1</span>, <span class="va">nplcr2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span>
-<span class="va">nplcr.gof</span><span class="op">$</span><span class="va">dtable</span>
-<span class="co">#&gt;   npar    logLik Df Deviance     Pr(&gt;Chi)</span>
-<span class="co">#&gt; 2   22 -1951.879 NA       NA           NA</span>
-<span class="co">#&gt; 1   23 -1938.731  1   26.294 2.931509e-07</span>
-<span class="co">#&gt; 3   24 -1949.498  1  -21.533 1.000000e+00</span></code></pre></div>
-<p>Note that typing <code>nplca.gof$dtable</code> into the R console will return the analysis-of-deviance table. Considering the <span class="math inline">\(p\)</span>-values given in the table above, the equality of SEX effect can be assumed. Therefore, we conclude that the model specified in <code>nplcr1</code> should be selected for the <code>nyts18</code> dataset.</p>
+<code class="sourceCode R"><span><span class="va">fx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span></span>
+<span><span class="va">nplcr1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">nplcr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">fx</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">1</span>, coeff.inv <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">nplcr.gof</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">nplca3</span>, <span class="va">nplcr1</span>, <span class="va">nplcr2</span>, test <span class="op">=</span> <span class="st">"chisq"</span><span class="op">)</span></span>
+<span><span class="va">nplcr.gof</span><span class="op">$</span><span class="va">dtable</span></span>
+<span><span class="co">#&gt;   npar    logLik Df Deviance     Pr(&gt;Chi)</span></span>
+<span><span class="co">#&gt; 2   22 -1951.879 NA       NA           NA</span></span>
+<span><span class="co">#&gt; 1   23 -1938.731  1   26.294 2.931509e-07</span></span>
+<span><span class="co">#&gt; 3   24 -1949.498  1  -21.533 1.000000e+00</span></span></code></pre></div>
+<p>Note that typing <code>nplca.gof$dtable</code> into the R console
+will return the analysis-of-deviance table. Considering the <span class="math inline">\(p\)</span>-values given in the table above, the
+equality of SEX effect can be assumed. Therefore, we conclude that the
+model specified in <code>nplcr1</code> should be selected for the
+<code>nyts18</code> dataset.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">nplcr1</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Level 1 Coefficients :</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class 1 / 3 :</span>
-<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)</span>
-<span class="co">#&gt; SEXFemale    1.05946     0.05776     0.16491     0.35     0.726</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class 2 / 3 :</span>
-<span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)   </span>
-<span class="co">#&gt; SEXFemale     1.9301      0.6576      0.2071    3.176   0.00152 **</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">nplcr1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">nplcr1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Level 1 Coefficients :</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class 1 / 3 :</span></span>
+<span><span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)</span></span>
+<span><span class="co">#&gt; SEXFemale    1.05946     0.05776     0.16491     0.35     0.726</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class 2 / 3 :</span></span>
+<span><span class="co">#&gt;           Odds Ratio Coefficient  Std. Error  t value  Pr(&gt;|t|)   </span></span>
+<span><span class="co">#&gt; SEXFemale     1.9301      0.6576      0.2071    3.176   0.00152 **</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nplcr1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="glca-mlcr2-1.png" title="plot of chunk mlcr2" alt="plot of chunk mlcr2" width="100%" style="display: block; margin: auto;"><img src="glca-mlcr2-2.png" title="plot of chunk mlcr2" alt="plot of chunk mlcr2" width="100%" style="display: block; margin: auto;"><img src="glca-mlcr2-3.png" title="plot of chunk mlcr2" alt="plot of chunk mlcr2" width="100%" style="display: block; margin: auto;"></p>
-<p><strong>Incorporating the level-2 covariates</strong>: In npLCR, the meaning of the latent cluster (i.e., level-2 class) is interpreted by the prevalence of latent class (i.e., level-1 class) for each of cluster membership. When level-2 covariates are incorporated into the model, this prevalence is designed to be affected by level-2 covariates as shown (5). In other words, as level-2 covariates significantly influence the prevalence of level-1 class, the meaning of latent cluster may change as the level of level-2 covariate changes. Therefore, the number of clusters could be reduced when level-2 covariates are included compared to the number of clusters of npLCR without any level-2 covariate. As we selected the three-cluster model without any level-2 covariate for the <code>nyts18</code> dataset, the fit of the three-cluster model should be compared with the fit of the two-cluster model when SCH_LEV is incorporated as a level-2 covariate. Note that different seed values (<code>seed = 3</code> and <code>seed = 6</code>) are used in the <code><a href="../reference/glca.html">glca()</a></code> function below in order to produce the class order displayed in Figure 2.</p>
+<p><strong>Incorporating the level-2 covariates</strong>: In npLCR, the
+meaning of the latent cluster (i.e., level-2 class) is interpreted by
+the prevalence of latent class (i.e., level-1 class) for each of cluster
+membership. When level-2 covariates are incorporated into the model,
+this prevalence is designed to be affected by level-2 covariates as
+shown (5). In other words, as level-2 covariates significantly influence
+the prevalence of level-1 class, the meaning of latent cluster may
+change as the level of level-2 covariate changes. Therefore, the number
+of clusters could be reduced when level-2 covariates are included
+compared to the number of clusters of npLCR without any level-2
+covariate. As we selected the three-cluster model without any level-2
+covariate for the <code>nyts18</code> dataset, the fit of the
+three-cluster model should be compared with the fit of the two-cluster
+model when SCH_LEV is incorporated as a level-2 covariate. Note that
+different seed values (<code>seed = 3</code> and <code>seed = 6</code>)
+are used in the <code><a href="../reference/glca.html">glca()</a></code> function below in order to produce
+the class order displayed in Figure 2.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span>
-<span class="va">nplcr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f.2</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">nplcr4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f.2</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">6</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">nplcr3</span>, <span class="va">nplcr4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; Model 1: item(starts.with = "E") ~ SEX + SCH_LEV</span>
-<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2, coeff.inv: TRUE</span>
-<span class="co">#&gt; Model 2: item(starts.with = "E") ~ SEX + SCH_LEV</span>
-<span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 3, coeff.inv: TRUE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Goodness of Fit Table :</span>
-<span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df     Gsq Boot p-value</span>
-<span class="co">#&gt; 1 -1919.94 3887.87 4042.87 4018.87    0.83   1709 1052.54         0.12</span>
-<span class="co">#&gt; 2 -1916.30 3886.60 4060.97 4033.97    0.84   1706 1045.26         0.06</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Analysis of Deviance Table :</span>
-<span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span>
-<span class="co">#&gt; 1   24 -1919.94                         </span>
-<span class="co">#&gt; 2   27 -1916.30  3     7.28            0</span></code></pre></div>
-<p>The analysis-of-deviance table from the gofglca() function shows that three clusters are required even when a level-2 covariate SCH_LEV is incorporated (<span class="math inline">\(p\)</span>-value = 0.00). However, information criteria and <span class="math inline">\(p\)</span>-values for absolute model fit may let us reach a different conclusion: the two-cluster model provides smaller values in some information criteria and the <span class="math inline">\(p\)</span>-value (= 0.12) indicates that the model is appropriate for the dataset. Without strong prior beliefs, the number of latent clusters should be chosen to strike a balance between parsimony, fit, and interpretability. Two bar graphs in Figure 2 display the estimated class prevalences for each cluster membership from the models specified in <code>nplcr3</code> and <code>nplcr4</code> using the <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> function, respectively. The values in parentheses printed in the x-axis are the estimated cluster prevalence. The bar graph in the right, which is generated from the object <code>nplcr4</code>, shows that there is not much difference in class prevalence among these three clusters, compared to the bar graph in the left generated from the two-cluster model specified in <code>nplcr3</code>. In other words, the three-cluster model is not substantively meaningful, and therefore, we may conclude that the two-cluster model specified in <code>nplcr3</code> is more adequate to describe cluster (group) variation in the latent class distribution.</p>
-<p><strong>Summarizing the results from the selected model</strong>: The estimated parameters from the three-class and two-cluster npLCR model specified in <code>nplcr3</code> are shown in Figure 3 using the <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> function. Based on the line graph in Figure 3, we deduce that Class 1 represents the poly-user group; Class 2 is the electronic cigarette user group; and Class 3 is the non-smoking group. We already argued that the two latent clusters were clearly distinguished by their class prevalence using the left bar graph in Figure 2. According to this stacked bar graph, the probability of engagement in a certain latent class is significantly different between these two school clusters. About 12% and 29% of students in Cluster 2 belong to Class 1 (poly-user group) and Class 2 (electronic cigarette user group), whereas only 2% and 9% of them belong to Class 1 and Class 2, respectively. The difference in class prevalences by cluster indicates that students who attend a school classified as Cluster 2 are more likely to be smokers relative to a similar student attending a school classified as Cluster 1. The full output of the <code><a href="../reference/glca.html">glca()</a></code> function for the selected model can be displayed by the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function as follows:</p>
+<code class="sourceCode R"><span><span class="va">f.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/item.html">item</a></span><span class="op">(</span>starts.with <span class="op">=</span> <span class="st">"E"</span><span class="op">)</span> <span class="op">~</span> <span class="va">SEX</span> <span class="op">+</span> <span class="va">SCH_LEV</span></span>
+<span><span class="va">nplcr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f.2</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">nplcr4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/glca.html">glca</a></span><span class="op">(</span><span class="va">f.2</span>, group <span class="op">=</span> <span class="va">SCH_ID</span>, data <span class="op">=</span> <span class="va">nyts18</span>, nclass <span class="op">=</span> <span class="fl">3</span>, ncluster <span class="op">=</span> <span class="fl">3</span>, seed <span class="op">=</span> <span class="fl">6</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gofglca.html">gofglca</a></span><span class="op">(</span><span class="va">nplcr3</span>, <span class="va">nplcr4</span>, test <span class="op">=</span> <span class="st">"boot"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model 1: item(starts.with = "E") ~ SEX + SCH_LEV</span></span>
+<span><span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 2, coeff.inv: TRUE</span></span>
+<span><span class="co">#&gt; Model 2: item(starts.with = "E") ~ SEX + SCH_LEV</span></span>
+<span><span class="co">#&gt;          Group: SCH_ID, nclass: 3, ncluster: 3, coeff.inv: TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Goodness of Fit Table :</span></span>
+<span><span class="co">#&gt;     logLik     AIC    CAIC     BIC entropy Res.Df     Gsq Boot p-value</span></span>
+<span><span class="co">#&gt; 1 -1919.94 3887.87 4042.87 4018.87    0.83   1709 1052.54         0.12</span></span>
+<span><span class="co">#&gt; 2 -1916.30 3886.60 4060.97 4033.97    0.84   1706 1045.26         0.06</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Analysis of Deviance Table :</span></span>
+<span><span class="co">#&gt;   npar   logLik Df Deviance Boot p-value</span></span>
+<span><span class="co">#&gt; 1   24 -1919.94                         </span></span>
+<span><span class="co">#&gt; 2   27 -1916.30  3     7.28            0</span></span></code></pre></div>
+<p>The analysis-of-deviance table from the gofglca() function shows that
+three clusters are required even when a level-2 covariate SCH_LEV is
+incorporated (<span class="math inline">\(p\)</span>-value = 0.00).
+However, information criteria and <span class="math inline">\(p\)</span>-values for absolute model fit may let
+us reach a different conclusion: the two-cluster model provides smaller
+values in some information criteria and the <span class="math inline">\(p\)</span>-value (= 0.12) indicates that the model
+is appropriate for the dataset. Without strong prior beliefs, the number
+of latent clusters should be chosen to strike a balance between
+parsimony, fit, and interpretability. Two bar graphs in Figure 2 display
+the estimated class prevalences for each cluster membership from the
+models specified in <code>nplcr3</code> and <code>nplcr4</code> using
+the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function, respectively. The values in
+parentheses printed in the x-axis are the estimated cluster prevalence.
+The bar graph in the right, which is generated from the object
+<code>nplcr4</code>, shows that there is not much difference in class
+prevalence among these three clusters, compared to the bar graph in the
+left generated from the two-cluster model specified in
+<code>nplcr3</code>. In other words, the three-cluster model is not
+substantively meaningful, and therefore, we may conclude that the
+two-cluster model specified in <code>nplcr3</code> is more adequate to
+describe cluster (group) variation in the latent class distribution.</p>
+<p><strong>Summarizing the results from the selected model</strong>: The
+estimated parameters from the three-class and two-cluster npLCR model
+specified in <code>nplcr3</code> are shown in Figure 3 using the
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function. Based on the line graph in Figure 3, we
+deduce that Class 1 represents the poly-user group; Class 2 is the
+electronic cigarette user group; and Class 3 is the non-smoking group.
+We already argued that the two latent clusters were clearly
+distinguished by their class prevalence using the left bar graph in
+Figure 2. According to this stacked bar graph, the probability of
+engagement in a certain latent class is significantly different between
+these two school clusters. About 12% and 29% of students in Cluster 2
+belong to Class 1 (poly-user group) and Class 2 (electronic cigarette
+user group), whereas only 2% and 9% of them belong to Class 1 and Class
+2, respectively. The difference in class prevalences by cluster
+indicates that students who attend a school classified as Cluster 2 are
+more likely to be smokers relative to a similar student attending a
+school classified as Cluster 1. The full output of the
+<code><a href="../reference/glca.html">glca()</a></code> function for the selected model can be displayed by
+the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function as follows:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">nplcr3</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glca(formula = f.2, group = SCH_ID, data = nyts18, nclass = 3, </span>
-<span class="co">#&gt;     ncluster = 2, seed = 3, verbose = FALSE)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Manifest items : ECIGAR ECIGT EELCIGT EHOOKAH ESLT </span>
-<span class="co">#&gt; Grouping variable : SCH_ID </span>
-<span class="co">#&gt; Covariates (Level 1) : SEX </span>
-<span class="co">#&gt; Covariates (Level 2) : SCH_LEV </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Categories for manifest items :</span>
-<span class="co">#&gt;         Y = 1 Y = 2</span>
-<span class="co">#&gt; ECIGAR    Yes    No</span>
-<span class="co">#&gt; ECIGT     Yes    No</span>
-<span class="co">#&gt; EELCIGT   Yes    No</span>
-<span class="co">#&gt; EHOOKAH   Yes    No</span>
-<span class="co">#&gt; ESLT      Yes    No</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Model : Nonparametric multilevel latent class analysis </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of latent classes : 3 </span>
-<span class="co">#&gt; Number of latent clusters : 2 </span>
-<span class="co">#&gt; Number of groups : 45 </span>
-<span class="co">#&gt; Number of observations : 1734 </span>
-<span class="co">#&gt; Number of parameters : 24 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; log-likelihood : -1919.937 </span>
-<span class="co">#&gt;      G-squared : 1052.541 </span>
-<span class="co">#&gt;            AIC : 3887.874 </span>
-<span class="co">#&gt;            BIC : 4018.87 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Marginal prevalences for latent classes :</span>
-<span class="co">#&gt; Class 1 Class 2 Class 3 </span>
-<span class="co">#&gt; 0.06455 0.18159 0.75385 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Marginal prevalences for latent clusters :</span>
-<span class="co">#&gt; Cluster 1 Cluster 2 </span>
-<span class="co">#&gt;   0.54083   0.45917 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Class prevalences by cluster :</span>
-<span class="co">#&gt;           Class 1 Class 2 Class 3</span>
-<span class="co">#&gt; Cluster 1  0.0199 0.08978 0.89032</span>
-<span class="co">#&gt; Cluster 2  0.1175 0.29044 0.59206</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Logistic regression coefficients (level 1) :</span>
-<span class="co">#&gt; Cluster 1 </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)   -2.6345   -1.0654</span>
-<span class="co">#&gt; SEXFemale      0.6307    0.1159</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Cluster 2 </span>
-<span class="co">#&gt;             Class 1/3 Class 2/3</span>
-<span class="co">#&gt; (Intercept)   -0.8997    0.1671</span>
-<span class="co">#&gt; SEXFemale      0.6307    0.1159</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Logistic regression coefficients (level 2) :</span>
-<span class="co">#&gt;                      Class 1/3 Class 2/3</span>
-<span class="co">#&gt; SCH_LEVMiddle School   -2.5656   -1.9522</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 1) :</span>
-<span class="co">#&gt;         ECIGAR  ECIGT EELCIGT EHOOKAH   ESLT</span>
-<span class="co">#&gt; Class 1 0.9657 0.8914  0.9782  0.5049 0.5507</span>
-<span class="co">#&gt; Class 2 0.1696 0.3227  0.7266  0.0394 0.1127</span>
-<span class="co">#&gt; Class 3 0.0034 0.0033  0.0372  0.0056 0.0074</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Item-response probabilities (Y = 2) :</span>
-<span class="co">#&gt;         ECIGAR  ECIGT EELCIGT EHOOKAH   ESLT</span>
-<span class="co">#&gt; Class 1 0.0343 0.1086  0.0218  0.4951 0.4493</span>
-<span class="co">#&gt; Class 2 0.8304 0.6773  0.2734  0.9606 0.8873</span>
-<span class="co">#&gt; Class 3 0.9966 0.9967  0.9628  0.9944 0.9926</span></code></pre></div>
-<p>As shown in the previous example, the result of Wald test for each of estimated odds ratios and coefficients can be obtained by typing <code><a href="https://rdrr.io/r/stats/coef.html">coef(nplcr3)</a></code> into the R console (results not shown here). The Wald test shows that females are more likely to belong to Class 1 than Class 3, indicating that females are at a higher risk than their male counterparts. For level-2 covariate <code>SCH_LEV</code>, middle schools are less likely to belong to Class 1 or 2 than Class 3, that is, middle-school students tend to smoke less than high-school students.</p>
-<p><strong>Imputing the cluster membership</strong>: Researchers often want to explore the effects of level-2 covariates on the imputed latent cluster membership. Note that we selected the two-cluster model specified in <code>nplcr3</code>. We can easily impute the latent cluster membership for 45 schools using the posterior probabilities from the model specified in <code>nplcr3</code> and fit the standard logistic regression with <code>SCH_LEV</code> as a covariate. The posterior probabilities for latent cluster can be accessed by <code>nplcr3$posterior$cluster</code>. The following codes generate the imputed latent cluster membership for each school and save the cluster membership in <code>ndata</code> with level-2 covariate <code>SCH_LEV</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nplcr3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glca(formula = f.2, group = SCH_ID, data = nyts18, nclass = 3, </span></span>
+<span><span class="co">#&gt;     ncluster = 2, seed = 3, verbose = FALSE)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Manifest items : ECIGAR ECIGT EELCIGT EHOOKAH ESLT </span></span>
+<span><span class="co">#&gt; Grouping variable : SCH_ID </span></span>
+<span><span class="co">#&gt; Covariates (Level 1) : SEX </span></span>
+<span><span class="co">#&gt; Covariates (Level 2) : SCH_LEV </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Categories for manifest items :</span></span>
+<span><span class="co">#&gt;         Y = 1 Y = 2</span></span>
+<span><span class="co">#&gt; ECIGAR    Yes    No</span></span>
+<span><span class="co">#&gt; ECIGT     Yes    No</span></span>
+<span><span class="co">#&gt; EELCIGT   Yes    No</span></span>
+<span><span class="co">#&gt; EHOOKAH   Yes    No</span></span>
+<span><span class="co">#&gt; ESLT      Yes    No</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model : Nonparametric multilevel latent class analysis </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of latent classes : 3 </span></span>
+<span><span class="co">#&gt; Number of latent clusters : 2 </span></span>
+<span><span class="co">#&gt; Number of groups : 45 </span></span>
+<span><span class="co">#&gt; Number of observations : 1734 </span></span>
+<span><span class="co">#&gt; Number of parameters : 24 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; log-likelihood : -1919.937 </span></span>
+<span><span class="co">#&gt;      G-squared : 1052.541 </span></span>
+<span><span class="co">#&gt;            AIC : 3887.874 </span></span>
+<span><span class="co">#&gt;            BIC : 4018.87 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Marginal prevalences for latent classes :</span></span>
+<span><span class="co">#&gt; Class 1 Class 2 Class 3 </span></span>
+<span><span class="co">#&gt; 0.06455 0.18159 0.75385 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Marginal prevalences for latent clusters :</span></span>
+<span><span class="co">#&gt; Cluster 1 Cluster 2 </span></span>
+<span><span class="co">#&gt;   0.54083   0.45917 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Class prevalences by cluster :</span></span>
+<span><span class="co">#&gt;           Class 1 Class 2 Class 3</span></span>
+<span><span class="co">#&gt; Cluster 1  0.0199 0.08978 0.89032</span></span>
+<span><span class="co">#&gt; Cluster 2  0.1175 0.29044 0.59206</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Logistic regression coefficients (level 1) :</span></span>
+<span><span class="co">#&gt; Cluster 1 </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)   -2.6345   -1.0654</span></span>
+<span><span class="co">#&gt; SEXFemale      0.6307    0.1159</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Cluster 2 </span></span>
+<span><span class="co">#&gt;             Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; (Intercept)   -0.8997    0.1671</span></span>
+<span><span class="co">#&gt; SEXFemale      0.6307    0.1159</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Logistic regression coefficients (level 2) :</span></span>
+<span><span class="co">#&gt;                      Class 1/3 Class 2/3</span></span>
+<span><span class="co">#&gt; SCH_LEVMiddle School   -2.5656   -1.9522</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 1) :</span></span>
+<span><span class="co">#&gt;         ECIGAR  ECIGT EELCIGT EHOOKAH   ESLT</span></span>
+<span><span class="co">#&gt; Class 1 0.9657 0.8914  0.9782  0.5049 0.5507</span></span>
+<span><span class="co">#&gt; Class 2 0.1696 0.3227  0.7266  0.0394 0.1127</span></span>
+<span><span class="co">#&gt; Class 3 0.0034 0.0033  0.0372  0.0056 0.0074</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Item-response probabilities (Y = 2) :</span></span>
+<span><span class="co">#&gt;         ECIGAR  ECIGT EELCIGT EHOOKAH   ESLT</span></span>
+<span><span class="co">#&gt; Class 1 0.0343 0.1086  0.0218  0.4951 0.4493</span></span>
+<span><span class="co">#&gt; Class 2 0.8304 0.6773  0.2734  0.9606 0.8873</span></span>
+<span><span class="co">#&gt; Class 3 0.9966 0.9967  0.9628  0.9944 0.9926</span></span></code></pre></div>
+<p>As shown in the previous example, the result of Wald test for each of
+estimated odds ratios and coefficients can be obtained by typing
+<code>coef(nplcr3)</code> into the R console (results not shown here).
+The Wald test shows that females are more likely to belong to Class 1
+than Class 3, indicating that females are at a higher risk than their
+male counterparts. For level-2 covariate <code>SCH_LEV</code>, middle
+schools are less likely to belong to Class 1 or 2 than Class 3, that is,
+middle-school students tend to smoke less than high-school students.</p>
+<p><strong>Imputing the cluster membership</strong>: Researchers often
+want to explore the effects of level-2 covariates on the imputed latent
+cluster membership. Note that we selected the two-cluster model
+specified in <code>nplcr3</code>. We can easily impute the latent
+cluster membership for 45 schools using the posterior probabilities from
+the model specified in <code>nplcr3</code> and fit the standard logistic
+regression with <code>SCH_LEV</code> as a covariate. The posterior
+probabilities for latent cluster can be accessed by
+<code>nplcr3$posterior$cluster</code>. The following codes generate the
+imputed latent cluster membership for each school and save the cluster
+membership in <code>ndata</code> with level-2 covariate
+<code>SCH_LEV</code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tmp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SCH_ID"</span>, <span class="st">"SCH_LEV"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
-<span class="va">tmp2</span> <span class="op">&lt;-</span> <span class="va">nplcr3</span><span class="op">$</span><span class="va">posterior</span><span class="op">$</span><span class="va">cluster</span>
-<span class="va">tmp3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>SCH_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">tmp2</span><span class="op">)</span>, Cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">tmp2</span>, <span class="fl">1</span>, <span class="va">which.max</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">ndata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">tmp1</span>, <span class="va">tmp3</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ndata</span><span class="op">)</span>
-<span class="co">#&gt;   SCH_ID       SCH_LEV Cluster</span>
-<span class="co">#&gt; 1 00b895 Middle School       1</span>
-<span class="co">#&gt; 2 066e6c   High School       2</span>
-<span class="co">#&gt; 3 0690d1   High School       2</span>
-<span class="co">#&gt; 4 0fc94b   High School       2</span>
-<span class="co">#&gt; 5 12d5ad Middle School       1</span>
-<span class="co">#&gt; 6 16082c Middle School       1</span></code></pre></div>
-<p>Using the logistic regression, the effect of level-2 covariate <code>SCH_LEV</code> on the latent cluster membership can be estimated as following:</p>
+<code class="sourceCode R"><span><span class="va">tmp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">nyts18</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SCH_ID"</span>, <span class="st">"SCH_LEV"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">tmp2</span> <span class="op">&lt;-</span> <span class="va">nplcr3</span><span class="op">$</span><span class="va">posterior</span><span class="op">$</span><span class="va">cluster</span></span>
+<span><span class="va">tmp3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>SCH_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">tmp2</span><span class="op">)</span>, Cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">tmp2</span>, <span class="fl">1</span>, <span class="va">which.max</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ndata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">tmp1</span>, <span class="va">tmp3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ndata</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   SCH_ID       SCH_LEV Cluster</span></span>
+<span><span class="co">#&gt; 1 00b895 Middle School       1</span></span>
+<span><span class="co">#&gt; 2 066e6c   High School       2</span></span>
+<span><span class="co">#&gt; 3 0690d1   High School       2</span></span>
+<span><span class="co">#&gt; 4 0fc94b   High School       2</span></span>
+<span><span class="co">#&gt; 5 12d5ad Middle School       1</span></span>
+<span><span class="co">#&gt; 6 16082c Middle School       1</span></span></code></pre></div>
+<p>Using the logistic regression, the effect of level-2 covariate
+<code>SCH_LEV</code> on the latent cluster membership can be estimated
+as following:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Cluster</span> <span class="op">~</span> <span class="va">SCH_LEV</span>, family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">ndata</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; glm(formula = Cluster ~ SCH_LEV, family = binomial, data = ndata)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Deviance Residuals: </span>
-<span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span>
-<span class="co">#&gt; -1.4823  -0.9005  -0.9005   0.9005   1.4823  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;                      Estimate Std. Error z value Pr(&gt;|z|)  </span>
-<span class="co">#&gt; (Intercept)            0.6931     0.5477   1.266   0.2057  </span>
-<span class="co">#&gt; SCH_LEVMiddle School  -1.3863     0.6708  -2.067   0.0388 *</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     Null deviance: 61.827  on 44  degrees of freedom</span>
-<span class="co">#&gt; Residual deviance: 57.286  on 43  degrees of freedom</span>
-<span class="co">#&gt; AIC: 61.286</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">Cluster</span> <span class="op">~</span> <span class="va">SCH_LEV</span>, family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">ndata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glm(formula = Cluster ~ SCH_LEV, family = binomial, data = ndata)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Deviance Residuals: </span></span>
+<span><span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span></span>
+<span><span class="co">#&gt; -1.4823  -0.9005  -0.9005   0.9005   1.4823  </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                      Estimate Std. Error z value Pr(&gt;|z|)  </span></span>
+<span><span class="co">#&gt; (Intercept)            0.6931     0.5477   1.266   0.2057  </span></span>
+<span><span class="co">#&gt; SCH_LEVMiddle School  -1.3863     0.6708  -2.067   0.0388 *</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     Null deviance: 61.827  on 44  degrees of freedom</span></span>
+<span><span class="co">#&gt; Residual deviance: 57.286  on 43  degrees of freedom</span></span>
+<span><span class="co">#&gt; AIC: 61.286</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -798,11 +1229,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Youngsun Kim, Hwan Chung.</p>
+  <p></p>
+<p>Developed by Youngsun Kim, Hwan Chung.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -810,6 +1243,8 @@
 
   
 
+
+  
 
   </body>
 </html>
