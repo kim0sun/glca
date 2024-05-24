@@ -19,3 +19,27 @@ bibentry(
    year = "2022",
    doi = "10.1177/01466216221084197"
 )
+
+bibentry(
+   bibtype  = "Manual",
+   title    = "glca: An R Package for Multiple-Group Latent Class Analysis",
+   author   = c(
+      person(given = "Youngsun",
+           family = "Kim",
+           role = c("aut", "cre"),
+           email = "yskstat@gmail.com"),
+      person(given = "Hwan",
+           family = "Chung",
+           role = c("aut"),
+           email = "hwanch@korea.ac.kr")
+   ),
+   journal  = "",
+   year     = "2024",
+   volume   = "",
+   number   = "",
+   pages    = "",
+   doi      = "",
+   note     = "R package version 1.4.0",
+   url      = "https://CRAN.R-project.org/package=glca"
+   key      = "slca-package"
+)
