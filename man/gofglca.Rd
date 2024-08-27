@@ -9,7 +9,7 @@ gofglca(
   ...,
   test = NULL,
   nboot = 50,
-  criteria = c("logLik", "AIC", "CAIC", "BIC", "entropy"),
+  criteria = c("AIC", "BIC", "entropy"),
   maxiter = 500,
   eps = 1e-04,
   seed = NULL,
@@ -43,7 +43,7 @@ gofglca(
 \code{gtable}, which is always included in output of this function, includes goodness-of-fit criteria which are indicated \code{criteria} arguments for the \code{object}(s). \code{dtable} are contained when the \code{object}s are competing models. (when used items of the models are identical) \code{dtable} prints deviance and p-value. (bootstrap or chi-square) Lastly, when the boostrap sample is used, the \code{G^2}-statistics for each bootstrap samples will be included in return object..
 }
 \description{
-Provides AIC, CAIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
+Provides AIC, BIC, entropy and deviance statitistic for goodness of fit test for the fitted model. Given \code{object2}, the function computes the log-likelihood ratio (LRT) statisic for comparing the goodness of fit for two models. The bootstrap p-value can be obtained from the empirical distribution of LRT statistic by choosing \code{test = "boot"}.
 }
 \examples{
 ## Example 1.

@@ -203,7 +203,6 @@ coef.glca = function(
             }
          }
       } else {
-         coef = coeff
          if (object$model$W > 1) {
             cat("Level 1 Coefficients :\n\n")
             for (w in 1:object$model$W) {

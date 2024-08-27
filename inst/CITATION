@@ -40,6 +40,6 @@ bibentry(
    pages    = "",
    doi      = "",
    note     = "R package version 1.4.0",
-   url      = "https://CRAN.R-project.org/package=glca"
+   url      = "https://CRAN.R-project.org/package=glca",
    key      = "slca-package"
 )
