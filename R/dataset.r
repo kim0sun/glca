@@ -66,7 +66,7 @@ NULL
 #' \item{\code{SCH_ID}}{School ID to which the respondent belongs}
 #' \item{\code{SCH_LEV}}{Level of the corresponding school}
 #' }
-#' @source \url{https://www.cdc.gov/tobacco/data_statistics/surveys/nyts/index.htm}
+#' @source \url{https://www.cdc.gov/tobacco/}
 #'
 #' @examples
 #' data("nyts18")
