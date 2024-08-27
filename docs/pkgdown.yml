@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   glca: glca.html
   model-description: model-description.html
-last_built: 2024-08-27T12:54Z
+last_built: 2024-08-27T14:20Z
 urls:
   reference: http://kim0sun.github.io/glca/reference
   article: http://kim0sun.github.io/glca/articles
