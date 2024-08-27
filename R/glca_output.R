@@ -161,95 +161,6 @@ glca_output <- function(
       }
    }
 
-   # Coefficient design
-   if (!is.null(param$beta)) {
-      coeff = list()
-      if (W > 1) {
-         coeff$Level1 = list()
-         for (w in 1L:W) {
-            coeff[[1L]][[w]] = list()
-            for (c in 1L:(C - 1L)) {
-               coeff[[1L]][[w]][[c]] = data.frame(
-                  exp(param$beta[[1L]][[w]][, c]),
-                  b <- param$beta[[1L]][[w]][, c],
-                  row.names = x.names
-               )
-               colnames(coeff[[1L]][[w]][[c]]) =
-                  c("Odds Ratio", "Coefficient")
-
-               if (!is.null(scores)) {
-                  coeff[[1L]][[w]][[c]] = cbind(
-                     coeff[[1L]][[w]][[c]],
-                     se <- std.err$beta[[1L]][[w]][, c],
-                     tval <- b / se,
-                     2L * stats::pt(abs(tval), df, lower.tail = FALSE)
-                  )
-                  colnames(coeff[[1L]][[w]][[c]]) =
-                     c("Odds Ratio", "Coefficient", " Std. Error",
-                       " t value", " Pr(>|t|)")
-               }
-            }
-            names(coeff[[1L]][[w]]) = paste0("Class", 1L:(C - 1L), "/", C)
-         }
-         names(coeff[[1L]]) = paste0("Cluster", 1L:W)
-         if (Q > 0L) {
-            coeff$Level2 = list()
-            for (c in 1L:(C - 1L)) {
-               coeff[[2L]][[c]] <- data.frame(
-                  exp(param$beta[[2L]][, c]),
-                  b <- param$beta[[2L]][, c],
-                  row.names = z.names
-               )
-               colnames(coeff[[2L]][[c]]) <-
-                  c("Odds Ratio", "Coefficient")
-
-               if (!is.null(scores)) {
-                  coeff[[2L]][[c]] <- cbind(
-                     coeff[[2L]][[c]],
-                     se <- std.err$beta[[2L]][, c],
-                     tval <- b / se,
-                     2 * stats::pt(abs(tval), df, lower.tail = FALSE)
-                  )
-                  colnames(coeff[[2L]][[c]]) <-
-                     c("Odds Ratio", "Coefficient", " Std. Error",
-                       " t value", " Pr(>|t|)")
-               }
-            }
-            names(coeff[[2L]]) <- paste0("Class", 1L:(C - 1L), "/", C)
-         }
-
-      } else {
-         for (g in 1L:G) {
-            coeff[[g]] <- list()
-            for (c in 1L:(C - 1L)) {
-               coeff[[g]][[c]] <- data.frame(
-                  exp(param$beta[[g]][, c]),
-                  b <- param$beta[[g]][, c],
-                  row.names = x.names
-               )
-               colnames(coeff[[g]][[c]]) <-
-                  c("Odds Ratio", "Coefficient")
-
-               if (!is.null(scores)) {
-                  coeff[[g]][[c]] <- cbind(
-                     coeff[[g]][[c]],
-                     se <- std.err$beta[[g]][, c],
-                     tval <- b / se,
-                     2 * stats::pt(abs(tval), df, lower.tail = FALSE)
-                  )
-                  colnames(coeff[[g]][[c]]) <-
-                     c("Odds Ratio", "Coefficient", " Std. Error",
-                       " t value", " Pr(>|t|)")
-               }
-            }
-            names(coeff[[g]]) <- paste0("Class", 1L:(C - 1L), "/", C)
-         }
-         names(coeff) <- g.names
-      }
-   } else {
-      coeff = NULL
-   }
-
    # Posterior design
    post = list()
    if (W > 0L) {
@@ -305,7 +216,6 @@ glca_output <- function(
    ret$param <- param
    if (!is.null(scores))
       ret$std.err <- std.err
-   ret$coefficient <- coeff
    ret$posterior <- post
    ret$gof <- gof
    ret$convergence <- convergence

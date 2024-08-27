@@ -28,8 +28,91 @@ coef.glca = function(
    if (is.null(object$param$beta))
       return(NULL)
    else {
+      # Coefficient design
+      coef = list()
+      if (object$model$W > 1) {
+         coef$Level1 = list()
+         for (w in 1L:object$model$W) {
+            coef[[1L]][[w]] = list()
+            for (c in 1L:(object$model$C - 1L)) {
+               coef[[1L]][[w]][[c]] = data.frame(
+                  exp(object$param$beta[[1L]][[w]][, c]),
+                  b <- object$param$beta[[1L]][[w]][, c],
+                  row.names = object$var.names$x.names
+               )
+               colnames(coef[[1L]][[w]][[c]]) =
+                  c("Odds Ratio", "Coefficient")
+
+               if (!is.null(object$convergence$score)) {
+                  coef[[1L]][[w]][[c]] = cbind(
+                     coef[[1L]][[w]][[c]],
+                     se <- object$std.err$beta[[1L]][[w]][, c],
+                     tval <- b / se,
+                     2L * stats::pt(abs(tval), object$model$df, lower.tail = FALSE)
+                  )
+                  colnames(coef[[1L]][[w]][[c]]) =
+                     c("Odds Ratio", "Coefficient", " Std. Error",
+                       " t value", " Pr(>|t|)")
+               }
+            }
+            names(coef[[1L]][[w]]) = paste0("Class", 1L:(object$model$C - 1L), "/", object$model$C)
+         }
+         names(coef[[1L]]) = paste0("Cluster", 1L:object$model$W)
+         if (object$model$Q > 0L) {
+            coef$Level2 = list()
+            for (c in 1L:(object$model$C - 1L)) {
+               coef[[2L]][[c]] <- data.frame(
+                  exp(object$param$beta[[2L]][, c]),
+                  b <- object$param$beta[[2L]][, c],
+                  row.names = object$var.names$z.names
+               )
+               colnames(coef[[2L]][[c]]) <-
+                  c("Odds Ratio", "Coefficient")
+
+               if (!is.null(object$convergence$score)) {
+                  coef[[2L]][[c]] <- cbind(
+                     coef[[2L]][[c]],
+                     se <- object$std.err$beta[[2L]][, c],
+                     tval <- b / se,
+                     2 * stats::pt(abs(tval), object$model$df, lower.tail = FALSE)
+                  )
+                  colnames(coef[[2L]][[c]]) <-
+                     c("Odds Ratio", "Coefficient", " Std. Error",
+                       " t value", " Pr(>|t|)")
+               }
+            }
+            names(coef[[2L]]) <- paste0("Class", 1L:(object$model$C - 1L), "/", object$model$C)
+         }
+
+      } else {
+         for (g in 1L:object$model$G) {
+            coef[[g]] <- list()
+            for (c in 1L:(object$model$C - 1L)) {
+               coef[[g]][[c]] <- data.frame(
+                  exp(object$param$beta[[g]][, c]),
+                  b <- object$param$beta[[g]][, c],
+                  row.names = object$var.names$x.names
+               )
+               colnames(coef[[g]][[c]]) <-
+                  c("Odds Ratio", "Coefficient")
+
+               if (!is.null(object$convergence$score)) {
+                  coef[[g]][[c]] <- cbind(
+                     coef[[g]][[c]],
+                     se <- object$std.err$beta[[g]][, c],
+                     tval <- b / se,
+                     2 * stats::pt(abs(tval), object$model$df, lower.tail = FALSE)
+                  )
+                  colnames(coef[[g]][[c]]) <-
+                     c("Odds Ratio", "Coefficient", " Std. Error",
+                       " t value", " Pr(>|t|)")
+               }
+            }
+            names(coef[[g]]) <- paste0("Class", 1L:(object$model$C - 1L), "/", object$model$C)
+         }
+         names(coef) <- object$var.names$g.names
+      }
       if (object$model$coeff.inv) {
-         coef = object$coefficient
          if (object$model$W > 1) {
             if (intercept) {
                cat("Intercept :\n\n")
@@ -120,7 +203,7 @@ coef.glca = function(
             }
          }
       } else {
-         coef = object$coefficient
+         coef = coeff
          if (object$model$W > 1) {
             cat("Level 1 Coefficients :\n\n")
             for (w in 1:object$model$W) {
